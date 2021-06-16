@@ -4,7 +4,7 @@ def isAndroid() {
 }
 
 def findArtifact() {
-    def applicationId = 'com.jamesfchen.b'
+    def applicationId = project.rootProject.applicationId
     def moduleSimpleName = ''
     def moduleCanonicalNmae = ''
     for (def module : rootProject.ext.modules) {

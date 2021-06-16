@@ -73,7 +73,7 @@ gradle.ext.sourceModuleMap.each { _, module ->
     }
 }
 gradle.ext.excludeModuleMap.each { _, module ->
-    child("exclude module  ${module.canonicalName}")
+    child("\u001B[31mexclude module\u001B[0m  ${module.canonicalName}")
 }
 gradle.ext.binaryModuleMap.each { _, module ->
     child("binary module  ${module.binary_artifact}")
