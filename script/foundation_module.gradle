@@ -1,0 +1,12 @@
+apply plugin: 'com.android.library'
+apply from: "${rootDir.path}/script/base_module.gradle"
+apply plugin: 'kotlin-kapt'
+dependencies {
+    teenager("foundation begin ========================================================================================")
+    def deps = rootProject.ext.findDepProjects(project.path)
+    for(def d :deps){
+        teenager("api  ${d}")
+        api d
+    }
+    teenager("foundation end ========================================================================================")
+}

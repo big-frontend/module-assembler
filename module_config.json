@@ -1,0 +1,101 @@
+{
+  "author": "jamesfchen",
+  "description": "该配置文件给idea plugin插件和gradle plugin读取,idea plugin通过该文件可以实现管理想要编译的模块，gradle plugin则可以根据这些模块信息生成快速模块",
+  "allModules": [
+    {
+      "simpleName": "app",
+      "canonicalName": ":app",
+      "format": "app",
+      "group": "father",
+      "binary_artifact": "com.jamesfchen.b:app:1.0",
+      "deps": [
+        ":hotel-module:bundle1",":hotel-module:bundle2"
+      ]
+    },
+    {
+      "simpleName": "hotel-main",
+      "canonicalName": ":hotel-module:main",
+      "format": "app",
+      "group": "hotel",
+      "binary_artifact": "com.jamesfchen.b:hotel-main:1.0",
+      "deps": [
+        ":hotel-module:bundle1",":hotel-module:bundle2"
+      ]
+    },
+    {
+      "simpleName": "hotel-bundle1",
+      "canonicalName": ":hotel-module:bundle1",
+      "format": "bundle",
+      "group": "hotel",
+      "binary_artifact": "com.jamesfchen.b:hotel-bundle1:1.0",
+      "deps": [
+        ":hotel-module:foundation"
+      ]
+    },
+    {
+      "simpleName": "hotel-bundle2",
+      "canonicalName": ":hotel-module:bundle2",
+      "format": "bundle",
+      "group": "hotel",
+      "binary_artifact": "com.jamesfchen.b:hotel-bundle2:1.0",
+      "deps": [
+        ":hotel-module:foundation"
+      ]
+    },
+    {
+      "simpleName": "hotel-lint",
+      "canonicalName": ":hotel-module:hotel-lint",
+      "format": "jar",
+      "group": "hotel",
+      "binary_artifact": "com.jamesfchen.b:hotel-lint:1.0"
+    },
+    {
+      "simpleName": "hotel-foundation",
+      "canonicalName": ":hotel-module:foundation",
+      "format": "bundle_foundation",
+      "group": "hotel",
+      "binary_artifact": "com.jamesfchen.b:hotel-foundation:1.0",
+      "deps": [
+        ":framework:loader"
+      ]
+    },
+    {
+      "simpleName": "framework-loader",
+      "canonicalName": ":framework:loader",
+      "format": "framework_foundation",
+      "group": "fwk",
+      "binary_artifact": "com.jamesfchen.b:framework-loader:1.0",
+      "deps": [
+        ":framework:network",
+        ":framework:router"
+      ]
+    },
+    {
+      "simpleName": "framework-router",
+      "canonicalName": ":framework:router",
+      "format": "framework_foundation",
+      "group": "fwk",
+      "binary_artifact": "com.jamesfchen.b:framework-router:1.0",
+      "deps": [
+        ":framework:common"
+      ]
+    },
+    {
+      "simpleName": "framework-network",
+      "canonicalName": ":framework:network",
+      "format": "framework_foundation",
+      "group": "fwk",
+      "binary_artifact": "com.jamesfchen.b:framework-network:1.0",
+      "deps": [
+        ":framework:common"
+      ]
+    },
+    {
+      "simpleName": "framework-common",
+      "canonicalName": ":framework:common",
+      "format": "framework_foundation",
+      "group": "fwk",
+      "binary_artifact": "com.jamesfchen.b:framework-common:1.0"
+    }
+  ]
+}

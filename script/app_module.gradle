@@ -1,0 +1,123 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+apply from: "${rootDir.path}/script/console.gradle"
+android {
+    compileSdkVersion Integer.parseInt(rootProject.compileSdkVersion)
+    buildToolsVersion rootProject.buildToolsVersion
+    defaultConfig {
+        (minSdkVersion, targetSdkVersion, versionCode, versionName) = [Integer.parseInt(rootProject.minSdkVersion),
+                                                                       Integer.parseInt(rootProject.targetSdkVersion),
+                                                                       rootProject.versionCode, rootProject.versionName]
+        multiDexEnabled = true//support android 20 or lower
+        applicationId "com.jamesfchen.b"
+        testApplicationId "com.jamesfchen.b.test"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    ndkVersion '22.0.7026061'
+    signingConfigs {
+        debugSigningConfig {
+            (keyAlias, keyPassword, storePassword) = ['123456', '123456', '123456']
+            storeFile file("${rootDir}/keystore/debug.jks")
+            v1SigningEnabled true
+            v2SigningEnabled true
+
+        }
+        releaseSigningConfig {
+            (keyAlias, keyPassword, storePassword) = ['123456', '123456', '123456']
+            storeFile file("${rootDir}/keystore/debug.jks")
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseSigningConfig
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationIdSuffix = '.debug'
+            signingConfig signingConfigs.debugSigningConfig
+        }
+    }
+    lintOptions {
+        quiet true
+        lintConfig project.file("$project.rootDir/lint.xml")
+        htmlReport true
+        htmlOutput project.file("$project.rootDir/lint-report-${project.name}.html")
+        xmlReport true
+        xmlOutput project.file("$project.rootDir/lint-report-${project.name}.xml")
+        warningsAsErrors true
+        abortOnError false
+//                // Turns off checks for the issue IDs you specify.
+//                disable 'TypographyFractions','TypographyQuotes'
+//                // Turns on checks for the issue IDs you specify. These checks are in
+//                // addition to the default lint checks.
+//                enable 'RtlHardcoded','RtlCompat', 'RtlEnabled'
+//                // To enable checks for only a subset of issue IDs and ignore all others,
+//                // list the issue IDs with the 'check' property instead. This property overrides
+//                // any issue IDs you enable or disable using the properties above.
+//                checkOnly 'NewApi', 'InlinedApi'
+//                // If set to true, turns off analysis progress reporting by lint.
+//                quiet true
+//                // if set to true (default), stops the build if errors are found.
+//                abortOnError false
+//                // if true, only report errors.
+//                ignoreWarnings true
+    }
+    //    buildFeatures {
+//        viewBinding true
+//    }
+    //    buildFeatures {
+//        dataBinding true
+//    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a', "arm64-v8a", 'armeabi', 'x86'
+//            exclude "x86","x86_64"
+            universalApk false
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/proguard/coroutines.pro'
+    }
+//    dexOptions {
+//        preDexLibraries true
+//        javaMaxHeapSize "8g"
+//        maxProcessCount 8
+//        dexInProcess = true
+//    }
+}
+configurations {
+    apkCheckerDependency
+    all*.exclude group: 'com.google.guava', module: 'listenablefuture'
+    all*.exclude group: "com.google.protobuf", module: "protobuf-javalite"
+}
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    teenager("${project.path} app begin ========================================================================================")
+    def deps = rootProject.ext.findDepProjects(project.path)
+    for (def d : deps) {
+        teenager("api  ${d}")
+        api d
+    }
+    teenager("${project.path} app end ========================================================================================")
+}
