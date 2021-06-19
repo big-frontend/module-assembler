@@ -79,3 +79,24 @@ ext {
     }
     modules = gradle.ext.sourceModuleMap.values() + gradle.ext.binaryModuleMap.values()
 }
+static def isWindows() {
+    return System.properties['os.name'].contains('Windows');
+}
+
+task publishAll {
+    doLast {
+        gradle.ext.sourceModuleMap.each {canonicalName,module->
+            if (canonicalName !=':app' && canonicalName !=':hotel-module:hotel-lint' && module.format !='app') {
+                exec {
+                    executable rootDir.path+File.separator + (isWindows() ? 'gradlew.bat' :'gradlew')
+                    workingDir rootDir
+                    def argv = []
+                    argv << "${canonicalName}:publishToMavenLocal"
+                    args = argv
+                }
+            }
+        }
+    }
+}
+task bundle{}
+task foundation{}

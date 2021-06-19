@@ -1,4 +1,4 @@
-package com.jamesfchen.b
+package com.jamesfchen.bundle2
 
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton

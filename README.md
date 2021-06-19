@@ -29,6 +29,8 @@ bundle、foundation在gradle眼里都是module,所以一开始需要在module_co
     ...
    ]
 ```
+当配置好module，第一次需要运行指令`./gradlew publishAll`将所有的模块发布到maven仓库,目前只做到发布到mavenlocal后续需要发布到远程maven。
+
 
 ### 选择模块
 

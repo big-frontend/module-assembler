@@ -96,26 +96,18 @@ afterEvaluate {
             }
         }
     }
-    assemble.dependsOn "$project.path:publishToMavenLocal"
-    assembleDebug.dependsOn "$project.path:publishToMavenLocal"
-    assembleRelease.dependsOn "$project.path:publishToMavenLocal"
+    publishToMavenLocal.dependsOn assemble
+    publishDebugPublicationToMavenLocal.dependsOn assembleDebug
+    publishReleasePublicationToMavenLocal.dependsOn assembleRelease
 }
+//tasks.whenTaskAdded { task ->
+//    if ("assembleRelease" == task.name) {
+//        publishToMavenLocal.dependsOn assembleRelease
+//    }else if ("assemble" == task.name) {
+//        publishToMavenLocal.dependsOn assemble
+//    }else if ("assembleDebug" == task.name) {
+//            publishToMavenLocal.dependsOn assembleDebug
+////        assembleDebug.dependsOn publishToMavenLocal
+//    }
+//}
 
-static def isWindows() {
-    return System.properties['os.name'].contains('Windows');
-}
-task publishAll {
-    doLast {
-        project.rootProject.subprojects.each { p ->
-            if (p.path !=':app' && !p.path.contains(':main') && p.path !=':hotel-module:hotel-lint' && p.subprojects.isEmpty()) {
-                exec {
-                    executable rootDir.path+File.separator + (isWindows() ? 'gradlew.bat' :'gradlew')
-                    workingDir rootDir
-                    def argv = []
-                    argv << "${p.path}:publishToMavenLocal"
-                    args = argv
-                }
-            }
-        }
-    }
-}
