@@ -9,11 +9,16 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.B.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="www.jamesfchen.com"
+                    android:scheme="jamesfchen"  android:path="/hotel/main"/>
             </intent-filter>
         </activity>
+        <activity android:name=".SayHiActivity"/>
     </application>
 
 </manifest>

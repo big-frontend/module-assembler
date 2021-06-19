@@ -47,6 +47,10 @@ apps=hotel-main,app,home-main
 更新了工具来选择模块，对于fwk组必须不能被exclude，作为基础服务必须被集成到项目中，exclude只会针对framework上层的模块，如果有兴趣了解工具的源码，来这里[看看](https://github.com/JamesfChen/module-manager-plugin), 来点个![img_1.png](img_1.png)
 ![picture](./tools/bundles.png)
 
+
+### 业务组件页面路由
+路由的实现有两种一种，利用framework层的uri路由跳转，另外一种自己实现uri路由
+
 项目结构
 ```
 hotel-module

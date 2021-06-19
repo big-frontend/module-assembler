@@ -3,12 +3,16 @@
     package="com.jamesfchen.bundle1">
     <application>
         <activity
-            android:name=".HotelMainActivity"
+            android:name=".SayMeActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="www.jamesfchen.com"
+                    android:scheme="jamesfchen"  android:path="/hotel/bundle1"/>
             </intent-filter>
         </activity>
     </application>
