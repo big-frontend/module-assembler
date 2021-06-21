@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,7 +27,8 @@ public class SayMeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TextView tv = new TextView(this);
-        tv.setText("say me");
+        tv.setText(getPackageName()+" bundle1 say me ");
+        tv.setGravity(Gravity.CENTER);
         tv.setTextColor(Color.BLACK);
         setContentView(tv);
 

@@ -80,3 +80,5 @@ gradle.ext.binaryModuleMap.each { _, module ->
 }
 
 child("module end ========================================================================================")
+include ':home-module:main'
+include ':home-module:myhome'

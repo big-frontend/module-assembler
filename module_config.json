@@ -9,7 +9,27 @@
       "group": "father",
       "binary_artifact": "com.jamesfchen.b:app:1.0",
       "deps": [
-        ":hotel-module:bundle1",":hotel-module:bundle2"
+        ":hotel-module:bundle1",":hotel-module:bundle2", ":home-module:myhome"
+      ]
+    },
+    {
+      "simpleName": "home-main",
+      "canonicalName": ":home-module:main",
+      "format": "app",
+      "group": "home",
+      "binary_artifact": "com.jamesfchen.b:home-main:1.0",
+      "deps": [
+        ":home-module:myhome"
+      ]
+    },
+    {
+      "simpleName": "home-myhome",
+      "canonicalName": ":home-module:myhome",
+      "format": "app",
+      "group": "home",
+      "binary_artifact": "com.jamesfchen.b:home-myhome:1.0",
+      "deps": [
+        ":framework:loader"
       ]
     },
     {
