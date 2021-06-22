@@ -49,23 +49,23 @@ android {
 //            }
 //        }
     }
-//            buildFeatures {
-//                viewBinding true
-//            }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
 
 }
 
 dependencies {
     teenager("bundles begin ========================================================================================")
     def deps = rootProject.ext.findDepProjects(project.path)
-    for(def d :deps){
+    for (def d : deps) {
         teenager("api ${d}")
         api d
     }
     teenager("bundles end ========================================================================================")
     kapt "com.google.dagger:dagger-compiler:2.16"
     kapt "com.google.dagger:dagger-android-processor:2.16"
-    kapt 'androidx.databinding:databinding-compiler:7.0.0-beta03'
     kapt 'com.alibaba:arouter-compiler:1.2.1'
 }
 
