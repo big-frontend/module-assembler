@@ -60,7 +60,6 @@ gradle.ext.allModules.each { m ->
         gradle.ext.binaryModuleMap[m.canonicalName] = m
     }
 }
-include ':app'
 child(" module begin ========================================================================================")
 //gradle.ext.appMap.each { _, module ->
 //    child("app ${module.canonicalName}")
@@ -78,7 +77,4 @@ gradle.ext.excludeModuleMap.each { _, module ->
 gradle.ext.binaryModuleMap.each { _, module ->
     child("binary module  ${module.binary_artifact}")
 }
-
 child("module end ========================================================================================")
-include ':home-module:main'
-include ':home-module:myhome'
