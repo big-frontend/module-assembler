@@ -5,7 +5,7 @@
 
 宝，来多来了帮忙点个star呗。这款工具是我花费了无数个夜晚，在百忙之中开发的，也会存在各种各样的问题，有问题的可以提到issue中，我会踊跃积极像对待女朋友一样的处理每一个问题。
 
-![picture](https://github.com/JamesfChen/bundles-assembler/tree/main/module-manager-intellij-plugin/bundles.png)
+![picture](https://github.com/JamesfChen/bundles-assembler/blob/main/module-manager-intellij-plugin/bundles.png)
 组件化模块看板，能选择模块集成到项目的方式。exclude选择不集成到组件化项目，source源码编译的方式集成，binary(aar/jar)文件集成。如果想了解更多，
 可以移步到组件化的项目[bundles assembler](https://github.com/JamesfChen/bundles-assembler/tree/main/android) , 宝记得star【bundles assembler】
 

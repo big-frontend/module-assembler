@@ -44,8 +44,8 @@ apps=hotel-main,app,home-main
 ```
 ~~在项目的local.properties配置不参加编译的项目(则不会被编译)，参加编译的项目会有两种形式一种binary(aar/jar)或者source code，后面提供idea plugin管理这些模块。第一次编译一定要源码编译所有文件，所以不能有exclude Modules，通过./gradlew publishAll发布所有模块到maven local 或者远程maven仓库。~~
 
-利用工具(tools/module-manager-plugin-1.0.1.jar)来选择模块，对于fwk组必须不被exclude，因为作为基础服务要集成到项目中，exclude只会对app framework以上的模块，如果有兴趣了解工具的源码，来这里[康康](https://github.com/JamesfChen/bundles-assembler/tree/main/module-manager-intellij-plugin), 来点个![img_1.png](img_1.png)
-![picture](./android/tools/bundles.png)
+利用工具(tools/module-manager-plugin-1.0.1.jar)来选择模块，对于fwk组必须不被exclude，因为作为基础服务要集成到项目中，exclude只会对app framework以上的模块，如果有兴趣了解工具的源码，来这里[康康](https://github.com/JamesfChen/bundles-assembler/tree/main/module-manager-intellij-plugin), 来点个![img_1.png](https://github.com/JamesfChen/bundles-assembler/tree/main/android/img_1.png)
+![picture](https://github.com/JamesfChen/bundles-assembler/blob/main/android/tools/bundles.png)
 
 
 ### 业务组件页面路由
