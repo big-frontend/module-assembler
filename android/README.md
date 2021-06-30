@@ -65,8 +65,7 @@ hotel-module
 framework
 --- loader  framework的加载器
 --- network 网络库
---- router  页面路由
---- communication  组件的通信，这里我认为可以使用message或者rpc的方式
+--- ibc  inter-bundle communication。页面路由（http路由，模块路由）、bundle rpc、message
 --- common  公共代码
 tools 项目工具
 ```

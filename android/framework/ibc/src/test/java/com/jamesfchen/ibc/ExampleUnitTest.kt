@@ -1,4 +1,4 @@
-package com.jamesfchen.router
+package com.jamesfchen.ibc
 
 import org.junit.Test
 

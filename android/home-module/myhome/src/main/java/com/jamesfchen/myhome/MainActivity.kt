@@ -6,8 +6,9 @@ import android.os.Bundle
 import android.view.Gravity
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.jamesfchen.ibc.router.Routers
 
-class MainActivity: Activity()  {
+class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val tv = TextView(this)
@@ -15,5 +16,8 @@ class MainActivity: Activity()  {
         tv.text = "${getPackageName()} home main activity"
         tv.gravity = Gravity.CENTER
         tv.setTextColor(Color.BLACK)
-        setContentView(tv)}
+        setContentView(tv)
+        Routers.gotoBundle("jamesfchen://bundle1/sayme")
+    }
+
 }
