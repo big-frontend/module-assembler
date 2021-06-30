@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<routers>
+    <router name="com.jamesfchen.bundle1.Bundle1Router" scheme="bundle">
+        <page name="com.jamesfchen.bundle1.SayMeActivity">
+            <param name="from" type="String"/>
+        </page>
+    </router>
+    <router name="com.jamesfchen.bundle1.Bundle1HttpRouter" scheme="http">
+    </router>
+
+</routers>
