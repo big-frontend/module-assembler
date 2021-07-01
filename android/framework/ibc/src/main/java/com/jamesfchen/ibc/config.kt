@@ -31,6 +31,7 @@ fun param(name:String,type:String){}
 
 /* 下面的配置可以通过gradle transform api收集多个bundle的BundleManifest.xml merge而来*/
 val routerConfig = routers {
+    println("cjf routers")
     router(name = "com.jamesfchen.bundle1.Bundle1Router",scheme = "bundle"){
         page(name ="com.jamesfchen.bundle1.SayMeActivity"){
             param(

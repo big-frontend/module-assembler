@@ -12,6 +12,8 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
+        val r = routerConfig
+        println("ExampleUnitTest ${r}")
         assertEquals(4, 2 + 2)
     }
 }
