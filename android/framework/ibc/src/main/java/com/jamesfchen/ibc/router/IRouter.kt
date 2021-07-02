@@ -12,7 +12,15 @@ import android.os.Bundle
  * @since: 六月/30/2021  星期三
  *
  *
- * scheme://bundle/page?param1=value1&param2=value2 ...
+ * scheme://bundle_name/page?param1=value1&param2=value2 ...
+ *
+ * scheme:
+ * - http/hybrid
+ * - reactnative
+ * - flutter
+ * - native
+ *
+ *
  */
 interface IRouter {
     fun call(cxt: Context, bundle: Bundle)

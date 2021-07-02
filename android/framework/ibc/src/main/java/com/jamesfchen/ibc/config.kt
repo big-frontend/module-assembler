@@ -10,7 +10,6 @@ package com.jamesfchen.ibc
  *
  */
 interface Param {
-
 }
 interface Page {
     var name: String
@@ -41,8 +40,7 @@ val routerConfig = routers {
         }
     }
     router(
-        name = "com.jamesfchen.bundle1.HttpRouter",
-        scheme = "http"
+        name = "com.jamesfchen.bundle1.HttpRouter", scheme = "http"
     )
     router(name = "com.jamesfchen.bundle2.Bundle2Router",scheme = "bundle"){
         page(name ="com.jamesfchen.bundle2.SayHiActivity"){
