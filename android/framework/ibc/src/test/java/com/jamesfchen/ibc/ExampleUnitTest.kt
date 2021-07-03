@@ -1,8 +1,11 @@
 package com.jamesfchen.ibc
 
+import com.jamesfchen.ibc.router.Router
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,8 +15,9 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        val r = routerConfig
-        println("ExampleUnitTest ${r}")
+//        val e = URLEncoder.encode("Dankeschön für Ihre €100", StandardCharsets.UTF_8.name())
+        val e = URLEncoder.encode("举个栗子", StandardCharsets.UTF_8.name())
+        Router.goto("native://hotel-bundle1/sayme/c?from=${e}")
         assertEquals(4, 2 + 2)
     }
 }

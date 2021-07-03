@@ -11,14 +11,7 @@ import android.os.Bundle
  * @email: hawksjamesf@gmail.com
  * @since: 六月/30/2021  星期三
  *
- *
- * scheme://bundle_name/page?param1=value1&param2=value2 ...
- *
- * scheme:
- * - http/hybrid
- * - reactnative
- * - flutter
- * - native
+
  *
  *
  */

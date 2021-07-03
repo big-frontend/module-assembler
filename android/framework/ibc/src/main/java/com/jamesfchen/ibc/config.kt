@@ -9,16 +9,6 @@ package com.jamesfchen.ibc
  * @since: 六月/30/2021  星期三
  *
  */
-interface Param {
-}
-interface Page {
-    var name: String
-}
-
-interface Router {
-    var pages: List<Page>
-}
-
 fun routers(config:() -> Unit) {
     return config()
 }

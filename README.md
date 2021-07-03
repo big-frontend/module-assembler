@@ -7,3 +7,6 @@
 --- server //server端管理组件化打包发布等
 --- module-manager-intellij-plugin //性感的模块管理工具
 ```
+
+### refrence
+[The future of Android App Bundles is here](https://android-developers.googleblog.com/2021/06/the-future-of-android-app-bundles-is.html)
