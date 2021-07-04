@@ -2,13 +2,17 @@
 buildscript {
     ext.kotlin_version = "1.4.21"
     repositories {
+        mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://maven.aliyun.com/repository/releases' }
         maven { url uri("$rootDir/repo") }
 //        google()
         mavenLocal()
-        mavenCentral()
+        flatDir {
+            dirs 'libs' //this way we can find the .aar file in libs folder
+        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.2"
@@ -18,18 +22,23 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'com.google.gms:google-services:4.3.8'
         classpath 'com.google.firebase:perf-plugin:1.4.0'
+        classpath "io.github.jamesfchen:lifecycle-plugin:1.0.0"
     }
 }
 
 allprojects {
     repositories {
+        mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://maven.aliyun.com/repository/releases' }
         maven { url uri("$rootDir/repo") }
 //        google()
         mavenLocal()
-        mavenCentral()
+        flatDir {
+            dirs 'libs' //this way we can find the .aar file in libs folder
+        }
     }
 }
 

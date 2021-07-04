@@ -100,4 +100,29 @@ dependencies {
 }
 apply from : "${rootDir.path}/script/module_publisher.gradle"
 
+//def findArtifact() {
+//    def applicationId = project.rootProject.applicationId
+//    def moduleSimpleName = ''
+//    def moduleCanonicalNmae = ''
+//    for (def module : rootProject.ext.modules) {
+//        if (project.path == module.canonicalName) {
+//            moduleSimpleName = module.simpleName
+//            moduleCanonicalNmae = module.canonicalName
+//            break
+//        }
+//    }
+//    if ((moduleSimpleName == null || moduleSimpleName.isEmpty()) || (moduleCanonicalNmae == null || moduleCanonicalNmae.isEmpty())) {
+//        throw IllegalArgumentException("moduleSimpleName:${moduleSimpleName} :moduleCanonicalNmae${moduleCanonicalNmae} 这两个参数都要配置")
+//    }
+//    return [applicationId, moduleSimpleName]
+//}
+//def (applicationId, moduleSimpleName) = findArtifact()
+//apply from: "${rootDir}/script/publisher.gradle"
+//publish{
+//    name=moduleSimpleName
+//    groupId = applicationId
+//    artifactId = moduleSimpleName
+//    version = "1.0.0"
+//    website = "https://github.com/JamesfChen/spacecraft-android-gradle-plugin"
+//}
 

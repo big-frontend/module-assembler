@@ -1,13 +1,14 @@
 package com.jamesfchen.loader;
 
 
-import androidx.multidex.MultiDexApplication;
-
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.alibaba.android.arouter.utils.TextUtils;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
+import androidx.multidex.MultiDexApplication;
 
 /**
  * Copyright ® $ 2017
@@ -16,7 +17,7 @@ import java.io.IOException;
  * @author: jamesfchen
  * @since: 2017/7/4
  */
-
+@com.jamesfchen.lifecycle.App
 public class App extends MultiDexApplication {
     private static App app;
 
@@ -36,6 +37,7 @@ public class App extends MultiDexApplication {
             ARouter.openDebug();   // Turn on debugging mode (If you are running in InstantRun mode, you must turn on debug mode! Online version needs to be closed, otherwise there is a security risk)
         }
         ARouter.init(this);
+//        ProcessLifecycleOwner.get().getLifecycle().addObserver(new AppLifecycleObserver());
     }
 
     /**
