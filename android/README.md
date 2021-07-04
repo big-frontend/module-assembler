@@ -54,6 +54,8 @@ apps=hotel-main,app,home-main
 - 利用android framework层的intent uri路由跳转
 - 在app framework实现路由跳转，需要将app层的路由器发布到app framework的路由表，当需要跳转时，app framework会search路由表获取路由器，然后进行跳转
 
+### 监听App生命周期
+使用lifecycle-plugin，自动注册监听App，使用方式，移步这个项目[spacecraft-android-gradle-plugin](https://github.com/JamesfChen/spacecraft-android-gradle-plugin)
 项目结构
 ```
 hotel-module
