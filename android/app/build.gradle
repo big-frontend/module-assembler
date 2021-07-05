@@ -1,4 +1,8 @@
+//plugins {
+//    id 'com.jamesfchen.lifecycle-plugin' version '1.0.0'
+//}
 apply from: "$rootDir.path/script/app_module.gradle"
+apply plugin: 'com.jamesfchen.lifecycle-plugin'
 android {
     defaultConfig {
         resValue "string", "app_name","b.app"
