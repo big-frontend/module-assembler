@@ -3,7 +3,7 @@ package com.jamesfchen.bundle1
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.jamesfchen.ibc.router.IRouter
+import com.jamesfchen.ibc.route.IRouter
 
 /**
  * Copyright ® $ 2021

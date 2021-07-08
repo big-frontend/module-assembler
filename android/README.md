@@ -49,10 +49,14 @@ apps=hotel-main,app,home-main
 
 ![picture](https://github.com/JamesfChen/bundles-assembler/blob/main/android/tools/bundles.png)
 
-### 业务组件页面路由
-路由的实现有两种方式
+### 组件通信(ibc,inter-bundle communication)
+
+页面路由
 - 利用android framework层的intent uri路由跳转
-- 在app framework实现路由跳转，需要将app层的路由器发布到app framework的路由表，当需要跳转时，app framework会search路由表获取路由器，然后进行跳转
+- 在app framework实现路由跳转，需要将app层的路由器发布到app framework的路由器管理中心，当需要跳转时，app framework会到管理中心find获取路由器，然后进行跳转
+
+cbpc,cross bundle procedure call
+- 暴露api给外部bundle模块，然后内部实现接口，需要在app framework注册暴露的api，方便search，实现方式与页面路由的第二种方法相似
 
 ### 监听App生命周期
 使用lifecycle-plugin，自动注册监听App，使用方式，移步这个项目[spacecraft-android-gradle-plugin](https://github.com/JamesfChen/spacecraft-android-gradle-plugin)

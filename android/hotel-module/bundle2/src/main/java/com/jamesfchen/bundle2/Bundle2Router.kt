@@ -3,8 +3,8 @@ package com.jamesfchen.bundle2
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.jamesfchen.ibc.router.IRouter
-import com.jamesfchen.bundle2.SayHiActivity
+import com.jamesfchen.ibc.route.IRouter
+
 /**
  * Copyright ® $ 2021
  * All right reserved.
