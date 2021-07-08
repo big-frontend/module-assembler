@@ -1,4 +1,4 @@
-package com.jamesfchen.ibc.router
+package com.jamesfchen.ibc.route
 
 /**
  * Copyright ® $ 2017
@@ -7,5 +7,5 @@ package com.jamesfchen.ibc.router
  * @author: jamesfchen
  * @since: Jul/02/2021  Fri
  */
-class IFlutterRouter {
+class IHybridRouter {
 }

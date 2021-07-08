@@ -1,4 +1,4 @@
-package com.jamesfchen.ibc.router
+package com.jamesfchen.ibc.route
 
 import java.net.URI
 
@@ -10,8 +10,16 @@ import java.net.URI
  * @email: hawksjamesf@gmail.com
  * @since: 六月/30/2021  星期三
  *
+ * scheme://bundle_name/page?param1=value1&param2=value2 ...
+ *
+ * scheme:
+ * - http/hybrid
+ * - reactnative
+ * - flutter
+ * - native
+ *
  */
-class Router {
+class IBCRouter {
     companion object{
         fun goto(uriStr: String){
             goto(URI.create(uriStr))
@@ -25,5 +33,6 @@ class Router {
             }
         }
     }
+
 
 }

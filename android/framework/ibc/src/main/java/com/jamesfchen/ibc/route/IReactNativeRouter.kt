@@ -1,4 +1,4 @@
-package com.jamesfchen.ibc.router
+package com.jamesfchen.ibc.route
 
 /**
  * Copyright ® $ 2017

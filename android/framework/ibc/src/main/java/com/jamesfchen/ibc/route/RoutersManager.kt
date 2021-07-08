@@ -1,9 +1,7 @@
-package com.jamesfchen.ibc.router
+package com.jamesfchen.ibc.route
 
 import android.content.Context
-import android.util.SparseArray
 import androidx.collection.ArrayMap
-import kotlin.math.sign
 
 /**
  * Copyright ® $ 2021
@@ -14,13 +12,13 @@ import kotlin.math.sign
  * @since: 六月/30/2021  星期三
  */
 object RoutersManager {
-    private var hybridRouters : ArrayMap<String,IHybridRouter>? = null
-    private var flutterRouters :  ArrayMap<String,IFlutterRouter>? = null
-    private var reactNativeRouters :  ArrayMap<String,IReactNativeRouter>? = null
-    private var nativeRouters :  ArrayMap<String,INativeRouter>? = null
+    private var hybridRouters : ArrayMap<String, IHybridRouter>? = null
+    private var flutterRouters :  ArrayMap<String, IFlutterRouter>? = null
+    private var reactNativeRouters :  ArrayMap<String, IReactNativeRouter>? = null
+    private var nativeRouters :  ArrayMap<String, INativeRouter>? = null
     private const val ROUTER_CONFIG="BundleManifest.xml"
 
-    fun getHybridRouters(cxt:Context):ArrayMap<String,IHybridRouter>{
+    fun getHybridRouters(cxt:Context):ArrayMap<String, IHybridRouter>{
         if (hybridRouters ==null){
 //            XmlParser.parse(cxt.assets.open(ROUTER_CONFIG))
         }

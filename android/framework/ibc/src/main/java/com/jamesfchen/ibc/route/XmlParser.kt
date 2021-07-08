@@ -1,6 +1,5 @@
-package com.jamesfchen.ibc.router
+package com.jamesfchen.ibc.route
 
-import android.util.SparseArray
 import androidx.collection.ArrayMap
 import java.io.InputStream
 import javax.xml.parsers.DocumentBuilderFactory
