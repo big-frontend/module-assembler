@@ -22,7 +22,7 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'com.google.gms:google-services:4.3.8'
         classpath 'com.google.firebase:perf-plugin:1.4.0'
-        classpath "com.jamesfchen:lifecycle-plugin:1.0.0"
+        classpath "com.github.jamesfchen:lifecycle-plugin:1.0.0"
     }
 }
 
