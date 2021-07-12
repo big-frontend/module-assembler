@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply from: "${rootDir.path}/script/base_module.gradle"
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.alibaba.arouter'
+
 //apply plugin: 'com.google.protobuf'
 //protobuf {
 //    protoc {
@@ -67,5 +68,7 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:2.16"
     kapt "com.google.dagger:dagger-android-processor:2.16"
     kapt 'com.alibaba:arouter-compiler:1.2.1'
+    annotationProcessor 'io.github.meituan-dianping:compiler:1.2.1'
+//    kapt 'io.github.meituan-dianping:compiler:1.x'
 }
 

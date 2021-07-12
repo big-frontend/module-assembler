@@ -1,14 +1,14 @@
 package com.jamesfchen.loader;
 
 
+import androidx.multidex.MultiDexApplication;
+
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.alibaba.android.arouter.utils.TextUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
-import androidx.multidex.MultiDexApplication;
 
 /**
  * Copyright ® $ 2017

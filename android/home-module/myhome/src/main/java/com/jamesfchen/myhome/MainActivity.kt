@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.TextView
-import com.jamesfchen.ibc.route.IBCRouter
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +15,6 @@ class MainActivity : Activity() {
         tv.gravity = Gravity.CENTER
         tv.setTextColor(Color.BLACK)
         setContentView(tv)
-        IBCRouter.goto("jamesfchen://bundle1/sayme")
     }
 
 }
