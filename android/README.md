@@ -60,6 +60,7 @@ cbpc,cross bundle procedure call
 
 ### 监听App生命周期
 使用lifecycle-plugin，自动注册监听App，使用方式，移步这个项目[spacecraft-android-gradle-plugin](https://github.com/JamesfChen/spacecraft-android-gradle-plugin)
+
 项目结构
 ```
 hotel-module
