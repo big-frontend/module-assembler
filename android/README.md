@@ -1,7 +1,7 @@
-![architecture](./art/architecture.png)
-
 ## bundles assembler
 先定义一下bundle和foundation,bundle是依附于app framework的native bundle(静态组件，动态插件)、flutter bundle、react native bundle、hybrid bundle，有些bundle具有动态性能被app framework动态加载；foundation是赋予上层能力的基础服务，更像是一些用来快速开发页面的toolkits，比如网络、存储、图像、音视频都是foundation。bundle之间存在通信，比如页面路由。
+
+![architecture](./art/architecture.png)
 
 ### 配置module
 bundle和foundation在gradle眼里都是module,所以一开始需要在module_config.json配置模块，模块配置好，还需要手动用android studio创建模块，这一块后面可以做成自动化生成。
