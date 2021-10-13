@@ -78,3 +78,6 @@ framework
 --- common  公共代码
 tools 项目工具
 ```
+
+todo:
+- [优化构建速度](https://developer.android.com/studio/build/optimize-your-build?hl=zh-cn)
