@@ -7,8 +7,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.firebase.perf.metrics.AddTrace;
+import com.jamesfchen.ibc.router.IBCRouter;
 
 /**
  * Copyright ® $ 2017
@@ -17,7 +17,7 @@ import com.google.firebase.perf.metrics.AddTrace;
  * @author: jamesfchen
  * @since: Jun/13/2021  Sun
  */
-@Route(path = "/bundle1/sayme")
+//@Route(path = "/bundle1/sayme")
 public class SayMeActivity extends Activity {
     @AddTrace(name = "SayMeActivity_onCreate", enabled = true /* optional */)
     @Override
@@ -41,6 +41,7 @@ public class SayMeActivity extends Activity {
 //                            .withLong("key1", 666L)
 //                            .withString("key3", "888")
 //                            .navigation();
+                IBCRouter.goNativeBundle(SayMeActivity.this,"bundle2router/sayhi");
 //
             }
         });

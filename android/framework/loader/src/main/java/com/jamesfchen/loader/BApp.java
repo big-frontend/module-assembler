@@ -5,6 +5,7 @@ import androidx.multidex.MultiDexApplication;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.alibaba.android.arouter.utils.TextUtils;
+import com.jamesfchen.lifecycle.App;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,11 +18,11 @@ import java.io.IOException;
  * @author: jamesfchen
  * @since: 2017/7/4
  */
-@com.jamesfchen.lifecycle.App
-public class App extends MultiDexApplication {
-    private static App app;
+@App
+public class BApp extends MultiDexApplication {
+    private static BApp app;
 
-    public static App getInstance() {
+    public static BApp getInstance() {
         if (app == null) {
             throw new IllegalStateException("app is null");
         }

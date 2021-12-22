@@ -1,10 +1,13 @@
 package com.jamesfchen.main
 
-import com.jamesfchen.loader.App
+import com.jamesfchen.ibc.router.IBCRouter
+import com.jamesfchen.loader.BApp
 
-
-class HotelApp : App() {
+@com.jamesfchen.lifecycle.App
+class HotelApp : BApp() {
     override fun onCreate() {
         super.onCreate()
+        IBCRouter.init(applicationContext);
+
     }
 }

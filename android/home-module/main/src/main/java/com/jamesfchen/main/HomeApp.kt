@@ -1,9 +1,9 @@
 package com.jamesfchen.main
 
-import com.jamesfchen.loader.App
+import com.jamesfchen.loader.BApp
 
 
-class HomeApp : App() {
+class HomeApp : BApp() {
     override fun onCreate() {
         super.onCreate()
     }

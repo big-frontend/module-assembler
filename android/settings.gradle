@@ -1,22 +1,22 @@
-pluginManagement {
-//    plugins {
-//        id "com.github.jamesfchen.ibc-plugin" version "1.0.0" apply false
+//pluginManagement {
+////    plugins {
+////        id "com.github.jamesfchen.ibc-plugin" version "1.0.0" apply false
+////    }
+//    repositories {
+//        gradlePluginPortal()
+//        google()
+//        maven { url = uri("https://jitpack.io") }
 //    }
-    repositories {
-        gradlePluginPortal()
-        google()
-        maven { url = uri("https://jitpack.io") }
-    }
-}
-dependencyResolutionManagement {
-//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
-    repositories {
-        google()
-        mavenCentral()
-        maven { url = uri("https://jitpack.io") }
-    }
-}
+//}
+//dependencyResolutionManagement {
+////    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+//    repositories {
+//        google()
+//        mavenCentral()
+//        maven { url = uri("https://jitpack.io") }
+//    }
+//}
 
 apply from:'./script/trace_gradle.gradle'
 apply from:'./script/module_registry.gradle'
