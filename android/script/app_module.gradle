@@ -1,13 +1,11 @@
-//plugins {
-//    id 'com.jamesfchen.lifecycle-plugin'
-//}
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
-apply plugin: "com.github.jamesfchen.lifecycle-plugin"
-apply from: "${rootDir.path}/script/console.gradle"
+//apply plugin: "com.github.jamesfchen.lifecycle-plugin"
+//apply plugin: 'com.github.jamesfchen.ibc-plugin'
+apply from: "${rootDir}/script/console.gradle"
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'WMRouter'
@@ -56,6 +54,7 @@ android {
             signingConfig signingConfigs.releaseSigningConfig
         }
         debug {
+            crunchPngs = false//优化编译速度：关闭png
             multiDexEnabled = false//优化编译速度：关闭multidex
             minifyEnabled false
             shrinkResources false
@@ -107,11 +106,6 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/proguard/coroutines.pro'
-    }
-    applicationVariants.all { variant ->
-        if (variant.buildType.name=='debug'){
-            aaptOptions.cruncherEnabled = false//优化编译速度：关闭png
-        }
     }
 //    dexOptions {
 //        preDexLibraries true

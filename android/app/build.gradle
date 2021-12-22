@@ -1,3 +1,7 @@
+plugins {
+//    id 'com.github.jamesfchen.lifecycle-plugin'
+    id 'com.github.jamesfchen.ibc-plugin'
+}
 apply from: "$rootDir.path/script/app_module.gradle"
 android {
     defaultConfig {
