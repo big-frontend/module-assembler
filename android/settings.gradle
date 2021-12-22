@@ -21,7 +21,7 @@
 apply from:'./script/trace_gradle.gradle'
 apply from:'./script/module_registry.gradle'
 
-includeBuild("gradle-plugin") {
+includeBuild("../gradle-plugin") {
 //    name = "g"
     dependencySubstitution {
 //        substitute(module("io.github.jamesfchen:lifecycle-api")).using(project(":"))
