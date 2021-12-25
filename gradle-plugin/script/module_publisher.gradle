@@ -2,37 +2,33 @@
  * [Android库发布到Maven Central全攻略](https://xiaozhuanlan.com/topic/6174835029)
  * [发布android库AAR至mavenCentral看这篇文章就可以了](https://zhuanlan.zhihu.com/p/22351830)
  * [nexus repo](https://s01.oss.sonatype.org/#stagingRepositories)
- * [sonatype](https://issues.sonatype.org/secure/Dashboard.jspa)
+ * [sonatype办事处](https://issues.sonatype.org/secure/Dashboard.jspa)
  * [手动搭建maven](https://blog.csdn.net/intbird/article/details/105969242)
- * [maven centeral 文件查询](https://search.maven.org/)
+ *
+ * [gradle module 查找](https://search.maven.org/)
+ * [gradle plugin 查找](https://plugins.gradle.org/)
  *
  *
+ *   发布本地project repo
+ *    ./gradlew publishXxxPublicationsToMyProjectRepository
+ *   发布本地maven local
+ * ./gradlew publishToMavenLocal
+ *   发布到远程maven central(nexus仓库)
+ * ./gradlew publishXxxPublicationsToMavenCentralRepository
  *
- *  // 发布jar 或者 aar 文件 到maven central
- * ./gradlew publishJarPublicationToMavenCentralRepository
- * ./gradlew publishAarPublicationToMavenCentralRepository
- *  // 发布jar 或者 aar 文件 到maven local
- * ./gradlew publishXxxPublicationToMavenLocal
+ * ps：对于发布的类型来说只会有两种aar和jar
  */
 apply plugin: 'maven-publish'
-apply plugin: 'signing'
+//apply plugin: 'signing'  #暂时去掉signing
 extensions.create('publish', PublishExtension)
-//java {
-//    withJavadocJar()
-//    withSourcesJar()
-//}
+
 afterEvaluate {
+    if (isApk()) return
     def ext = project['publish'] as PublishExtension
     project.group = ext.groupId
     project.version = ext.version
     loadUserInfo(project, ext)
-//    configMavenLocal(project, ext)
     configMaven(project, ext)
-//    publishJarPublicationToMavenCentralRepository.dependsOn assembleRelease
-//    publishAarPublicationToMavenCentralRepository.dependsOn assembleRelease
-//    publishJarPublicationToMavenLocal.dependsOn assembleRelease
-//    publishAarPublicationToMavenLocal.dependsOn assembleRelease
-
 }
 
 private void loadUserInfo(Project project, PublishExtension ext) {
@@ -40,69 +36,49 @@ private void loadUserInfo(Project project, PublishExtension ext) {
     File localPropertiesFile = project.rootProject.file("local.properties");
     if (localPropertiesFile.exists()) {
         properties.load(localPropertiesFile.newDataInputStream())
-        project.ext["signing.keyId"] = properties.getProperty("signing.keyId")
-        project.ext["signing.password"] = properties.getProperty("signing.password")
-        project.ext["signing.secretKeyRingFile"] = properties.getProperty("signing.secretKeyRingFile")
-        ext.ossrhUsername = properties.getProperty("ossrhUsername")
-        ext.ossrhPassword = properties.getProperty("ossrhPassword")
+//        def keyId = properties['signing.keyId'] != null ? properties['signing.keyId']:'5CDFE9D2'
+//        project.ext["signing.keyId"] = keyId
+//        def password = properties['signing.password'] != null ? properties['signing.password']:'jf123456'
+//        project.ext["signing.password"] = password
+//        def secretKeyRingFile = properties['signing.secretKeyRingFile'] != null ? properties['signing.secretKeyRingFile']:'/Users/hawks.jamesf/.gnupg/secring.gpg'
+//        project.ext["signing.secretKeyRingFile"] = secretKeyRingFile
+        def ossrhUsername = properties['ossrhUsername'] != null ? properties['ossrhUsername']:'delta'
+        ext.ossrhUsername = ossrhUsername
+        def ossrhPassword = properties['ossrhPassword'] != null ? properties['ossrhPassword']:'vCKe*5vHBh3xH2.'
+        ext.ossrhPassword = ossrhPassword
     }
 }
-
-//def configMavenLocal(Project project, PublishExtension ext) {
-//    project.install {
-//        repositories.mavenInstaller {
-//            configPom(pom, ext)
-//        }
-//    }
-
-//    project.tasks.create("mavenLocal", Upload) {
-//        group("publishing")
-//        configuration = project.configurations.archives
-//
-//        repositories.mavenDeployer {
-//            repository(url: uri("${project.rootDir.path}/mavenLocal"))
-//            configPom(pom, ext)
-//        }
-//
-//        doFirst {
-//            ext.check(false)
-//        }
-//    }
-
-//    project.tasks.findByName("publishJarPublicationToMavenCentralRepository").doFirst {
-//        ext.check(true)
-//    }
-//}
 //配置maven local 和 maven central两个仓库
 def configMaven(Project project, PublishExtension ext) {
-
-
+    def taskName
+    def pkg
+    if (isAar()) {
+        taskName = 'aar'
+        pkg = "$buildDir/outputs/aar/${ext.artifactId}-release.aar"
+    } else {
+        taskName = 'jar'
+        pkg = "$buildDir/libs/${ext.artifactId}-${ext.version}.jar"
+    }
     PublishingExtension publishing = project.extensions.getByType(PublishingExtension)
-    project.components.each { components ->
-        if (components.name == 'release' || components.name == 'java') {
-            def taskName
-            def pkg
-            if (isAndroid()) {
-                taskName = 'aar'
-                pkg = "$buildDir/outputs/aar/${ext.artifactId}-release.aar"
-            } else {
-                taskName = 'jar'
-                pkg = "$buildDir/libs/${ext.artifactId}-${ext.version}.jar"
-            }
-            publishing.publications { publications ->
-                publications.create(taskName, MavenPublication, { MavenPublication publication ->
-                    publication.from(components)
-                    publication.groupId = ext.groupId
-                    publication.artifactId = ext.artifactId
-                    publication.version = ext.version
-                    configJavadoc(project, publication,ext)
-                    configPom(publication.pom, ext)
-                })
-            }
+    project.components.configureEach{}
+    project.components.each { component ->
+        if (component.name == 'release' || component.name == 'java') {
+            publishing.publications.create(taskName, MavenPublication, { MavenPublication publication ->
+                publication.from(component)
+                publication.groupId = ext.groupId
+                publication.artifactId = ext.artifactId
+                publication.version = ext.version
+//                configJavadoc(project, publication, ext)
+                configPom(publication.pom, ext)
+            })
         }
     }
     //远程仓库
     publishing.repositories { artifactRepositories ->
+//        artifactRepositories.maven {mavenArtifactRepository->
+//            mavenArtifactRepository.name = 'myProject'
+//            mavenArtifactRepository.url = "${project.rootDir}/local-repo"
+//        }
         artifactRepositories.maven { mavenArtifactRepository ->
             mavenArtifactRepository.name = "mavenCentral"
             def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
@@ -113,18 +89,19 @@ def configMaven(Project project, PublishExtension ext) {
                 password = ext.ossrhPassword
             }
         }
-
     }
-    ext.check(true)
-    SigningExtension signing = project.extensions.getByType(SigningExtension)
+    project.tasks.findByName("publish${taskName.capitalize()}PublicationToMavenCentralRepository").doFirst {
+        ext.check(true)
+    }
+//    SigningExtension signing = project.extensions.getByType(SigningExtension)
 //    signing.useInMemoryPgpKeys(ext.signingKeyId, ext.signingSecretKeyRingFile,ext.signingPassword)
-    signing.sign(publishing.publications)
+//    signing.sign(publishing.publications)
 
 }
 
 def configPom(org.gradle.api.publish.maven.MavenPom pom, PublishExtension ext) {
     pom.name = ext.name
-    pom.packaging = isAndroid() ? "aar" : "jar"
+    pom.packaging = isAar() ? "aar" : "jar"
     pom.description = ext.name
     pom.url = ext.website
     pom.scm {
@@ -164,8 +141,8 @@ def configPom(org.gradle.api.publish.maven.MavenPom pom, PublishExtension ext) {
 //    }
 }
 
-private void configJavadoc(Project project,MavenPublication publication, PublishExtension ext) {
-    if (isAndroid()) {
+private void configJavadoc(Project project, MavenPublication publication, PublishExtension ext) {
+    if (isAar()) {
         // This generates sources.jar
         task sourcesJar(type: Jar) {
             classifier = 'sources'
@@ -211,8 +188,8 @@ private void configJavadoc(Project project,MavenPublication publication, Publish
             title "${ext.name} ${ext.version}"
         }
     }
-    publication.artifact(sourcesJar)
     publication.artifact(javadocJar)
+    publication.artifact(sourcesJar)
 //    publication.setArtifacts([sourcesJar])
 //    artifacts {
 //        archives javadocJar
@@ -220,11 +197,10 @@ private void configJavadoc(Project project,MavenPublication publication, Publish
 //    }
 }
 
-def isAndroid() {
-    return project.getPlugins().hasPlugin('com.android.application') ||
-            project.getPlugins().hasPlugin('com.android.library')
-}
-
+def isApk() { return project.getPlugins().hasPlugin('com.android.application') }
+def isAar() { return project.getPlugins().hasPlugin('com.android.library') }
+def isJar() { return project.getPlugins().hasPlugin('java-library') }
+def isJava() { return project.getPlugins().hasPlugin('java') }
 class PublishExtension {
     String name
     String groupId

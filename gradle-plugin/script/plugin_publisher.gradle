@@ -1,3 +1,7 @@
+/**
+ * 废弃该文件，插件发布使用 gradle plugin portal
+ */
+
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 

@@ -3,39 +3,6 @@ apply from: "${rootDir.path}/script/base_module.gradle"
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.alibaba.arouter'
 
-//apply plugin: 'com.google.protobuf'
-//protobuf {
-//    protoc {
-//        // You still need protoc like in the non-Android case
-//        artifact = 'com.google.protobuf:protoc:3.7.1'
-//    }
-//    plugins {
-//        javalite {
-//            // The codegen for lite comes as a separate artifact
-//            artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
-//        }
-//        grpc {
-////            artifact = 'io.grpc:protoc-gen-grpc-java:1.0.0-pre2'
-//            artifact = "io.grpc:protoc-gen-grpc-java:${rootProject.ext.grpcVersion}"
-//        }
-//    }
-//    generateProtoTasks {
-//        all().each { task ->
-//            task.builtins {
-//                // In most cases you don't need the full Java output
-//                // if you use the lite output.
-//                remove java
-//            }
-//            task.plugins {
-//                javalite {}
-//                grpc {
-//                    // Options added to --grpc_out
-//                    option 'lite'
-//                }
-//            }
-//        }
-//    }
-//}
 kapt {
     arguments {
         arg("AROUTER_MODULE_NAME", project.getName())
@@ -59,10 +26,10 @@ android {
 
 dependencies {
     teenager("bundles begin ========================================================================================")
-    def deps = rootProject.ext.findDepProjects(project.path)
-    for (def d : deps) {
-        teenager("api ${d}")
-        api d
+    importDeps(project){dep->
+        teenager("implementation  ${dep}")
+        project.dependencies.add("implementation", dep)
+        return findDeps(dep)
     }
     teenager("bundles end ========================================================================================")
     kapt "com.google.dagger:dagger-compiler:2.16"

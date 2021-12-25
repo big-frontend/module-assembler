@@ -1,8 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-
-apply plugin: 'kotlin-kapt'
+apply from: "${rootDir}/script/base_module.gradle"
 //apply plugin: "com.github.jamesfchen.lifecycle-plugin"
 //apply plugin: 'com.github.jamesfchen.ibc-plugin'
 apply from: "${rootDir}/script/console.gradle"
@@ -10,25 +7,10 @@ apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'WMRouter'
 android {
-    compileSdkVersion Integer.parseInt(rootProject.compileSdkVersion)
-    buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
-        (minSdkVersion, targetSdkVersion, versionCode, versionName) = [Integer.parseInt(rootProject.minSdkVersion),
-                                                                       Integer.parseInt(rootProject.targetSdkVersion),
-                                                                       rootProject.versionCode, rootProject.versionName]
 //        multiDexEnabled = true//support android 20 or lower
         applicationId rootProject.applicationId
-        testApplicationId "${rootProject.applicationId}.test"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    ndkVersion '22.0.7026061'
     signingConfigs {
         debugSigningConfig {
             (keyAlias, keyPassword, storePassword) = ['123456', '123456', '123456']
@@ -128,11 +110,10 @@ configurations {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    teenager("${project.path} app begin ========================================================================================")
-    def deps = rootProject.ext.findDepProjects(project.path)
-    for (def d : deps) {
-        teenager("api  ${d}")
-        api d
+    project.importDeps(project){dep->
+        teenager("implementation  ${dep}")
+        project.dependencies.add("implementation", dep)
+        return findDeps(dep)
     }
     teenager("${project.path} app end ========================================================================================")
 }

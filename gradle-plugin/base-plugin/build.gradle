@@ -33,19 +33,13 @@ dependencies {
 //    implementation group: 'org.ow2.asm', name: 'asm-commons', version: '5.1'
 
 }
-//java {
-//    withJavadocJar()
-//    withSourcesJar()
-//}
-group 'com.jamesfchen'
-version '1.0.0'
 
 //发布到maven
-//apply from: "${rootDir}/script/publisher.gradle"
-//publish {
-//    name="base-plugin"
-//    groupId = "io.github.jamesfchen"
-//    artifactId = "base-plugin"
-//    version = "1.0.0"
-//    website = "https://github.com/JamesfChen/spacecraft-android-gradle-plugin"
-//}
+apply from: "${rootDir}/script/module_publisher.gradle"
+publish {
+    name="base-plugin"
+    groupId = rootProject.groupId
+    artifactId = "base-plugin"
+    version = "1.0.0"
+    website = "https://github.com/JamesfChen/bundles-assembler"
+}

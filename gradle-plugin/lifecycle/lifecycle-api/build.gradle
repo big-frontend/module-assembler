@@ -38,11 +38,11 @@ dependencies {
     api "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
     api "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
 }
-apply from: "${rootDir}/script/publisher.gradle"
+apply from: "${rootDir}/script/module_publisher.gradle"
 publish{
     name="lifecycle-api"
     groupId = rootProject.groupId
     artifactId = "lifecycle-api"
     version = "1.0.3"
-    website = "https://github.com/JamesfChen/spacecraft-android-gradle-plugin"
+    website = "https://github.com/JamesfChen/bundles-assembler"
 }

@@ -19,11 +19,11 @@ java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
-apply from: "${rootDir}/script/publisher.gradle"
+apply from: "${rootDir}/script/module_publisher.gradle"
 publish{
     name="ibc-compiler"
     groupId = rootProject.groupId
     artifactId = "ibc-compiler"
     version = "1.0.0"
-    website = "https://github.com/JamesfChen/spacecraft-android-gradle-plugin"
+    website = "https://github.com/JamesfChen/bundles-assembler"
 }
