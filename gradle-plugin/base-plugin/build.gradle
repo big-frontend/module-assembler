@@ -40,6 +40,6 @@ publish {
     name="base-plugin"
     groupId = rootProject.groupId
     artifactId = "base-plugin"
-    version = "1.0.0"
+    version = "1.0.1"
     website = "https://github.com/JamesfChen/bundles-assembler"
 }
