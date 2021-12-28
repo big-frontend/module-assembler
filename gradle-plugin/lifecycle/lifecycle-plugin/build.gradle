@@ -5,7 +5,7 @@ plugins {
 gradlePlugin {
     plugins {
         lifecycleplugin {
-            id = 'com.github.jamesfchen.lifecycle-plugin'
+            id = "${rootProject.groupId}.lifecycle-plugin"
             implementationClass = 'com.jamesfchen.lifecycle.InjectLifecyclePlugin'
         }
     }
@@ -35,7 +35,7 @@ pluginBundle {
         }
     }
     mavenCoordinates {
-        groupId = 'com.github.jamesfchen'
+        groupId = rootProject.groupId
         artifactId = "lifecycle-plugin"
         version = "1.0.0"
     }

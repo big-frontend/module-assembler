@@ -17,7 +17,7 @@ pluginBundle {
         }
     }
     mavenCoordinates {
-        groupId = 'com.github.jamesfchen'
+        groupId = rootProject.groupId
         artifactId = "ibc-plugin"
         version = "1.0.0"
     }
@@ -37,7 +37,7 @@ apply plugin: "java-gradle-plugin"
 gradlePlugin {
     plugins {
         ibcplugin {
-            id = 'com.github.jamesfchen.ibc-plugin'
+            id = "${rootProject.groupId}.ibc-plugin"
             implementationClass = 'com.jamesfchen.ibc.IbcPlugin'
             displayName = 'inter-bundle communication  plugin'
             description = "inter-bundle communication annotation"
