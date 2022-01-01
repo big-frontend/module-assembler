@@ -1,5 +1,6 @@
 package com.jamesfchen.ibc
 
+
 import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.ClassWriter
@@ -8,7 +9,7 @@ import org.objectweb.asm.Opcodes
 class ScanRouterClassVisitor extends ClassVisitor {
     private static final String ROUTER_ANNOTATION_DESC = "Lcom/jamesfchen/ibc/Router;"
     boolean hasRouterAnnotation = false
-    String canonicalName
+    String routerClassDescriptor
     String routerName
     List<RouterInfo> routers
 
@@ -20,7 +21,7 @@ class ScanRouterClassVisitor extends ClassVisitor {
     @Override
     void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         super.visit(version, access, name, signature, superName, interfaces)
-        canonicalName = name
+        routerClassDescriptor = "L" + name + ";"
     }
 
     @Override
@@ -48,7 +49,7 @@ class ScanRouterClassVisitor extends ClassVisitor {
         super.visitEnd()
         if (hasRouterAnnotation) {
             if (routers != null) {
-                routers.add(new RouterInfo(routerName,canonicalName))
+                routers.add(new RouterInfo(routerName,routerClassDescriptor))
             }
         }
     }

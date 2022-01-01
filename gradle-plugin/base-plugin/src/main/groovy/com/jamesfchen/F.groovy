@@ -1,4 +1,4 @@
-package com.jamesfchen.util
+package com.jamesfchen
 
 
 import java.util.zip.ZipFile

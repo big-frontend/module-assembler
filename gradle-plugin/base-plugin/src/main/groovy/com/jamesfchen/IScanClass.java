@@ -8,11 +8,11 @@ package com.jamesfchen;
  * @since: Nov/28/2021  Sun
  */
 public interface IScanClass {
-    public void onScanBegin();
+    void onScanBegin();
 
-    public void onScanClassInDir(ClassInfo info);
+    void onScanClassInDir(ClassInfo info);
 
-    public void onScanClassInJar(ClassInfo info);
+    void onScanClassInJar(ClassInfo info);
 
-    public void onScanEnd();
+    void onScanEnd();
 }

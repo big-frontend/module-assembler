@@ -10,11 +10,11 @@ import java.io.InputStream;
  * @author: jamesfchen
  * @since: Nov/28/2021  Sun
  */
-class ClassInfo{
-    File mather;//jar or dir
-    File classFile;
-    InputStream classStream;
-    String canonicalName;
+public class ClassInfo{
+    public File mather;//jar or dir
+    public File classFile;
+    public InputStream classStream;
+    public String canonicalName;
 
     ClassInfo(File mather, InputStream classStream, String canonicalName) {
         this.mather = mather;

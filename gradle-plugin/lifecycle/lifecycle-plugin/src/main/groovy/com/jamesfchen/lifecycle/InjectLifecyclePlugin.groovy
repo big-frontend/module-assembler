@@ -2,8 +2,8 @@ package com.jamesfchen.lifecycle
 
 import com.jamesfchen.ClassInfo
 import com.jamesfchen.ScanClassPlugin
-import com.jamesfchen.util.Injector
-import com.jamesfchen.util.P
+import com.jamesfchen.Injector
+import com.jamesfchen.P
 import org.gradle.api.Project
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassVisitor

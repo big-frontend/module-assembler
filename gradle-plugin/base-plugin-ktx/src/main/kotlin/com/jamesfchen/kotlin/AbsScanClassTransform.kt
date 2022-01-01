@@ -19,6 +19,14 @@ abstract class AbsScanClassTransform : Transform(), IScanClass {
     @CallSuper
     @Throws(TransformException::class, InterruptedException::class, IOException::class)
     override fun transform(transformInvocation: TransformInvocation) {
+        val start = System.currentTimeMillis();
+        if (!isIncremental()){
+            try {
+                transformInvocation.outputProvider.deleteAll()
+            } catch ( e:IOException) {
+                error(e.getLocalizedMessage())
+            }
+        }
         val outputProvider = transformInvocation.outputProvider
         onScanBegin()
         transformInvocation.inputs.forEach { input: TransformInput ->
@@ -59,6 +67,10 @@ abstract class AbsScanClassTransform : Transform(), IScanClass {
                     val fileName = it.name.substring(it.name.lastIndexOf("/") + 1)
                     if (fileName.endsWith(".class")
                         && !(fileName == "R.class" || fileName.startsWith("R\$") || fileName == "BuildConfig.class")
+                        || canonicalName.startsWith("androidx")
+                        || canonicalName.startsWith("android")
+                        || canonicalName.startsWith("kotlin")
+                        || canonicalName.startsWith("org.bouncycastle")
                     ) {
                         onScanClassInJar(ClassInfo(destJar, inputStream, canonicalName))
                     }
@@ -69,5 +81,7 @@ abstract class AbsScanClassTransform : Transform(), IScanClass {
             }
         }
         onScanEnd()
+        val cost = System.currentTimeMillis() - start
+        info("Transform cost : $cost ms")
     }
 }

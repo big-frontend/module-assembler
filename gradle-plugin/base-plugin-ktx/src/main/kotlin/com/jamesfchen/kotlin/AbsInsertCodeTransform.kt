@@ -26,6 +26,14 @@ abstract class AbsInsertCodeTransform : Transform(), IInsertCode {
     @CallSuper
     @Throws(TransformException::class, InterruptedException::class, IOException::class)
     override fun transform(transformInvocation: TransformInvocation) {
+        val start = System.currentTimeMillis();
+        if (!isIncremental()){
+            try {
+                transformInvocation.outputProvider.deleteAll()
+            } catch ( e:IOException) {
+                error(e.getLocalizedMessage())
+            }
+        }
         val outputProvider = transformInvocation.outputProvider
         onInsertCodeBegin()
         transformInvocation.inputs.forEach { input: TransformInput ->
@@ -86,6 +94,10 @@ abstract class AbsInsertCodeTransform : Transform(), IInsertCode {
                     if (!fileName.endsWith(".class") || (fileName == ("R.class"))
                         || fileName.startsWith("R\$")
                         || (fileName == ("BuildConfig.class"))
+                        || canonicalName.startsWith("androidx")
+                        || canonicalName.startsWith("android")
+                        || canonicalName.startsWith("kotlin")
+                        || canonicalName.startsWith("org.bouncycastle")
                     ) {
                         jarOutputStream.write(inputStream.readBytes())
                         inputStream.close()
@@ -112,6 +124,8 @@ abstract class AbsInsertCodeTransform : Transform(), IInsertCode {
         }
 
         onInsertCodeEnd()
+        val cost = System.currentTimeMillis() - start
+        info("Transform cost : $cost ms")
     }
 
 

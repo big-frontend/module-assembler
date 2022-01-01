@@ -1,6 +1,6 @@
 package com.jamesfchen.ibc
 
-import com.jamesfchen.util.P
+import com.jamesfchen.P
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
@@ -10,7 +10,7 @@ import org.objectweb.asm.commons.AdviceAdapter
 class RouterInjectorClassVisitor extends ClassVisitor{
     List<RouterInfo> routers
     private hasInitMethod =false
-
+    static final String ROUTERSMANAGER_CLASS_PATH = "com/jamesfchen/ibc/router/RoutersManager";
     RouterInjectorClassVisitor(ClassVisitor classVisitor, List<RouterInfo> routers) {
         super(Opcodes.ASM6, classVisitor)
         this.routers = routers
@@ -41,10 +41,10 @@ class RouterInjectorClassVisitor extends ClassVisitor{
             protected void onMethodExit(int opcode) {
                 super.onMethodExit(opcode)
                 routers.each {
-                    methodVisitor.visitMethodInsn(INVOKESTATIC, "com/jamesfchen/ibc/route/RoutersManager", "getInstance", "()Lcom/jamesfchen/ibc/route/RoutersManager;", false)
+                    methodVisitor.visitMethodInsn(INVOKESTATIC, ROUTERSMANAGER_CLASS_PATH, "getInstance", "()Lcom/jamesfchen/ibc/router/RoutersManager;", false)
                     methodVisitor.visitLdcInsn(it.name)
-                    methodVisitor.visitLdcInsn(Type.getType("L" + it.canonicalName + ";"))
-                    methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "com/jamesfchen/ibc/route/RoutersManager", "register", "(Ljava/lang/String;Ljava/lang/Class;)V", false)
+                    methodVisitor.visitLdcInsn(Type.getType(it.descriptor))
+                    methodVisitor.visitMethodInsn(INVOKEVIRTUAL, ROUTERSMANAGER_CLASS_PATH, "register", "(Ljava/lang/String;Ljava/lang/Class;)V", false)
                 }
 
             }

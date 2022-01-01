@@ -17,6 +17,14 @@ abstract class AbsInsertCodeTransform extends Transform implements IInsertCode {
 
     @Override
     void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
+        long start = System.currentTimeMillis();
+        if (!isIncremental()){
+            try {
+                transformInvocation.outputProvider.deleteAll()
+            } catch (IOException e) {
+                P.error(e.getLocalizedMessage())
+            }
+        }
         def outputProvider = transformInvocation.outputProvider
         onInsertCodeBegin()
         transformInvocation.inputs.each { TransformInput input ->
@@ -37,7 +45,8 @@ abstract class AbsInsertCodeTransform extends Transform implements IInsertCode {
 
                 destDir.eachFileRecurse(FileType.FILES) {
                     if (!it.name.endsWith(".class") || (it.name == ("R.class"))
-                            || it.name.startsWith("R\$") || (it.name == ("BuildConfig.class"))) {
+                            || it.name.startsWith("R\$") || (it.name == ("BuildConfig.class"))
+                    ) {
                         return
                     }
                     def classPath = it.absolutePath.replace(rootPath, '')
@@ -80,6 +89,7 @@ abstract class AbsInsertCodeTransform extends Transform implements IInsertCode {
                     String fileName = jarName.substring(jarName.lastIndexOf('/') + 1)
                     if (!fileName.endsWith(".class") || (fileName == ("R.class"))
                             || fileName.startsWith("R\$")
+                            || canonicalName.contains("org.bouncycastle")
                             || (fileName == ("BuildConfig.class"))) {
                         jarOutputStream.write(inputStream.bytes)
                         inputStream.close()
@@ -107,6 +117,8 @@ abstract class AbsInsertCodeTransform extends Transform implements IInsertCode {
         }
 
         onInsertCodeEnd()
+        def cost = System.currentTimeMillis() - start
+        P.info("Transform cost : $cost ms")
     }
 
 

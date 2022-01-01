@@ -1,18 +1,18 @@
 package com.jamesfchen.ibc
 class RouterInfo{
     String name
-    String canonicalName
+    String descriptor
 
-    RouterInfo(String name, String canonicalName) {
+    RouterInfo(String name, String descriptor) {
         this.name = name
-        this.canonicalName = canonicalName
+        this.descriptor = descriptor
     }
 
     @Override
     String toString() {
         return "RouterInfo{" +
                 "name='" + name + '\'' +
-                ", canonicalName='" + canonicalName + '\'' +
+                ", descriptor='" + descriptor + '\'' +
                 '}';
     }
 }

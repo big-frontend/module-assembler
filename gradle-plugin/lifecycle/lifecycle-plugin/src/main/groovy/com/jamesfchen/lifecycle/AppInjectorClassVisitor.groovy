@@ -1,6 +1,6 @@
 package com.jamesfchen.lifecycle
 
-import com.jamesfchen.util.P
+import com.jamesfchen.P
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes

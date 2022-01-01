@@ -24,11 +24,16 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'com.google.gms:google-services:4.3.8'
         classpath 'com.google.firebase:perf-plugin:1.4.0'
-        classpath "com.github.jamesfchen:lifecycle-plugin:1.0.0"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
+        //没有配置classpath会去includeBuild项目找
+//        classpath "io.github.jamesfchen:ibc-plugin:1.0.1"
+//        classpath "io.github.jamesfchen:lifecycle-plugin:1.0.0"
     }
 }
-
+plugins {
+    id("io.github.jamesfchen.ibc-plugin") apply(false)
+    id("io.github.jamesfchen.lifecycle-plugin") apply(false)
+}
 allprojects {
     repositories {
         mavenCentral()

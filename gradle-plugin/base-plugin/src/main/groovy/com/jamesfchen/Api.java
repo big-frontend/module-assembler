@@ -1,4 +1,4 @@
-package com.jamesfchen.util;
+package com.jamesfchen;
 
 /**
  * Copyright ® $ 2017

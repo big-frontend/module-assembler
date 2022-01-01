@@ -7,19 +7,18 @@ pluginBundle {
     website = "https://github.com/JamesfChen/bundles-assembler"
     description = "inter-bundle communication  plugin"
     tags = ['app ibc']
-    version = '1.0.0'
     plugins {
         ibcplugin {
             displayName = 'ibc plugin'
 //            description = "组件化之后，组件监听app的生命周期工具"
             tags = ['app-ibc']
-            version '1.0.0'
+            version '1.0.1'
         }
     }
     mavenCoordinates {
         groupId = rootProject.groupId
         artifactId = "ibc-plugin"
-        version = "1.0.0"
+        version = "1.0.1"
     }
 }
 apply plugin: 'java'

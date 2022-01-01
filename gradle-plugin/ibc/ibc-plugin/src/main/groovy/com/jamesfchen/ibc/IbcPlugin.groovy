@@ -2,8 +2,8 @@ package com.jamesfchen.ibc
 
 import com.jamesfchen.ClassInfo
 import com.jamesfchen.ScanClassPlugin
-import com.jamesfchen.util.Injector
-import com.jamesfchen.util.P
+import com.jamesfchen.P
+import com.jamesfchen.Injector
 import org.gradle.api.Project
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassVisitor
@@ -12,7 +12,7 @@ import org.objectweb.asm.ClassWriter
 class IbcPlugin extends ScanClassPlugin {
     List<RouterInfo> routers
     ClassInfo ibcRouterClassInfo
-
+    static final String IBCROUTER_CANONICAL_NAME = "com.jamesfchen.ibc.router.IBCRouter";
     @Override
     String pluginName() {
         return "Ibc"
@@ -25,11 +25,12 @@ class IbcPlugin extends ScanClassPlugin {
     @Override
     void onScanBegin() {
         routers = new ArrayList<>()
+
     }
 
     @Override
     void onScanClassInDir(ClassInfo classInfo) {
-        if (classInfo.canonicalName == "com.jamesfchen.ibc.route.IBCRouter") {
+        if (classInfo.canonicalName == IBCROUTER_CANONICAL_NAME) {
             ibcRouterClassInfo = classInfo
             return
         }
@@ -41,7 +42,7 @@ class IbcPlugin extends ScanClassPlugin {
 
     @Override
     void onScanClassInJar(ClassInfo classInfo) {
-        if (classInfo.canonicalName == "com.jamesfchen.ibc.route.IBCRouter") {
+        if (classInfo.canonicalName == IBCROUTER_CANONICAL_NAME) {
             ibcRouterClassInfo = classInfo
             return
         }

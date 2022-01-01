@@ -1,4 +1,4 @@
-import com.jamesfchen.ClassInfo
+package com.jamesfchen
 
 class Inject {
     ClassInfo  classInfo

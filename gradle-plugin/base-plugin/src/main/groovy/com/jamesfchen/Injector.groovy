@@ -1,4 +1,4 @@
-package com.jamesfchen.util
+package com.jamesfchen
 
 import com.jamesfchen.ClassInfo
 import org.apache.commons.io.FileUtils

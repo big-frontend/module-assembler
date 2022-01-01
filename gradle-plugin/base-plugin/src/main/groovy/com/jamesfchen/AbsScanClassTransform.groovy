@@ -3,9 +3,11 @@ package com.jamesfchen
 import androidx.annotation.CallSuper
 import com.android.build.api.transform.*
 import groovy.io.FileType
+import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 
 import java.util.jar.JarFile
+
 abstract class AbsScanClassTransform extends Transform implements IScanClass {
 
     @Override
@@ -16,6 +18,14 @@ abstract class AbsScanClassTransform extends Transform implements IScanClass {
     @CallSuper
     @Override
     void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
+        long start = System.currentTimeMillis()
+        if (!isIncremental()){
+            try {
+                transformInvocation.outputProvider.deleteAll()
+            } catch (IOException e) {
+               P.error(e.getLocalizedMessage())
+            }
+        }
         def outputProvider = transformInvocation.outputProvider
         onScanBegin()
         transformInvocation.inputs.each { TransformInput input ->
@@ -48,8 +58,14 @@ abstract class AbsScanClassTransform extends Transform implements IScanClass {
             //jar包，jar包或者aar包
             for (int k = 0; k < input.jarInputs.size(); ++k) {
                 JarInput jarInput = input.jarInputs[k]
+                def destName = jarInput.file.name
+                /* 重名名输出文件,因为可能同名,会覆盖*/
+                def hexName = DigestUtils.md5Hex(jarInput.file.absolutePath).substring(0, 8)
+                if (destName.endsWith(".jar")) {
+                    destName = destName.substring(0, destName.length() - 4)
+                }
                 File destJar = outputProvider.getContentLocation(
-                        jarInput.getName(), jarInput.getContentTypes(),
+                        destName + "_" + hexName, jarInput.getContentTypes(),
                         jarInput.getScopes(), Format.JAR
                 )
                 FileUtils.copyFile(jarInput.file, destJar)
@@ -61,7 +77,12 @@ abstract class AbsScanClassTransform extends Transform implements IScanClass {
                     def fileName = it.name.substring(it.name.lastIndexOf('/') + 1)
                     if (!fileName.endsWith(".class") || (fileName == ("R.class"))
                             || fileName.startsWith("R\$")
-                            || (fileName == ("BuildConfig.class"))) {
+                            || fileName == "BuildConfig.class"
+                            || canonicalName.startsWith("androidx")
+                            || canonicalName.startsWith("android")
+                            || canonicalName.startsWith("kotlin")
+                            || canonicalName.startsWith("org.bouncycastle")
+                    ) {
                         return
                     }
                     onScanClassInJar(new ClassInfo(destJar, inputStream, canonicalName))
@@ -73,5 +94,7 @@ abstract class AbsScanClassTransform extends Transform implements IScanClass {
         }
 
         onScanEnd()
+        def cost = System.currentTimeMillis() - start
+        P.info("Transform cost : $cost ms")
     }
 }
