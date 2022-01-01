@@ -9,3 +9,11 @@ java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
+apply from: "${rootDir}/script/module_publisher.gradle"
+publish {
+    name = "ibc-annotations"
+    groupId = rootProject.groupId
+    artifactId = "ibc-annotations"
+    version = "1.0.0"
+    website = "https://github.com/JamesfChen/bundles-assembler"
+}

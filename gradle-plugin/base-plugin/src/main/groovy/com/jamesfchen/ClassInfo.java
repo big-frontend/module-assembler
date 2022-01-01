@@ -7,8 +7,6 @@ import java.io.InputStream;
  * Copyright ® $ 2017
  * All right reserved.
  *
- * @author: jamesfchen
- * @since: Nov/28/2021  Sun
  */
 public class ClassInfo{
     public File mather;//jar or dir

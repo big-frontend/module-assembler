@@ -7,8 +7,8 @@ import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.Opcodes
 
 class ScanLifecycleClassVisitor extends ClassVisitor{
-    private static final String APP_LIFECYCLE_ANNOTATION_DESC = "Lcom/jamesfchen/lifecycle/AppLifecycle;"
-    private static final String APP_ANNOTATION_DESC = "Lcom/jamesfchen/lifecycle/App;"
+    private static final String APP_LIFECYCLE_ANNOTATION_DESCRIPTOR = "Lcom/jamesfchen/lifecycle/AppLifecycle;"
+    private static final String APP_ANNOTATION_DESCRIPTOR = "Lcom/jamesfchen/lifecycle/App;"
     boolean hasAppAnnotation=false
     boolean hasAppLifecycleAnnotation=false
     String canonicalName
@@ -31,9 +31,9 @@ class ScanLifecycleClassVisitor extends ClassVisitor{
 
     @Override
     AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-        if (APP_LIFECYCLE_ANNOTATION_DESC == descriptor){
+        if (APP_LIFECYCLE_ANNOTATION_DESCRIPTOR == descriptor){
             hasAppLifecycleAnnotation = true
-        }else if (APP_ANNOTATION_DESC == descriptor){
+        }else if (APP_ANNOTATION_DESCRIPTOR == descriptor){
             hasAppAnnotation = true
         }
         return super.visitAnnotation(descriptor, visible)

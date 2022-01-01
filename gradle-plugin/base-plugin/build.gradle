@@ -29,4 +29,5 @@ publish {
     artifactId = "base-plugin"
     version = "1.0.2"
     website = "https://github.com/JamesfChen/bundles-assembler"
+    buildVariant = "java"
 }

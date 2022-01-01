@@ -26,40 +26,21 @@ pluginBundle {
     vcsUrl = 'https://github.com/JamesfChen/bundles-assembler'
     website = "https://github.com/JamesfChen/bundles-assembler"
     description = "monitor app lifecycle for bundle project"
+    tags = ['app-lifecycle']
     plugins {
         lifecycleplugin {
             displayName = 'lifecycle plugin'
 //            description = "组件化之后，组件监听app的生命周期工具"
             tags = ['app-lifecycle']
-            version '1.0.0'
+            version '1.0.1'
         }
     }
     mavenCoordinates {
         groupId = rootProject.groupId
         artifactId = "lifecycle-plugin"
-        version = "1.0.0"
+        version = "1.0.1"
     }
 }
-//java {
-//    withJavadocJar()
-//    withSourcesJar()
-//}
-//发布到maven
-//apply from: "${rootDir}/script/publisher_plugin.gradle"
-//publish {
-//    name="lifecycle-plugin"
-//    groupId = "com.jamesfchen"
-//    artifactId = "lifecycle-plugin"
-//    version = "1.0.0"
-//    website = "https://github.com/JamesfChen/bundles-assembler"
-//}
-//publish {
-//    name="lifecycle-plugin"
-//    groupId = "io.github.jamesfchen"
-//    artifactId = "lifecycle-plugin"
-//    version = "1.0.0"
-//    website = "https://github.com/JamesfChen/bundles-assembler"
-//}
 dependencies {
-    api project(':base-plugin')
+    implementation project(':base-plugin')
 }
