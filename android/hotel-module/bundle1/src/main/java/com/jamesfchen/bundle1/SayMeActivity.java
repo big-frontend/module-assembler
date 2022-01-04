@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.google.firebase.perf.metrics.AddTrace;
 import com.jamesfchen.ibc.router.IBCRouter;
 
+import java.net.URI;
+
 /**
  * Copyright ® $ 2017
  * All right reserved.
@@ -41,7 +43,8 @@ public class SayMeActivity extends Activity {
 //                            .withLong("key1", 666L)
 //                            .withString("key3", "888")
 //                            .navigation();
-                IBCRouter.goNativeBundle(SayMeActivity.this,"bundle2router/sayhi");
+                IBCRouter.go(SayMeActivity.this,"bundle2router","sayhi");
+//                IBCRouter.openUri(SayMeActivity.this, URI.create("reactnative://bundle1SchemaRouter/bundle2"));
 //
             }
         });

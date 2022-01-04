@@ -1,5 +1,8 @@
 package com.jamesfchen.ibc.router
 
+import android.content.Context
+import java.net.URI
+
 /**
  * Copyright ® $ 2017
  * All right reserved.
@@ -7,6 +10,6 @@ package com.jamesfchen.ibc.router
  * author: jamesfchen
  * since: Jul/02/2021  Fri
  */
-interface IFlutterRouter {
-    fun go():Boolean
+interface ISchemaRouter {
+    fun onOpenUri(cxt: Context, uri: URI): Boolean
 }

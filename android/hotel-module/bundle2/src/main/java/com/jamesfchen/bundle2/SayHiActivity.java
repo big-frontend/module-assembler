@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.firebase.perf.metrics.AddTrace;
 import com.jamesfchen.ibc.router.IBCRouter;
+
+import java.net.URI;
 
 /**
  * Copyright ® $ 2017
@@ -41,7 +42,7 @@ public  class SayHiActivity extends Activity {
 //                            .withString("key3", "888")
 //                            .navigation();
 
-                IBCRouter.goNativeBundle(SayHiActivity.this,"bundle1router/sayme");
+                IBCRouter.go(SayHiActivity.this,"bundle1router","sayme");
             }
         });
     }

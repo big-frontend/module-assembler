@@ -1,6 +1,7 @@
 package com.jamesfchen.ibc.router;
 
-import android.content.Context;
+import static com.jamesfchen.ibc.Constants.ROUTER_TAG;
+
 import android.util.Log;
 
 import androidx.collection.ArrayMap;
@@ -14,26 +15,19 @@ import androidx.collection.ArrayMap;
  * @since 7月/08/2021  周四
  */
 public class RoutersManager {
-    private ArrayMap<String, IHybridRouter> hybridRouters;
-    private ArrayMap<String, IFlutterRouter> flutterRouters;
-    private ArrayMap<String, IReactNativeRouter> reactNativeRouters;
-    private ArrayMap<String, INativeRouter> nativeRouters;
+    private ArrayMap<String, ISchemaRouter> schemaRouters;
+    private ArrayMap<String, IModuleRouter> moduleRouters;
     private ArrayMap<String, Class<?>> registerRouters;
     private static final String ROUTER_CONFIG = "BundleManifest.xml";
     RoutersManager(){
-        nativeRouters = new ArrayMap<>();
+        moduleRouters = new ArrayMap<>();
+        schemaRouters = new ArrayMap<>();
         registerRouters = new ArrayMap<>();
     }
     public static RoutersManager getInstance() {
         return LazyHolder.INSTANCE;
     }
 
-    ArrayMap<String, IHybridRouter> getHybridRouters(Context cxt) {
-        if (hybridRouters == null) {
-//            XmlParser.parse(cxt.assets.open(ROUTER_CONFIG))
-        }
-        return hybridRouters;
-    }
 
     void getFlutterRouters() {
     }
@@ -48,25 +42,43 @@ public class RoutersManager {
         registerRouters.put(routerName, clz);
     }
 
-    public INativeRouter find(String routerName) {
-        INativeRouter iNativeRouter = nativeRouters.get(routerName);
-        if (iNativeRouter ==null){
+    public IModuleRouter findModuleRouter(String routerName) {
+        IModuleRouter moduleRouter = moduleRouters.get(routerName);
+        if (moduleRouter ==null){
             Class<?> aClass = registerRouters.get(routerName);
             if (aClass ==null){
                 throw new IllegalArgumentException(routerName +" 路由器没有注册");
             }
             try {
-                iNativeRouter = (INativeRouter) aClass.newInstance();
-                nativeRouters.put(routerName, (INativeRouter) iNativeRouter);
+                moduleRouter = (IModuleRouter) aClass.newInstance();
+                moduleRouters.put(routerName, (IModuleRouter) moduleRouter);
             } catch (IllegalAccessException | InstantiationException e) {
                 e.printStackTrace();
-                Log.d("cjf",Log.getStackTraceString(e));
+                Log.d(ROUTER_TAG,Log.getStackTraceString(e));
                 return null;
             }
         }
-        return iNativeRouter;
+        return moduleRouter;
     }
 
+    public ISchemaRouter findSchemaRouter(String routerName) {
+        ISchemaRouter schemaRouter = schemaRouters.get(routerName);
+        if (schemaRouter ==null){
+            Class<?> aClass = registerRouters.get(routerName);
+            if (aClass ==null){
+                throw new IllegalArgumentException(routerName +" 路由器没有注册");
+            }
+            try {
+                schemaRouter = (ISchemaRouter) aClass.newInstance();
+                schemaRouters.put(routerName, (ISchemaRouter) schemaRouter);
+            } catch (IllegalAccessException | InstantiationException e) {
+                e.printStackTrace();
+                Log.d(ROUTER_TAG,Log.getStackTraceString(e));
+                return null;
+            }
+        }
+        return schemaRouter;
+    }
     private static class LazyHolder {
         static final RoutersManager INSTANCE = new RoutersManager();
 

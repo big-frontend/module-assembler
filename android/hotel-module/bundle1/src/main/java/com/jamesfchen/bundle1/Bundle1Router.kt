@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.jamesfchen.ibc.Router
-import com.jamesfchen.ibc.router.INativeRouter
+import com.jamesfchen.ibc.router.IModuleRouter
 
 /**
  * Copyright ® $ 2021
@@ -15,8 +15,8 @@ import com.jamesfchen.ibc.router.INativeRouter
  * @since: 六月/30/2021  星期三
  */
 @Router(name = "bundle1router")
-class Bundle1Router : INativeRouter {
-    override fun go(cxt: Context, page: String?, bundle: Bundle?): Boolean {
+class Bundle1Router : IModuleRouter {
+    override fun onGo(cxt: Context, page: String, bundle: Bundle?): Boolean {
         if ("sayme".equals(page, ignoreCase = true)) {
             val intent = Intent(cxt, SayMeActivity::class.java)
             cxt.startActivity(intent)

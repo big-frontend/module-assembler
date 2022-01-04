@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<routers>
-    <router name="com.jamesfchen.bundle2.Bundle2Router" scheme="bundle">
-        <page name="com.jamesfchen.bundle2.SayHiActivity">
-            <param name="from" type="String"/>
-        </page>
-    </router>
-</routers>

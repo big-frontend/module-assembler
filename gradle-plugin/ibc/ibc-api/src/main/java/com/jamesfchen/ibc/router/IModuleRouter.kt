@@ -10,6 +10,6 @@ import android.os.Bundle
  * author: jamesfchen
  * since: Jul/02/2021  Fri
  */
-interface INativeRouter: IRouter {
-    fun go(cxt: Context, page: String?, bundle: Bundle?): Boolean
+interface IModuleRouter: IRouter {
+    fun onGo(cxt: Context, page: String, bundle: Bundle?): Boolean
 }
