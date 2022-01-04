@@ -11,8 +11,9 @@ import org.objectweb.asm.ClassWriter
 
 class IbcPlugin extends ScanClassPlugin {
     List<RouterInfo> routers
-    ClassInfo ibcRouterClassInfo
-    static final String IBCROUTER_CANONICAL_NAME = "com.jamesfchen.ibc.router.IBCRouter";
+    List<ApiInfo> apis
+    ClassInfo ibcClassInfo
+    static final String IBC_CANONICAL_NAME = "com.jamesfchen.ibc.IBCInitializer";
     @Override
     String pluginName() {
         return "Ibc"
@@ -25,41 +26,44 @@ class IbcPlugin extends ScanClassPlugin {
     @Override
     void onScanBegin() {
         routers = new ArrayList<>()
+        apis = new ArrayList<>()
 
     }
 
     @Override
     void onScanClassInDir(ClassInfo classInfo) {
-        if (classInfo.canonicalName == IBCROUTER_CANONICAL_NAME) {
-            ibcRouterClassInfo = classInfo
+        if (classInfo.canonicalName == IBC_CANONICAL_NAME) {
+            ibcClassInfo = classInfo
             return
         }
         ClassReader reader = new ClassReader(classInfo.classFile.bytes)
         ClassWriter writer = new ClassWriter(reader, 0)
-        ClassVisitor visitor = new ScanRouterClassVisitor(writer, routers)
+        ClassVisitor visitor = new ScanIbcInfoClassVisitor(writer, routers,apis)
         reader.accept(visitor, ClassReader.SKIP_FRAMES)
     }
 
     @Override
     void onScanClassInJar(ClassInfo classInfo) {
-        if (classInfo.canonicalName == IBCROUTER_CANONICAL_NAME) {
-            ibcRouterClassInfo = classInfo
+        if (classInfo.canonicalName == IBC_CANONICAL_NAME) {
+            ibcClassInfo = classInfo
             return
         }
         ClassReader reader = new ClassReader(classInfo.classStream)
         ClassWriter writer = new ClassWriter(reader, 0)
-        ClassVisitor visitor = new ScanRouterClassVisitor(writer, routers)
+        ClassVisitor visitor = new ScanIbcInfoClassVisitor(writer, routers,apis)
         reader.accept(visitor, ClassReader.SKIP_FRAMES)
     }
 
     @Override
     void onScanEnd() {
-        P.info("routers:${routers.toListString()} IBCRouter:${ibcRouterClassInfo}")
-        if (routers.isEmpty() ||ibcRouterClassInfo ==null) return
-        Injector.injectCode(ibcRouterClassInfo) { type, classStream ->
+        P.info("ibc initializer ${ibcClassInfo}")
+        P.info("routers:${routers.toListString()}")
+        P.info("apis:${apis.toListString()}")
+        if (routers.isEmpty() ||ibcClassInfo ==null) return
+        Injector.injectCode(ibcClassInfo) { type, classStream ->
             ClassReader reader = new ClassReader(classStream)
             ClassWriter writer = new ClassWriter(reader, 0)
-            ClassVisitor visitor = new RouterInjectorClassVisitor(writer, routers)
+            ClassVisitor visitor = new IbcInjectorClassVisitor(writer, routers,apis)
             reader.accept(visitor, ClassReader.SKIP_FRAMES)
             return writer.toByteArray()
         }

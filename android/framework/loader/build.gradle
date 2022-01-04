@@ -35,7 +35,7 @@ dependencies {
     api 'androidx.multidex:multidex:2.0.1'
 
     api "io.github.jamesfchen:lifecycle-api:1.0.2"
-    api 'io.github.jamesfchen:ibc-api:1.0.0'
+    api 'io.github.jamesfchen:ibc-api:1.2.0'
     api 'com.alibaba:arouter-api:1.3.2'
     api 'io.github.meituan-dianping:router:1.2.1'
 }

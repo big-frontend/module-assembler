@@ -1,1 +1,4 @@
 apply from: "$rootDir.path/script/bundle_module.gradle"
+dependencies {
+    api project(":hotel-module:export")
+}

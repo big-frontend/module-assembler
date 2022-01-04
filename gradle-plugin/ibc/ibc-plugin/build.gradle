@@ -12,13 +12,13 @@ pluginBundle {
             displayName = 'ibc plugin'
 //            description = "组件化之后，组件监听app的生命周期工具"
             tags = ['app-ibc']
-            version '1.0.1'
+            version '1.2.0'
         }
     }
     mavenCoordinates {
         groupId = rootProject.groupId
         artifactId = "ibc-plugin"
-        version = "1.0.1"
+        version = "1.2.0"
     }
 }
 apply plugin: 'java'

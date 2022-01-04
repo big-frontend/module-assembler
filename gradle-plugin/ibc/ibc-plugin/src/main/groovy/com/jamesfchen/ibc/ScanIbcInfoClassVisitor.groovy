@@ -6,28 +6,36 @@ import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.Opcodes
 
-class ScanRouterClassVisitor extends ClassVisitor {
+class ScanIbcInfoClassVisitor extends ClassVisitor {
     private static final String ROUTER_ANNOTATION_DESC = "Lcom/jamesfchen/ibc/Router;"
+    private static final String API_ANNOTATION_DESC = "Lcom/jamesfchen/ibc/Api;"
     boolean hasRouterAnnotation = false
-    String routerClassDescriptor
+    boolean hasApiAnnotation = false
+    String classDescriptor
     String routerName
     List<RouterInfo> routers
+    List<ApiInfo> api
 
-    ScanRouterClassVisitor(ClassWriter classVisitor, List<RouterInfo> routers) {
+    ScanIbcInfoClassVisitor(ClassWriter classVisitor, List<RouterInfo> routers,List<ApiInfo> api) {
         super(Opcodes.ASM6, classVisitor)
         this.routers = routers
+        this.api = api
     }
 
     @Override
     void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         super.visit(version, access, name, signature, superName, interfaces)
-        routerClassDescriptor = "L" + name + ";"
+        classDescriptor = "L" + name + ";"
     }
+
 
     @Override
     AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
         if (ROUTER_ANNOTATION_DESC == descriptor) {
             hasRouterAnnotation = true
+        }
+        if (API_ANNOTATION_DESC == descriptor) {
+            hasApiAnnotation = true
         }
         AnnotationVisitor av = super.visitAnnotation(descriptor, visible)
         av = new AnnotationVisitor(Opcodes.ASM5,av) {
@@ -49,7 +57,12 @@ class ScanRouterClassVisitor extends ClassVisitor {
         super.visitEnd()
         if (hasRouterAnnotation) {
             if (routers != null) {
-                routers.add(new RouterInfo(routerName,routerClassDescriptor))
+                routers.add(new RouterInfo(routerName,classDescriptor))
+            }
+        }
+        if (hasApiAnnotation) {
+            if (api != null) {
+                api.add(new ApiInfo(classDescriptor))
             }
         }
     }

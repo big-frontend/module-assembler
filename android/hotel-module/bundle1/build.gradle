@@ -14,3 +14,6 @@ apply from: "$rootDir.path/script/bundle_module.gradle"
 //    }
 //
 //}
+dependencies {
+    implementation project(":hotel-module:export")
+}

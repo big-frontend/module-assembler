@@ -1,34 +1,44 @@
-package com.jamesfchen.ibc.router;
-
-import static com.jamesfchen.ibc.Constants.ROUTER_TAG;
+package com.jamesfchen.ibc;
 
 import android.util.Log;
 
 import androidx.collection.ArrayMap;
 
+import com.jamesfchen.ibc.cbpc.IExport;
+import com.jamesfchen.ibc.router.IModuleRouter;
+import com.jamesfchen.ibc.router.ISchemaRouter;
+
+import static com.jamesfchen.ibc.Constants.ROUTER_TAG;
+
 /**
- * Copyright ® $ 2021
+ * Copyright ® $ 2017
  * All right reserved.
  *
- * @author jamesfchen
- * @email hawksjamesf@gmail.com
- * @since 7月/08/2021  周四
+ * @author: jamesfchen
+ * @since: Jan/04/2022  Tue
  */
-public class RoutersManager {
+public class Registry {
+    private static final String ROUTER_CONFIG = "BundleManifest.xml";
     private ArrayMap<String, ISchemaRouter> schemaRouters;
     private ArrayMap<String, IModuleRouter> moduleRouters;
     private ArrayMap<String, Class<?>> registerRouters;
-    private static final String ROUTER_CONFIG = "BundleManifest.xml";
-    RoutersManager(){
+    private ArrayMap<Class<?>, Class<?>> registerApis;
+    private ArrayMap<Class<?>, IExport> apis;
+
+    Registry(){
         moduleRouters = new ArrayMap<>();
         schemaRouters = new ArrayMap<>();
         registerRouters = new ArrayMap<>();
+        this.registerApis = new ArrayMap<>();
+        this.apis = new ArrayMap<>();
     }
-    public static RoutersManager getInstance() {
+    public static Registry getInstance() {
         return LazyHolder.INSTANCE;
     }
+    private static class LazyHolder {
+        static final Registry INSTANCE = new Registry();
 
-
+    }
     void getFlutterRouters() {
     }
 
@@ -38,7 +48,7 @@ public class RoutersManager {
     void getNativeRouters() {
     }
 
-    public void register(String routerName, Class<?> clz) {
+    public void registerRouter(String routerName, Class<?> clz) {
         registerRouters.put(routerName, clz);
     }
 
@@ -79,8 +89,26 @@ public class RoutersManager {
         }
         return schemaRouter;
     }
-    private static class LazyHolder {
-        static final RoutersManager INSTANCE = new RoutersManager();
-
+    public void registerApi(Class<?> clz) {
+        registerApis.put(clz.getSuperclass(), clz);
     }
+    public <T> T findApi(Class<T> clz) {
+        T api = (T) apis.get(clz);
+        if (api ==null){
+            Class<?> aClass = registerApis.get(clz);
+            if (aClass ==null){
+                throw new IllegalArgumentException(clz.getCanonicalName() +" api没有注册");
+            }
+            try {
+                api = (T) aClass.newInstance();
+                apis.put(clz, (IExport) api);
+            } catch (IllegalAccessException | InstantiationException e) {
+                e.printStackTrace();
+                Log.d(ROUTER_TAG,Log.getStackTraceString(e));
+                return null;
+            }
+        }
+        return api;
+    }
+
 }

@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.perf.metrics.AddTrace;
+import com.jamesfchen.export.ICall;
+import com.jamesfchen.ibc.cbpc.IBCCbpc;
 import com.jamesfchen.ibc.router.IBCRouter;
-
-import java.net.URI;
 
 /**
  * Copyright ® $ 2017
@@ -41,8 +41,10 @@ public  class SayHiActivity extends Activity {
 //                            .withLong("key1", 666L)
 //                            .withString("key3", "888")
 //                            .navigation();
-
-                IBCRouter.go(SayHiActivity.this,"bundle1router","sayme");
+                ICall api = IBCCbpc.findApi(ICall.class);
+                if (api.call()){
+                    IBCRouter.go(SayHiActivity.this,"bundle1router","sayme");
+                }
             }
         });
     }

@@ -15,5 +15,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS)
 //@Target({ElementType.TYPE,ElementType.FIELD,ElementType.METHOD,ElementType.LOCAL_VARIABLE})
 @Target(ElementType.TYPE)
-public @interface API {
+public @interface Api {
 }

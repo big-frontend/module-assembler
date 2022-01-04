@@ -1,0 +1,4 @@
+apply from: "$rootDir.path/script/api_module.gradle"
+dependencies {
+    api 'io.github.jamesfchen:ibc-api:1.2.0'
+}
