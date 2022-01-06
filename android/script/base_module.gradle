@@ -117,7 +117,8 @@ def findArtifact() {
     return [applicationId, moduleSimpleName]
 }
 def (applicationId, moduleSimpleName) = findArtifact()
-apply from: "${rootDir}/script/module_publisher.gradle"
+//apply from: "${rootDir}/script/module_publisher.gradle"
+apply plugin: "io.github.jamesfchen.module-publisher-plugin"
 publish {
     name = moduleSimpleName
     groupId = applicationId

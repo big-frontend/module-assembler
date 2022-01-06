@@ -12,7 +12,8 @@
 //}
 rootProject.name = "gradle-plugin"
 include(
-    ":base-plugin","base-plugin-ktx",
+    ":base-plugin", "base-plugin-ktx",
     ":lifecycle:lifecycle-api", ":lifecycle:lifecycle-plugin",
     ":ibc:ibc-api", ":ibc:complier", "ibc:ibc-plugin", ":ibc:annotations",
 )
+include(":module-publisher-plugin")

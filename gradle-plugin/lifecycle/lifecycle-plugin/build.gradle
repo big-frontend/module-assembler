@@ -26,12 +26,12 @@ pluginBundle {
     vcsUrl = 'https://github.com/JamesfChen/bundles-assembler'
     website = "https://github.com/JamesfChen/bundles-assembler"
     description = "monitor app lifecycle for bundle project"
-    tags = ['app-lifecycle']
+    tags = ['bundles-assembler']
     plugins {
-        lifecycleplugin {
+        lifecyclePlugin {
             displayName = 'lifecycle plugin'
 //            description = "组件化之后，组件监听app的生命周期工具"
-            tags = ['app-lifecycle']
+            tags = ['bundles-assembler']
             version '1.0.1'
         }
     }
