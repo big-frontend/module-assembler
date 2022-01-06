@@ -1,4 +1,5 @@
 package com.jamesfchen.publisher
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
@@ -6,6 +7,7 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.plugins.signing.SigningExtension
+
 /**
  * [Android库发布到Maven Central全攻略](https://xiaozhuanlan.com/topic/6174835029)
  * [发布android库AAR至mavenCentral看这篇文章就可以了](https://zhuanlan.zhihu.com/p/22351830)
@@ -38,16 +40,17 @@ class PublisherPlugin implements Plugin<Project> {
 
     def isKotlin(Project project) { return project.getPlugins().hasPlugin('kotlin') }
     Project myProject
+
     @Override
     void apply(Project project) {
         myProject = project
         project.plugins.apply('maven-publish')
         project.plugins.apply('signing')
         project.extensions.create('publish', PublishExtension)
-        project.tasks.whenTaskAdded {task ->
-            if (task.name.contains('ToMavenCentralRepository')){
+        project.tasks.whenTaskAdded { task ->
+            if (task.name.contains('ToMavenCentralRepository')) {
                 def ext = project['publish'] as PublishExtension
-                task.doFirst{
+                task.doFirst {
                     ext.checkMavenCentralRelease()
                 }
             }
@@ -77,17 +80,17 @@ class PublisherPlugin implements Plugin<Project> {
                 ext.signingPassword = properties.getProperty("signingSecretKeyRingFile")
             }
         }
-        if (properties.containsKey("ossrhUsername")  ){
-            ext.ossrhUsername =properties.getProperty("ossrhUsername")
-        }
-        if (properties.containsKey("ossrhPassword")){
-            ext.ossrhPassword =  properties.getProperty("ossrhPassword")
-        }
-        if (properties.containsKey("releasesRepoUrl")){
+        def useJamesfChenSnapshots = project.getProperty("useJamesfChenSnapshots")
+        if (useJamesfChenSnapshots != null && useJamesfChenSnapshots.equals("true")) {
+            ext.ossrhUsername = 'delta'
+            ext.ossrhPassword = 'vCKe*5vHBh3xH2.'
+            ext.releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            ext.snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+        } else {
+            ext.ossrhUsername = properties.getProperty("ossrhUsername")
+            ext.ossrhPassword = properties.getProperty("ossrhPassword")
             ext.releasesRepoUrl = properties.getProperty("releasesRepoUrl")
-        }
-        if (properties.containsKey("snapshotsRepoUrl")){
-            ext.snapshotsRepoUrl =  properties.getProperty("snapshotsRepoUrl")
+            ext.snapshotsRepoUrl = properties.getProperty("snapshotsRepoUrl")
         }
     }
 
@@ -112,7 +115,7 @@ class PublisherPlugin implements Plugin<Project> {
                     publication.artifactId = ext.artifactId
                     publication.version = ext.version
                     configJavadoc(project, publication, ext)
-                    configPom(project,publication.pom, ext)
+                    configPom(project, publication.pom, ext)
                 })
             } else if (component.name == ext.buildVariant) {
                 publishing.publications.create("${component.name}$taskName", MavenPublication, { MavenPublication publication ->
@@ -121,7 +124,7 @@ class PublisherPlugin implements Plugin<Project> {
                     publication.artifactId = ext.artifactId
                     publication.version = ext.version
                     configJavadoc(project, publication, ext)
-                    configPom(project,publication.pom, ext)
+                    configPom(project, publication.pom, ext)
                 })
                 return
             }
@@ -148,12 +151,12 @@ class PublisherPlugin implements Plugin<Project> {
         if (ext.signingKeyId && ext.signingSecretKeyRingFile && ext.signingPassword) {
             SigningExtension signing = project.extensions.getByType(SigningExtension)
 //    signing.useInMemoryPgpKeys(ext.signingKeyId, ext.signingSecretKeyRingFile,ext.signingPassword)
-            signing.sign(publishing.publications)
+//            signing.sign(publishing.publications)
         }
 
     }
 
-    def configPom(Project project,org.gradle.api.publish.maven.MavenPom pom, PublishExtension ext) {
+    def configPom(Project project, org.gradle.api.publish.maven.MavenPom pom, PublishExtension ext) {
         pom.name = ext.name
         pom.packaging = isAar(project) ? "aar" : "jar"
         pom.description = ext.name
@@ -254,6 +257,7 @@ class PublisherPlugin implements Plugin<Project> {
 //    }
     }
 }
+
 class PublishExtension {
     String name
     String groupId
@@ -264,7 +268,7 @@ class PublishExtension {
 
     String ossrhUsername = 'delta'
     String ossrhPassword = 'vCKe*5vHBh3xH2.'
-    String releasesRepoUrl ="https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+    String releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
     String snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
 
     String signingKeyId
@@ -275,22 +279,24 @@ class PublishExtension {
     void checkMavenLocal() {
         check()
     }
+
     void checkMavenCentralRelease() {
         check()
         checkMavenCentralSnapshots()
         if (isMavenCentralSigningEmpty()) {
-                throw new NullPointerException("U should set signingKeyId/signingPassword/signingSecretKeyRingFile in local.properties")
+            throw new NullPointerException("U should set signingKeyId/signingPassword/signingSecretKeyRingFile in local.properties")
         }
 
     }
+
     void checkMavenCentralSnapshots() {
         check()
         if (isMavenCentralAccountEmpty()) {
-                throw new NullPointerException("U should set ossrhUsername/ossrhPassword in local.properties")
+            throw new NullPointerException("U should set ossrhUsername/ossrhPassword in local.properties")
         }
     }
 
-    void check(){
+    void check() {
         checkField(name, "name")
         checkField(groupId, "groupId")
         checkField(artifactId, "artifactId")
@@ -299,8 +305,9 @@ class PublishExtension {
     }
 
     boolean isMavenCentralSigningEmpty() {
-        return isEmpty(signingKeyId) || isEmpty(signingSecretKeyRingFile)|| isEmpty(signingPassword)
+        return isEmpty(signingKeyId) || isEmpty(signingSecretKeyRingFile) || isEmpty(signingPassword)
     }
+
     boolean isMavenCentralAccountEmpty() {
         return isEmpty(ossrhUsername) || isEmpty(ossrhPassword)
     }
