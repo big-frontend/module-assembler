@@ -1,32 +1,14 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-android {
-    compileSdkVersion 29
-    buildToolsVersion "30.0.2"
-
-    defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+plugins{
+    id 'io.github.jamesfchen.module-publisher-plugin' version '1.1.1'
 }
+publish{
+    name="lifecycle-api"
+    groupId = rootProject.groupId
+    artifactId = "lifecycle-api"
+    version = "1.0.3"
+    website = "https://github.com/JamesfChen/bundles-assembler"
+}
+apply from: "$rootDir/script/aar.gradle"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -37,12 +19,4 @@ dependencies {
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     api "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
     api "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
-}
-apply from: "${rootDir}/script/module_publisher.gradle"
-publish{
-    name="lifecycle-api"
-    groupId = rootProject.groupId
-    artifactId = "lifecycle-api"
-    version = "1.0.3"
-    website = "https://github.com/JamesfChen/bundles-assembler"
 }

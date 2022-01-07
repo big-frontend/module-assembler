@@ -1,4 +1,14 @@
-//apply plugin: 'org.jetbrains.kotlin.jvm'
+plugins{
+    id 'io.github.jamesfchen.module-publisher-plugin' version '1.1.1'
+}
+publish {
+    name="base-plugin-ktx"
+    groupId = rootProject.groupId
+    artifactId = "base-plugin-ktx"
+    version = "1.0.0"
+    website = "https://github.com/JamesfChen/bundles-assembler"
+}
+
 apply plugin: 'java-library'
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -26,14 +36,4 @@ dependencies {
     //    implementation group: 'org.ow2.asm', name: 'asm', version: '5.1'
 //    implementation group: 'org.ow2.asm', name: 'asm-commons', version: '5.1'
 
-}
-
-//发布到maven
-apply from: "${rootDir}/script/module_publisher.gradle"
-publish {
-    name="base-plugin-ktx"
-    groupId = rootProject.groupId
-    artifactId = "base-plugin-ktx"
-    version = "1.0.0"
-    website = "https://github.com/JamesfChen/bundles-assembler"
 }
