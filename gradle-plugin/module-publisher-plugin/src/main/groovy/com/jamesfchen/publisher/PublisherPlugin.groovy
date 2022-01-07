@@ -120,7 +120,7 @@ class PublisherPlugin implements Plugin<Project> {
                     configJavadoc(project, publication, ext)
                     configPom(project, publication.pom, ext)
                 })
-            } else if (component.name == ext.buildVariant) {
+            } else if (component.name.equalsIgnoreCase(ext.buildVariant)) {
                 publishing.publications.create("${component.name}$taskName", MavenPublication, { MavenPublication publication ->
                     publication.from(component.name)
                     publication.groupId = ext.groupId
@@ -269,10 +269,10 @@ class PublishExtension {
     String website
     String buildVariant //只创建指定的变种发布task
 
-    String ossrhUsername = 'delta'
-    String ossrhPassword = 'vCKe*5vHBh3xH2.'
-    String releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-    String snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+    String ossrhUsername
+    String ossrhPassword
+    String releasesRepoUrl
+    String snapshotsRepoUrl
 
     String signingKeyId
     String signingSecretKeyRingFile
