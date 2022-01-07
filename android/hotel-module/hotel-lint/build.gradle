@@ -1,6 +1,15 @@
 plugins {
     id 'java-library'
     id 'kotlin'
+    id "io.github.jamesfchen.module-publisher-plugin"
+}
+publish {
+    name="hotel-lint"
+    groupId = rootProject.applicationId
+    artifactId = "hotel-lint"
+    version = "1.0.0"
+    website = "https://github.com/JamesfChen/bundles-assembler"
+    buildVariant = "java"
 }
 dependencies {
     // so many stdlib to choose from!

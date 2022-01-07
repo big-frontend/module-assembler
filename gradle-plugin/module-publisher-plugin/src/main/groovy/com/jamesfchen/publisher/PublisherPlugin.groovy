@@ -122,7 +122,7 @@ class PublisherPlugin implements Plugin<Project> {
                 })
             } else if (component.name.equalsIgnoreCase(ext.buildVariant)) {
                 publishing.publications.create("${component.name}$taskName", MavenPublication, { MavenPublication publication ->
-                    publication.from(component.name)
+                    publication.from(component)
                     publication.groupId = ext.groupId
                     publication.artifactId = ext.artifactId
                     publication.version = ext.version
