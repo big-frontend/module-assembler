@@ -11,5 +11,5 @@
 
 - module-manager-intellij-plugin //性感的模块管理工具(idea plugin)
 
-### reference
-[The future of Android App Bundles is here](https://android-developers.googleblog.com/2021/06/the-future-of-android-app-bundles-is.html)
+### 技术分享
+[2021年 Android组件化分享](https://jamesfchen.github.io/blog/2021-12-31/shared-android-component)
