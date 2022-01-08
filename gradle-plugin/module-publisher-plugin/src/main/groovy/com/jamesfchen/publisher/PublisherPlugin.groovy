@@ -83,7 +83,7 @@ class PublisherPlugin implements Plugin<Project> {
         if (project.properties.containsKey("useJamesfChenSnapshots")) {
             def useJamesfChenSnapshots = project["useJamesfChenSnapshots"]
             if (useJamesfChenSnapshots != null && useJamesfChenSnapshots == "true") {
-                println(">>> 使用jamesfchen的maven central发布，但是只能发布snapshot")
+//                println(">>> 使用jamesfchen的maven central发布，但是只能发布snapshot")
                 ext.ossrhUsername = 'delta'
                 ext.ossrhPassword = 'vCKe*5vHBh3xH2.'
                 ext.releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
@@ -154,7 +154,7 @@ class PublisherPlugin implements Plugin<Project> {
         if (ext.signingKeyId && ext.signingSecretKeyRingFile && ext.signingPassword) {
             SigningExtension signing = project.extensions.getByType(SigningExtension)
 //    signing.useInMemoryPgpKeys(ext.signingKeyId, ext.signingSecretKeyRingFile,ext.signingPassword)
-//            signing.sign(publishing.publications)
+            signing.sign(publishing.publications)
         }
 
     }
@@ -207,30 +207,29 @@ class PublisherPlugin implements Plugin<Project> {
         if (isKotlin(project)) return
         if (isAar(project)) {
             // This generates sources.jar
-            task sourcesJar(type: Jar) {
-                classifier = 'sources'
-                from android.sourceSets.main.java.source
-            }
-
-            task javadoc(type: Javadoc) {
-                source = android.sourceSets.main.java.source
-                classpath += configurations.implementation
-                classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-            }
-
-            task javadocJar(type: Jar, dependsOn: javadoc) {
-                classifier = 'javadoc'
-                from javadoc.destinationDir
-            }
+//            task sourcesJar(type: Jar) {
+//                classifier = 'sources'
+//                from project.android.sourceSets.main.java.source
+//            }
+//
+//            task javadoc(type: Javadoc) {
+//                source = project.android.sourceSets.main.java.source
+//                classpath += configurations.implementation
+//                classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
+//            }
+//
+//            task javadocJar(type: Jar, dependsOn: javadoc) {
+//                classifier = 'javadoc'
+//                from javadoc.destinationDir
+//            }
         } else {
-            task sourcesJar(type: Jar, dependsOn: classes) {
+            project.tasks.create(name: 'sourcesJar', group: "documentation", type: Jar, dependsOn: 'classes') {
                 classifier = 'sources'
-                from sourceSets.main.allSource
+                from project.sourceSets.main.allSource
             }
-
-            task javadocJar(type: Jar, dependsOn: javadoc) {
+            project.tasks.create(name: 'javadocJar', group: "documentation", type: Jar, dependsOn: 'javadoc') {
                 classifier = 'javadoc'
-                from javadoc.destinationDir
+                from project.javadoc.destinationDir
             }
         }
 
@@ -241,18 +240,18 @@ class PublisherPlugin implements Plugin<Project> {
             }
         }
 
-        javadoc {
+        project.javadoc {
+            title "${ext.name} ${ext.version}"
             options {
                 encoding "UTF-8"
                 charSet 'UTF-8'
                 author true
-                version ext.version
+//                version true
                 links "http://docs.oracle.com/javase/7/docs/api"
-                title "${ext.name} ${ext.version}"
             }
         }
-        publication.artifact(javadocJar)
-        publication.artifact(sourcesJar)
+        publication.artifact(project.tasks.findByName('javadocJar'))
+        publication.artifact(project.tasks.findByName('sourcesJar'))
 //    publication.setArtifacts([sourcesJar])
 //    artifacts {
 //        archives javadocJar

@@ -1,7 +1,7 @@
 package com.jamesfchen
 
 class Inject {
-    ClassInfo  classInfo
+    ClassInfo classInfo
 }
 //gradle framework
 def injectCode(Closure<Inject> closure/*从build.gradle获取*/){

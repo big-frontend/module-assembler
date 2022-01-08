@@ -22,7 +22,7 @@ apply from:'./script/trace_gradle.gradle'
 apply from:'./script/module_registry.gradle'
 
 includeBuild("../gradle-plugin") {
-//    name = "g"
+    name = "g-p"
     dependencySubstitution {
 //        substitute(module("io.github.jamesfchen:lifecycle-api")).using(project(":"))
 //        substitute(module("io.github.jamesfchen:ibc-api")).using(project(":"))
