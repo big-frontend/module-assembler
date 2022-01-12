@@ -43,8 +43,9 @@ public class SayMeActivity extends Activity {
 //                            .withLong("key1", 666L)
 //                            .withString("key3", "888")
 //                            .navigation();
-                IBCRouter.go(SayMeActivity.this,"bundle2router","sayhi");
+//                IBCRouter.go(SayMeActivity.this,"bundle2router","sayhi");
 //                IBCRouter.openUri(SayMeActivity.this, URI.create("reactnative://bundle1SchemaRouter/bundle2"));
+                IBCRouter.openUri(SayMeActivity.this, URI.create("webapp://webcontainerrouter/bundle3?url=file:///android_asset/AApp.html"));
 //
             }
         });

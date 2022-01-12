@@ -9,7 +9,9 @@
       "group": "father",
       "binaryPath": "com.jamesfchen.b:app:1.0",
       "deps": [
-        "hotel-bundle1","hotel-bundle2", "home-myhome"
+        "hotel-bundle1",
+        "hotel-bundle2",
+        "home-myhome"
       ]
     },
     {
@@ -39,7 +41,10 @@
       "group": "hotel",
       "binaryPath": "com.jamesfchen.b:hotel-main:1.0",
       "deps": [
-        "hotel-bundle1","hotel-bundle2"
+        "hotel-bundle1",
+        "hotel-bundle2",
+        "hotel-bundle3",
+        "hotel-bundle4"
       ]
     },
     {
@@ -60,6 +65,26 @@
       "binaryPath": "com.jamesfchen.b:hotel-bundle2:1.0",
       "deps": [
         "hotel-foundation"
+      ]
+    },
+    {
+      "simpleName": "hotel-bundle3",
+      "sourcePath": ":hotel-module:bundle3",
+      "format": "bundle",
+      "group": "hotel",
+      "binaryPath": "com.jamesfchen.b:hotel-bundle3:1.0",
+      "deps": [
+        "framework-webcontainer"
+      ]
+    },
+    {
+      "simpleName": "hotel-bundle4",
+      "sourcePath": ":hotel-module:bundle4",
+      "format": "bundle",
+      "group": "hotel",
+      "binaryPath": "com.jamesfchen.b:hotel-bundle4:1.0",
+      "deps": [
+        "framework-webcontainer"
       ]
     },
     {
@@ -97,6 +122,16 @@
       "binaryPath": "com.jamesfchen.b:framework-network:1.0",
       "deps": [
         "framework-common"
+      ]
+    },
+    {
+      "simpleName": "framework-webcontainer",
+      "sourcePath": ":framework:webcontainer",
+      "format": "framework_foundation",
+      "group": "fwk",
+      "binaryPath": "com.jamesfchen.b:framework-webcontainer:1.0",
+      "deps": [
+        "framework-loader"
       ]
     },
     {

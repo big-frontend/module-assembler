@@ -45,7 +45,7 @@ public class AppLifecycleObserver implements LifecycleObserver {
 > ibc-plugin
 
 ```
-implementation 'io.github.jamesfchen:ibc-api:1.0.0'
+implementation 'io.github.jamesfchen:ibc-api:1.+'
 
 //页面路由
 @Router(name = "bundle1router")
