@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.firebase.perf.metrics.AddTrace;
@@ -25,11 +28,12 @@ public class SayMeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TextView tv = new TextView(this);
+        Button tv = new Button(this);
         tv.setText(getPackageName()+" bundle1 say me ");
         tv.setGravity(Gravity.CENTER);
         tv.setTextColor(Color.BLACK);
-        setContentView(tv);
+        tv.setAllCaps(false);
+        setContentView(tv,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         tv.setOnClickListener(new View.OnClickListener() {
             @Override

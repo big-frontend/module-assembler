@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.perf.metrics.AddTrace;
@@ -24,9 +25,10 @@ public  class SayHiActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TextView tv = new TextView(this);
+        Button tv = new Button(this);
         tv.setText("say hi");
         tv.setTextColor(Color.BLACK);
+        tv.setAllCaps(false);
         setContentView(tv);
 
         tv.setOnClickListener(new View.OnClickListener() {

@@ -3,6 +3,7 @@
     package="com.jamesfchen.webcontainer">
 
     <application>
-        <activity android:name=".WebViewActivity" />
+        <activity android:name=".WebViewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
 </manifest>

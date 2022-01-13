@@ -5,8 +5,7 @@
     <title>this is title</title>
     <script>
         function onClick(){
-
-            alert("native say:"+myActivity.nativeSay());
+            ibcrouter.openUri(pisces.getHostActivity(),'file:///android_asset/BApp.html')
         }
         function jsAlert(){
             alert("calling from native")
@@ -15,6 +14,6 @@
     </script>
 </head>
 <body>
-<button type="button" id="bt" onclick="onClick()">call to native</button>
+<button type="button" id="bt" onclick="onClick()">jump to bundle4</button>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.jamesfchen.webcontainer
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -7,6 +8,10 @@ import android.net.http.SslError
 import android.os.Bundle
 import android.util.Log
 import android.webkit.*
+import androidx.appcompat.app.AppCompatActivity
+import com.jamesfchen.ibc.IBCInitializer
+import com.jamesfchen.ibc.Registry
+import com.jamesfchen.ibc.router.IBCRouter
 import com.jamesfchen.webcontainer.databinding.ActivityWebviewBinding
 
 /**
@@ -17,7 +22,7 @@ import com.jamesfchen.webcontainer.databinding.ActivityWebviewBinding
  * @email: hawksjamesf@gmail.com
  * @since: Aug/24/2020  Mon
  */
-class WebViewActivity : Activity() {
+class WebViewActivity : AppCompatActivity() {
     companion object {
         @JvmStatic
         fun startActivity(context: Context,uri:String) {
@@ -27,35 +32,27 @@ class WebViewActivity : Activity() {
         }
     }
 
-    @JavascriptInterface
-    fun nativeSay(): String {
-        Log.d("cjf", " native say calling from js")
-        return "sb"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityWebviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
         intent.getStringExtra("url")?.let { url ->
-            binding.wv.loadUrl("file:///android_asset/AApp.html")
-            binding.wv.loadUrl(url)
-            binding.wv.webViewClient = MyWebViewClient()
-            binding.wv.settings.javaScriptEnabled = true
-            binding.wv.settings.javaScriptCanOpenWindowsAutomatically = true
-            binding.wv.webChromeClient = MyWebChromeClient()
-            binding.wv.addJavascriptInterface(this@WebViewActivity, "myActivity")
+            binding.wvContainer.loadUrl(url)
+            binding.wvContainer.webViewClient = MyWebViewClient()
+            binding.wvContainer.settings.javaScriptEnabled = true
+            binding.wvContainer.settings.allowFileAccess = true//可以使用file:// 访问
+            binding.wvContainer.settings.javaScriptCanOpenWindowsAutomatically = true
+            binding.wvContainer.webChromeClient = MyWebChromeClient()
+            binding.wvContainer.addJavascriptInterface(JsiImpl(this), "pisces")
+            val findSchemaRouter = Registry.getInstance().findSchemaRouter("webcontainerrouter")
+            if (findSchemaRouter !=null){
+                binding.wvContainer.addJavascriptInterface(findSchemaRouter, "ibcrouter")
+            }
 //            binding.title.setOnClickListener {
-//                binding.wv.evaluateJavascript("javascript:jsAlert()") {
+//                binding.wvContainer.evaluateJavascript("javascript:jsAlert()") {
 //                    Log.d("cjf", "jsAlert ${it}")
 //                }
 //            }
         }
-//        binding.title.setImageBitmap()
-//        val wv = findViewById<WebView>(R.id.wv)
-//        val h5Plugin = H5Plugin()
-//        wv.addJavascriptInterface(h5Plugin,h5Plugin.name)
-//        wv.evaluateJavascript()
-//        file:///android_asset/test.html
     }
 }

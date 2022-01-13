@@ -16,12 +16,12 @@ class MyWebViewClient : WebViewClient() {
         view: WebView?,
         request: WebResourceRequest?
     ): WebResourceResponse? {
-        Log.d("cjf","shouldInterceptRequest1")
+        Log.d("cjf","shouldInterceptRequest1:${request?.url}")
         return super.shouldInterceptRequest(view, request)
     }
 
     override fun shouldInterceptRequest(view: WebView?, url: String?): WebResourceResponse? {
-        Log.d("cjf","shouldInterceptRequest2")
+        Log.d("cjf","shouldInterceptRequest2 ${url}")
         return super.shouldInterceptRequest(view, url)
     }
     override fun onReceivedSslError(
