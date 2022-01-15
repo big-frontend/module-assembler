@@ -28,4 +28,3 @@ includeBuild("../gradle-plugin") {
 //        substitute(module("io.github.jamesfchen:perf-api")).using(project(":"))
 //    }
 }
-

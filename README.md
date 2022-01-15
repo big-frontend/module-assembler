@@ -1,5 +1,8 @@
 > 随着插件化的落幕，组件化必然会获得更多的焦点，创建这个项目就是为了摸索这条路，要问我路在何方，路在脚下。
 
+### todo
+- [ ] 组件化项目脚手架cli
+- [ ] Android Studio Create New Module Template  / Android Studio Create New Project Template
 
 ### 项目结构
 

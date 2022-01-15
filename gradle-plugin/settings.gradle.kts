@@ -17,3 +17,4 @@ include(
 )
 include(":module-publisher-plugin")
 include(":moduleify-plugin")
+include(":moduleify-api")
