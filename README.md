@@ -3,6 +3,7 @@
 ### todo
 - [ ] 组件化项目脚手架cli
 - [ ] Android Studio Create New Module Template  / Android Studio Create New Project Template
+- [ ] IBC支持 rn/h5 ---> rn/h5 && native <---> rn/h5 && native1 <---> native2
 
 ### 项目结构
 
