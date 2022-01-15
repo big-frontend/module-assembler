@@ -1,9 +1,6 @@
-apply from: "$rootDir.path/script/bundle_module.gradle"
-//kapt {
-//    arguments {
-//        arg("AROUTER_MODULE_NAME", project.getName())
-//    }
-//}
+plugins{
+    id "io.github.jamesfchen.bundle-plugin"
+}
 //android {
 //    defaultConfig {
 //        javaCompileOptions {
@@ -15,5 +12,5 @@ apply from: "$rootDir.path/script/bundle_module.gradle"
 //
 //}
 dependencies {
-    implementation project(":hotel-module:export")
+    implementation project.moduleify("hotel-export")
 }

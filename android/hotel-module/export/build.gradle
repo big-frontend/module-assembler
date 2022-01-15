@@ -1,4 +1,6 @@
-apply from: "$rootDir.path/script/api_module.gradle"
+plugins{
+    id "io.github.jamesfchen.api-plugin"
+}
 dependencies {
-    api 'io.github.jamesfchen:ibc-api:1.2.0'
+    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

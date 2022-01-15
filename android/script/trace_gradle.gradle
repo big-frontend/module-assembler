@@ -63,7 +63,7 @@ gradle.addBuildListener(new BuildListener() {
 
     @Override
     void projectsEvaluated(Gradle gradle) {
-        printError(">>>> evaluate所有project脚本 耗时:" + (System.currentTimeMillis() - start)+"ms")
+        printError(">>>> evaluate完所有project脚本 耗时:" + (System.currentTimeMillis() - start)+"ms")
         start = System.currentTimeMillis()
     }
 

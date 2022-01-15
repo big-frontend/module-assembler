@@ -1,5 +1,5 @@
-
 import groovy.json.JsonSlurper
+
 def child(Object msg) {
     println("👶[ gradle initialzation ] " + msg);
 }
@@ -16,6 +16,8 @@ def child(Object msg) {
  */
 def config = new JsonSlurper().parse(file("$rootDir/module_config.json"))
 gradle.ext.allModules = config.allModules
+gradle.ext.groupId = config.groupId
+gradle.ext.activeBuildVariant = config.activeBuildVariant
 def localProperties = new Properties()
 def localPropertiesFile = new File(rootDir, 'local.properties')
 if (localPropertiesFile.exists()) {
@@ -25,13 +27,13 @@ if (localPropertiesFile.exists()) {
 }
 def excludeModulesStr = localProperties.getProperty('excludeModules', '')
 def sourceModulesStr = localProperties.getProperty('sourceModules', '')
-def appsStr = localProperties.getProperty('apps', '')
-gradle.ext.excludeModuleMap = new LinkedHashMap<String,Object>()
-gradle.ext.sourceModuleMap = new LinkedHashMap<String,Object>()
-gradle.ext.binaryModuleMap = new LinkedHashMap<String,Object>()
+gradle.ext.excludeModuleMap = new LinkedHashMap<String, Object>()
+gradle.ext.sourceModuleMap = new LinkedHashMap<String, Object>()
+gradle.ext.binaryModuleMap = new LinkedHashMap<String, Object>()
 gradle.ext.framworkSrcModuleMap = [:] //目前只使用了7个fwk的模块，其余模块暂且搁置
+gradle.ext.framworkApiModuleMap = [:]
 gradle.ext.bundleSrcModuleMap = [:]
-gradle.ext.appMap = [:]
+gradle.ext.sourcePath2SimpleNameMap = [:]
 def findModule = { name ->
     for (def m : gradle.ext.allModules) {
         if (m.simpleName == name) {
@@ -53,25 +55,24 @@ excludeModulesStr.eachAfterSplit(',') {
 }
 sourceModulesStr.eachAfterSplit(',') {
     gradle.ext.sourceModuleMap[it.simpleName] = it
-    if (it.group == 'fwk'){
+    gradle.ext.sourcePath2SimpleNameMap[it.sourcePath] = it.simpleName
+    if (it.group == 'fwk') {
         gradle.ext.framworkSrcModuleMap[it.simpleName] = it
     }
-    if (it.format.contains('bundle')){
+    if (it.format.contains('bundle')) {
         gradle.ext.bundleSrcModuleMap[it.simpleName] = it
     }
 }
-//appsStr.eachAfterSplit(',') { m ->
-//    gradle.ext.appMap[m.simpleName] = m
-//}
 gradle.ext.allModules.each { m ->
+    if (m.type == 'api') {
+        gradle.ext.framworkApiModuleMap[m.simpleName] = m
+    }
+    m.binaryPath = "${gradle.ext.groupId}:${m.simpleName}:1.0.0-${gradle.ext.activeBuildVariant}-SNAPSHOT"
     if (!gradle.ext.sourceModuleMap.containsKey(m.simpleName) && !gradle.ext.excludeModuleMap.containsKey(m.simpleName)) {
         gradle.ext.binaryModuleMap[m.simpleName] = m
     }
 }
 child("module begin ========================================================================================")
-//gradle.ext.appMap.each { _, module ->
-//    child("app ${module.simpleName}")
-//}
 gradle.ext.sourceModuleMap.each { name, module ->
     child("source module\t${module.sourcePath}")
     if (module.simpleName == 'framework-flutter') {
@@ -101,3 +102,6 @@ child("module end ==============================================================
 //    println("projectsLoaded")
 //}
 gradle.ext.modules = gradle.ext.sourceModuleMap.values() + gradle.ext.binaryModuleMap.values()
+
+
+//######################################################################################################################

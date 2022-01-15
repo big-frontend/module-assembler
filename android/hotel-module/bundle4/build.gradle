@@ -1,1 +1,6 @@
-apply from: "$rootDir.path/script/bundle_module.gradle"
+plugins{
+    id "io.github.jamesfchen.bundle-plugin"
+}
+dependencies {
+    implementation project.moduleify("hotel-foundation")
+}

@@ -1,1 +1,10 @@
-apply from: "$rootDir.path/script/bundle_module.gradle"
+plugins{
+    id "io.github.jamesfchen.bundle-plugin"
+}
+//publish {
+//    name = 'home-myhome'
+//    groupId = gradle.groupId
+//    artifactId = 'home-myhome'
+//    version = "1.0.0-${gradle.activeBuildVariant}-SNAPSHOT"
+//    website = "https://github.com/JamesfChen/bundles-assembler"
+//}

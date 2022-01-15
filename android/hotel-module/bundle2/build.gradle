@@ -1,4 +1,7 @@
-apply from: "$rootDir.path/script/bundle_module.gradle"
+plugins{
+    id "io.github.jamesfchen.bundle-plugin"
+}
 dependencies {
-    api project(":hotel-module:export")
+    implementation project.moduleify("hotel-export")
+    implementation project.moduleify("hotel-foundation")
 }

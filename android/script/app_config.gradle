@@ -1,48 +1,18 @@
-apply plugin: 'com.android.application'
-apply from: "${rootDir}/script/base_module.gradle"
-apply plugin: "io.github.jamesfchen.lifecycle-plugin"
-apply plugin: "io.github.jamesfchen.ibc-plugin"
-apply from: "${rootDir}/script/console.gradle"
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'WMRouter'
 android {
-    defaultConfig {
-//        multiDexEnabled = true//support android 20 or lower
-        applicationId rootProject.applicationId
-    }
-    signingConfigs {
-        debugSigningConfig {
-            (keyAlias, keyPassword, storePassword) = ['123456', '123456', '123456']
-            storeFile file("${rootDir}/keystore/debug.jks")
-            v1SigningEnabled true
-            v2SigningEnabled true
-
-        }
-        releaseSigningConfig {
-            (keyAlias, keyPassword, storePassword) = ['123456', '123456', '123456']
-            storeFile file("${rootDir}/keystore/debug.jks")
-            v1SigningEnabled true
-            v2SigningEnabled true
-        }
-
-    }
     buildTypes {
         release {
             multiDexEnabled = true//support android 20 or lower
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.releaseSigningConfig
         }
         debug {
             crunchPngs = false//优化编译速度：关闭png
             multiDexEnabled = false//优化编译速度：关闭multidex
             minifyEnabled false
             shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            applicationIdSuffix = '.debug'
-            signingConfig signingConfigs.debugSigningConfig
         }
     }
     lintOptions {
@@ -95,25 +65,16 @@ android {
 //        maxProcessCount 8
 //        dexInProcess = true
 //    }
-    flavorDimensions "default"
-    productFlavors{
-        dev{
-            resConfigs ("en", "xxhdpi"/*1080p*/)//优化编译速度：只编译指定资源
-        }
-
-    }
+//    flavorDimensions "default"
+//    productFlavors{
+//        dev{
+//            resConfigs ("en", "xxhdpi"/*1080p*/)//优化编译速度：只编译指定资源
+//        }
+//
+//    }
 }
 configurations {
     apkCheckerDependency
     all*.exclude group: 'com.google.guava', module: 'listenablefuture'
 //    all*.exclude group: "com.google.protobuf", module: "protobuf-javalite"
-}
-dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    project.importDeps(project){dep->
-        teenager("implementation  ${dep}")
-        project.dependencies.add("implementation", dep)
-        return findDeps(dep)
-    }
-    teenager("${project.path} app end ========================================================================================")
 }

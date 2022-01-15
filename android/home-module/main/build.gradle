@@ -1,6 +1,12 @@
-apply from: "$rootDir.path/script/app_module.gradle"
+plugins{
+    id "io.github.jamesfchen.app-plugin"
+}
+apply from: "$rootDir/script/app_config.gradle"
 android {
     defaultConfig {
         resValue "string", "app_name","home.app"
     }
+}
+dependencies {
+    project.depsConfig("implementation", "home-myhome")
 }

@@ -1,145 +1,106 @@
 {
   "author": "jamesfchen",
   "description": "该配置文件给idea plugin插件和gradle plugin读取,idea plugin通过该文件可以实现管理想要编译的模块，gradle plugin则可以根据这些模块信息生成快速模块",
+  "buildVariants": [
+    "debug",
+    "release"
+  ],
+  "activeBuildVariant": "release",
+  "groupId": "com.jamesfchen.b",
   "allModules": [
     {
       "simpleName": "app",
       "sourcePath": ":app",
       "format": "app",
-      "group": "father",
-      "binaryPath": "com.jamesfchen.b:app:1.0",
-      "deps": [
-        "hotel-bundle1",
-        "hotel-bundle2",
-        "home-myhome"
-      ]
+      "group": "father"
     },
     {
       "simpleName": "home-main",
       "sourcePath": ":home-module:main",
       "format": "app",
-      "group": "home",
-      "binaryPath": "com.jamesfchen.b:home-main:1.0",
-      "deps": [
-        "home-myhome"
-      ]
+      "group": "home"
     },
     {
       "simpleName": "home-myhome",
       "sourcePath": ":home-module:myhome",
       "format": "app",
-      "group": "home",
-      "binaryPath": "com.jamesfchen.b:home-myhome:1.0",
-      "deps": [
-        "framework-loader"
-      ]
+      "group": "home"
     },
     {
       "simpleName": "hotel-main",
       "sourcePath": ":hotel-module:main",
       "format": "app",
-      "group": "hotel",
-      "binaryPath": "com.jamesfchen.b:hotel-main:1.0",
-      "deps": [
-        "hotel-bundle1",
-        "hotel-bundle2",
-        "hotel-bundle3",
-        "hotel-bundle4"
-      ]
+      "group": "hotel"
     },
     {
       "simpleName": "hotel-bundle1",
       "sourcePath": ":hotel-module:bundle1",
       "format": "bundle",
-      "group": "hotel",
-      "binaryPath": "com.jamesfchen.b:hotel-bundle1:1.0",
-      "deps": [
-        "hotel-foundation"
-      ]
+      "group": "hotel"
     },
     {
       "simpleName": "hotel-bundle2",
       "sourcePath": ":hotel-module:bundle2",
       "format": "bundle",
-      "group": "hotel",
-      "binaryPath": "com.jamesfchen.b:hotel-bundle2:1.0",
-      "deps": [
-        "hotel-foundation"
-      ]
+      "group": "hotel"
     },
     {
       "simpleName": "hotel-bundle3",
       "sourcePath": ":hotel-module:bundle3",
       "format": "bundle",
-      "group": "hotel",
-      "binaryPath": "com.jamesfchen.b:hotel-bundle3:1.0",
-      "deps": [
-        "framework-webcontainer"
-      ]
+      "group": "hotel"
     },
     {
       "simpleName": "hotel-bundle4",
       "sourcePath": ":hotel-module:bundle4",
       "format": "bundle",
-      "group": "hotel",
-      "binaryPath": "com.jamesfchen.b:hotel-bundle4:1.0",
-      "deps": [
-        "framework-webcontainer"
-      ]
+      "group": "hotel"
     },
     {
       "simpleName": "hotel-lint",
       "sourcePath": ":hotel-module:hotel-lint",
       "format": "jar",
-      "group": "hotel",
-      "binaryPath": "com.jamesfchen.b:hotel-lint:1.0"
+      "type": "tool",
+      "group": "hotel"
     },
     {
       "simpleName": "hotel-foundation",
       "sourcePath": ":hotel-module:foundation",
       "format": "bundle_foundation",
-      "group": "hotel",
-      "binaryPath": "com.jamesfchen.b:hotel-foundation:1.0",
-      "deps": [
-        "framework-loader"
-      ]
+      "group": "hotel"
+    },
+    {
+      "simpleName": "hotel-export",
+      "sourcePath": ":hotel-module:export",
+      "format": "bundle_foundation",
+      "group": "hotel"
     },
     {
       "simpleName": "framework-loader",
       "sourcePath": ":framework:loader",
       "format": "framework_foundation",
-      "group": "fwk",
-      "binaryPath": "com.jamesfchen.b:framework-loader:1.0",
-      "deps": [
-        "framework-network"
-      ]
+      "type": "api",
+      "group": "fwk"
     },
     {
       "simpleName": "framework-network",
       "sourcePath": ":framework:network",
       "format": "framework_foundation",
-      "group": "fwk",
-      "binaryPath": "com.jamesfchen.b:framework-network:1.0",
-      "deps": [
-        "framework-common"
-      ]
+      "type": "api",
+      "group": "fwk"
     },
     {
       "simpleName": "framework-webcontainer",
       "sourcePath": ":framework:webcontainer",
       "format": "framework_foundation",
-      "group": "fwk",
-      "binaryPath": "com.jamesfchen.b:framework-webcontainer:1.0",
-      "deps": [
-        "framework-loader"
-      ]
+      "group": "fwk"
     },
     {
       "simpleName": "framework-common",
       "sourcePath": ":framework:common",
       "format": "framework_foundation",
       "group": "fwk",
-      "binaryPath": "com.jamesfchen.b:framework-common:1.0"
+      "type": "api"
     }
   ]
 }

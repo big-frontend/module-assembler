@@ -1,4 +1,7 @@
-apply from: "$rootDir.path/script/app_module.gradle"
+plugins{
+    id "io.github.jamesfchen.app-plugin"
+}
+apply from: "$rootDir/script/app_config.gradle"
 android {
     defaultConfig {
         applicationId project.applicationId
@@ -6,5 +9,11 @@ android {
     }
 }
 dependencies {
-//    api 'io.github.jamesfchen:ibc-api:1.2.0'
+    project.depsConfig("implementation", "hotel-bundle1")
+    project.depsConfig("implementation", "hotel-bundle2")
+    project.depsConfig("implementation", "hotel-bundle3")
+    project.depsConfig("implementation", "hotel-bundle4")
+    project.depsConfig("implementation", "hotel-export")
+    project.depsConfig("implementation", "hotel-foundation")
+    project.depsConfig("implementation", "framework-webcontainer")
 }

@@ -34,6 +34,7 @@ plugins {
     id("io.github.jamesfchen.ibc-plugin") apply(false)
     id("io.github.jamesfchen.lifecycle-plugin") apply(false)
     id("io.github.jamesfchen.module-publisher-plugin") apply(false)
+    id("io.github.jamesfchen.module-chef-plugin")
 }
 allprojects {
     repositories {
@@ -74,10 +75,9 @@ allprojects {
 //        }
 //    }
     }
-}
 
+}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-apply from: './script/module_builder.gradle'
 

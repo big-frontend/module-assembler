@@ -16,3 +16,4 @@ include(
     ":ibc:ibc-api", ":ibc:compiler", "ibc:ibc-plugin", ":ibc:annotations",
 )
 include(":module-publisher-plugin")
+include(":moduleify-plugin")
