@@ -151,6 +151,32 @@ abstract class BasePlugin implements Plugin<Project> {
 //                HashSet<String> visited = new HashSet<String>()
 //                def deps = myProject.depsConfig("",myProject)
 //            }
+            findArtifact = {
+                def myGroupId = ''
+                def myArtifactId = ''
+                def myVersion = ''
+                def moduleSimpleName = ''
+                def sourcePath = ''
+                def binaryPath = ''
+                for (def module : gradle.ext.modules) {
+                    if (project.path == module.sourcePath) {
+                        moduleSimpleName = module.simpleName
+                        sourcePath = module.sourcePath
+                        binaryPath = module.binaryPath
+                        myGroupId = binaryPath.split(":")[0]
+                        myArtifactId = binaryPath.split(":")[1]
+                        myVersion = binaryPath.split(":")[2]
+                        break
+                    }
+                }
+                if ((moduleSimpleName == null || moduleSimpleName.isEmpty())
+                        || (sourcePath == null || sourcePath.isEmpty())
+                        || (binaryPath == null || binaryPath.isEmpty())
+                ) {
+                    throw IllegalArgumentException("moduleSimpleName:${moduleSimpleName} :sourcePath${sourcePath} :binaryPath${binaryPath} 这些参数都要配置")
+                }
+                return [moduleSimpleName, myGroupId, myArtifactId, myVersion]
+            }
         }
         onApply(project)
     }
