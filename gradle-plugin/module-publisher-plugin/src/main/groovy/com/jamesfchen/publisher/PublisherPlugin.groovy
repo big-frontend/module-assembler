@@ -117,6 +117,9 @@ class PublisherPlugin implements Plugin<Project> {
                     publication.groupId = ext.groupId
                     publication.artifactId = ext.artifactId
                     publication.version = ext.version
+                    if (ext.artifact){
+                        publication.artifact(ext.artifact)
+                    }
                     configJavadoc(project, publication, ext)
                     configPom(project, publication.pom, ext)
                 })
@@ -126,6 +129,9 @@ class PublisherPlugin implements Plugin<Project> {
                     publication.groupId = ext.groupId
                     publication.artifactId = ext.artifactId
                     publication.version = ext.version
+                    if (ext.artifact){
+                        publication.artifact(ext.artifact)
+                    }
                     configJavadoc(project, publication, ext)
                     configPom(project, publication.pom, ext)
                 })
@@ -265,8 +271,10 @@ class PublishExtension {
     String groupId
     String artifactId
     String version
+    String artifact
     String website
     String buildVariant //只创建指定的变种发布task
+
 
     String ossrhUsername
     String ossrhPassword
