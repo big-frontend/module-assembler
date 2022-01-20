@@ -9,7 +9,6 @@ import sys
 from argparse import ArgumentParser
 from abc import abstractmethod, ABC, abstractproperty
 
-
 class BaseCommand(ABC):
     # _arg_parser = None
     # _subparsers = None
@@ -120,9 +119,40 @@ def all_commands():
         cmd.NAME = name
         all_commands[name] = cmd
     return all_commands
-
-
+class Init(BaseCommand):
+    def _create_parser(self, p):
+        pyadb_parser = p.add_parser('init')
+        pyadb_parser.add_argument('-b', '--basic', action='store_true',
+                                  help='device basic info')
+        pyadb_parser.add_argument('--top_activity', action='store_true',
+                                  help='top activity')
+        pyadb_parser.add_argument(
+            '-i', '--imei', action='store_true', help='get imei')
+        return pyadb_parser 
+    def _parse_args(self, args: "ArgumentParser"):
+        self.__basic = args.basic
+    def _execute(self):
+        pass
+import requests
+template_project_url = 'https://github.com/JamesfChen/bundles-assembler-template/archive/refs/heads/main.zip'
+def download_file(url):
+    local_filename = url.split('/')[-1]
+    # NOTE the stream=True parameter below
+    with requests.get(url, stream=True,verify=False) as r:
+        r.raise_for_status()
+        with open(local_filename, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192): 
+                # If you have chunk encoded response uncomment if
+                # and set chunk_size parameter to None.
+                #if chunk: 
+                f.write(chunk)
+    return local_filename
+import zipfile
+import os
 def main(arguments=None):
-    pass
+    local_filename = download_file(template_project_url)
+    directory_to_extract_to = os.getcwd()
+    with zipfile.ZipFile(local_filename, 'r') as zip_ref:
+        zip_ref.extractall(directory_to_extract_to)
 if __name__ == '__main__':
     main(sys.argv[1:])

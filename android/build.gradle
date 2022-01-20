@@ -3,14 +3,13 @@ buildscript {
     ext.kotlin_version = "1.4.21"
     repositories {
         mavenCentral()
+        mavenLocal()
+//        google()
         maven { url "https://jitpack.io" }
-        maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/releases' }
         maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
         maven { url uri("$rootDir/repo") }
-//        google()
-        mavenLocal()
         flatDir {
             dirs 'libs' //this way we can find the .aar file in libs folder
         }
@@ -25,9 +24,6 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.8'
         classpath 'com.google.firebase:perf-plugin:1.4.0'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
-        //没有配置classpath会去includeBuild项目找
-//        classpath "io.github.jamesfchen:ibc-plugin:1.2.0"
-//        classpath "io.github.jamesfchen:lifecycle-plugin:1.0.0"
     }
 }
 plugins {
@@ -40,7 +36,6 @@ allprojects {
     repositories {
         mavenCentral()
         maven { url "https://jitpack.io" }
-        maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/releases' }
         maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
