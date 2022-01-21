@@ -53,6 +53,7 @@ public class Registry {
     }
 
     public IModuleRouter findModuleRouter(String routerName) {
+        if (!IBCInitializer.inited) throw new IllegalStateException("IBCRouter未初始化");
         IModuleRouter moduleRouter = moduleRouters.get(routerName);
         if (moduleRouter ==null){
             Class<?> aClass = registerRouters.get(routerName);
@@ -72,6 +73,7 @@ public class Registry {
     }
 
     public ISchemaRouter findSchemaRouter(String routerName) {
+        if (!IBCInitializer.inited) throw new IllegalStateException("IBCRouter未初始化");
         ISchemaRouter schemaRouter = schemaRouters.get(routerName);
         if (schemaRouter ==null){
             Class<?> aClass = registerRouters.get(routerName);
@@ -93,6 +95,7 @@ public class Registry {
         registerApis.put(clz.getSuperclass(), clz);
     }
     public <T> T findApi(Class<T> clz) {
+        if (!IBCInitializer.inited) throw new IllegalStateException("IBCRouter未初始化");
         T api = (T) apis.get(clz);
         if (api ==null){
             Class<?> aClass = registerApis.get(clz);

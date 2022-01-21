@@ -3,17 +3,23 @@ package com.jamesfchen.moduleify
 import org.gradle.api.Project
 
 class AppModulePlugin extends BasePlugin {
+
     @Override
     void addPlugins(Project project) {
         project.plugins.apply('com.android.application')
-        project.plugins.apply('io.github.jamesfchen.lifecycle-plugin')
-        project.plugins.apply('io.github.jamesfchen.ibc-plugin')
-        project.plugins.apply('WMRouter')
+        project.plugins.apply(routerPlugin)
+        if (lifecycleVersion) {
+            project.plugins.apply('io.github.jamesfchen.lifecycle-plugin')
+        }
+        if (navigationVersion) {
+            project.plugins.apply('androidx.navigation.safeargs')
+//        project.plugins.apply('androidx.navigation.safeargs.kotlin')
+        }
     }
 
     @Override
     void onApply(Project project) {
-        project.android{
+        project.android {
             defaultConfig {
 //        multiDexEnabled = true//support android 20 or lower
                 applicationId project.rootProject.applicationId
@@ -46,7 +52,7 @@ class AppModulePlugin extends BasePlugin {
 
         project.dependencies {
 //            P.teenager("${project.path} app begin ========================================================================================")
-            project.gradle.framworkApiModuleMap.each{ simpleName,m->
+            project.gradle.framworkApiModuleMap.each { simpleName, m ->
                 def path = project.moduleify(simpleName)
 //                teenager("implementation  ${path}")
                 implementation path

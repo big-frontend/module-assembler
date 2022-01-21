@@ -33,19 +33,6 @@ plugins {
     id("io.github.jamesfchen.module-chef-plugin")
 }
 allprojects {
-    repositories {
-        mavenCentral()
-        maven { url "https://jitpack.io" }
-        maven { url 'https://maven.aliyun.com/repository/google/' }
-        maven { url 'https://maven.aliyun.com/repository/releases' }
-        maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
-        maven { url uri("$rootDir/repo") }
-//        google()
-        mavenLocal()
-        flatDir {
-            dirs 'libs' //this way we can find the .aar file in libs folder
-        }
-    }
     configurations.all {
         // don't cache changing modules at all，check for updates every build
         //一般在开发模式下，我们可以频繁的发布SNAPSHOT版本，

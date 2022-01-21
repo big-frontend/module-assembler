@@ -1,23 +1,30 @@
-//pluginManagement {
-////    plugins {
-////        id "com.github.jamesfchen.ibc-plugin" version "1.0.0" apply false
-////    }
-//    repositories {
-//        gradlePluginPortal()
-//        google()
-//        maven { url = uri("https://jitpack.io") }
-//    }
-//}
-//dependencyResolutionManagement {
-////    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-//    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
-//    repositories {
-//        google()
-//        mavenCentral()
-//        maven { url = uri("https://jitpack.io") }
-//    }
-//}
-
+pluginManagement {
+    repositories {
+        maven { url uri("$rootDir/repo") }
+        mavenLocal()
+        mavenCentral()
+        google()
+        maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://maven.aliyun.com/repository/releases' }
+        gradlePluginPortal()
+    }
+    plugins {
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url uri("$rootDir/repo") }
+        mavenLocal()
+        mavenCentral()
+        google()
+        maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://maven.aliyun.com/repository/releases' }
+        gradlePluginPortal()
+    }
+}
 apply from:'./script/trace_gradle.gradle'
 apply from:'./script/module_registry.gradle'
 includeBuild("../gradle-plugin") {

@@ -17,10 +17,9 @@ public class StarterActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.e("cjf", "StarterActivity");
         ICall api = IBCCbpc.findApi(ICall.class);
-        if (api.call()){
-
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("jamesfchen://www.jamesfchen.com/hotel/bundle1"));
-        startActivity(intent);
+        if (api.call()) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("jamesfchen://www.jamesfchen.com/hotel/bundle1"));
+            startActivity(intent);
         }
 //        startActivity(new Intent(this, Bundle1Activity.class));
     }

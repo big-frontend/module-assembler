@@ -226,7 +226,7 @@ class ModuleChefPlugin implements Plugin<Project> {
  common
  * 优化发布：当common模块被编译就将其发布到本地maven，然后再并发编译image net 等模块这个过程集成的是common二进制组件，在本地maven，然后再编译loader，打包出一个供上传使用的包
  */
-        def assemble = project.getTasksByName("assembleDebug", true)
+        def assemble = project.getTasksByName("assemble", true)
         project.tasks.create(name: 'publishAll', group: 'module chef', dependsOn: ['includeAll', assemble, 'publishFwk', 'publishBundle'])
         project.tasks.create(name: "buildBigApp", group: 'module chef', dependsOn: 'includeAll') {
             doLast {
@@ -234,7 +234,7 @@ class ModuleChefPlugin implements Plugin<Project> {
                     executable "$project.rootDir$File.separator" + (isWindows() ? 'gradlew.bat' : 'gradlew')
                     workingDir project.rootDir
                     def argv = []
-                    argv << "app:assembleDebug"
+                    argv << "app:assemble"
                     args = argv
                 }
             }
