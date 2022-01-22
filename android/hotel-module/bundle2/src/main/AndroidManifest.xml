@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.jamesfchen.bundle2">
 
     <application>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.B.NoActionBar">
+
+        <activity android:name=".SayHiActivity">
+            <!--                app link-->
+            <tools:validation testUrl="http://jamesfchen.page.link/hotel/sayhi" />
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="jamesfchen.page.link"
+                    android:path="/hotel/sayhi" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
-                    android:host="www.jamesfchen.com"
-                    android:scheme="jamesfchen"  android:path="/hotel/main"/>
+                    android:scheme="http"
+                    android:host="jamesfchen.page.link"
+                    android:path="/hotel/sayhi" />
             </intent-filter>
         </activity>
-        <activity android:name=".SayHiActivity"/>
     </application>
 
 </manifest>
