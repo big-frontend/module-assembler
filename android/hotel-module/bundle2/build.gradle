@@ -4,4 +4,5 @@ plugins{
 dependencies {
     implementation project.moduleify("hotel-export")
     implementation project.moduleify("hotel-foundation")
+    implementation project.moduleify("framework-h5container")
 }

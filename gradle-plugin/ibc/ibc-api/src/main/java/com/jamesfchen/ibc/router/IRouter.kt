@@ -1,5 +1,9 @@
 package com.jamesfchen.ibc.router
 
+import android.content.Context
+import android.os.Bundle
+import java.net.URI
+
 /**
  * Copyright ® $ 2021
  * All right reserved.
@@ -10,4 +14,13 @@ package com.jamesfchen.ibc.router
  *
  */
 interface IRouter {
+    /**
+     * native bundle 、 react native bundle 、 flutter bundle
+     */
+    fun onOpen(cxt: Context, page: String, params: Bundle?): Boolean = false
+
+    /**
+     * h5网页
+     */
+    fun onOpen(cxt: Context, uri: URI): Boolean = false
 }

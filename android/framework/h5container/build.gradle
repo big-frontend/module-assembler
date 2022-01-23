@@ -1,0 +1,11 @@
+plugins {
+    id "io.github.jamesfchen.bundle-plugin"
+}
+android {
+    buildFeatures {
+        viewBinding true
+    }
+}
+dependencies {
+    implementation project.moduleify("framework-common")
+}

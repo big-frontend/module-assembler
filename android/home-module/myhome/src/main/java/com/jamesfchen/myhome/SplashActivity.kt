@@ -16,5 +16,6 @@ class SplashActivity : Activity() {
         Thread.sleep(2000)
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }

@@ -12,7 +12,7 @@ class ScanIbcInfoClassVisitor extends ClassVisitor {
     boolean hasRouterAnnotation = false
     boolean hasApiAnnotation = false
     String classDescriptor
-    String routerName
+    String bindingBundleName
     List<RouterInfo> routers
     List<ApiInfo> api
 
@@ -44,7 +44,7 @@ class ScanIbcInfoClassVisitor extends ClassVisitor {
                 super.visit(name, value)
                 if (hasRouterAnnotation){
 //                    P.info("cjf "+name + " = " + value)
-                    routerName = value
+                    bindingBundleName = value
                 }
             }
 
@@ -57,7 +57,7 @@ class ScanIbcInfoClassVisitor extends ClassVisitor {
         super.visitEnd()
         if (hasRouterAnnotation) {
             if (routers != null) {
-                routers.add(new RouterInfo(routerName,classDescriptor))
+                routers.add(new RouterInfo(bindingBundleName,classDescriptor))
             }
         }
         if (hasApiAnnotation) {

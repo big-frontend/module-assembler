@@ -1,17 +1,17 @@
 package com.jamesfchen.ibc
 class RouterInfo{
-    String name
+    String bindingBundleName
     String descriptor
 
-    RouterInfo(String name, String descriptor) {
-        this.name = name
+    RouterInfo(String bindingBundleName, String descriptor) {
+        this.bindingBundleName = bindingBundleName
         this.descriptor = descriptor
     }
 
     @Override
     String toString() {
         return "RouterInfo{" +
-                "name='" + name + '\'' +
+                "bindingBundleName='" + bindingBundleName + '\'' +
                 ", descriptor='" + descriptor + '\'' +
                 '}';
     }

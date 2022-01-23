@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.google.firebase.perf.metrics.AddTrace;
 import com.jamesfchen.ibc.router.IBCRouter;
-
-import java.net.URI;
+import com.jamesfchen.ibc.router.UriBuilder;
 
 /**
  * Copyright ® $ 2017
@@ -33,7 +31,7 @@ public class SayMeActivity extends Activity {
         tv.setGravity(Gravity.CENTER);
         tv.setTextColor(Color.BLACK);
         tv.setAllCaps(false);
-        setContentView(tv,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        setContentView(tv,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,9 +45,9 @@ public class SayMeActivity extends Activity {
 //                            .withLong("key1", 666L)
 //                            .withString("key3", "888")
 //                            .navigation();
-//                IBCRouter.go(SayMeActivity.this,"bundle2router","sayhi");
-//                IBCRouter.openUri(SayMeActivity.this, URI.create("reactnative://bundle1SchemaRouter/bundle2"));
-                IBCRouter.openUri(SayMeActivity.this, URI.create("webapp://webcontainerrouter/bundle3?url=file:///android_asset/AApp.html"));
+                UriBuilder uriBuilder =new  UriBuilder();
+                uriBuilder.setUri("b://bundle2/sayhi");
+                IBCRouter.open(SayMeActivity.this,uriBuilder);
 //
             }
         });

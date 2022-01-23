@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jamesfchen.bundle1">
+    package="com.jamesfchen.h5container">
+
     <application>
         <activity
-            android:name=".SayMeActivity"
-            android:exported="true">
+            android:name=".WebViewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="www.jamesfchen.com"
-                    android:scheme="b"  android:path="/hotel/bundle1"/>
+                    android:host="h5container"
+                    android:path="/page"
+                    android:scheme="b" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

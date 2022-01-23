@@ -1,4 +1,4 @@
-package com.jamesfchen.webcontainer
+package com.jamesfchen.h5container
 
 import org.junit.Test
 

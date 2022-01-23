@@ -1,4 +1,4 @@
-package com.jamesfchen.webcontainer
+package com.jamesfchen.h5container
 
 import android.webkit.WebChromeClient
 
@@ -9,5 +9,5 @@ import android.webkit.WebChromeClient
  * @author: jamesfchen
  * @since: Jan/13/2022  Thu
  */
-class MyWebChromeClient : WebChromeClient() {
+class H5WebChromeClient : WebChromeClient() {
 }

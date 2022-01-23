@@ -1,3 +1,7 @@
 plugins{
     id "io.github.jamesfchen.bundle-plugin"
 }
+dependencies {
+    implementation project.moduleify("hotel-foundation")
+    implementation project.moduleify("framework-h5container")
+}

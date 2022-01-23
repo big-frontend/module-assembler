@@ -5,8 +5,7 @@ import android.util.Log;
 import androidx.collection.ArrayMap;
 
 import com.jamesfchen.ibc.cbpc.IExport;
-import com.jamesfchen.ibc.router.IModuleRouter;
-import com.jamesfchen.ibc.router.ISchemaRouter;
+import com.jamesfchen.ibc.router.IRouter;
 
 import static com.jamesfchen.ibc.Constants.ROUTER_TAG;
 
@@ -19,15 +18,13 @@ import static com.jamesfchen.ibc.Constants.ROUTER_TAG;
  */
 public class Registry {
     private static final String ROUTER_CONFIG = "BundleManifest.xml";
-    private ArrayMap<String, ISchemaRouter> schemaRouters;
-    private ArrayMap<String, IModuleRouter> moduleRouters;
+    private ArrayMap<String, IRouter> routers;
     private ArrayMap<String, Class<?>> registerRouters;
     private ArrayMap<Class<?>, Class<?>> registerApis;
     private ArrayMap<Class<?>, IExport> apis;
 
     Registry(){
-        moduleRouters = new ArrayMap<>();
-        schemaRouters = new ArrayMap<>();
+        routers = new ArrayMap<>();
         registerRouters = new ArrayMap<>();
         this.registerApis = new ArrayMap<>();
         this.apis = new ArrayMap<>();
@@ -39,57 +36,27 @@ public class Registry {
         static final Registry INSTANCE = new Registry();
 
     }
-    void getFlutterRouters() {
+    public void registerRouter(String bundleName, Class<?> clz) {
+        registerRouters.put(bundleName, clz);
     }
-
-    void getReactNativeRouters() {
-    }
-
-    void getNativeRouters() {
-    }
-
-    public void registerRouter(String routerName, Class<?> clz) {
-        registerRouters.put(routerName, clz);
-    }
-
-    public IModuleRouter findModuleRouter(String routerName) {
+    public IRouter findRouter(String bundleName) {
         if (!IBCInitializer.inited) throw new IllegalStateException("IBCRouter未初始化");
-        IModuleRouter moduleRouter = moduleRouters.get(routerName);
-        if (moduleRouter ==null){
-            Class<?> aClass = registerRouters.get(routerName);
+        IRouter router = routers.get(bundleName);
+        if (router ==null){
+            Class<?> aClass = registerRouters.get(bundleName);
             if (aClass ==null){
-                throw new IllegalArgumentException(routerName +" 路由器没有注册");
+                throw new IllegalArgumentException(bundleName +" 路由器没有注册");
             }
             try {
-                moduleRouter = (IModuleRouter) aClass.newInstance();
-                moduleRouters.put(routerName, (IModuleRouter) moduleRouter);
+                router = (IRouter) aClass.newInstance();
+                routers.put(bundleName, router);
             } catch (IllegalAccessException | InstantiationException e) {
                 e.printStackTrace();
                 Log.d(ROUTER_TAG,Log.getStackTraceString(e));
                 return null;
             }
         }
-        return moduleRouter;
-    }
-
-    public ISchemaRouter findSchemaRouter(String routerName) {
-        if (!IBCInitializer.inited) throw new IllegalStateException("IBCRouter未初始化");
-        ISchemaRouter schemaRouter = schemaRouters.get(routerName);
-        if (schemaRouter ==null){
-            Class<?> aClass = registerRouters.get(routerName);
-            if (aClass ==null){
-                throw new IllegalArgumentException(routerName +" 路由器没有注册");
-            }
-            try {
-                schemaRouter = (ISchemaRouter) aClass.newInstance();
-                schemaRouters.put(routerName, (ISchemaRouter) schemaRouter);
-            } catch (IllegalAccessException | InstantiationException e) {
-                e.printStackTrace();
-                Log.d(ROUTER_TAG,Log.getStackTraceString(e));
-                return null;
-            }
-        }
-        return schemaRouter;
+        return router;
     }
     public void registerApi(Class<?> clz) {
         registerApis.put(clz.getSuperclass(), clz);

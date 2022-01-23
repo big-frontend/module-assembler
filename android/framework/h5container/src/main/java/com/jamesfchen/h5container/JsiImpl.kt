@@ -1,4 +1,4 @@
-package com.jamesfchen.webcontainer
+package com.jamesfchen.h5container
 
 import android.app.Activity
 import android.util.Log

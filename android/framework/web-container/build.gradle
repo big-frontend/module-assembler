@@ -1,5 +1,0 @@
-plugins{
-    id "io.github.jamesfchen.bundle-plugin"
-}
-dependencies {
-}

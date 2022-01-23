@@ -90,14 +90,14 @@
       "group": "fwk"
     },
     {
-      "simpleName": "framework-web-container",
-      "sourcePath": ":framework:web-container",
+      "simpleName": "framework-h5container",
+      "sourcePath": ":framework:h5container",
       "format": "framework_foundation",
       "group": "fwk"
     },
     {
-      "simpleName": "framework-react-container",
-      "sourcePath": ":framework:react-container",
+      "simpleName": "framework-reactcontainer",
+      "sourcePath": ":framework:reactcontainer",
       "format": "framework_foundation",
       "group": "fwk"
     },

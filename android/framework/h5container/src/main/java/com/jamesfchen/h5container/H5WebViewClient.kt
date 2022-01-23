@@ -1,4 +1,4 @@
-package com.jamesfchen.webcontainer
+package com.jamesfchen.h5container
 
 import android.net.http.SslError
 import android.util.Log
@@ -11,7 +11,7 @@ import android.webkit.*
  * @author: jamesfchen
  * @since: Jan/13/2022  Thu
  */
-class MyWebViewClient : WebViewClient() {
+class H5WebViewClient : WebViewClient() {
     override fun shouldInterceptRequest(
         view: WebView?,
         request: WebResourceRequest?
@@ -33,5 +33,4 @@ class MyWebViewClient : WebViewClient() {
         handler.proceed()
         //handleMessage(Message msg); 其他处理
     }
-    // 这行代码一定加上否则效果不会出现
 }

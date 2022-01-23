@@ -17,18 +17,17 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         val tv = Button(this)
 
-        tv.text = "${getPackageName()} home main activity"
+        tv.text = "${getPackageName()}  main activity"
         tv.isAllCaps = false
-        tv.gravity = Gravity.CENTER
         tv.setTextColor(Color.BLACK)
         tv.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("jamesfchen://www.jamesfchen.com/hotel/bundle1")
+                Uri.parse("b://www.jamesfchen.com/hotel/bundle1")
             )
             startActivity(intent)
         }
-        setContentView(tv, ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT))
+        setContentView(tv, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT))
     }
 
 }

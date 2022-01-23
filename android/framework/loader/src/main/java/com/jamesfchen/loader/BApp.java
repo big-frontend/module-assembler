@@ -5,6 +5,7 @@ import androidx.multidex.MultiDexApplication;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.alibaba.android.arouter.utils.TextUtils;
+import com.jamesfchen.ibc.IBCInitializer;
 import com.jamesfchen.lifecycle.App;
 
 import java.io.BufferedReader;
@@ -39,6 +40,7 @@ public class BApp extends MultiDexApplication {
         }
         ARouter.init(this);
 //        ProcessLifecycleOwner.get().getLifecycle().addObserver(new AppLifecycleObserver());
+        IBCInitializer.init(this);
     }
 
     /**

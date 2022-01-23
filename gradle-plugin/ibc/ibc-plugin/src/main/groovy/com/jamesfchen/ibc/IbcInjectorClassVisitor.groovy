@@ -47,7 +47,7 @@ class IbcInjectorClassVisitor extends ClassVisitor {
                 super.onMethodExit(opcode)
                 routers.each {
                     methodVisitor.visitMethodInsn(INVOKESTATIC, REGISTRY_CLASS_PATH, "getInstance", "()Lcom/jamesfchen/ibc/Registry;", false)
-                    methodVisitor.visitLdcInsn(it.name)
+                    methodVisitor.visitLdcInsn(it.bindingBundleName)
                     methodVisitor.visitLdcInsn(Type.getType(it.descriptor))
                     methodVisitor.visitMethodInsn(INVOKEVIRTUAL, REGISTRY_CLASS_PATH, "registerRouter", "(Ljava/lang/String;Ljava/lang/Class;)V", false)
                 }

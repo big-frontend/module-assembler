@@ -16,5 +16,5 @@ import java.lang.annotation.Target;
 //@Target({ElementType.TYPE,ElementType.FIELD,ElementType.METHOD,ElementType.LOCAL_VARIABLE})
 @Target(ElementType.TYPE)
 public @interface Router {
-    String name();
+    String bindingBundle();
 }
