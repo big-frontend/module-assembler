@@ -25,10 +25,10 @@ android {
 dependencies {
     // Executes lint checks from the ':checks' project
     // at build time.
-    lintChecks project(path: ':hotel-module:hotel-lint')
+    lintChecks project.moduleify('hotel-lint')
     // Compiles lint checks from the ':checks-to-publish'
     // into a lint.jar file and publishes it to your
     // Android library.
-    lintPublish project(path: ':hotel-module:hotel-lint')
+    lintPublish project.moduleify('hotel-lint')
 
 }

@@ -14,8 +14,10 @@ class LintModulePlugin extends JarModulePlugin {
         super.onApply(project)
         project.dependencies {
             //30.0.4
-            compileOnly "com.android.tools.lint:lint-api:${rootProject.LINT_VERSION}"
-            compileOnly "com.android.tools.lint:lint-checks:${rootProject.LINT_VERSION}"
+            if (project.rootProject.hasProperty("LINT_VERSION")) {
+                compileOnly "com.android.tools.lint:lint-api:${project.rootProject.LINT_VERSION}"
+                compileOnly "com.android.tools.lint:lint-checks:${project.rootProject.LINT_VERSION}"
+            }
         }
 
     }

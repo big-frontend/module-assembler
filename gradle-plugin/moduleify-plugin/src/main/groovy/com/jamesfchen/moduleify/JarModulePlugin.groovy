@@ -8,4 +8,9 @@ abstract class JarModulePlugin extends BasePlugin {
     void addPlugins(Project project) {
         project.plugins.apply('kotlin')
     }
+
+    @Override
+    void onApply(Project project) {
+
+    }
 }
