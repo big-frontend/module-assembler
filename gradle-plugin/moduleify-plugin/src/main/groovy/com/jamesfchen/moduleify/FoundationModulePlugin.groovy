@@ -3,14 +3,19 @@ package com.jamesfchen.moduleify
 
 import org.gradle.api.Project
 
-class FoundationModulePlugin extends BasePlugin{
+class FoundationModulePlugin extends AndroidPlugin{
+    @Override
+    String mainPlugin() {
+        return 'com.android.library'
+    }
     @Override
     void addPlugins(Project project) {
-        project.plugins.apply('com.android.library')
+        super.addPlugins(project)
     }
 
     @Override
     void onApply(Project project) {
+        super.onApply(project)
         project.android{
         }
 

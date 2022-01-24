@@ -1,29 +1,16 @@
 package com.jamesfchen.moduleify
 
-import com.jamesfchen.moduleify.P
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 abstract class BasePlugin implements Plugin<Project> {
-    static String routerName
-    static String routerPlugin
-    static String routerLibrary
-    static boolean isFirst = true
-    static String navigationVersion
-    static String lifecycleVersion
+    abstract protected String mainPlugin()
+    abstract void addPlugins(Project project)
+    abstract void onApply(Project project)
     @Override
     void apply(Project project) {
-        if (isFirst) {
-            navigationVersion = project.rootProject.findProperty("NAVIGATION_VERSION")
-            lifecycleVersion = project.rootProject.findProperty("LIFECYCLE_VERSION")
-            (routerName, routerPlugin, routerLibrary) = pickupRouter(project)
-            P.info("pick up router, $routerLibrary")
-            isFirst = false
-        }
+        project.plugins.apply(mainPlugin())
         addPlugins(project)
-        project.plugins.apply('kotlin-android')
-        project.plugins.apply('kotlin-kapt')
         def simepleName = project.gradle.sourcePath2SimpleNameMap[project.path]
         if (simepleName) {
             project.plugins.apply("io.github.jamesfchen.module-publisher-plugin")
@@ -33,48 +20,6 @@ abstract class BasePlugin implements Plugin<Project> {
                 artifactId = simepleName
                 version = "1.0.0-${project.gradle.activeBuildVariant}-SNAPSHOT"
                 website = "https://github.com/JamesfChen/bundles-assembler"
-            }
-        }
-        project.android {
-            compileSdkVersion Integer.parseInt(project.rootProject.compileSdkVersion)
-            buildToolsVersion project.rootProject.buildToolsVersion
-            defaultConfig {
-                (minSdkVersion, targetSdkVersion, versionCode, versionName) = [Integer.parseInt(project.rootProject.minSdkVersion),
-                                                                               Integer.parseInt(project.rootProject.targetSdkVersion),
-                                                                               project.rootProject.versionCode, project.rootProject.versionName]
-
-                testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-            }
-            compileOptions {
-                sourceCompatibility JavaVersion.VERSION_1_8
-                targetCompatibility JavaVersion.VERSION_1_8
-            }
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-            buildTypes {
-                debug {
-                    minifyEnabled false
-                    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-                }
-                release {
-                    minifyEnabled false
-                    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-                }
-            }
-            variantFilter { variant ->
-                def flavors = variant.flavors*.name
-                def buildType = variant.buildType.name
-                def a = project.gradle.activeBuildVariant.toLowerCase()
-                if (!a.contains(buildType)) {
-                    setIgnore(true)
-                }
-                for (def flavor in flavors) {
-                    if (!a.contains(flavor)) {
-                        setIgnore(true)
-                    }
-                }
-
             }
         }
         project.ext {
@@ -193,7 +138,6 @@ abstract class BasePlugin implements Plugin<Project> {
         }
         onApply(project)
     }
-
     static boolean isSourcePath(def path) {
         return !path.contains(".")
     }
@@ -211,25 +155,4 @@ abstract class BasePlugin implements Plugin<Project> {
 //            recurImport(visited, closure.call(d), closure)
 //        }
 //    }
-
-    abstract void addPlugins(Project project)
-
-    abstract void onApply(Project project)
-    protected static def pickupRouter(Project project) {
-        if (project.rootProject.findProperty("AROUTER_VERSION")
-                && project.rootProject.findProperty("WROUTER_VERSION")
-                && project.rootProject.findProperty("IBCROUTER_VERSION")) {
-            throw new IllegalArgumentException("三个只能选择一个")
-        } else if (project.rootProject.findProperty("IBCROUTER_VERSION") && project.rootProject.findProperty("WROUTER_VERSION")) {
-            throw new IllegalArgumentException("两个只能选择一个")
-        } else if (project.rootProject.findProperty("AROUTER_VERSION") && project.rootProject.findProperty("IBCROUTER_VERSION")) {
-            throw new IllegalArgumentException("两个只能选择一个")
-        } else if (project.rootProject.findProperty("WROUTER_VERSION") && project.rootProject.findProperty("AROUTER_VERSION")) {
-            throw new IllegalArgumentException("两个只能选择一个")
-        }
-        if (project.rootProject.findProperty("AROUTER_VERSION")) return ["ARouter", "com.alibaba.arouter", "com.alibaba:arouter-api:$project.rootProject.AROUTER_VERSION"]
-        if (project.rootProject.findProperty("WROUTER_VERSION")) return ["WRouter", "WMRouter", "io.github.meituan-dianping:router:$project.rootProject.WROUTER_VERSION"]
-        if (project.rootProject.findProperty("IBCROUTER_VERSION")) return ["IBCRouter", "io.github.jamesfchen.ibc-plugin", "io.github.jamesfchen:ibc-api:$project.rootProject.IBCROUTER_VERSION"]
-        return ["IBCRouter", "io.github.jamesfchen.ibc-plugin", "io.github.jamesfchen:ibc-api:$project.rootProject.IBCROUTER_VERSION"]
-    }
 }

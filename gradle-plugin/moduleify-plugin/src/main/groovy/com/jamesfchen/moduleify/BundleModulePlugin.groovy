@@ -3,11 +3,14 @@ package com.jamesfchen.moduleify
 
 import org.gradle.api.Project
 
-class BundleModulePlugin extends BasePlugin {
-
+class BundleModulePlugin extends AndroidPlugin {
+    @Override
+    String mainPlugin() {
+        return 'com.android.library'
+    }
     @Override
     void addPlugins(Project project) {
-        project.plugins.apply('com.android.library')
+        super.addPlugins(project)
 //        if (routerType == TYPE_AROUTER) {
 //            project.plugins.apply('com.alibaba.arouter')
 //        }
@@ -17,6 +20,7 @@ class BundleModulePlugin extends BasePlugin {
 
     @Override
     void onApply(Project project) {
+        super.onApply(project)
         project['kapt'].arguments {
             arg("AROUTER_MODULE_NAME", project.getName())
         }

@@ -2,15 +2,20 @@ package com.jamesfchen.moduleify
 
 import org.gradle.api.Project
 
-class ApiModulePlugin extends BasePlugin {
+class ApiModulePlugin extends AndroidPlugin {
+    @Override
+    String mainPlugin() {
+        return 'com.android.library'
+    }
     @Override
     void addPlugins(Project project) {
-        project.plugins.apply('com.android.library')
+        super.addPlugins(project)
 //        project.plugins.apply(routerPlugin)
     }
 
     @Override
     void onApply(Project project) {
+        super.onApply(project)
         project.dependencies {
             api routerLibrary
         }

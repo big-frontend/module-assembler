@@ -2,11 +2,14 @@ package com.jamesfchen.moduleify
 
 import org.gradle.api.Project
 
-class AppModulePlugin extends BasePlugin {
-
+class AppModulePlugin extends AndroidPlugin {
+    @Override
+    String mainPlugin() {
+        return 'com.android.application'
+    }
     @Override
     void addPlugins(Project project) {
-        project.plugins.apply('com.android.application')
+        super.addPlugins(project)
         project.plugins.apply(routerPlugin)
         if (lifecycleVersion) {
             project.plugins.apply('io.github.jamesfchen.lifecycle-plugin')
@@ -19,6 +22,7 @@ class AppModulePlugin extends BasePlugin {
 
     @Override
     void onApply(Project project) {
+        super.onApply(project)
         project.android {
             defaultConfig {
 //        multiDexEnabled = true//support android 20 or lower
