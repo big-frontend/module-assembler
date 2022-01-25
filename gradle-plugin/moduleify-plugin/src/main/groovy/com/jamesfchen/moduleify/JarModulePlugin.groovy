@@ -2,7 +2,12 @@ package com.jamesfchen.moduleify
 
 import org.gradle.api.Project
 
-abstract class JarModulePlugin extends BasePlugin {
+class JarModulePlugin extends BasePlugin {
+
+    @Override
+    protected String mainPlugin() {
+        return 'java-library'
+    }
 
     @Override
     void addPlugins(Project project) {

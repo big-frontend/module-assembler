@@ -3,12 +3,6 @@ package com.jamesfchen.moduleify
 import org.gradle.api.Project
 
 class LintModulePlugin extends JarModulePlugin {
-
-    @Override
-    protected String mainPlugin() {
-        return 'java-library'
-    }
-
     @Override
     void onApply(Project project) {
         super.onApply(project)
