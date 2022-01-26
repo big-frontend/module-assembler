@@ -2,7 +2,7 @@ package com.jamesfchen.moduleify
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import java.lang.Integer
+
 abstract class AndroidPlugin extends BasePlugin {
     static String routerName
     static String routerPlugin
@@ -28,22 +28,14 @@ abstract class AndroidPlugin extends BasePlugin {
     void onApply(Project project) {
 
         project.android {
-            //只要配置了其中一项那么就会要求配置所有项目
-            def hited = project.rootProject.hasProperty("compileSdkVersion")
-                    || project.rootProject.hasProperty("buildToolsVersion")
-                    || project.rootProject.hasProperty("minSdkVersion")
-                    || project.rootProject.hasProperty("targetSdkVersion")
-                    || project.rootProject.hasProperty("versionCode")
-                    || project.rootProject.hasProperty("versionName")
-            if (hited){
-                compileSdkVersion Integer.parseInt(project.rootProject.compileSdkVersion)
-                buildToolsVersion project.rootProject.buildToolsVersion
-            }
-
+            compileSdkVersion Integer.parseInt(project.rootProject.compileSdkVersion)
+            buildToolsVersion project.rootProject.buildToolsVersion
             defaultConfig {
+                minSdkVersion Integer.parseInt(project.rootProject.minSdkVersion)
+                targetSdkVersion Integer.parseInt(project.rootProject.targetSdkVersion)
+                def hited = project.rootProject.hasProperty("versionCode")
+                        || project.rootProject.hasProperty("versionName")
                 if (hited) {
-                    minSdkVersion Integer.parseInt(project.rootProject.minSdkVersion)
-                    targetSdkVersion Integer.parseInt(project.rootProject.targetSdkVersion)
                     versionCode Integer.parseInt(project.rootProject.versionCode)
                     versionName project.rootProject.versionName
                 }
