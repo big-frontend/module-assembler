@@ -13,4 +13,5 @@ plugins{
 //}
 dependencies {
     implementation project.moduleify("hotel-export")
+    kapt 'io.github.jamesfchen:ibc-compiler:1.3.0'
 }

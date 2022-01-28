@@ -13,7 +13,7 @@
 include(
     ":base-plugin", ":base-plugin-ktx",
     ":lifecycle:lifecycle-api", ":lifecycle:lifecycle-plugin",
-    ":ibc:ibc-api", ":ibc:compiler", "ibc:ibc-plugin", ":ibc:annotations",
+    ":ibc:ibc-api", ":ibc:ibc-compiler", "ibc:ibc-plugin", ":ibc:annotations",
 )
 include(":module-publisher-plugin")
 include(":moduleify-plugin")
