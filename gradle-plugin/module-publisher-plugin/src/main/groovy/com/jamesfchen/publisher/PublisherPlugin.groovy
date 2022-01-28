@@ -51,8 +51,13 @@ class PublisherPlugin implements Plugin<Project> {
             if (task.name.contains('ToMavenCentralRepository')) {
                 def ext = project['publish'] as PublishExtension
                 task.doFirst {
-                    ext.checkMavenCentralRelease()
+                    if (ext.version.endsWith('SNAPSHOT')) {
+                        ext.checkMavenCentralSnapshots()
+                    } else {
+                        ext.checkMavenCentralRelease()
+                    }
                 }
+
             }
         }
         project.afterEvaluate {
@@ -291,7 +296,6 @@ class PublishExtension {
     }
 
     void checkMavenCentralRelease() {
-        check()
         checkMavenCentralSnapshots()
         if (isMavenCentralSigningEmpty()) {
             throw new NullPointerException("U should set signingKeyId/signingPassword/signingSecretKeyRingFile in local.properties")
