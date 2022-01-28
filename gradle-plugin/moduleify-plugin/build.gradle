@@ -7,7 +7,7 @@ pluginBundle {
     website = "https://github.com/JamesfChen/bundles-assembler"
     description = "moduleify-plugin"
     tags = ['bundles-assembler']
-    def ver = "1.6.0"
+    def ver = "1.7.0"
     plugins {
         bundlePlugin {
             displayName = 'bundle-plugin'
@@ -41,6 +41,11 @@ pluginBundle {
         }
         lintPlugin {
             displayName = 'lint-plugin'
+            tags = ['bundles-assembler']
+            version = ver
+        }
+        jarPlugin {
+            displayName = 'jar-plugin'
             tags = ['bundles-assembler']
             version = ver
         }
@@ -112,6 +117,12 @@ gradlePlugin {
             implementationClass = 'com.jamesfchen.moduleify.LintModulePlugin'
             displayName = 'lint-plugin'
             description = "lint-plugin"
+        }
+        jarPlugin {
+            id = "${rootProject.groupId}.jar-plugin"
+            implementationClass = 'com.jamesfchen.moduleify.JarModulePlugin'
+            displayName = 'jar-plugin'
+            description = "jar-plugin"
         }
     }
 }

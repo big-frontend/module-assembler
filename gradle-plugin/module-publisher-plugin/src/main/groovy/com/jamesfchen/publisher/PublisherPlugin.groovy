@@ -30,15 +30,6 @@ import org.gradle.plugins.signing.SigningExtension
  */
 class PublisherPlugin implements Plugin<Project> {
 
-    def isApk(Project project) { return project.getPlugins().hasPlugin('com.android.application') }
-
-    def isAar(Project project) { return project.getPlugins().hasPlugin('com.android.library') }
-
-    def isJar(Project project) { return project.getPlugins().hasPlugin('java-library') }
-
-    def isJava(Project project) { return project.getPlugins().hasPlugin('java') }
-
-    def isKotlin(Project project) { return project.getPlugins().hasPlugin('kotlin') }
     Project myProject
 
     @Override
@@ -47,21 +38,21 @@ class PublisherPlugin implements Plugin<Project> {
         project.plugins.apply('maven-publish')
         project.plugins.apply('signing')
         project.extensions.create('publish', PublishExtension)
+        if (Checker.isApk(project)) return
         project.tasks.whenTaskAdded { task ->
             if (task.name.contains('ToMavenCentralRepository')) {
                 def ext = project['publish'] as PublishExtension
                 task.doFirst {
                     if (ext.version.endsWith('SNAPSHOT')) {
-                        ext.checkMavenCentralSnapshots()
+                        Checker.checkMavenCentralSnapshots(ext)
                     } else {
-                        ext.checkMavenCentralRelease()
+                        Checker.checkMavenCentralRelease(ext)
                     }
                 }
 
             }
         }
         project.afterEvaluate {
-            if (isApk(project)) return
             def ext = project['publish'] as PublishExtension
             project.group = ext.groupId
             project.version = ext.version
@@ -106,7 +97,7 @@ class PublisherPlugin implements Plugin<Project> {
     def configMaven(Project project, PublishExtension ext) {
         def taskName
         def pkg
-        if (isAar(project)) {
+        if (Checker.isAar(project)) {
             taskName = 'Aar'
             pkg = "$project.buildDir/outputs/aar/${ext.artifactId}-release.aar"
         } else {
@@ -122,8 +113,8 @@ class PublisherPlugin implements Plugin<Project> {
                     publication.groupId = ext.groupId
                     publication.artifactId = ext.artifactId
                     publication.version = ext.version
-                    if (ext.artifact){
-                        publication.artifact(ext.artifact)
+                    if (ext.artifactPath) {
+                        publication.artifact(ext.artifactPath)
                     }
                     configJavadoc(project, publication, ext)
                     configPom(project, publication.pom, ext)
@@ -134,8 +125,8 @@ class PublisherPlugin implements Plugin<Project> {
                     publication.groupId = ext.groupId
                     publication.artifactId = ext.artifactId
                     publication.version = ext.version
-                    if (ext.artifact){
-                        publication.artifact(ext.artifact)
+                    if (ext.artifact) {
+                        publication.artifact(ext.artifactPath)
                     }
                     configJavadoc(project, publication, ext)
                     configPom(project, publication.pom, ext)
@@ -172,7 +163,7 @@ class PublisherPlugin implements Plugin<Project> {
 
     def configPom(Project project, org.gradle.api.publish.maven.MavenPom pom, PublishExtension ext) {
         pom.name = ext.name
-        pom.packaging = isAar(project) ? "aar" : "jar"
+        pom.packaging = Checker.isAar(project) ? "aar" : "jar"
         pom.description = ext.name
         pom.url = ext.website
         pom.scm {
@@ -214,9 +205,9 @@ class PublisherPlugin implements Plugin<Project> {
 
     private void configJavadoc(Project project, MavenPublication publication, PublishExtension ext) {
         //上传的android aar 文档有点问题,maven校验不通过
-        if (isAar(project)) return
-        if (isKotlin(project)) return
-        if (isAar(project)) {
+        if (Checker.isAar(project)) return
+        if (Checker.isKotlin(project)) return
+        if (Checker.isAar(project)) {
             // This generates sources.jar
 //            task sourcesJar(type: Jar) {
 //                classifier = 'sources'
@@ -271,68 +262,3 @@ class PublisherPlugin implements Plugin<Project> {
     }
 }
 
-class PublishExtension {
-    String name
-    String groupId
-    String artifactId
-    String version
-    String artifact
-    String website
-    String buildVariant //只创建指定的变种发布task
-
-
-    String ossrhUsername
-    String ossrhPassword
-    String releasesRepoUrl
-    String snapshotsRepoUrl
-
-    String signingKeyId
-    String signingSecretKeyRingFile
-    String signingPassword
-
-
-    void checkMavenLocal() {
-        check()
-    }
-
-    void checkMavenCentralRelease() {
-        checkMavenCentralSnapshots()
-        if (isMavenCentralSigningEmpty()) {
-            throw new NullPointerException("U should set signingKeyId/signingPassword/signingSecretKeyRingFile in local.properties")
-        }
-
-    }
-
-    void checkMavenCentralSnapshots() {
-        check()
-        if (isMavenCentralAccountEmpty()) {
-            throw new NullPointerException("U should set ossrhUsername/ossrhPassword in local.properties")
-        }
-    }
-
-    void check() {
-        checkField(name, "name")
-        checkField(groupId, "groupId")
-        checkField(artifactId, "artifactId")
-        checkField(version, "version")
-        checkField(website, "website")
-    }
-
-    boolean isMavenCentralSigningEmpty() {
-        return isEmpty(signingKeyId) || isEmpty(signingSecretKeyRingFile) || isEmpty(signingPassword)
-    }
-
-    boolean isMavenCentralAccountEmpty() {
-        return isEmpty(ossrhUsername) || isEmpty(ossrhPassword)
-    }
-
-    static void checkField(String field, String fieldName) {
-        if (isEmpty(field)) {
-            throw new NullPointerException("$fieldName is empty!!")
-        }
-    }
-
-    static boolean isEmpty(String str) {
-        return str == null || str.length() == 0
-    }
-}
