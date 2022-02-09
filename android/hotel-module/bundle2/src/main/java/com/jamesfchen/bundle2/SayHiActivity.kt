@@ -60,19 +60,6 @@ class SayHiActivity : Activity() {
                         "key4" to true
                     )
                 }
-//                IBCRouter.open(this){
-//                    uri = "https://www.jamesfchen.com"
-//                }
-                //打开当前bundle内部的页面
-//                IBCRouter.open(this){
-//                    uri = "/sayhihi"
-//                    params(
-//                        "key1" to "cjf1",
-//                        "key2" to "cjf2",
-//                        "key3" to 1,
-//                        "key4" to true
-//                    )
-//                }
             }
         }
         FirebaseDynamicLinks.getInstance()

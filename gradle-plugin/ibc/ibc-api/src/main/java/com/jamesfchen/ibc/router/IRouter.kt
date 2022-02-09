@@ -22,5 +22,5 @@ interface IRouter {
     /**
      * h5网页
      */
-    fun onOpen(cxt: Context, uri: URI): Boolean = false
+    fun onOpen(cxt: Context, uri: URI,params: Bundle?): Boolean = false
 }

@@ -4,16 +4,16 @@
     <application>
         <activity
             android:name=".SayMeActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+            >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:host="www.jamesfchen.com"
-                    android:scheme="b"  android:path="/hotel/bundle1"/>
-            </intent-filter>
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data-->
+<!--                    android:host="www.jamesfchen.com"-->
+<!--                    android:scheme="b"  android:path="/hotel/bundle1"/>-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 

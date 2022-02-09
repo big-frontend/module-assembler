@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import com.jamesfchen.ibc.Router
 import com.jamesfchen.ibc.router.IRouter
+import java.net.URI
 
 /**
  * Copyright ® $ 2017
@@ -21,5 +22,14 @@ class H5Router : IRouter {
             return true
         }
         return false
+    }
+
+    override fun onOpen(cxt: Context, uri: URI,params: Bundle?): Boolean {
+        if (uri.toString().isNotEmpty()) {
+            WebViewActivity.startActivity(cxt, uri.toString())
+            return true
+        }
+        return false
+
     }
 }

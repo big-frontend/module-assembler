@@ -1,33 +1,54 @@
 package com.jamesfchen.myhome
 
-import android.app.ActionBar
 import android.app.Activity
-import android.content.Intent
-import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import com.jamesfchen.ibc.router.IBCRouter
+import com.jamesfchen.myhome.databinding.ActivityMainBinding
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val tv = Button(this)
-
-        tv.text = "${getPackageName()}  main activity"
-        tv.isAllCaps = false
-        tv.setTextColor(Color.BLACK)
-        tv.setOnClickListener {
-            val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("b://www.jamesfchen.com/hotel/bundle1")
-            )
-            startActivity(intent)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.btNative1.setOnClickListener {
+//            打开当前bundle内部的页面
+            IBCRouter.open(this) {
+                uri = "/ppp"
+            }
         }
-        setContentView(tv, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT))
+        binding.btNative2.setOnClickListener {
+            //打开当前bundle内部的页面
+            IBCRouter.open(this) {
+                uri = "b://bundle1/sayme"
+            }
+        }
+        binding.btReact.setOnClickListener {
+            //必须自定义router且bindingBundle=h5container
+            IBCRouter.open(this) {
+                uri = "https://spacecraft-plan.github.io/SpacecraftReact/#/"
+                params(
+                    "key2" to "cjf2",
+                    "key3" to 1,
+                    "key4" to true
+                )
+            }
+        }
+        binding.btH5.setOnClickListener {
+            IBCRouter.open(this) {
+                uri = "b://h5container/page"
+                params(
+                    "url" to "file:///android_asset/AApp.html",
+                )
+            }
+        }
+        binding.btRn.setOnClickListener {
+            IBCRouter.open(this) {
+                uri = "b://h5container/page"
+                params(
+                    "url" to "file:///android_asset/AApp.html",
+                )
+            }
+        }
     }
 
 }

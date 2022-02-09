@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/bt_native1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打开一个native页面(当前bundle)"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/bt_native2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打开一个native页面(外部bundle)"
+        android:textAllCaps="false" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_react"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="打开一个react应用"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/bt_h5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="打开一个h5应用"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_rn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打开一个react native应用"
+        android:textAllCaps="false" />
+</LinearLayout>
