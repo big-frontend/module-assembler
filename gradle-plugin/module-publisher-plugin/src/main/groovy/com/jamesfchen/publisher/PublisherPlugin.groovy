@@ -125,7 +125,7 @@ class PublisherPlugin implements Plugin<Project> {
                     publication.groupId = ext.groupId
                     publication.artifactId = ext.artifactId
                     publication.version = ext.version
-                    if (ext.artifact) {
+                    if (ext.artifactPath) {
                         publication.artifact(ext.artifactPath)
                     }
                     configJavadoc(project, publication, ext)

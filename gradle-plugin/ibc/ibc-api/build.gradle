@@ -1,5 +1,5 @@
 plugins{
-    id 'io.github.jamesfchen.module-publisher-plugin' version '1.1.4'
+    id 'io.github.jamesfchen.module-publisher-plugin' version '1.4.1'
 }
 publish {
     name = "ibc-api"
@@ -18,5 +18,5 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    api project(':ibc:annotations')
+    api project(':ibc:ibc-annotations')
 }

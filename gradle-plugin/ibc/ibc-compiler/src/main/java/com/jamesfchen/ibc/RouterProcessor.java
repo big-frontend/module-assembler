@@ -1,5 +1,8 @@
 package com.jamesfchen.ibc;
 
+
+import com.jamesfchen.pgannotations.Feature;
+
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -21,12 +24,12 @@ import javax.tools.Diagnostic;
  * @email hawksjamesf@gmail.com
  * @since 7月/13/2021  周二
  */
-public class RouteProcessor extends AbstractProcessor {
+public class RouterProcessor extends AbstractProcessor {
     private String mOutputDir;
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> set = new LinkedHashSet<String>();
-        set.add(Router.class.getCanonicalName());
+        set.add(Feature.class.getCanonicalName());
         return set;
     }
 
@@ -59,8 +62,8 @@ public class RouteProcessor extends AbstractProcessor {
             for (Element annotatedElement : roundEnvironment.getElementsAnnotatedWith(typeElement)) {
 //                processAnnotation(typeElement, (TypeElement) annotatedElement);
                     String name = annotatedElement.getSimpleName().toString();
-                    String value = annotatedElement.getAnnotation(Router.class).bindingBundle();
-                    messager.printMessage(Diagnostic.Kind.NOTE, "cjf"+name + " --> " + value+"\n");
+//                    String value = annotatedElement.getAnnotation(Feature.class).bindingBundle();
+//                    messager.printMessage(Diagnostic.Kind.NOTE, "cjf"+name + " --> " + value+"\n");
             }
         }
         return true;

@@ -1,6 +1,10 @@
 package com.jamesfchen.ibc.router
 
 import android.os.Bundle
+import android.os.IBinder
+import android.os.Parcelable
+import android.util.SparseArray
+import java.io.Serializable
 import java.net.URI
 import java.util.*
 
@@ -21,7 +25,7 @@ class IBCUri(private val builder: UriBuilder) {
     }
     val schema = uri.scheme
     val host = uri.host
-    val page = uri.path.lowercase(Locale.getDefault()).replaceFirst("/","")
+    val page = uri.path.lowercase(Locale.getDefault()).replaceFirst("/", "")
     val params = builder.params
 }
 
@@ -32,45 +36,29 @@ class UriBuilder {
         params = Bundle()
         args.forEach {
             when (it.second) {
-                is String -> {
-                    params?.putString(it.first, it.second as String)
-                }
-                is Boolean -> {
-                    params?.putBoolean(it.first, it.second as Boolean)
-                }
-                is Short -> {
-                    params?.putShort(it.first, it.second as Short)
-                }
-                is Int -> {
-                    params?.putInt(it.first, it.second as Int)
-                }
-                is Long -> {
-                    params?.putLong(it.first, it.second as Long)
-                }
-                is Float -> {
-                    params?.putFloat(it.first, it.second as Float)
-                }
-                is Double -> {
-                    params?.putDouble(it.first, it.second as Double)
-                }
-                is ShortArray -> {
-                    params?.putShortArray(it.first, it.second as ShortArray)
-                }
-                is IntArray -> {
-                    params?.putIntArray(it.first, it.second as IntArray)
-                }
-                //                is ArrayList<Int> -> {
-//                    params.putIntegerArrayList(it.first, it.second as ArrayList<Int>)
-//                }
-                is LongArray -> {
-                    params?.putLongArray(it.first, it.second as LongArray)
-                }
-                is FloatArray -> {
-                    params?.putFloatArray(it.first, it.second as FloatArray)
-                }
-                is DoubleArray -> {
-                    params?.putDoubleArray(it.first, it.second as DoubleArray)
-                }
+                is String -> params?.putString(it.first, it.second as String)
+                is Array<*> -> params?.putStringArray(it.first, it.second as Array<String>)
+                is Byte -> params?.putByte(it.first, it.second as Byte)
+                is ByteArray -> params?.putByteArray(it.first, it.second as ByteArray)
+                is Char -> params?.putChar(it.first, it.second as Char)
+                is CharArray -> params?.putCharArray(it.first, it.second as CharArray)
+                is Boolean -> params?.putBoolean(it.first, it.second as Boolean)
+                is BooleanArray -> params?.putBooleanArray(it.first, it.second as BooleanArray)
+                is Short -> params?.putShort(it.first, it.second as Short)
+                is ShortArray -> params?.putShortArray(it.first, it.second as ShortArray)
+                is Int -> params?.putInt(it.first, it.second as Int)
+                is IntArray -> params?.putIntArray(it.first, it.second as IntArray)
+                is Long -> params?.putLong(it.first, it.second as Long)
+                is LongArray -> params?.putLongArray(it.first, it.second as LongArray)
+                is Float -> params?.putFloat(it.first, it.second as Float)
+                is FloatArray -> params?.putFloatArray(it.first, it.second as FloatArray)
+                is Double -> params?.putDouble(it.first, it.second as Double)
+                is DoubleArray -> params?.putDoubleArray(it.first, it.second as DoubleArray)
+                is Parcelable -> params?.putParcelable(it.first, it.second as Parcelable)
+                is Serializable -> params?.putSerializable(it.first, it.second as Serializable)
+                is SparseArray<*> ->params?.putSparseParcelableArray(it.first, it.second as SparseArray<out Parcelable>)
+                is Array<*> -> params?.putParcelableArray(it.first, it.second as Array<out Parcelable>)
+                is IBinder -> params?.putBinder(it.first, it.second as IBinder)
             }
         }
     }

@@ -1,5 +1,0 @@
-apply from: "$rootDir/script/aar.gradle"
-
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-}

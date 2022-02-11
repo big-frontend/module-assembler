@@ -1,0 +1,19 @@
+plugins{
+    id 'io.github.jamesfchen.module-publisher-plugin' version '1.4.1'
+}
+publish {
+    name = "ibc-annotations"
+    groupId = rootProject.groupId
+    artifactId = "ibc-annotations"
+    version = "1.3.0"
+    website = "https://github.com/JamesfChen/bundles-assembler"
+}
+apply plugin: 'java-library'
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
+}
