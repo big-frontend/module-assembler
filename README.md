@@ -1,4 +1,4 @@
-> 随着插件化的落幕，组件化必然会获得更多的焦点，创建这个项目就是为了摸索这条路，要问我路在何方，路在脚下。
+> 随着跨平台框架越来越多，为了提高开发效率，该项目整合所有框架。通过组件化与插件化的方式按需编译、按需加载bundle
 
 ### todo
 - 组件化项目脚手架cli
@@ -6,6 +6,7 @@
     - [ ] 添加react native 、h5 、flutter 、native bundle模块, 指定某个bundle为splash模块或者home模块
     - [ ] 编译或者打包bundle 、部署到手机 、 发布到server
 - [ ] IBC支持 rn/h5 ---> rn/h5 && native <---> rn/h5 && native1 <---> native2
+- [ ] 接入热修、code push
 
 ### 项目结构
 
