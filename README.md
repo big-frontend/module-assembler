@@ -3,14 +3,18 @@
 ### todo
 - 组件化项目脚手架cli
     - [x] 初始化项目模板
-    - 添加react native 、h5 、flutter 、native bundle模块, 指定某个bundle为splash模块或者home模块
-    - 编译或者打包bundle 、部署到手机 、 发布到server
+    - [ ] 添加react native 、h5 、flutter 、native bundle模块, 指定某个bundle为splash模块或者home模块
+    - [ ] 编译或者打包bundle 、部署到手机 、 发布到server
 - [ ] IBC支持 rn/h5 ---> rn/h5 && native <---> rn/h5 && native1 <---> native2
 
 ### 项目结构
 
-- android //android端组件化项目(component client),[文章入口](/android/README.md)
-
+- b //客户端组件化项目[文章入口](/b/README.md),所有组价可独立运行
+    - app: 集成所有的bundle
+    - framework(ios/android)：用于运行react native 、h5 、flutter 、native bundle的框架
+    - hotel-module/home-module：native bundle有myhome、bundle1-4
+    - rnbundle：react native bundle
+    - h5bundle: h5 bundle
 - server //server端管理组件化打包发布,目前主要使用gitlab ci(ci server),[文章入口](/server/README.md)
 
 - gradle-plugin //高效快速组件化的插件工具(gradle plugin),[文章入口](/gradle-plugin/README.md)

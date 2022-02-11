@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "rnbundle",
+    "slug": "rnbundle",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "rnbundle"
+}
