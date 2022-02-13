@@ -6,7 +6,11 @@ import java.io.InputStream;
 /**
  * Copyright ® $ 2017
  * All right reserved.
- *
+ *ClassInfo{
+ * mather=/Users/hawks.jamesf/tech/Spacecraft/bundles-assembler/b/app/build/intermediates/transforms/IbcTransform/release/335.jar,
+ * classStream=java.util.zip.ZipFile$ZipFileInflaterInputStream@ce006b7,
+ * canonicalName='com.jamesfchen.ibc.IBCInitializer'
+ * }
  */
 public class ClassInfo{
     public File mather;//jar or dir

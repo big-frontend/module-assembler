@@ -1,5 +1,11 @@
 plugins{
     id "io.github.jamesfchen.app-plugin"
+    id 'io.github.jamesfchen.pluginify-parasite-plugin'
+}
+repluginPluginConfig {
+    pluginName = "home"
+    hostApplicationId = rootProject.applicationId
+    hostAppLauncherActivity = "com.qihoo360.replugin.sample.host.MainActivity"
 }
 apply from: "$rootDir/script/app_config.gradle"
 android {
@@ -8,6 +14,8 @@ android {
         resValue "string", "app_name","hotel.app"
     }
 }
+
+
 dependencies {
     project.depsConfig("implementation", "hotel-bundle1")
     project.depsConfig("implementation", "hotel-bundle2")
@@ -16,4 +24,5 @@ dependencies {
     project.depsConfig("implementation", "hotel-export")
     project.depsConfig("implementation", "hotel-foundation")
     project.depsConfig("implementation", "framework-webcontainer")
+    implementation "io.github.jamesfchen:pluginify-parasite-api:${RP_VERSION}"
 }

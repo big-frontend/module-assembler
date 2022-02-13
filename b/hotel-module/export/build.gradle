@@ -2,5 +2,5 @@ plugins{
     id "io.github.jamesfchen.api-plugin"
 }
 dependencies {
-    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib:${KOTLIN_VERSION}"
 }

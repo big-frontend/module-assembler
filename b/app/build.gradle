@@ -1,6 +1,11 @@
 plugins {
     id "io.github.jamesfchen.app-plugin"
     id 'com.google.gms.google-services'
+    id 'io.github.jamesfchen.pluginify-host-plugin'
+}
+repluginHostConfig {
+// 可以在这里自定义常驻进程的名字
+// persistentName = ":XXXXService"
 }
 apply from: "$rootDir/script/app_config.gradle"
 android {
@@ -16,4 +21,5 @@ dependencies {
     project.depsConfig("implementation", "hotel-bundle4")
     project.depsConfig("implementation", "hotel-export")
     project.depsConfig("implementation", "hotel-foundation")
+    implementation "io.github.jamesfchen:pluginify-host-api:${RP_VERSION}"
 }

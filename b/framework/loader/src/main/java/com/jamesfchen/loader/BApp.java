@@ -1,7 +1,7 @@
 package com.jamesfchen.loader;
 
 
-import androidx.multidex.MultiDexApplication;
+import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.alibaba.android.arouter.utils.TextUtils;
@@ -20,7 +20,7 @@ import java.io.IOException;
  * @since: 2017/7/4
  */
 @App
-public class BApp extends MultiDexApplication {
+public class BApp extends Application {
     private static BApp app;
 
     public static BApp getInstance() {

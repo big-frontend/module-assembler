@@ -1,0 +1,47 @@
+apply plugin: 'java'
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+apply plugin: 'groovy'
+tasks.withType(GroovyCompile) {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+String verPath = "${project.projectDir}/src/main/groovy/com/qihoo360/replugin/Constants.groovy"
+String verLine = new File(verPath).filterLine { it =~ /def static final VER =/ }
+version = "${verLine.split("\"")[1]}" // 版本
+//红色醒目打印显示版本号
+java.lang.System.err.println "version=${version}"
+dependencies {
+    implementation 'com.android.tools.build:gradle:4.1.2'
+    implementation 'org.json:json:20160212'
+    implementation 'org.codehaus.groovy:groovy:2.4.7'
+    implementation 'com.squareup:javapoet:1.5.1'
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.google.gradle:osdetector-gradle-plugin:1.2.1'
+    implementation 'org.javassist:javassist:3.18.2-GA'
+    implementation 'commons-io:commons-io:2.5'
+    implementation 'net.dongliu:apk-parser:2.2.0'
+    implementation 'com.google.guava:guava:11.0'
+    implementation 'commons-codec:commons-codec:1.15'
+    implementation project(":base-plugin")
+}
+apply plugin: "java-gradle-plugin"
+gradlePlugin {
+    plugins {
+        pluginifyHost {
+            id = "${rootProject.groupId}.pluginify-host-plugin"
+            implementationClass = 'com.qihoo360.replugin.host.HostPlugin'
+            displayName = "pluginify-host-plugin"
+            description = "pluginify-host-plugin"
+        }
+        pluginifyParasite {
+            id = "${rootProject.groupId}.pluginify-parasite-plugin"
+            implementationClass = 'com.qihoo360.replugin.plugin.ParasitePlugin'
+            displayName = "pluginify-parasite-plugin"
+            description = "pluginify-parasite-plugin"
+        }
+    }
+}

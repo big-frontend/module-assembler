@@ -1,6 +1,5 @@
 package com.jamesfchen
 
-import com.jamesfchen.ClassInfo
 import org.apache.commons.io.FileUtils
 
 import java.util.jar.JarFile

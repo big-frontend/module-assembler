@@ -1,0 +1,26 @@
+plugins {
+    id 'io.github.jamesfchen.module-publisher-plugin' version '1.4.1'
+}
+publish {
+    name = "pluginify-host-api"
+    groupId = rootProject.groupId
+    artifactId = "pluginify-host-api"
+    version = "1.0.0"
+    website = "https://github.com/JamesfChen/bundles-assembler"
+}
+
+
+apply from: "$rootDir/script/aar.gradle"
+android {
+    defaultConfig {
+        versionCode 1
+        versionName "1.0.0"
+    }
+}
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // 以“占位符”（Provided）的方式来引用support-v4，不会编入AAR
+    // 但宿主需要支持Support-v4（至少应支持LocalBroadcastManager）
+    compileOnly 'androidx.legacy:legacy-support-v4:1.0.0'
+}
