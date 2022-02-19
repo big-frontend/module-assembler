@@ -3,14 +3,9 @@ pluginManagement {
         maven { url uri("$rootDir/repo") }
         mavenLocal()
         mavenCentral()
-//        google()
         maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/releases' }
-        maven {
-            url "http://maven.geelib.360.cn/nexus/service/rest/repository/browse/replugin/"
-            allowInsecureProtocol true
-        }
         gradlePluginPortal()
     }
     plugins {
@@ -22,17 +17,12 @@ dependencyResolutionManagement {
         maven { url uri("$rootDir/repo") }
         mavenLocal()
         mavenCentral()
-//        google()
         maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/releases' }
-        maven {
-            url "http://maven.geelib.360.cn/nexus/service/rest/repository/browse/replugin/"
-            allowInsecureProtocol true
-        }
         gradlePluginPortal()
     }
 }
 apply from:'./script/trace_gradle.gradle'
 apply from:'./script/module_registry.gradle'
-includeBuild("../gradle-plugin")
+includeBuild("../composite-builds")

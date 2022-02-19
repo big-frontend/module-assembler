@@ -8,6 +8,7 @@ repluginHostConfig {
 // persistentName = ":XXXXService"
 }
 apply from: "$rootDir/script/app_config.gradle"
+apply from: "$rootDir/script/tinker_config.gradle"
 android {
     defaultConfig {
         resValue "string", "app_name", "b.app"

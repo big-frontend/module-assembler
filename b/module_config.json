@@ -5,7 +5,7 @@
     "debug",
     "release"
   ],
-  "activeBuildVariant": "release",
+  "activeBuildVariant": "debug",
   "groupId": "com.jamesfchen.b",
   "allModules": [
     {

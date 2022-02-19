@@ -26,7 +26,6 @@ dependencies {
     implementation 'net.dongliu:apk-parser:2.2.0'
     implementation 'com.google.guava:guava:11.0'
     implementation 'commons-codec:commons-codec:1.15'
-    implementation project(":base-plugin")
 }
 apply plugin: "java-gradle-plugin"
 gradlePlugin {

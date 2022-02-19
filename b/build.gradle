@@ -9,10 +9,6 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/releases' }
         maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
-        maven {
-            url "http://maven.geelib.360.cn/nexus/service/rest/repository/browse/replugin/"
-            allowInsecureProtocol true
-        }
         flatDir {
             dirs 'libs' //this way we can find the .aar file in libs folder
         }
@@ -28,6 +24,7 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.8'
         classpath 'com.google.firebase:perf-plugin:1.4.0'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
+        classpath ('com.tencent.tinker:tinker-patch-gradle-plugin:1.9.14.19')
     }
 }
 plugins {

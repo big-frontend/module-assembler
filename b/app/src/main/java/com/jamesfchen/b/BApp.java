@@ -1,16 +1,15 @@
-package com.jamesfchen.loader;
+package com.jamesfchen.b;
 
 
 import android.app.Application;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.alibaba.android.arouter.utils.TextUtils;
 import com.jamesfchen.ibc.IBCInitializer;
 import com.jamesfchen.lifecycle.App;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import com.jamesfchen.loader.BuildConfig;
 
 /**
  * Copyright ® $ 2017
@@ -21,13 +20,20 @@ import java.io.IOException;
  */
 @App
 public class BApp extends Application {
-    private static BApp app;
-
+    private static BApp sApp;
+    RePluginApplicationProxy rePluginApplicationProxy;
     public static BApp getInstance() {
-        if (app == null) {
+        if (sApp == null) {
             throw new IllegalStateException("app is null");
         }
-        return app;
+        return sApp;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        rePluginApplicationProxy = new RePluginApplicationProxy();
+        rePluginApplicationProxy.attachBaseContext(base);
     }
 
     @Override
@@ -41,34 +47,25 @@ public class BApp extends Application {
         ARouter.init(this);
 //        ProcessLifecycleOwner.get().getLifecycle().addObserver(new AppLifecycleObserver());
         IBCInitializer.init(this);
+        rePluginApplicationProxy.onCreate();
+        Log.d("cjf","cjf");
+    }
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        rePluginApplicationProxy.onLowMemory();
     }
 
-    /**
-     * 获取进程号对应的进程名
-     *
-     * @param pid 进程号
-     * @return 进程名
-     */
-    private static String getProcessName(int pid) {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
-            String processName = reader.readLine();
-            if (!TextUtils.isEmpty(processName)) {
-                processName = processName.trim();
-            }
-            return processName;
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-        }
-        return null;
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        rePluginApplicationProxy.onTrimMemory(level);
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        rePluginApplicationProxy.onConfigurationChanged(newConfig);
     }
 }
