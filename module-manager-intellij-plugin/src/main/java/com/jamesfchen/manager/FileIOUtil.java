@@ -7,6 +7,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.sun.istack.NotNull;
 
 import java.io.*;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -47,20 +48,18 @@ public class FileIOUtil {
         }
     }
 
-    public static void parseModuleConfig(Map<String, Module> map, @NotNull Project project) {
+    public static ModuleConfig parseModuleConfig(@NotNull Project project) {
         try {
             VirtualFile moduleConfig = project.getBaseDir().findFileByRelativePath("./module_config.json");
             if (moduleConfig == null) {
                 showNotification("moduleconfig_id", "不存在module_config.json文件");
             }
             JsonReader reader = new JsonReader(new InputStreamReader(moduleConfig.getInputStream()));
-            ModuleConfig config = new Gson().fromJson(reader, ModuleConfig.class);
-            for (Module m : config.allModules) {
-                map.put(m.simpleName, m);
-            }
+            return new Gson().fromJson(reader, ModuleConfig.class);
         } catch (IOException e) {
             e.printStackTrace();
             showNotification("moduleconfig_id2", "module_config.json解析失败");
+            return null;
         }
     }
 

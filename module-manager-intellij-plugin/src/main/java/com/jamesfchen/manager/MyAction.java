@@ -6,11 +6,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
 
 import javax.swing.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import static com.jamesfchen.manager.FileIOUtil.*;
+import static com.jamesfchen.manager.NotificationUtil.showNotification;
 
 public class MyAction extends AnAction {
 
@@ -22,12 +21,30 @@ public class MyAction extends AnAction {
         if (localProperties == null) return;
         String excludeModulesStr = localProperties.getProperty("excludeModules");
         String sourceModulesStr = localProperties.getProperty("sourceModules");
-        String appsStr = localProperties.getProperty("apps");
+        String activeBuildVariant = localProperties.getProperty("activeBuildVariant");
         Map<String, Module> allModuleMap = new HashMap<String, Module>();
         Map<String, Module> excludeModuleMap = new HashMap<String, Module>();
         Map<String, Module> sourceModuleMap = new HashMap<String, Module>();
         Map<String, Module> binaryModuleMap = new HashMap<String, Module>();
-        parseModuleConfig(allModuleMap, project);
+
+        ModuleConfig config = parseModuleConfig(project);
+        if (config == null){
+            return;
+        }
+        for (Module m : config.allModules) {
+            allModuleMap.put(m.simpleName, m);
+        }
+        if ((activeBuildVariant == null || activeBuildVariant.isEmpty())
+                &&(config.buildVariants == null || config.buildVariants.isEmpty()) ){
+            showNotification("bindBuildVariants", "请配置buildVariants");
+            return;
+        }
+//        第一次初始化项目时,local.properties文件没有activeBuildVariant
+        if (activeBuildVariant == null || activeBuildVariant.isEmpty()){
+            activeBuildVariant = config.buildVariants.get(0);
+            localProperties.setProperty("activeBuildVariant", activeBuildVariant);
+            storeLocalProperties(localProperties, project);
+        }
         //第一次初始化项目时，local.properties文件没有excludeModules、sourceModules、apps这三个，默认所有模块都为binary
         if (excludeModulesStr == null || sourceModulesStr == null) {
             localProperties.setProperty("excludeModules", "");
@@ -66,12 +83,14 @@ public class MyAction extends AnAction {
             System.out.println(" run again " + excludeModulesStr + "   " + sourceModulesStr);
         }
         System.out.println(" sourceModuleMap:" + sourceModuleMap);
-        System.out.println("excludeModuleMap:" + excludeModuleMap);
+        System.out.println(" excludeModuleMap:" + excludeModuleMap);
         System.out.println(" binaryModuleMap:" + binaryModuleMap);
+        System.out.println(" activeBuildVariant:" + activeBuildVariant);
+        System.out.println(" buildVariants:" + config.buildVariants);
         Dashboard d2 = new Dashboard();
-        d2.setOKListener(new Dashboard.Listener() {
+        d2.setOKListener(new Dashboard.OkListener() {
             @Override
-            public void call(JPanel allModulePanel) {
+            public void call(JPanel allModulePanel,String activeBuildVariant) {
                 int componentCount = allModulePanel.getComponentCount();
                 StringBuffer excludesb = new StringBuffer();
                 StringBuffer sourcesb = new StringBuffer();
@@ -91,6 +110,7 @@ public class MyAction extends AnAction {
 
                 localProperties.setProperty("excludeModules", excludesb.toString());
                 localProperties.setProperty("sourceModules", sourcesb.toString());
+                localProperties.setProperty("activeBuildVariant", activeBuildVariant);
                 storeLocalProperties(localProperties, project);
                 AnAction syncProjectAction = e.getActionManager().getAction("Android.SyncProject");
                 if (syncProjectAction != null) {
@@ -98,10 +118,17 @@ public class MyAction extends AnAction {
                 }
             }
         });
+        d2.setCancelListener(new Dashboard.CancelListener() {
+            @Override
+            public void call() {
+                d2.dispose();
+            }
+        });
         if (!d2.isShowing()) {
             d2.bindSourcePanel(sourceModuleMap);
             d2.bindExcludePanel(excludeModuleMap);
             d2.bindBinaryPanel(binaryModuleMap);
+            d2.bindBuildVariants(activeBuildVariant,config.buildVariants);
             d2.pack();
             d2.setVisible(true);
 

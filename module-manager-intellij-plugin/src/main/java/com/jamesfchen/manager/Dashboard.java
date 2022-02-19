@@ -2,18 +2,25 @@ package com.jamesfchen.manager;
 
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.CollectionComboBoxModel;
+import com.intellij.ui.components.DropDownLink;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.List;
+
 
 public class Dashboard extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTabbedPane tabbedPane;
     private JPanel allModulePanel;
+    private String activeBuildVariant;
+    private JPanel settingsPanel;
+    private JPanel activeBuildVariantPanel;
 
     public Dashboard() {
         setSize(new Dimension(1000, 697));
@@ -21,15 +28,12 @@ public class Dashboard extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-
         buttonOK.addActionListener(e -> {
-
-
-            if (okl != null) okl.call(allModulePanel);
+            if (okl != null) okl.call(allModulePanel,activeBuildVariant);
             dispose();
         });
         buttonCancel.addActionListener(e -> {
-            if (cancell != null) cancell.call(allModulePanel);
+            if (cancell != null) cancell.call();
             dispose();
         });
 
@@ -37,30 +41,33 @@ public class Dashboard extends JDialog {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                if (cancell != null) cancell.call(allModulePanel);
+                if (cancell != null) cancell.call();
             }
         });
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (cancell != null) cancell.call(allModulePanel);
+                if (cancell != null) cancell.call();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    protected Listener okl = null;
-    protected Listener cancell = null;
+    protected OkListener okl = null;
+    protected CancelListener cancell = null;
 
-    public interface Listener {
-        void call(JPanel allModulePanel);
+
+    public interface OkListener {
+        void call(JPanel allModulePanel,String activeBuildVariant);
     }
-
-    public void setOKListener(Listener l) {
+    public interface CancelListener {
+        void call();
+    }
+    public void setOKListener(OkListener l) {
         this.okl = l;
     }
 
-    public void setCancelListener(Listener l) {
+    public void setCancelListener(CancelListener l) {
         this.cancell = l;
     }
 
@@ -78,7 +85,30 @@ public class Dashboard extends JDialog {
     public void bindBinaryPanel(Map<String, Module> moduleMap) {
         bindPanel(moduleMap, entry -> createFieldText(entry, Color.orange, "binary"));
     }
+    public void bindBuildVariants(String activeBuildVariant,List<String> variants){
+        this.activeBuildVariant = activeBuildVariant;
+        GridBagConstraints bagConstraints = new GridBagConstraints();
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        //add jlabel
+        bagConstraints.weightx = 1;
+        JLabel jLabel = new JLabel();
+        jLabel.setText(activeBuildVariant);
+        jLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        jLabel.setFont(new Font("黑体", 1, 12));
+        jLabel.setForeground(Color.green);
+        activeBuildVariantPanel.add(jLabel, bagConstraints);
+        ComboBoxModel<String> comboBoxModel = new CollectionComboBoxModel<>(variants);
+        ComboBox<String> comboBox = new ComboBox<>(comboBoxModel);
+        bagConstraints.weightx = 1;
+        comboBox.setEditable(true);
+        comboBox.setSelectedItem(activeBuildVariant);
+        comboBox.addItemListener(e -> {
+            jLabel.setText(e.getItem().toString());
+            this.activeBuildVariant = e.getItem().toString();
+        });
+        activeBuildVariantPanel.add(comboBox, bagConstraints);
 
+    }
     private interface Callback {
         JComponent call(Map.Entry<String, Module> entry);
     }

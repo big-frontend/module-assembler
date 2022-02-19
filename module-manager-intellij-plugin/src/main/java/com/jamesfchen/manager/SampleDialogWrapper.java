@@ -1,8 +1,6 @@
 package com.jamesfchen.manager;
 
 import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.sun.istack.Nullable;
 
 import javax.swing.*;
