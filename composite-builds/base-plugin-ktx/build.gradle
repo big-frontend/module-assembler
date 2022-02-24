@@ -1,6 +1,4 @@
-plugins{
-    id 'io.github.jamesfchen.module-publisher-plugin' version '1.4.1'
-}
+apply plugin: "io.github.jamesfchen.module-publisher-plugin"
 publish {
     name="base-plugin-ktx"
     groupId = rootProject.groupId

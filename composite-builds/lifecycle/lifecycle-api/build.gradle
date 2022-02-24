@@ -1,6 +1,5 @@
-plugins{
-    id 'io.github.jamesfchen.module-publisher-plugin'version '1.4.1'
-}
+apply from: "$rootDir/script/aar.gradle"
+apply plugin: "io.github.jamesfchen.module-publisher-plugin"
 publish{
     name="lifecycle-api"
     groupId = rootProject.groupId
@@ -8,7 +7,6 @@ publish{
     version = "1.0.3"
     website = "https://github.com/JamesfChen/bundles-assembler"
 }
-apply from: "$rootDir/script/aar.gradle"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

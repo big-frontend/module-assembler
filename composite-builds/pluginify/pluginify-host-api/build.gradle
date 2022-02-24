@@ -1,6 +1,11 @@
-plugins {
-    id 'io.github.jamesfchen.module-publisher-plugin' version '1.4.1'
+apply from: "$rootDir/script/aar.gradle"
+android {
+    defaultConfig {
+        versionCode 1
+        versionName "1.0.0"
+    }
 }
+apply plugin: "io.github.jamesfchen.module-publisher-plugin"
 publish {
     name = "pluginify-host-api"
     groupId = rootProject.groupId
@@ -10,13 +15,7 @@ publish {
 }
 
 
-apply from: "$rootDir/script/aar.gradle"
-android {
-    defaultConfig {
-        versionCode 1
-        versionName "1.0.0"
-    }
-}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 

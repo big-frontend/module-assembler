@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import com.jamesfchen.ibc.Constants
 import com.jamesfchen.ibc.Registry
+import java.lang.UnsupportedOperationException
 import java.net.URI
 
 /**
@@ -23,6 +24,7 @@ class IBCRouter {
             if (builder.uri.startsWith("/")) {
                 //todo：查询当前bundle名并且进行拼接
                 builder.uri = "b:// /${builder.uri}"
+                throw UnsupportedOperationException("暂时不支持跳转")
             }
             val ibcUri = builder.build()
             if (ibcUri.schema == "http"

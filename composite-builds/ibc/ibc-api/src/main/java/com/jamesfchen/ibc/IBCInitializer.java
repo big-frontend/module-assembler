@@ -11,13 +11,21 @@ import android.content.Context;
  */
 public class IBCInitializer {
     static boolean inited = false;
+
     public static void init(Context cxt) {
         if (inited) return;
-        //通过编译期插桩注册路由器
-//            Registry.getInstance().register(Bundle1Router::class.java)
-//            Registry.getInstance().register(Bundle2Router::class.java)
-//            Registry.getInstance().register("bundle1",Class.forName(" com.jamesfchen.bundle1.Bundle1Router"))
-//            Registry.getInstance().register("bundle2",Class.forName(" com.jamesfchen.bundle2.Bundle1Router"))
+        register(cxt);
         inited = true;
+    }
+
+    /**
+     * 通过编译期插桩注册路由器
+     */
+    private static void register(Context cxt) {
+        //        Registry.getInstance().registerRouter("home", HomeRouter.class);
+//        Registry.getInstance().registerRouter("bundle1", Bundle1Router.class);
+//        Registry.getInstance().registerRouter("bundle2", Bundle2Router.class);
+//        Registry.getInstance().registerRouter("h5container", H5Router.class);
+//        Registry.getInstance().registerApi(CallImp.class);
     }
 }

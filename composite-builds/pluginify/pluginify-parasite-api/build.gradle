@@ -1,6 +1,11 @@
-plugins{
-    id 'io.github.jamesfchen.module-publisher-plugin' version '1.4.1'
+apply from: "$rootDir/script/aar.gradle"
+android {
+    defaultConfig {
+        versionCode 1
+        versionName "1.0.0"
+    }
 }
+apply plugin: "io.github.jamesfchen.module-publisher-plugin"
 publish {
     name = "pluginify-parasite-api"
     groupId = rootProject.groupId
@@ -9,13 +14,7 @@ publish {
     website = "https://github.com/JamesfChen/bundles-assembler"
 }
 
-apply from: "$rootDir/script/aar.gradle"
-android {
-    defaultConfig {
-        versionCode 1
-        versionName "1.0.0"
-    }
-}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

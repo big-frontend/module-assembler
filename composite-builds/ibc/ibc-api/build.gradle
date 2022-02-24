@@ -1,16 +1,13 @@
-plugins{
-    id 'io.github.jamesfchen.module-publisher-plugin' version '1.4.1'
-}
+apply from: "$rootDir/script/aar.gradle"
+apply plugin: "io.github.jamesfchen.module-publisher-plugin"
+
 publish {
     name = "ibc-api"
     groupId = rootProject.groupId
     artifactId = "ibc-api"
-    version = "1.2.0"
+    version = "1.4.0"
     website = "https://github.com/JamesfChen/bundles-assembler"
 }
-
-
-apply from: "$rootDir/script/aar.gradle"
 dependencies {
     implementation 'androidx.core:core-ktx:1.5.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'

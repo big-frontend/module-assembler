@@ -104,9 +104,9 @@ class PublisherPlugin implements Plugin<Project> {
             taskName = 'Jar'
             pkg = "$project.buildDir/libs/${ext.artifactId}-${ext.version}.jar"
         }
-        PublishingExtension publishing = myProject.extensions.getByType(PublishingExtension)
-        myProject.components.configureEach {}
-        myProject.components.each { component ->
+        PublishingExtension publishing = project.extensions.getByType(PublishingExtension)
+        project.components.configureEach {}
+        project.components.each { component ->
             if (ext.buildVariant == null) {
                 publishing.publications.create("${component.name}$taskName", MavenPublication, { MavenPublication publication ->
                     publication.from(component)

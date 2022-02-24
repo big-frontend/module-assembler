@@ -10,7 +10,7 @@ import org.objectweb.asm.commons.AdviceAdapter
 class IbcInjectorClassVisitor extends ClassVisitor {
     List<RouterInfo> routers
     List<ApiInfo> apis
-    private hasInitMethod = false
+    private hasRegisterMethod = false
     static final String REGISTRY_CLASS_PATH = "com/jamesfchen/ibc/Registry";
 
     IbcInjectorClassVisitor(ClassVisitor classVisitor, List<RouterInfo> routers, List<ApiInfo> apis) {
@@ -28,14 +28,15 @@ class IbcInjectorClassVisitor extends ClassVisitor {
     @Override
     MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
         MethodVisitor methodVisitor = super.visitMethod(access, name, descriptor, signature, exceptions)
-        if ("init" != name) return methodVisitor
+        if ("register" != name) return methodVisitor
         if ((routers == null || routers.isEmpty())
                 && (apis == null || apis.isEmpty())
         ) {
-            P.error("routers & apit数据为空")
+            P.error("routers & api数据为空")
             return methodVisitor
         }
-        hasInitMethod = true
+        hasRegisterMethod = true
+
         methodVisitor = new AdviceAdapter(Opcodes.ASM6, methodVisitor, access, name, descriptor) {
             @Override
             protected void onMethodEnter() {
@@ -65,8 +66,8 @@ class IbcInjectorClassVisitor extends ClassVisitor {
     @Override
     void visitEnd() {
         super.visitEnd()
-        if (!hasInitMethod) {
-            P.error("没有找到init方法")
+        if (!hasRegisterMethod) {
+            P.error("没有找到register方法")
         }
     }
 }
