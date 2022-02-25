@@ -3,7 +3,8 @@
     package="com.jamesfchen.ibc">
 
     <application>
-        <activity android:name=".router.SchemaActivity">
+        <activity android:name=".router.SchemaActivity"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
