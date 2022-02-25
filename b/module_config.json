@@ -5,7 +5,7 @@
     "debug",
     "release"
   ],
-  "groupId": "com.jamesfchen.b",
+  "groupId": "io.github.jamesfchen",
   "allModules": [
     {
       "simpleName": "app",

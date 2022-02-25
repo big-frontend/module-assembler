@@ -14,11 +14,9 @@
  * the License.
  */
 
-package com.qihoo360.replugin.host.creator
+package com.qihoo360.replugin.host
 
 import com.qihoo360.replugin.Constants
-import com.qihoo360.replugin.host.creator.impl.java.RePluginHostConfigCreator
-import com.qihoo360.replugin.host.creator.impl.json.PluginBuiltinJsonCreator
 
 /**
  * @author RePlugin Team

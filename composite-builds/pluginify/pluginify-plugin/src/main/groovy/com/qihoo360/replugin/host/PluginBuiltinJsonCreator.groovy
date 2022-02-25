@@ -14,11 +14,10 @@
  * the License.
  */
 
-package com.qihoo360.replugin.host.creator.impl.json
+package com.qihoo360.replugin.host
 
 import com.qihoo360.replugin.Constants
 import com.qihoo360.replugin.VariantCompat
-import com.qihoo360.replugin.host.creator.IFileCreator
 import groovy.io.FileType
 import groovy.json.JsonOutput
 /**

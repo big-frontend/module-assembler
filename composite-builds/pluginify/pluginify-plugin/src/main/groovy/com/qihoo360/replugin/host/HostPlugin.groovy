@@ -19,9 +19,6 @@ package com.qihoo360.replugin.host
 import com.android.build.gradle.AppExtension
 import com.qihoo360.replugin.Constants
 import com.qihoo360.replugin.VariantCompat
-import com.qihoo360.replugin.host.creator.FileCreators
-import com.qihoo360.replugin.host.creator.IFileCreator
-import com.qihoo360.replugin.host.creator.impl.json.PluginBuiltinJsonCreator
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import com.qihoo360.replugin.Checker
@@ -47,9 +44,6 @@ class HostPlugin implements Plugin<Project> {
             android.applicationVariants.all { variant ->
                 addShowPluginTask(variant)
                 def generateBuildConfigTask = VariantCompat.getGenerateBuildConfigTask(variant)
-//                def appID = generateBuildConfigTask.appPackageName
-                def appID = [variant.mergedFlavor.applicationId, variant.buildType.applicationIdSuffix].findAll().join()
-                def newManifest = ComponentsGenerator.generateComponent(appID, config)
                 //host generate task
                 def generateHostConfigTask = project.tasks.create(name: "${Constants.TASK_GENERATE}HostConfig", group: Constants.TASKS_GROUP) {
                     doLast {
@@ -73,7 +67,9 @@ class HostPlugin implements Plugin<Project> {
                     generateBuiltinJsonTask.dependsOn mergeAssetsTask
                     mergeAssetsTask.finalizedBy generateBuiltinJsonTask
                 }
-
+                //                def appID = generateBuildConfigTask.appPackageName
+                def appID = [variant.mergedFlavor.applicationId, variant.buildType.applicationIdSuffix].findAll().join()
+                def newManifest = ComponentsGenerator.generateComponent(appID, config)
                 variant.outputs.each { output ->
                     VariantCompat.getProcessManifestTask(output).doLast {
                         println "${Constants.TAG} processManifest: ${it.outputs.files}"

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.qihoo360.replugin.host.creator;
+package com.qihoo360.replugin.host;
 
 /**
  * @author RePlugin Team

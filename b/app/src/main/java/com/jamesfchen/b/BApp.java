@@ -4,12 +4,10 @@ package com.jamesfchen.b;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.jamesfchen.ibc.IBCInitializer;
 import com.jamesfchen.lifecycle.App;
-import com.jamesfchen.loader.BuildConfig;
 
 /**
  * Copyright ® $ 2017
@@ -48,7 +46,6 @@ public class BApp extends Application {
 //        ProcessLifecycleOwner.get().getLifecycle().addObserver(new AppLifecycleObserver());
         IBCInitializer.init(this);
         rePluginApplicationProxy.onCreate();
-        Log.d("cjf","cjf");
     }
     @Override
     public void onLowMemory() {
@@ -68,4 +65,11 @@ public class BApp extends Application {
         super.onConfigurationChanged(newConfig);
         rePluginApplicationProxy.onConfigurationChanged(newConfig);
     }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        rePluginApplicationProxy.onTerminate();
+    }
+
 }
