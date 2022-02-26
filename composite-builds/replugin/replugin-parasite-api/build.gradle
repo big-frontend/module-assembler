@@ -1,0 +1,23 @@
+apply from: "$rootDir/script/aar.gradle"
+android {
+    defaultConfig {
+        versionCode 1
+        versionName "1.0.0"
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+}
+apply plugin: "io.github.jamesfchen.module-publisher-plugin"
+publish {
+    name = "replugin-parasite-api"
+    groupId = rootProject.groupId
+    artifactId = "replugin-parasite-api"
+    version = "1.0.0"
+    website = "https://github.com/JamesfChen/bundles-assembler"
+}
+
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly 'androidx.appcompat:appcompat:1.0.0'
+}

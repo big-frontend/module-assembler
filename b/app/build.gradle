@@ -1,7 +1,7 @@
 plugins {
     id "io.github.jamesfchen.app-plugin"
     id 'com.google.gms.google-services'
-    id 'io.github.jamesfchen.pluginify-host-plugin'
+    id 'io.github.jamesfchen.replugin-host-plugin'
 }
 repluginHostConfig {
 // 可以在这里自定义常驻进程的名字
@@ -22,5 +22,5 @@ dependencies {
     project.depsConfig("implementation", "hotel-bundle4")
     project.depsConfig("implementation", "hotel-export")
     project.depsConfig("implementation", "hotel-foundation")
-    implementation "io.github.jamesfchen:pluginify-host-api:${RP_VERSION}"
+    implementation "io.github.jamesfchen:replugin-host-api:${RP_VERSION}"
 }

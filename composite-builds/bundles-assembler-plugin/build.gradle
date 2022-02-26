@@ -1,0 +1,130 @@
+plugins {
+    id "com.gradle.plugin-publish" version "0.15.0"
+}
+//发布到远程gradle plugin portal，获得approval超级慢
+pluginBundle {
+    vcsUrl = 'https://github.com/JamesfChen/bundles-assembler'
+    website = "https://github.com/JamesfChen/bundles-assembler"
+    description = "bundles-assembler-plugin"
+    tags = ['bundles-assembler']
+    def ver = "1.7.0"
+    plugins {
+        bundlePlugin {
+            displayName = 'bundle-plugin'
+            tags = ['bundles-assembler']
+            version = ver
+        }
+        foundationPlugin {
+            displayName = 'foundation-plugin'
+            tags = ['bundles-assembler']
+            version = ver
+        }
+        apiPlugin {
+            displayName = 'api-plugin'
+            tags = ['bundles-assembler']
+            version = ver
+        }
+        appPlugin {
+            displayName = 'app-plugin'
+            tags = ['bundles-assembler']
+            version = ver
+        }
+        moduleChefPlugin {
+            displayName = 'module-chef-plugin'
+            tags = ['bundles-assembler']
+            version = ver
+        }
+        aptPlugin {
+            displayName = 'apt-plugin'
+            tags = ['bundles-assembler']
+            version = ver
+        }
+        lintPlugin {
+            displayName = 'lint-plugin'
+            tags = ['bundles-assembler']
+            version = ver
+        }
+        jarPlugin {
+            displayName = 'jar-plugin'
+            tags = ['bundles-assembler']
+            version = ver
+        }
+    }
+    mavenCoordinates {
+        groupId = rootProject.groupId
+        artifactId = 'bundles-assembler-plugin'
+        version = ver
+    }
+}
+apply plugin: 'java'
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+apply plugin: 'groovy'
+tasks.withType(GroovyCompile) {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+//apply plugin: 'kotlin'
+//compileKotlin {
+//    kotlinOptions.jvmTarget = "1.8"
+//}
+
+
+apply plugin: "java-gradle-plugin"
+gradlePlugin {
+    plugins {
+        bundlePlugin {
+            id = "${rootProject.groupId}.bundle-plugin"
+            implementationClass = 'com.jamesfchen.b.BundleModulePlugin'
+            displayName = 'bundle-plugin'
+            description = "bundle-plugin"
+        }
+        foundationPlugin {
+            id = "${rootProject.groupId}.foundation-plugin"
+            implementationClass = 'com.jamesfchen.b.FoundationModulePlugin'
+            displayName = 'foundation-plugin'
+            description = "foundation-plugin"
+        }
+        apiPlugin {
+            id = "${rootProject.groupId}.api-plugin"
+            implementationClass = 'com.jamesfchen.b.ApiModulePlugin'
+            displayName = 'api-plugin'
+            description = "api-plugin"
+        }
+        appPlugin {
+            id = "${rootProject.groupId}.app-plugin"
+            implementationClass = 'com.jamesfchen.b.AppModulePlugin'
+            displayName = 'app-plugin'
+            description = "app-plugin"
+        }
+        moduleChefPlugin {
+            id = "${rootProject.groupId}.module-chef-plugin"
+            implementationClass = 'com.jamesfchen.b.ModuleChefPlugin'
+            displayName = 'module-chef-plugin'
+            description = "module-chef-plugin"
+        }
+        aptPlugin {
+            id = "${rootProject.groupId}.apt-plugin"
+            implementationClass = 'com.jamesfchen.b.AptModulePlugin'
+            displayName = 'apt-plugin'
+            description = "apt-plugin"
+        }
+        lintPlugin {
+            id = "${rootProject.groupId}.lint-plugin"
+            implementationClass = 'com.jamesfchen.b.LintModulePlugin'
+            displayName = 'lint-plugin'
+            description = "lint-plugin"
+        }
+        jarPlugin {
+            id = "${rootProject.groupId}.jar-plugin"
+            implementationClass = 'com.jamesfchen.b.JarModulePlugin'
+            displayName = 'jar-plugin'
+            description = "jar-plugin"
+        }
+    }
+}
+dependencies {
+}
