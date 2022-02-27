@@ -1,3 +1,31 @@
+plugins {
+    id "com.gradle.plugin-publish" version "0.15.0"
+}
+//发布到远程gradle plugin portal，获得approval超级慢
+pluginBundle {
+    vcsUrl = 'https://github.com/JamesfChen/bundles-assembler'
+    website = "https://github.com/JamesfChen/bundles-assembler"
+    description = "replugin-plugin"
+    tags = ['bundles-assembler']
+    def ver = "1.0.0"
+    plugins {
+        pluginifyHost {
+            displayName = 'replugin-host-plugin'
+            tags = ['bundles-assembler']
+            version = ver
+        }
+        pluginifyParasite {
+            displayName = 'replugin-parasite-plugin'
+            tags = ['bundles-assembler']
+            version = ver
+        }
+    }
+    mavenCoordinates {
+        groupId = rootProject.groupId
+        artifactId = 'replugin-plugin'
+        version = ver
+    }
+}
 apply plugin: 'java'
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8

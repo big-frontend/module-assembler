@@ -1,6 +1,6 @@
-package com.qihoo360.replugin
+package com.qihoo360.replugin.util
 
-
+import com.qihoo360.replugin.Constants
 import org.gradle.api.Project
 
 /**

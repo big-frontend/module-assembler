@@ -15,19 +15,15 @@
  *
  */
 
-package com.qihoo360.replugin.parasite.manifest
+package com.qihoo360.replugin.util.manifest
 
-/**
- * @author RePlugin Team
- */
-public class ManifestReader implements IManifest {
+class ManifestReader implements IManifest {
 
-    /* AndroidManifest 文件路径 */
     def final filePath
 
     def manifest
 
-    public ManifestReader(String path) {
+    ManifestReader(String path) {
         filePath = path
     }
 

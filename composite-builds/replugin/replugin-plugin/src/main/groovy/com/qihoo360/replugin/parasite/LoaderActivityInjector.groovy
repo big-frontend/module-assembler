@@ -15,15 +15,16 @@
  *
  */
 
-package com.qihoo360.replugin.parasite.injector.loaderactivity
+package com.qihoo360.replugin.parasite
 
-import com.qihoo360.replugin.parasite.CommonData
-import com.qihoo360.replugin.parasite.manifest.ManifestAPI
+
+import com.qihoo360.replugin.util.ManifestAPI
 import javassist.CannotCompileException
 import javassist.ClassPool
 import javassist.CtClass
 import javassist.expr.ExprEditor
 import javassist.expr.MethodCall
+import org.gradle.api.Project
 
 /**
  * LOADER_ACTIVITY_CHECK_INJECTOR
@@ -32,7 +33,7 @@ import javassist.expr.MethodCall
  *
  * @author RePlugin Team
  */
-public class LoaderActivityInjector extends com.qihoo360.replugin.parasite.injector.BaseInjector {
+class LoaderActivityInjector extends BaseInjector {
 
     def private static LOADER_PROP_FILE = 'loader_activities.properties'
 
@@ -47,40 +48,58 @@ public class LoaderActivityInjector extends com.qihoo360.replugin.parasite.injec
             'android.preference.PreferenceActivity'   : 'com.qihoo360.replugin.loader.a.PluginPreferenceActivity',
             'android.app.ExpandableListActivity'      : 'com.qihoo360.replugin.loader.a.PluginExpandableListActivity'
     ]
+    String variantName
+
+    LoaderActivityInjector(Project project, ClassPool pool) {
+        super(project, pool)
+    }
 
     @Override
-    def injectClass(ClassPool pool, String dir, Map config) {
-        init()
+    void setVariantName(String variantName) {
+        this.variantName = variantName
+    }
 
-        /* 遍历程序中声明的所有 Activity */
-        //每次都new一下，否则多个variant一起构建时只会获取到首个manifest
-        new ManifestAPI().getActivities(project, variantDir).each {
-            // 处理没有被忽略的 Activity
-            if (!(it in CommonData.ignoredActivities)) {
-                handleActivity(pool, it, dir)
+    @Override
+    void onInsertCodeBegin() {
+        // todo 从配置中读取，而不是写死在代码中
+        if (loaderActivityRules == null) {
+            def buildSrcPath = project.project(':buildsrc').projectDir.absolutePath
+            def loaderConfigPath = String.join(File.separator, buildSrcPath, 'res', LOADER_PROP_FILE)
+
+            loaderActivityRules = new Properties()
+            new File(loaderConfigPath).withInputStream {
+                loaderActivityRules.load(it)
             }
+
+            println '\n>>> Activity Rules：'
+            loaderActivityRules.each {
+                println it
+            }
+            println()
         }
     }
 
-    /**
-     * 处理 Activity
-     *
-     * @param pool
-     * @param activity Activity 名称
-     * @param classesDir class 文件目录
-     */
-    private def handleActivity(ClassPool pool, String activity, String classesDir) {
-        def clsFilePath = classesDir + File.separatorChar + activity.replaceAll('\\.', '/') + '.class'
-        if (!new File(clsFilePath).exists()) {
-            return
-        }
+    @Override
+    byte[] onInsertCode(File mather, InputStream classStream, String canonicalName) {
 
+
+        /* 遍历程序中声明的所有 Activity */
+        //每次都new一下，否则多个variant一起构建时只会获取到首个manifest
+        new ManifestAPI().getActivities(project, variantName).each {
+            // 处理没有被忽略的 Activity
+            if (!(it in CommonData.ignoredActivities)) {
+                return handleActivity(it, classStream)
+            }
+        }
+        return null
+    }
+
+    private def handleActivity(String activity, InputStream classStream) {
         println ">>> Handle $activity"
 
-        def stream, ctCls
+        def ctCls
         try {
-            stream = new FileInputStream(clsFilePath)
-            ctCls = pool.makeClass(stream);
+            ctCls = pool.makeClass(classStream);
 /*
              // 打印当前 Activity 的所有父类
             CtClass tmpSuper = ctCls.superclass
@@ -135,37 +154,16 @@ public class LoaderActivityInjector extends com.qihoo360.replugin.parasite.injec
 
                 ctCls.writeFile(CommonData.getClassPath(ctCls.name))
                 println "    Replace ${ctCls.name}'s SuperClass ${superCls.name} to ${targetSuperCls.name}"
+                return ctCls.toBytecode()
             }
 
         } catch (Throwable t) {
             println "    [Warning] --> ${t.toString()}"
+            return null
         } finally {
             if (ctCls != null) {
                 ctCls.detach()
             }
-            if (stream != null) {
-                stream.close()
-            }
-        }
-    }
-
-    def private init() {
-        /* 延迟初始化 loaderActivityRules */
-        // todo 从配置中读取，而不是写死在代码中
-        if (loaderActivityRules == null) {
-            def buildSrcPath = project.project(':buildsrc').projectDir.absolutePath
-            def loaderConfigPath = String.join(File.separator, buildSrcPath, 'res', LOADER_PROP_FILE)
-
-            loaderActivityRules = new Properties()
-            new File(loaderConfigPath).withInputStream {
-                loaderActivityRules.load(it)
-            }
-
-            println '\n>>> Activity Rules：'
-            loaderActivityRules.each {
-                println it
-            }
-            println()
         }
     }
 }

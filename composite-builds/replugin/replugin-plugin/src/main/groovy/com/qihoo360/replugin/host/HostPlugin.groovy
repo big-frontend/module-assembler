@@ -17,11 +17,13 @@
 package com.qihoo360.replugin.host
 
 import com.android.build.gradle.AppExtension
+import com.qihoo360.replugin.Checker
 import com.qihoo360.replugin.Constants
-import com.qihoo360.replugin.VariantCompat
+import com.qihoo360.replugin.util.Util
+import com.qihoo360.replugin.util.VariantCompat
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import com.qihoo360.replugin.Checker
+
 /**
  * @author RePlugin Team
  */
@@ -37,7 +39,7 @@ class HostPlugin implements Plugin<Project> {
         project.extensions.create(Constants.HOST_CONFIG, HostConfig)
 
         project.afterEvaluate {
-            if (!project.plugins.hasPlugin('com.android.application')) throw new IllegalArgumentException("pluginify-host 插件必须在app模块配置")
+            if (!project.plugins.hasPlugin('com.android.application')) throw new IllegalArgumentException("replugin-host 插件必须在app模块配置")
             def android = project.extensions.getByType(AppExtension)
             config = project.extensions.getByName(Constants.HOST_CONFIG)
             Checker.checkHostConfig(config)
@@ -45,7 +47,7 @@ class HostPlugin implements Plugin<Project> {
                 addShowPluginTask(variant)
                 def generateBuildConfigTask = VariantCompat.getGenerateBuildConfigTask(variant)
                 //host generate task
-                def generateHostConfigTask = project.tasks.create(name: "${Constants.TASK_GENERATE}HostConfig", group: Constants.TASKS_GROUP) {
+                def generateHostConfigTask = Util.createTask(project, "${Constants.TASK_GENERATE}HostConfig") {
                     doLast {
                         FileCreators.createHostConfig(project, variant, config)
                     }
@@ -56,7 +58,7 @@ class HostPlugin implements Plugin<Project> {
                     generateBuildConfigTask.finalizedBy generateHostConfigTask
                 }
 //                //json generate task
-                def generateBuiltinJsonTask = project.tasks.create(name: "${Constants.TASK_GENERATE}BuiltinJson", group: Constants.TASKS_GROUP) {
+                def generateBuiltinJsonTask = Util.createTask(project, "${Constants.TASK_GENERATE}BuiltinJson") {
                     doLast {
                         FileCreators.createBuiltinJson(project, variant, config)
                     }
@@ -114,26 +116,25 @@ class HostPlugin implements Plugin<Project> {
 
     // 添加 【查看所有插件信息】 任务
     def addShowPluginTask(def variant) {
-        def showPluginsTask = project.task(Constants.TASK_SHOW_PLUGIN)
+        def showPluginsTask = Util.createTask(project, (Constants.TASK_SHOW_PLUGIN)) {
+            doLast {
+                IFileCreator creator = new PluginBuiltinJsonCreator(project, variant, config)
+                def dir = creator.getFileDir()
 
-        showPluginsTask.doLast {
-            IFileCreator creator = new PluginBuiltinJsonCreator(project, variant, config)
-            def dir = creator.getFileDir()
+                if (!dir.exists()) {
+                    println "${TAG} The ${dir.absolutePath} does not exist "
+                    println "${TAG} pluginsInfo=null"
+                    return
+                }
 
-            if (!dir.exists()) {
-                println "${TAG} The ${dir.absolutePath} does not exist "
-                println "${TAG} pluginsInfo=null"
-                return
+                String fileContent = creator.getFileContent()
+                if (null == fileContent) {
+                    return
+                }
+
+                new File(dir, creator.getFileName()).write(fileContent, 'UTF-8')
             }
-
-            String fileContent = creator.getFileContent()
-            if (null == fileContent) {
-                return
-            }
-
-            new File(dir, creator.getFileName()).write(fileContent, 'UTF-8')
         }
-        showPluginsTask.group = Constants.TASKS_GROUP
 
         //get mergeAssetsTask name, get real gradle task
         def mergeAssetsTask = VariantCompat.getMergeAssetsTask(variant)

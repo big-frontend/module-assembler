@@ -1,4 +1,4 @@
-package com.qihoo360.replugin
+package com.qihoo360.replugin.util
 
 //import com.android.sdklib.IAndroidTarget
 

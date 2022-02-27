@@ -15,20 +15,11 @@
  *
  */
 
-package com.qihoo360.replugin.parasite.manifest;
+package com.qihoo360.replugin.util.manifest;
 
-/**
- * @author RePlugin Team
- */
-public interface IManifest {
+interface IManifest {
 
-    /**
-     * 获取 AndroidManifest 中声明的所有 Activity
-     */
     List<String> getActivities()
 
-    /**
-     * 应用程序包名
-     */
     String getPackageName()
 }
