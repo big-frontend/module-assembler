@@ -78,9 +78,9 @@ abstract class AbsScanClassTransform extends Transform implements IScanClass {
                     if (!fileName.endsWith(".class") || (fileName == ("R.class"))
                             || fileName.startsWith("R\$")
                             || fileName == "BuildConfig.class"
-                            || canonicalName.startsWith("androidx")
-                            || canonicalName.startsWith("android")
-                            || canonicalName.startsWith("kotlin")
+//                            || canonicalName.startsWith("androidx")
+//                            || canonicalName.startsWith("android")
+//                            || canonicalName.startsWith("kotlin")
                             || canonicalName.startsWith("org.bouncycastle")
                     ) {
                         return

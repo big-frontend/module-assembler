@@ -4,9 +4,9 @@ import com.android.build.api.transform.*
 import groovy.io.FileType
 import org.apache.commons.io.FileUtils
 
-import java.util.jar.JarFile
-import java.util.jar.JarOutputStream
 import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
+import java.util.zip.ZipOutputStream
 
 abstract class AbsInsertCodeTransform extends Transform implements IInsertCode {
 
@@ -18,14 +18,14 @@ abstract class AbsInsertCodeTransform extends Transform implements IInsertCode {
     @Override
     void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
         long start = System.currentTimeMillis();
-        if (!isIncremental()){
+        if (!isIncremental()) {
             try {
                 transformInvocation.outputProvider.deleteAll()
             } catch (IOException e) {
                 P.error(e.getLocalizedMessage())
             }
         }
-        def outputProvider = transformInvocation.outputProvider
+        TransformOutputProvider outputProvider = transformInvocation.outputProvider
         onInsertCodeBegin()
         transformInvocation.inputs.each { TransformInput input ->
             //源代码编译之后的class目录
@@ -72,46 +72,49 @@ abstract class AbsInsertCodeTransform extends Transform implements IInsertCode {
                 )
                 FileUtils.copyFile(jarInput.file, destJar)
 
-                JarFile jarFile = new JarFile(destJar)
-                def optJarFile = new File(destJar.getParent(), destJar.name + ".opt")
-                if (optJarFile.exists()) {
-                    optJarFile.delete()
+                def optZipFile = new File(destJar.getParent(), destJar.name + ".opt")
+                if (optZipFile.exists()) {
+                    optZipFile.delete()
                 }
-                JarOutputStream jarOutputStream = new JarOutputStream(new FileOutputStream(optJarFile))
+                new ZipOutputStream(new FileOutputStream(optZipFile)).withCloseable { optZipOutputStream ->
+                    new ZipFile(destJar).withCloseable { theZip ->
+                        theZip.entries().each { zipEntry ->
+                            String zipName = zipEntry.name
+                            ZipEntry optZipEntry = new ZipEntry(zipName)
+                            InputStream inputStream = theZip.getInputStream(zipEntry)
+                            optZipOutputStream.putNextEntry(optZipEntry)
+                            //zipName 有时候是文件夹
+                            String canonicalName = zipName.split('\\.')[0].replace('/', '.')
+                            String fileName = zipName.substring(zipName.lastIndexOf('/') + 1)
+                            if (!fileName.endsWith(".class") || (fileName == ("R.class"))
+                                    || fileName.startsWith("R\$")
+                                    || (fileName == ("BuildConfig.class"))
+//                                    || canonicalName.startsWith("androidx")
+//                                    || canonicalName.startsWith("android")
+//                                    || canonicalName.startsWith("kotlin")
+                                    || canonicalName.startsWith("org.bouncycastle")
+                            ) {
+                                optZipOutputStream.write(inputStream.bytes)
+                                inputStream.close()
+                                optZipOutputStream.closeEntry()
+                                return
+                            }
+                            byte[] codes = onInsertCode(destJar, inputStream, canonicalName)
+                            if (codes != null && codes.size() > 0) {
+                                optZipOutputStream.write(codes)
+                            } else {
+                                optZipOutputStream.write(inputStream.bytes)
+                            }
+                            inputStream.close()
+                            optZipOutputStream.closeEntry()
 
-                jarFile.entries().each { jarEntry ->
-                    String jarName = jarEntry.name
-                    ZipEntry zipEntry = new ZipEntry(jarName)
-                    InputStream inputStream = jarFile.getInputStream(jarEntry)
-                    jarOutputStream.putNextEntry(zipEntry)
-                    //jarName 有时候是文件夹
-                    String canonicalName = jarName.split('\\.')[0].replace('/', '.')
-                    String fileName = jarName.substring(jarName.lastIndexOf('/') + 1)
-                    if (!fileName.endsWith(".class") || (fileName == ("R.class"))
-                            || fileName.startsWith("R\$")
-                            || canonicalName.contains("org.bouncycastle")
-                            || (fileName == ("BuildConfig.class"))) {
-                        jarOutputStream.write(inputStream.bytes)
-                        inputStream.close()
-                        jarOutputStream.closeEntry()
-                        return
+                        }
                     }
-                    byte[] codes = onInsertCode(destJar, inputStream, canonicalName)
-                    if (codes != null && codes.size() > 0) {
-                        jarOutputStream.write(codes)
-                    } else {
-                        jarOutputStream.write(inputStream.bytes)
-                    }
-                    inputStream.close()
-                    jarOutputStream.closeEntry()
-
                 }
-                jarOutputStream.close()
-                jarFile.close()
                 if (destJar.exists()) {
                     destJar.delete()
                 }
-                optJarFile.renameTo(destJar)
+                optZipFile.renameTo(destJar)
 
             }
         }
