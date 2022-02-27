@@ -14,5 +14,5 @@ android {
 //    }
 }
 dependencies {
-    implementation "io.github.jamesfchen:replugin-host-api:${RP_VERSION}"
+
 }

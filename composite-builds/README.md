@@ -65,7 +65,7 @@ publish{
 }
 ```
 
-> moduleify-plugin
+> bundles-assembler-plugin
 ```gradle
 //app 模块
 plugins{

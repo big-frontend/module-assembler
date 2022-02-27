@@ -3,10 +3,10 @@
 ### todo
 - 组件化项目脚手架cli
     - [x] 初始化项目模板
-    - [ ] 添加react native 、h5 、flutter 、native bundle模块, 指定某个bundle为splash模块或者home模块
+    - [ ] 添加react native 、h5 、flutter 、native bundle插件化模块、native bundle组件化模块, 指定某个bundle为splash模块或者home模块
     - [ ] 编译或者打包bundle 、部署到手机 、 发布到server
 - [ ] IBC支持 rn/h5 ---> rn/h5 && native <---> rn/h5 && native1 <---> native2
-- [ ] 接入热修、code push
+- [x] 插件化、组件化、热修工程进行融合。
 
 ### 项目结构
 
@@ -22,8 +22,8 @@
     - ibc // module router & rpc
     - lifecycle // listener app lifecycle
     - module-publisher-plugin // module publish
-    - moduleify-plugin // moduleify
-    - pluginify // pluginify
+    - bundles-assembler-plugin // bundles-assembler-plugin
+    - replugin // replugin
 
 - module-manager-intellij-plugin //性感的模块管理工具(idea plugin)
 - cli //项目cli

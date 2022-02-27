@@ -2,6 +2,7 @@ plugins {
     id "io.github.jamesfchen.app-plugin"
     id 'io.github.jamesfchen.replugin-parasite-plugin'
 }
+apply from: "${rootDir.path}/script/ui_compose.gradle"
 repluginPluginConfig {
     pluginName = "im"
     hostApplicationId = rootProject.applicationId

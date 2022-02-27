@@ -11,4 +11,5 @@ dependencies {
     api platform('com.google.firebase:firebase-bom:28.0.1')
     api 'com.google.firebase:firebase-perf'
     api 'com.google.firebase:firebase-perf-ktx'
+    api "io.github.jamesfchen:replugin-host-api:${RP_VERSION}"
 }
