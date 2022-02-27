@@ -1,9 +1,12 @@
 package com.jamesfchen.myhome
 
 import android.app.Activity
+import android.content.ComponentName
+import android.content.Intent
 import android.os.Bundle
 import com.jamesfchen.ibc.router.IBCRouter
 import com.jamesfchen.myhome.databinding.ActivityMainBinding
+import com.qihoo360.replugin.RePlugin
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +51,11 @@ class MainActivity : Activity() {
                     "url" to "file:///android_asset/AApp.html",
                 )
             }
+        }
+        binding.btIm.setOnClickListener {
+            val i = Intent()
+            i.component = ComponentName(this@MainActivity,"com.example.compose.jetchat.NavActivity")
+            RePlugin.startActivity(this@MainActivity,i)
         }
     }
 

@@ -46,4 +46,11 @@
         android:layout_height="wrap_content"
         android:text="打开一个react native应用"
         android:textAllCaps="false" />
+
+    <Button
+            android:id="@+id/bt_im"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="打开im插件"
+            android:textAllCaps="false" />
 </LinearLayout>

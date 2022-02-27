@@ -26,6 +26,18 @@
       "group": "home"
     },
     {
+      "simpleName": "im-main",
+      "sourcePath": ":im-module:main",
+      "format": "app",
+      "group": "im"
+    },
+    {
+      "simpleName": "im-chatroom",
+      "sourcePath": ":im-module:chatroom",
+      "format": "bundle",
+      "group": "im"
+    },
+    {
       "simpleName": "hotel-main",
       "sourcePath": ":hotel-module:main",
       "format": "app",

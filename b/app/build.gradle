@@ -22,5 +22,4 @@ dependencies {
     project.depsConfig("implementation", "hotel-bundle4")
     project.depsConfig("implementation", "hotel-export")
     project.depsConfig("implementation", "hotel-foundation")
-    implementation "io.github.jamesfchen:replugin-host-api:${RP_VERSION}"
 }
