@@ -11,13 +11,13 @@ pluginBundle {
         modulePublisherPlugin {
             displayName = 'module-publisher-plugin'
             tags = ['bundles-assembler']
-            version '1.4.2'
+            version '1.4.3'
         }
     }
     mavenCoordinates {
         groupId = rootProject.groupId
         artifactId = 'module-publisher-plugin'
-        version = "1.4.2"
+        version = '1.4.3'
     }
 }
 apply plugin: 'java'

@@ -76,15 +76,14 @@ class PublisherPlugin implements Plugin<Project> {
                 ext.signingPassword = properties.getProperty("signingSecretKeyRingFile")
             }
         }
-        if (project.properties.containsKey("useJamesfChenSnapshots")) {
-            def useJamesfChenSnapshots = project["useJamesfChenSnapshots"]
-            if (useJamesfChenSnapshots != null && useJamesfChenSnapshots == "true") {
+        if (project.properties.containsKey("useJamesfChenSnapshots")
+                && project["useJamesfChenSnapshots"] != null
+                && project["useJamesfChenSnapshots"] == "true") {
 //                println(">>> 使用jamesfchen的maven central发布，但是只能发布snapshot")
-                ext.ossrhUsername = 'delta'
-                ext.ossrhPassword = 'vCKe*5vHBh3xH2.'
-                ext.releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-                ext.snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            }
+            ext.ossrhUsername = 'delta'
+            ext.ossrhPassword = 'vCKe*5vHBh3xH2.'
+            ext.releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            ext.snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
         } else {
             ext.ossrhUsername = properties.getProperty("ossrhUsername")
             ext.ossrhPassword = properties.getProperty("ossrhPassword")
@@ -150,6 +149,7 @@ class PublisherPlugin implements Plugin<Project> {
                     username = ext.ossrhUsername
                     password = ext.ossrhPassword
                 }
+                mavenArtifactRepository.allowInsecureProtocol = true
             }
         }
 
