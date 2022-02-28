@@ -1,6 +1,5 @@
 package com.jamesfchen
 
-import androidx.annotation.CallSuper
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
@@ -16,7 +15,6 @@ abstract class ScanClassPlugin implements Plugin<Project>, IScanClass {
 //    Set<QualifiedContent.ContentType> getInputTypes() {
 //        return TransformManager.CONTENT_CLASS
 //    }
-    @CallSuper
     @Override
     void apply(Project project) {
         def android

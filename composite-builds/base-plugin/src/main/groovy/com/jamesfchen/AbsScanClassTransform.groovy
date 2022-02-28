@@ -1,6 +1,5 @@
 package com.jamesfchen
 
-import androidx.annotation.CallSuper
 import com.android.build.api.transform.*
 import groovy.io.FileType
 import org.apache.commons.codec.digest.DigestUtils
@@ -15,7 +14,6 @@ abstract class AbsScanClassTransform extends Transform implements IScanClass {
         return false
     }
 
-    @CallSuper
     @Override
     void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
         long start = System.currentTimeMillis()

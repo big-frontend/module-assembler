@@ -1,6 +1,5 @@
 package com.jamesfchen.kotlin
 
-import androidx.annotation.CallSuper
 import com.android.build.api.transform.*
 import java.io.File
 import java.io.FileOutputStream
@@ -23,7 +22,6 @@ abstract class AbsInsertCodeTransform : Transform(), IInsertCode {
         return false
     }
 
-    @CallSuper
     @Throws(TransformException::class, InterruptedException::class, IOException::class)
     override fun transform(transformInvocation: TransformInvocation) {
         val start = System.currentTimeMillis();

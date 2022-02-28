@@ -1,6 +1,5 @@
 package com.jamesfchen.kotlin
 
-import androidx.annotation.CallSuper
 import com.android.build.api.transform.*
 import java.io.File
 import java.io.IOException
@@ -16,7 +15,6 @@ import java.util.jar.JarFile
 abstract class AbsScanClassTransform : Transform(), IScanClass {
     override fun isIncremental() = false
 
-    @CallSuper
     @Throws(TransformException::class, InterruptedException::class, IOException::class)
     override fun transform(transformInvocation: TransformInvocation) {
         val start = System.currentTimeMillis();

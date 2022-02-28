@@ -33,8 +33,7 @@ abstract class AndroidPlugin extends BasePlugin {
             defaultConfig {
                 minSdkVersion Integer.parseInt(project.rootProject.minSdkVersion)
                 targetSdkVersion Integer.parseInt(project.rootProject.targetSdkVersion)
-                def hited = project.rootProject.hasProperty("versionCode")
-                        || project.rootProject.hasProperty("versionName")
+                def hited = project.rootProject.hasProperty("versionCode") || project.rootProject.hasProperty("versionName")
                 if (hited) {
                     versionCode Integer.parseInt(project.rootProject.versionCode)
                     versionName project.rootProject.versionName

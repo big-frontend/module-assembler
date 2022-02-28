@@ -1,6 +1,5 @@
 package com.jamesfchen.kotlin
 
-import androidx.annotation.CallSuper
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
@@ -24,7 +23,6 @@ abstract class ScanClassPlugin : Plugin<Project>, IScanClass {
 //    Set<QualifiedContent.ContentType> getInputTypes() {
 //        return TransformManager.CONTENT_CLASS
 //    }
-    @CallSuper
     override fun apply(project: Project) {
         if (project.plugins.hasPlugin(AppPlugin::class.java)) {
             val android = project.extensions.getByType(AppExtension::class.java)

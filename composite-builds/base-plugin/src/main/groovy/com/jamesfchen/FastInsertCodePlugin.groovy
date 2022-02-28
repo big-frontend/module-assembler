@@ -1,6 +1,5 @@
 package com.jamesfchen
 
-import androidx.annotation.CallSuper
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
@@ -9,7 +8,6 @@ import org.gradle.api.Project
 import com.android.build.gradle.internal.pipeline.TransformManager
 abstract class FastInsertCodePlugin implements Plugin<Project>,IInsertCode {
     protected abstract String pluginName()
-    @CallSuper
     @Override
     void apply(Project project) {
         if (project.plugins.hasPlugin(AppPlugin)) {

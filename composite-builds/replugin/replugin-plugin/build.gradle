@@ -42,7 +42,7 @@ version = "${verLine.split("\"")[1]}" // 版本
 //红色醒目打印显示版本号
 java.lang.System.err.println "version=${version}"
 dependencies {
-    implementation 'com.android.tools.build:gradle:4.1.2'
+    implementation 'com.android.tools.build:gradle:4.1.0'
     implementation 'org.json:json:20160212'
     implementation 'org.codehaus.groovy:groovy:2.4.7'
     implementation 'com.squareup:javapoet:1.5.1'

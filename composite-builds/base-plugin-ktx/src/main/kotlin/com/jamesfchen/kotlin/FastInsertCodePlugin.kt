@@ -1,6 +1,5 @@
 package com.jamesfchen.kotlin
 
-import androidx.annotation.CallSuper
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
@@ -20,7 +19,6 @@ import java.io.InputStream
 abstract class FastInsertCodePlugin : Plugin<Project>, IInsertCode {
     abstract fun pluginName(): String
 
-    @CallSuper
     override fun apply(project: Project) {
         if (project.plugins.hasPlugin(AppPlugin::class.java)) {
             val android = project.extensions.getByType(AppExtension::class.java)

@@ -8,6 +8,7 @@ pluginBundle {
     description = "bundles-assembler-plugin"
     tags = ['bundles-assembler']
     def ver = "1.7.0"
+    version ver
     plugins {
         bundlePlugin {
             displayName = 'bundle-plugin'
