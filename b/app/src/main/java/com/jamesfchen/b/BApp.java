@@ -18,7 +18,7 @@ import com.jamesfchen.lifecycle.App;
 @App
 public class BApp extends Application {
     private static BApp sApp;
-    RePluginApplicationProxy rePluginApplicationProxy;
+    RePluginProxy rePluginProxy;
     public static BApp getInstance() {
         if (sApp == null) {
             throw new IllegalStateException("app is null");
@@ -29,8 +29,8 @@ public class BApp extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        rePluginApplicationProxy = new RePluginApplicationProxy();
-        rePluginApplicationProxy.attachBaseContext(base);
+        rePluginProxy = new RePluginProxy();
+        rePluginProxy.attachBaseContext(this);
     }
 
     @Override
@@ -44,31 +44,31 @@ public class BApp extends Application {
 //        ARouter.init(this);
 //        ProcessLifecycleOwner.get().getLifecycle().addObserver(new AppLifecycleObserver());
         IBCInitializer.init(this);
-        rePluginApplicationProxy.onCreate();
+        rePluginProxy.onCreate();
     }
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        rePluginApplicationProxy.onLowMemory();
+        rePluginProxy.onLowMemory();
     }
 
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        rePluginApplicationProxy.onTrimMemory(level);
+        rePluginProxy.onTrimMemory(level);
 
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        rePluginApplicationProxy.onConfigurationChanged(newConfig);
+        rePluginProxy.onConfigurationChanged(newConfig);
     }
 
     @Override
     public void onTerminate() {
         super.onTerminate();
-        rePluginApplicationProxy.onTerminate();
+        rePluginProxy.onTerminate();
     }
 
 }

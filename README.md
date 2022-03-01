@@ -1,5 +1,7 @@
 > 随着跨平台框架越来越多，为了提高开发效率，该项目整合所有框架。通过组件化与插件化的方式按需编译、按需加载bundle
 
+
+
 ### todo
 - 组件化项目脚手架cli
     - [x] 初始化项目模板
@@ -31,3 +33,4 @@
 
 ### 技术分享
 [2021年 Android组件化分享](https://jamesfchen.github.io/blog/2021-12-31/shared-android-component)
+[项目wiki](https://github.com/JamesfChen/bundles-assembler/wiki/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8)

@@ -77,7 +77,6 @@ public class RePluginApplication extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-
         // 如果App的minSdkVersion >= 14，该方法可以不调用
         RePlugin.App.onLowMemory();
     }
@@ -93,7 +92,6 @@ public class RePluginApplication extends Application {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
         // 如果App的minSdkVersion >= 14，该方法可以不调用
         RePlugin.App.onConfigurationChanged(newConfig);
     }

@@ -1,7 +1,9 @@
 package com.jamesfchen.b;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.util.Log;
 
 import com.qihoo360.replugin.RePlugin;
@@ -17,15 +19,46 @@ import com.qihoo360.replugin.RePluginEventCallbacks;
  * @author: jamesfchen
  * @since: Feb/12/2022  Sat
  */
-class RePluginApplicationProxy extends RePluginApplication {
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
+class RePluginProxy {
+    private Application app;
+    protected void attachBaseContext(Application base) {
+        app = base;
+        RePluginConfig c = createConfig();
+        if (c == null) {
+            c = new RePluginConfig();
+        }
 
+        RePluginCallbacks cb = createCallbacks();
+        if (cb != null) {
+            c.setCallbacks(cb);
+        }
+
+        RePlugin.App.attachBaseContext((Application) base, c);
         // FIXME 允许接收rpRunPlugin等Gradle Task，发布时请务必关掉，以免出现问题
         RePlugin.enableDebugger(base, BuildConfig.DEBUG);
     }
 
+    public void onCreate() {
+        RePlugin.App.onCreate();
+    }
+
+    public void onLowMemory() {
+        // 如果App的minSdkVersion >= 14，该方法可以不调用
+        RePlugin.App.onLowMemory();
+    }
+
+    public void onTrimMemory(int level) {
+        // 如果App的minSdkVersion >= 14，该方法可以不调用
+        RePlugin.App.onTrimMemory(level);
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        // 如果App的minSdkVersion >= 14，该方法可以不调用
+        RePlugin.App.onConfigurationChanged(newConfig);
+    }
+    public void onTerminate() {
+
+    }
     // ----------
     // 自定义行为
     // ----------
@@ -33,7 +66,6 @@ class RePluginApplicationProxy extends RePluginApplication {
     /**
      * RePlugin允许提供各种“自定义”的行为，让您“无需修改源代码”，即可实现相应的功能
      */
-    @Override
     protected RePluginConfig createConfig() {
         RePluginConfig c = new RePluginConfig();
 
@@ -44,7 +76,7 @@ class RePluginApplicationProxy extends RePluginApplication {
         c.setVerifySign(!BuildConfig.DEBUG);
 
         // 针对“安装失败”等情况来做进一步的事件处理
-        c.setEventCallbacks(new HostEventCallbacks(this));
+        c.setEventCallbacks(new HostEventCallbacks(app));
 
         // FIXME 若宿主为Release，则此处应加上您认为"合法"的插件的签名，例如，可以写上"宿主"自己的。
         // RePlugin.addCertSignature("AAAAAAAAA");
@@ -54,10 +86,11 @@ class RePluginApplicationProxy extends RePluginApplication {
         return c;
     }
 
-    @Override
     protected RePluginCallbacks createCallbacks() {
-        return new HostCallbacks(this);
+        return new HostCallbacks(app);
     }
+
+
 
     /**
      * 宿主针对RePlugin的自定义行为

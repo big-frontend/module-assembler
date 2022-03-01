@@ -12,7 +12,7 @@ import android.widget.FrameLayout
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.perf.metrics.AddTrace
 import com.jamesfchen.export.ICall
-import com.jamesfchen.ibc.cbpc.IBCCbpc.findApi
+import com.jamesfchen.ibc.cbpc.IBCCbpc
 import com.jamesfchen.ibc.router.IBCRouter
 
 /**
@@ -48,7 +48,7 @@ class SayHiActivity : Activity() {
 //                            .withLong("key1", 666L)
 //                            .withString("key3", "888")
 //                            .navigation();
-            val api = findApi(ICall::class.java)
+            val api = IBCCbpc.findApi(ICall::class.java)
             if (api.call()) {
                 IBCRouter.open(this) {
                     uri = "b://h5container/page"
