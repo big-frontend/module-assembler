@@ -14,15 +14,9 @@
       "group": "father"
     },
     {
-      "simpleName": "home-main",
-      "sourcePath": ":home-module:main",
-      "format": "app",
-      "group": "home"
-    },
-    {
       "simpleName": "home-myhome",
-      "sourcePath": ":home-module:myhome",
-      "format": "app",
+      "sourcePath": ":home-myhome",
+      "format": "bundle",
       "group": "home"
     },
     {
