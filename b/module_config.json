@@ -81,17 +81,15 @@
       "group": "hotel"
     },
     {
-      "simpleName": "framework-loader",
-      "sourcePath": ":framework:loader",
+      "simpleName": "framework-baseui",
+      "sourcePath": ":framework:baseui",
       "format": "framework_foundation",
-      "type": "api",
       "group": "fwk"
     },
     {
       "simpleName": "framework-network",
       "sourcePath": ":framework:network",
       "format": "framework_foundation",
-      "type": "api",
       "group": "fwk"
     },
     {
@@ -110,8 +108,7 @@
       "simpleName": "framework-common",
       "sourcePath": ":framework:common",
       "format": "framework_foundation",
-      "group": "fwk",
-      "type": "api"
+      "group": "fwk"
     }
   ]
 }

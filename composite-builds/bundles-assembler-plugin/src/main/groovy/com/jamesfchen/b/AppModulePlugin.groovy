@@ -53,15 +53,11 @@ class AppModulePlugin extends AndroidPlugin {
                 }
             }
         }
-
         project.dependencies {
-//            P.teenager("${project.path} app begin ========================================================================================")
             project.gradle.framworkApiModuleMap.each { simpleName, m ->
                 def path = project.moduleify(simpleName)
-//                teenager("implementation  ${path}")
-                implementation path
+                compileOnly path
             }
-//            P.teenager("${project.path} app end ========================================================================================")
         }
     }
 }

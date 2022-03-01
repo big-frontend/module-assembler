@@ -8,4 +8,7 @@ android{
     }
 }
 dependencies {
+    implementation project.moduleify('framework-baseui')
+    compileOnly project.moduleify("framework-network")
+    compileOnly project.moduleify("framework-common")
 }

@@ -5,7 +5,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.jamesfchen.ibc.IBCInitializer;
 import com.jamesfchen.lifecycle.App;
 
@@ -38,11 +37,11 @@ public class BApp extends Application {
     public void onCreate() {
         super.onCreate();
 //        Fresco.initialize(this);
-        if (BuildConfig.DEBUG) {           // These two lines must be written before init, otherwise these configurations will be invalid in the init process
-            ARouter.openLog();     // Print log
-            ARouter.openDebug();   // Turn on debugging mode (If you are running in InstantRun mode, you must turn on debug mode! Online version needs to be closed, otherwise there is a security risk)
-        }
-        ARouter.init(this);
+//        if (BuildConfig.DEBUG) {           // These two lines must be written before init, otherwise these configurations will be invalid in the init process
+//            ARouter.openLog();     // Print log
+//            ARouter.openDebug();   // Turn on debugging mode (If you are running in InstantRun mode, you must turn on debug mode! Online version needs to be closed, otherwise there is a security risk)
+//        }
+//        ARouter.init(this);
 //        ProcessLifecycleOwner.get().getLifecycle().addObserver(new AppLifecycleObserver());
         IBCInitializer.init(this);
         rePluginApplicationProxy.onCreate();

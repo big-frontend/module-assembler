@@ -1,0 +1,9 @@
+plugins{
+    id "io.github.jamesfchen.foundation-plugin"
+}
+android{
+}
+dependencies {
+    compileOnly project.moduleify('framework-common')
+}
+

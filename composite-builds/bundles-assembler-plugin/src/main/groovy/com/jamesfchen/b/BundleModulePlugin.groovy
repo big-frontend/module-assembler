@@ -42,7 +42,7 @@ class BundleModulePlugin extends AndroidPlugin {
             }
             project.gradle.framworkApiModuleMap.each { simpleName, m ->
                 def path = project.moduleify(simpleName)
-                implementation path
+                compileOnly path
             }
 //            def nav_version = "2.3.5"
             if (navigationVersion) {

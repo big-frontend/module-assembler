@@ -12,6 +12,26 @@ apply from: "$rootDir/script/tinker_config.gradle"
 android {
     defaultConfig {
         resValue "string", "app_name", "b.app"
+        buildConfigField('String', 'BUGLY_APP_ID', '"3d62251014"')
+        buildConfigField('String', 'BUGLY_APP_KEY', '"a15ecf84-1786-40c6-abf5-fe975fce22e6"')
+        buildConfigField('String', 'XIAOMI_APP_ID', '"2882303761517994447"')
+        buildConfigField('String', 'XIAOMI_APP_KEY', '"5921799441447"')
+        buildConfigField('String', 'AMAP_KEY', '"84198333a8ab4404cd35829dbb4ec435"')
+        manifestPlaceholders = [
+                'BUGLY_APP_ID': '3d62251014', 'BUGLY_APP_KEY': 'a15ecf84-1786-40c6-abf5-fe975fce22e6', "BUGLY_APP_VERSION": "${rootProject.ext.versionName}",
+                'AMAP_KEY'    : '84198333a8ab4404cd35829dbb4ec435',
+        ]
+    }
+    buildTypes {
+        release {
+            manifestPlaceholders = ['QQ_KEY': 'adf', 'WEXIN_KEY': 'adfaf', 'BUGLY_ENABLE_DEBUG': 'false']
+        }
+        debug{
+            manifestPlaceholders = [
+                    'QQ_KEY'            : 'adf', 'WEXIN_KEY': 'adfaf',
+                    'BUGLY_ENABLE_DEBUG': 'true'
+            ]
+        }
     }
 }
 dependencies {
@@ -22,4 +42,6 @@ dependencies {
     project.depsConfig("implementation", "hotel-bundle4")
     project.depsConfig("implementation", "hotel-export")
     project.depsConfig("implementation", "hotel-foundation")
+    compileOnly project.moduleify("framework-network")
+    compileOnly project.moduleify("framework-common")
 }
