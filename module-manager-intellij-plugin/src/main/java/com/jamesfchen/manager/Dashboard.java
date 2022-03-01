@@ -146,7 +146,7 @@ public class Dashboard extends JDialog {
         jLabel.setForeground(color);
         jPanel.add(jLabel, bagConstraints);
         ComboBoxModel<String> comboBoxModel;
-        if ("fwk".equalsIgnoreCase(entry.getValue().group)) {
+        if ("fwk".equalsIgnoreCase(entry.getValue().group) || "home".equalsIgnoreCase(entry.getValue().group)) {
             comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "binary"));
         } else {
             comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "binary","exclude"));
