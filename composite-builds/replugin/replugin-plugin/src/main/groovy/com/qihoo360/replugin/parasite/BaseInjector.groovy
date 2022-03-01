@@ -57,7 +57,6 @@ abstract class BaseInjector implements IInsertCode {
 
     @Override
     byte[] onInsertCode(File mather, InputStream classStream, String canonicalName) {
-        println("cjf "+canonicalName)
         this.canonicalName = canonicalName
         Util.newSection()
         def ctCls

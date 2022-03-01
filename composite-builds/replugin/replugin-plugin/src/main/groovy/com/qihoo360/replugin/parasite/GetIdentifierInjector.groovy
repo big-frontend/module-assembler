@@ -39,7 +39,7 @@ class GetIdentifierInjector extends BaseInjector {
 
                 if (clsName.equalsIgnoreCase('android.content.res.Resources')) {
                     if (methodName == 'getIdentifier') {
-                        m.replace('{ $3 = \"' + com.qihoo360.replugin.parasite.CommonData.appPackage + '\"; ' +
+                        m.replace('{ $3 = \"' +CommonData.appPackage + '\"; ' +
                                 '$_ = $proceed($$);' +
                                 ' }')
                         println " GetIdentifierCall => ${canonicalName} ${methodName}():${m.lineNumber}"

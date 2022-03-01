@@ -32,9 +32,6 @@ public class ProviderInjector2 extends BaseInjector {
     // 处理以下方法
     public static def includeMethodCall = ['query', 'update']
 
-    // 表达式编辑器
-    def editor
-
     ProviderInjector2(Project project, ClassPool pool) {
         super(project, pool)
     }
