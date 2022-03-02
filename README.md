@@ -32,4 +32,4 @@
 ### 技术分享
 [2021年 Android组件化分享](https://jamesfchen.github.io/blog/2021-12-31/shared-android-component)
 
-[bundles-assembler 项目wiki](https://github.com/JamesfChen/bundles-assembler/wiki/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8)
+[bundles-assembler 项目wiki](https://github.com/JamesfChen/bundles-assembler/wiki)

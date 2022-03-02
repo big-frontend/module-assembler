@@ -74,7 +74,6 @@ abstract class BaseInjector implements IInsertCode {
             return ctCls.toBytecode()
         } catch (Throwable t) {
             println "    [Warning] --> ${t.toString()}"
-            // t.printStackTrace()
             return null
         } finally {
             if (ctCls != null) {
