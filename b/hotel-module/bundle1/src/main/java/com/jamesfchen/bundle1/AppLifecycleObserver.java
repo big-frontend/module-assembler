@@ -2,12 +2,8 @@ package com.jamesfchen.bundle1;
 
 import android.util.Log;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.OnLifecycleEvent;
-
 import com.jamesfchen.lifecycle.AppLifecycle;
+import com.jamesfchen.lifecycle.IAppLifecycleObserverAdapter;
 
 /**
  * Copyright ® $ 2017
@@ -17,28 +13,26 @@ import com.jamesfchen.lifecycle.AppLifecycle;
  * @since: Mar/16/2019  Sat
  */
 @AppLifecycle
-public class AppLifecycleObserver implements LifecycleObserver {
-    //can receive zero or one argument
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    public void connectListener(LifecycleOwner lifecycleOwner) {
+public class AppLifecycleObserver extends IAppLifecycleObserverAdapter {
+
+    @Override
+    public void onAppCreate() {
+        super.onAppCreate();
         Log.d("cjf", "connectListener");
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void onBackground(LifecycleOwner lifecycleOwner) {
-        Log.d("cjf", "onBackground");
-
-    }
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public void disconnectListener(LifecycleOwner lifecycleOwner) {
-        Log.d("cjf", "disconnectListener");
+    @Override
+    public void onAppForeground() {
+        super.onAppForeground();
+        Log.d("cjf", "onAppForeground");
     }
 
-    //Methods annotated with ON_ANY can receive the second argument
-    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-    public void onAny(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
-        Log.d("cjf", "onAny:"+event);
-
-
+    @Override
+    public void onAppBackground() {
+        super.onAppBackground();
+        Log.d("cjf", "onAppBackground");
     }
+
+//        Log.d("cjf", "disconnectListener");
+
 }

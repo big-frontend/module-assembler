@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 import com.jamesfchen.ibc.IBCInitializer;
-import com.jamesfchen.lifecycle.App;
+import com.jamesfchen.lifecycle.LifecycleInitializer;
 
 /**
  * Copyright ® $ 2017
@@ -15,7 +15,6 @@ import com.jamesfchen.lifecycle.App;
  * @author: jamesfchen
  * @since: 2017/7/4
  */
-@App
 public class BApp extends Application {
     private static BApp sApp;
     RePluginProxy rePluginProxy;
@@ -44,6 +43,7 @@ public class BApp extends Application {
 //        ARouter.init(this);
 //        ProcessLifecycleOwner.get().getLifecycle().addObserver(new AppLifecycleObserver());
         IBCInitializer.init(this);
+        LifecycleInitializer.init(this);
         rePluginProxy.onCreate();
     }
     @Override

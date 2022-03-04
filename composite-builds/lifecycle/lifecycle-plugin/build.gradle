@@ -38,7 +38,7 @@ gradlePlugin {
     plugins {
         lifecycleplugin {
             id = "${rootProject.groupId}.lifecycle-plugin"
-            implementationClass = 'com.jamesfchen.lifecycle.InjectLifecyclePlugin'
+            implementationClass = 'com.jamesfchen.lifecycle.LifecyclePlugin'
             displayName = 'lifecycle plugin'
             description = "monitor app lifecycle for bundle project"
         }

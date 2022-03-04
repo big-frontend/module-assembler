@@ -1,40 +1,32 @@
 package com.jamesfchen.lifecycle
 
-import com.jamesfchen.ClassInfo
+
 import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.Opcodes
 
-class ScanLifecycleClassVisitor extends ClassVisitor{
+class ScanLifecycleClassVisitor extends ClassVisitor {
     private static final String APP_LIFECYCLE_ANNOTATION_DESCRIPTOR = "Lcom/jamesfchen/lifecycle/AppLifecycle;"
-    private static final String APP_ANNOTATION_DESCRIPTOR = "Lcom/jamesfchen/lifecycle/App;"
-    boolean hasAppAnnotation=false
-    boolean hasAppLifecycleAnnotation=false
-    String canonicalName
-    List<String> lifecycles
-    List<ClassInfo> appClassInfos
-    ClassInfo classFile
+    boolean hasAppLifecycleAnnotation = false
+    String classDescriptor
+    List<String> appLifecycles
 
-    ScanLifecycleClassVisitor(ClassWriter classVisitor, List<String> lifecycles, List<ClassInfo> appClassInfos,ClassInfo classFile) {
+    ScanLifecycleClassVisitor(ClassWriter classVisitor, List<String> appLifecycles) {
         super(Opcodes.ASM6, classVisitor)
-        this.lifecycles = lifecycles
-        this.appClassInfos = appClassInfos
-        this.classFile = classFile
+        this.appLifecycles = appLifecycles
     }
 
     @Override
     void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         super.visit(version, access, name, signature, superName, interfaces)
-        canonicalName = name
+        classDescriptor = "L" + name + ";"
     }
 
     @Override
     AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-        if (APP_LIFECYCLE_ANNOTATION_DESCRIPTOR == descriptor){
+        if (APP_LIFECYCLE_ANNOTATION_DESCRIPTOR == descriptor) {
             hasAppLifecycleAnnotation = true
-        }else if (APP_ANNOTATION_DESCRIPTOR == descriptor){
-            hasAppAnnotation = true
         }
         return super.visitAnnotation(descriptor, visible)
     }
@@ -42,17 +34,10 @@ class ScanLifecycleClassVisitor extends ClassVisitor{
     @Override
     void visitEnd() {
         super.visitEnd()
-        if (hasAppLifecycleAnnotation){
-            if (lifecycles !=null){
-                lifecycles.add(canonicalName)
-            }
-        }else if (hasAppAnnotation){
-            if (appClassInfos !=null){
-                appClassInfos.add(classFile)
-            }
+        if (hasAppLifecycleAnnotation) {
+            appLifecycles.add(classDescriptor)
         }
         hasAppLifecycleAnnotation = false
-        hasAppAnnotation = false
 
     }
 }
