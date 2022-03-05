@@ -2,13 +2,13 @@
 from setuptools import find_packages, setup
 # python setup.py install
 setup(
-    name='bAssembler-cli',
+    name='bundcli',
     version='1.0.0',
-    packages=find_packages(include=['cmd']),
+    packages=find_packages(include=['cli']),
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'flask',
+        'cmd-fwk', 'requests', 'tqdm'
     ],
 
     author="jamesfchen",
@@ -38,10 +38,12 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.9',
     ],
     entry_points={
         'console_scripts': [
-            'padb=cli:main',
+            'bundcli=cli:entry',
         ],
     }
 )
