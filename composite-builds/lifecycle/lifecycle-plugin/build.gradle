@@ -12,13 +12,13 @@ pluginBundle {
             displayName = 'lifecycle plugin'
 //            description = "组件化之后，组件监听app的生命周期工具"
             tags = ['bundles-assembler']
-            version '1.0.1'
+            version '1.1.0'
         }
     }
     mavenCoordinates {
         groupId = rootProject.groupId
         artifactId = "lifecycle-plugin"
-        version = "1.0.1"
+        version = "1.1.0"
     }
 }
 
