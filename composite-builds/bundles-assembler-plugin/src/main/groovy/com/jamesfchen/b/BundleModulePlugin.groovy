@@ -40,10 +40,6 @@ class BundleModulePlugin extends AndroidPlugin {
             }else if ('WRouter' == routerName){
                 annotationProcessor 'io.github.meituan-dianping:compiler:1.2.1'
             }
-            project.gradle.framworkApiModuleMap.each { simpleName, m ->
-                def path = project.moduleify(simpleName)
-                compileOnly path
-            }
 //            def nav_version = "2.3.5"
             if (navigationVersion) {
                 api "androidx.navigation:navigation-fragment:$navigationVersion"

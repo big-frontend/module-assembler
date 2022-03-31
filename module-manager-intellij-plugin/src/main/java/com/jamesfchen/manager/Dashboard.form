@@ -34,7 +34,13 @@
             </properties>
             <border type="line"/>
             <children>
-              <grid id="96ae5" binding="activeBuildVariantPanel" layout-manager="GridBagLayout">
+              <grid id="96ae5" binding="buildVariantsPanel" layout-manager="GridBagLayout">
+                <constraints/>
+                <properties/>
+                <border type="line"/>
+                <children/>
+              </grid>
+              <grid id="9b27d" binding="buildArtifactsPanel" layout-manager="GridBagLayout">
                 <constraints/>
                 <properties/>
                 <border type="line"/>

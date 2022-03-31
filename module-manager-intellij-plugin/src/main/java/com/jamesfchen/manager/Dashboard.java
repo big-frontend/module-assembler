@@ -2,7 +2,6 @@ package com.jamesfchen.manager;
 
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.CollectionComboBoxModel;
-import com.intellij.ui.components.DropDownLink;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +10,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.List;
 
+import static com.jamesfchen.manager.NotificationUtil.showNotification;
+
 
 public class Dashboard extends JDialog {
     private JPanel contentPane;
@@ -18,9 +19,11 @@ public class Dashboard extends JDialog {
     private JButton buttonCancel;
     private JTabbedPane tabbedPane;
     private JPanel allModulePanel;
-    private String activeBuildVariant;
     private JPanel settingsPanel;
-    private JPanel activeBuildVariantPanel;
+    private JPanel buildVariantsPanel;
+    private String activeBuildVariant;
+    private JPanel buildArtifactsPanel;
+    private String activeBuildArtifact;
 
     public Dashboard() {
         setSize(new Dimension(1000, 697));
@@ -29,7 +32,30 @@ public class Dashboard extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         buttonOK.addActionListener(e -> {
-            if (okl != null) okl.call(allModulePanel,activeBuildVariant);
+            if (okl != null) {
+                Result result = new Result();
+                result.activeBuildVariant = activeBuildVariant;
+                result.activeBuildArtifact = activeBuildArtifact;
+                int componentCount = allModulePanel.getComponentCount();
+                StringBuilder excludesb = new StringBuilder();
+                StringBuilder sourcesb = new StringBuilder();
+                for (int i = 0; i < componentCount; ++i) {
+                    JPanel fieldText = (JPanel) allModulePanel.getComponent(i);
+                    JLabel moduleName = (JLabel) fieldText.getComponent(0);
+                    ComboBox<String> comboBox = (ComboBox<String>) fieldText.getComponent(1);
+                    String selectedItem = (String) comboBox.getSelectedItem();
+                    if ("source".equals(selectedItem)) {
+                        sourcesb.append(moduleName.getText());
+                        sourcesb.append(",");
+                    } else if ("exclude".equals(selectedItem)) {
+                        excludesb.append(moduleName.getText());
+                        excludesb.append(",");
+                    }
+                }
+                result.sourceModules = sourcesb.toString();
+                result.excludeModules = excludesb.toString();
+                okl.call(result);
+            }
             dispose();
         });
         buttonCancel.addActionListener(e -> {
@@ -58,7 +84,7 @@ public class Dashboard extends JDialog {
 
 
     public interface OkListener {
-        void call(JPanel allModulePanel,String activeBuildVariant);
+        void call(Result result);
     }
     public interface CancelListener {
         void call();
@@ -96,7 +122,7 @@ public class Dashboard extends JDialog {
         jLabel.setHorizontalAlignment(SwingConstants.CENTER);
         jLabel.setFont(new Font("黑体", 1, 12));
         jLabel.setForeground(Color.green);
-        activeBuildVariantPanel.add(jLabel, bagConstraints);
+        buildVariantsPanel.add(jLabel, bagConstraints);
         ComboBoxModel<String> comboBoxModel = new CollectionComboBoxModel<>(variants);
         ComboBox<String> comboBox = new ComboBox<>(comboBoxModel);
         bagConstraints.weightx = 1;
@@ -106,7 +132,31 @@ public class Dashboard extends JDialog {
             jLabel.setText(e.getItem().toString());
             this.activeBuildVariant = e.getItem().toString();
         });
-        activeBuildVariantPanel.add(comboBox, bagConstraints);
+        buildVariantsPanel.add(comboBox, bagConstraints);
+
+    }
+    public void bindBuildArtifacts(String buildArtifact, List<String> buildArtifacts){
+        this.activeBuildArtifact = buildArtifact;
+        GridBagConstraints bagConstraints = new GridBagConstraints();
+        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        //add jlabel
+        bagConstraints.weightx = 1;
+        JLabel jLabel = new JLabel();
+        jLabel.setText(buildArtifact);
+        jLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        jLabel.setFont(new Font("黑体", 1, 12));
+        jLabel.setForeground(Color.green);
+        buildArtifactsPanel.add(jLabel, bagConstraints);
+        ComboBoxModel<String> comboBoxModel = new CollectionComboBoxModel<>(buildArtifacts);
+        ComboBox<String> comboBox = new ComboBox<>(comboBoxModel);
+        bagConstraints.weightx = 1;
+        comboBox.setEditable(true);
+        comboBox.setSelectedItem(buildArtifact);
+        comboBox.addItemListener(e -> {
+            jLabel.setText(e.getItem().toString());
+            this.activeBuildArtifact = e.getItem().toString();
+        });
+        buildArtifactsPanel.add(comboBox, bagConstraints);
 
     }
     private interface Callback {
@@ -148,6 +198,8 @@ public class Dashboard extends JDialog {
         ComboBoxModel<String> comboBoxModel;
         if ("fwk".equalsIgnoreCase(entry.getValue().group) || "home".equalsIgnoreCase(entry.getValue().group)) {
             comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "binary"));
+        }else if ("plugin".equalsIgnoreCase(entry.getValue().format)){
+            comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "exclude"));
         } else {
             comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "binary","exclude"));
         }

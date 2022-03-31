@@ -3,47 +3,38 @@ package com.jamesfchen.manager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.ComboBox;
+import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
 import java.util.*;
 
-import static com.jamesfchen.manager.FileIOUtil.*;
 import static com.jamesfchen.manager.NotificationUtil.showNotification;
 
 public class MyAction extends AnAction {
-
     @Override
     public void actionPerformed(AnActionEvent e) {
         Project project = e.getProject();
         if (project == null) return;
-        Properties localProperties = getLocalProperties(project);
+        FileUtil.init(project);
+        ModuleConfig config = FileUtil.parseModuleConfig();
+        if (config == null) {
+            return;
+        }
+        Properties localProperties = FileUtil.getLocalProperties();
         if (localProperties == null) return;
+        String activeBuildVariant = getActiveBuildVariant(localProperties,config.buildVariants);
+        if (activeBuildVariant ==null){
+            showNotification("bindBuildVariants", "请配置buildVariants");
+            return;
+        }
+        String activeBuildArtifact = getActiveBuildArtifact(localProperties,config.buildArtifacts);
         String excludeModulesStr = localProperties.getProperty("excludeModules");
         String sourceModulesStr = localProperties.getProperty("sourceModules");
-        String activeBuildVariant = localProperties.getProperty("activeBuildVariant");
         Map<String, Module> allModuleMap = new HashMap<String, Module>();
         Map<String, Module> excludeModuleMap = new HashMap<String, Module>();
         Map<String, Module> sourceModuleMap = new HashMap<String, Module>();
         Map<String, Module> binaryModuleMap = new HashMap<String, Module>();
-
-        ModuleConfig config = parseModuleConfig(project);
-        if (config == null){
-            return;
-        }
         for (Module m : config.allModules) {
             allModuleMap.put(m.simpleName, m);
-        }
-        if ((activeBuildVariant == null || activeBuildVariant.isEmpty())
-                &&(config.buildVariants == null || config.buildVariants.isEmpty()) ){
-            showNotification("bindBuildVariants", "请配置buildVariants");
-            return;
-        }
-//        第一次初始化项目时,local.properties文件没有activeBuildVariant
-        if (activeBuildVariant == null || activeBuildVariant.isEmpty()){
-            activeBuildVariant = config.buildVariants.get(0);
-            localProperties.setProperty("activeBuildVariant", activeBuildVariant);
-            storeLocalProperties(localProperties, project);
         }
         //第一次初始化项目时，local.properties文件没有excludeModules、sourceModules、apps这三个，默认所有模块都为binary
         if (excludeModulesStr == null || sourceModulesStr == null) {
@@ -56,7 +47,7 @@ public class MyAction extends AnAction {
                 sourceModuleMap.put(key, entry.getValue());
             }
             localProperties.setProperty("sourceModules", sb.toString());
-            storeLocalProperties(localProperties, project);
+            FileUtil.storeLocalProperties(localProperties);
             excludeModulesStr = "";
             sourceModulesStr = sb.toString();
             System.out.println(" run once ");
@@ -82,36 +73,23 @@ public class MyAction extends AnAction {
             }
             System.out.println(" run again " + excludeModulesStr + "   " + sourceModulesStr);
         }
+
         System.out.println(" sourceModuleMap:" + sourceModuleMap);
         System.out.println(" excludeModuleMap:" + excludeModuleMap);
         System.out.println(" binaryModuleMap:" + binaryModuleMap);
-        System.out.println(" activeBuildVariant:" + activeBuildVariant);
-        System.out.println(" buildVariants:" + config.buildVariants);
+        System.out.println(" activeBuildVariant:" + activeBuildVariant + " buildVariants:" + config.buildVariants);
+        System.out.println(" activeBuildArtifact:" + activeBuildArtifact + " buildArtifacts:" + config.buildArtifacts);
         Dashboard d2 = new Dashboard();
         d2.setOKListener(new Dashboard.OkListener() {
             @Override
-            public void call(JPanel allModulePanel,String activeBuildVariant) {
-                int componentCount = allModulePanel.getComponentCount();
-                StringBuffer excludesb = new StringBuffer();
-                StringBuffer sourcesb = new StringBuffer();
-                for (int i =0;i<componentCount;++i){
-                    JPanel fieldText = (JPanel) allModulePanel.getComponent(i);
-                    JLabel moduleName = (JLabel) fieldText.getComponent(0);
-                    ComboBox<String> comboBox = (ComboBox<String>) fieldText.getComponent(1);
-                    String selectedItem = (String) comboBox.getSelectedItem();
-                    if ("source".equals(selectedItem)){
-                        sourcesb.append(moduleName.getText());
-                        sourcesb.append(",");
-                    }else if ("exclude".equals(selectedItem)){
-                        excludesb.append(moduleName.getText());
-                        excludesb.append(",");
-                    }
+            public void call(Result result) {
+                localProperties.setProperty("excludeModules",result.excludeModules);
+                localProperties.setProperty("sourceModules", result.sourceModules);
+                localProperties.setProperty("activeBuildVariant", result.activeBuildVariant);
+                if (result.activeBuildArtifact !=null){
+                    localProperties.setProperty("activeBuildArtifact", result.activeBuildArtifact);
                 }
-
-                localProperties.setProperty("excludeModules", excludesb.toString());
-                localProperties.setProperty("sourceModules", sourcesb.toString());
-                localProperties.setProperty("activeBuildVariant", activeBuildVariant);
-                storeLocalProperties(localProperties, project);
+                FileUtil.storeLocalProperties(localProperties);
                 AnAction syncProjectAction = e.getActionManager().getAction("Android.SyncProject");
                 if (syncProjectAction != null) {
                     syncProjectAction.actionPerformed(e);
@@ -128,11 +106,42 @@ public class MyAction extends AnAction {
             d2.bindSourcePanel(sourceModuleMap);
             d2.bindExcludePanel(excludeModuleMap);
             d2.bindBinaryPanel(binaryModuleMap);
-            d2.bindBuildVariants(activeBuildVariant,config.buildVariants);
+            d2.bindBuildVariants(activeBuildVariant, config.buildVariants);
+            if (activeBuildArtifact != null) {
+                d2.bindBuildArtifacts(activeBuildArtifact, config.buildArtifacts);
+            }
             d2.pack();
             d2.setVisible(true);
-
         }
+    }
+
+    @Nullable
+    String getActiveBuildVariant(Properties localProperties, List<String> buildVariants) {
+        String activeBuildVariant = localProperties.getProperty("activeBuildVariant");
+        if (buildVariants == null || buildVariants.isEmpty()) {
+            return null;
+        }
+        //第一次初始化项目时,local.properties文件没有activeBuildVariant
+        if (activeBuildVariant == null || activeBuildVariant.isEmpty()) {
+            activeBuildVariant = buildVariants.get(0);
+            localProperties.setProperty("activeBuildVariant", activeBuildVariant);
+            FileUtil.storeLocalProperties(localProperties);
+        }
+        return activeBuildVariant;
+    }
+    @Nullable
+    String getActiveBuildArtifact(Properties localProperties,List<String> buildArtifacts) {
+        String activeBuildArtifact = localProperties.getProperty("activeBuildArtifact");
+        if (buildArtifacts == null || buildArtifacts.isEmpty()) {
+            return null;
+        }
+        //第一次初始化项目时,local.properties文件没有activeBuildArtifact
+        if (activeBuildArtifact == null || activeBuildArtifact.isEmpty()) {
+            activeBuildArtifact = buildArtifacts.get(0);
+            localProperties.setProperty("activeBuildArtifact", activeBuildArtifact);
+            FileUtil.storeLocalProperties(localProperties);
+        }
+        return activeBuildArtifact;
     }
 
 

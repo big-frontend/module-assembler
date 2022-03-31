@@ -53,11 +53,5 @@ class AppModulePlugin extends AndroidPlugin {
                 }
             }
         }
-        project.dependencies {
-            project.gradle.framworkApiModuleMap.each { simpleName, m ->
-                def path = project.moduleify(simpleName)
-                compileOnly path
-            }
-        }
     }
 }
