@@ -3,6 +3,7 @@ package com.rnbundle;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
+
 import androidx.annotation.NonNull;
 
 import com.facebook.react.PackageList;
@@ -12,13 +13,11 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
-import expo.modules.ApplicationLifecycleDispatcher;
-import expo.modules.ReactNativeHostWrapper;
-
-import com.facebook.react.bridge.JSIModulePackage;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+import expo.modules.ApplicationLifecycleDispatcher;
+import expo.modules.ReactNativeHostWrapper;
 
 public class MainApplication extends Application implements ReactApplication {
   private final ReactNativeHost mReactNativeHost = new ReactNativeHostWrapper(
@@ -35,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MyReactNativePackage());
+       packages.add(new MyAppPackage());
       return packages;
     }
 
