@@ -9,9 +9,7 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/releases' }
         maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
-        flatDir {
-            dirs 'libs' //this way we can find the .aar file in libs folder
-        }
+        maven{ url "https://dl.bintray.com/kotlin/kotlin-eap"}
         google()
     }
     dependencies {

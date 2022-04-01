@@ -2,6 +2,11 @@ plugins {
     id "io.github.jamesfchen.app-plugin"
     id 'com.google.gms.google-services'
     id 'io.github.jamesfchen.replugin-host-plugin'
+    id("com.google.devtools.ksp") version "1.5.30-1.0.0"
+}
+ksp {
+    arg("option1", "value1")
+    arg("option2", "value2")
 }
 repluginHostConfig {
 // 可以在这里自定义常驻进程的名字
@@ -44,4 +49,6 @@ dependencies {
     project.depsConfig("implementation", "hotel-foundation")
     compileOnly project.moduleify("framework-network")
     compileOnly project.moduleify("framework-common")
+    ksp "io.github.jamesfchen:ibc-ksp:1.0.0"
+    implementation "io.github.jamesfchen:ibc-ksp:1.0.0"
 }
