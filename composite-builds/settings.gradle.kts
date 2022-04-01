@@ -16,7 +16,6 @@ include(
     ":ibc:ibc-api", ":ibc:ibc-compiler", ":ibc:ibc-plugin", ":ibc:ibc-annotations",":ibc:ibc-ksp"
 )
 include(":module-publisher-plugin")
-include(":pg-annotations")
 include(":bundles-assembler-plugin")
 include(":replugin:replugin-plugin")
 include(":replugin:replugin-host-api")

@@ -25,5 +25,4 @@ dependencies {
         // confusing.
         exclude group: "com.google.auto.value", module: "auto-value"
     }
-    implementation project(':pg-annotations')
 }
