@@ -10,9 +10,6 @@ repluginPluginConfig {
 }
 apply from:"$rootDir/script/app_config.gradle"
 android {
-    buildFeatures {
-        compose true
-    }
     defaultConfig {
         resValue "string", "app_name","im.app"
     }

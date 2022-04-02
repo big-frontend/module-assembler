@@ -9,8 +9,6 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/releases' }
         maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
-        maven{ url "https://dl.bintray.com/kotlin/kotlin-eap"}
-        google()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.1"

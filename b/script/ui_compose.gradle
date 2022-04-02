@@ -1,3 +1,8 @@
+def ktOptions = [
+        //1.5.10-1.0.0  1.6.10-1.1.1
+        ktceVersion: "1.0.3",
+        ktcVersion : "1.5.30"
+]
 android {
     defaultConfig {
         vectorDrawables {
@@ -16,8 +21,8 @@ android {
 //        shaders false
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.0.2'
-//        kotlinCompilerVersion "1.5.10"
+        kotlinCompilerExtensionVersion ktOptions.ktceVersion
+        kotlinCompilerVersion ktOptions.ktcVersion
     }
 
     kotlinOptions {
@@ -34,7 +39,7 @@ dependencies {
     api 'com.google.accompanist:accompanist-insets:0.19.0'
     api "com.google.accompanist:accompanist-insets-ui:0.19.0"
     //compose
-    def composeVersion = '1.0.2'
+    def composeVersion = ktOptions.ktceVersion
     api "androidx.compose.foundation:foundation-layout:${composeVersion}"
     api "androidx.compose.runtime:runtime:${composeVersion}"
     api "androidx.compose.ui:ui-util:${composeVersion}"

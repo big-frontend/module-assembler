@@ -6,8 +6,8 @@ pluginManagement {
         maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/releases' }
-        maven{ url "https://dl.bintray.com/kotlin/kotlin-eap"}
         gradlePluginPortal()
+        maven{ url "https://dl.bintray.com/kotlin/kotlin-eap"}
     }
     plugins {
     }
@@ -21,7 +21,6 @@ dependencyResolutionManagement {
         maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/releases' }
-        maven{ url "https://dl.bintray.com/kotlin/kotlin-eap"}
         gradlePluginPortal()
     }
 }
