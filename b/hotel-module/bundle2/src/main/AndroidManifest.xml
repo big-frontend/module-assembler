@@ -5,7 +5,7 @@
 
     <application>
 
-        <activity android:name=".SayHiActivity">
+        <activity android:name=".SayHiActivity" android:exported="true">
             <!--                app link-->
             <tools:validation testUrl="http://jamesfchen.page.link/hotel/sayhi" />
 

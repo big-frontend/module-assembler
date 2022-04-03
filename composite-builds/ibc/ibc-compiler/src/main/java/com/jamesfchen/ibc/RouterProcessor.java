@@ -1,7 +1,6 @@
 package com.jamesfchen.ibc;
 
 
-import com.jamesfchen.pgannotations.Feature;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -29,7 +28,7 @@ public class RouterProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> set = new LinkedHashSet<String>();
-        set.add(Feature.class.getCanonicalName());
+//        set.add(Feature.class.getCanonicalName());
         return set;
     }
 

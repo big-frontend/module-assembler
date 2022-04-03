@@ -57,6 +57,10 @@ class MainActivity : Activity() {
             i.component = ComponentName(this@MainActivity,"com.example.compose.jetchat.NavActivity")
             RePlugin.startActivity(this@MainActivity,i)
         }
+        binding.btAndroidNavigator.setOnClickListener {
+            val i = Intent(this@MainActivity,AndroidNavigatorActivity::class.java)
+            startActivity(i)
+        }
     }
 
 }

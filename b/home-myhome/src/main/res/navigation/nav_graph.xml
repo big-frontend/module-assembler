@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.jamesfchen.bundle2.FirstFragment"
+        android:name="com.jamesfchen.myhome.FirstFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
@@ -17,12 +17,21 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.jamesfchen.bundle2.SecondFragment"
+        android:name="com.jamesfchen.myhome.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
-
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+                android:id="@+id/action_sayhi"
+                app:destination="@+id/dest_sayhi" />
     </fragment>
+<!--    跨bundle调用-->
+    <activity
+            android:id="@+id/dest_sayhi"
+            android:name="com.jamesfchen.bundle2.SayHiActivity"
+            android:label="bundle2-sayhi"
+            >
+        <argument
+                android:name="url"
+                android:defaultValue="file:///android_asset/test.html" />
+    </activity>
 </navigation>

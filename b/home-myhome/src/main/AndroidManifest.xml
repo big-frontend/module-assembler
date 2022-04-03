@@ -3,7 +3,8 @@
     package="com.jamesfchen.myhome">
 
     <application>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".P" />
+        <activity android:name=".MainActivity" android:exported="true"/>
+        <activity android:name=".P" android:exported="true"/>
+        <activity android:name=".AndroidNavigatorActivity" android:exported="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 </manifest>

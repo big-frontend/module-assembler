@@ -53,4 +53,10 @@
             android:layout_height="wrap_content"
             android:text="打开im插件"
             android:textAllCaps="false" />
+    <Button
+            android:id="@+id/bt_android_navigator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="打开android navigator"
+            android:textAllCaps="false" />
 </LinearLayout>
