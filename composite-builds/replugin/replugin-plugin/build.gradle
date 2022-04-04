@@ -43,16 +43,16 @@ version = "${verLine.split("\"")[1]}" // 版本
 java.lang.System.err.println "version=${version}"
 dependencies {
     implementation 'com.android.tools.build:gradle:4.1.0'
-    implementation 'org.json:json:20160212'
-    implementation 'org.codehaus.groovy:groovy:2.4.7'
-    implementation 'com.squareup:javapoet:1.5.1'
+    implementation 'org.json:json:20180813'
+    implementation 'org.codehaus.groovy:groovy:3.0.9'
+    implementation 'com.squareup:javapoet:1.13.0'
     implementation gradleApi()
     implementation localGroovy()
-    implementation 'com.google.gradle:osdetector-gradle-plugin:1.2.1'
+    implementation 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
     implementation 'org.javassist:javassist:3.18.2-GA'
-    implementation 'commons-io:commons-io:2.5'
+    implementation 'commons-io:commons-io:2.11.0'
     implementation 'net.dongliu:apk-parser:2.2.0'
-    implementation 'com.google.guava:guava:11.0'
+    implementation 'com.google.guava:guava:24.1-jre'
     implementation 'commons-codec:commons-codec:1.15'
     implementation project(':base-plugin')
 }
@@ -67,7 +67,7 @@ gradlePlugin {
         }
         pluginifyParasite {
             id = "${rootProject.groupId}.replugin-parasite-plugin"
-            implementationClass = 'com.qihoo360.replugin.parasite.ParasitePlugin'
+            implementationClass = 'com.qihoo360.replugin.parasite2.ParasitePlugin'
             displayName = "pluginify-parasite-plugin"
             description = "pluginify-parasite-plugin"
         }

@@ -29,10 +29,10 @@ public class MyAction extends AnAction {
         String activeBuildArtifact = getActiveBuildArtifact(localProperties,config.buildArtifacts);
         String excludeModulesStr = localProperties.getProperty("excludeModules");
         String sourceModulesStr = localProperties.getProperty("sourceModules");
-        Map<String, Module> allModuleMap = new HashMap<String, Module>();
-        Map<String, Module> excludeModuleMap = new HashMap<String, Module>();
-        Map<String, Module> sourceModuleMap = new HashMap<String, Module>();
-        Map<String, Module> binaryModuleMap = new HashMap<String, Module>();
+        Map<String, Module> allModuleMap = new TreeMap<>();
+        Map<String, Module> excludeModuleMap = new TreeMap<String, Module>();
+        Map<String, Module> sourceModuleMap = new TreeMap<String, Module>();
+        Map<String, Module> binaryModuleMap = new TreeMap<String, Module>();
         for (Module m : config.allModules) {
             allModuleMap.put(m.simpleName, m);
         }

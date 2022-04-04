@@ -1,8 +1,6 @@
 plugins {
-    id "io.github.jamesfchen.app-plugin"
     id 'io.github.jamesfchen.replugin-parasite-plugin'
 }
-apply from: "${rootDir.path}/script/ui_compose.gradle"
 repluginPluginConfig {
     pluginName = "im"
     hostApplicationId = rootProject.applicationId
@@ -13,48 +11,15 @@ android {
     defaultConfig {
         resValue "string", "app_name","im.app"
     }
+    packagingOptions {
+        //exclude 过滤掉某些文件或者目录不添加到APK中，作用于APK，不能过滤aar和jar中的内容。
+        //pickFirst  匹配到多个相同文件，只提取第一个。只作用于APK，不能过滤aar和jar中的文件。
+        //doNotStrip，可以设置某些动态库不被优化压缩。
+        //merge，将匹配的文件都添加到APK中，和pickFirst有些相反，会合并所有文件。
+        exclude 'META-INF/proguard/coroutines.pro'
+    }
 }
 dependencies {
     project.depsConfig("implementation", "im-chatroom")
     implementation "io.github.jamesfchen:replugin-parasite-api:${RP_VERSION}"
-    def androidJar = findAndroidJarPath(project, project.android.defaultConfig.targetSdkVersion.getApiLevel())
-    project.dependencies.add("compileOnly", androidJar)
-}
-static ConfigurableFileCollection findAndroidJarPath(project, int sdkVersion) {
-//        return ScopeCompat.getAndroidJar(globalScope)
-    return project.files("${findSdkLocation(project)}/platforms/android-$sdkVersion/android.jar")
-}
-
-
-static File findSdkLocation(Project project){
-    def rootDir = project.rootDir
-    def localProperties = new File(rootDir, "local.properties")
-    if (localProperties.exists()) {
-        def properties = new Properties()
-        new FileInputStream(localProperties).withCloseable { instr ->
-            properties.load(instr)
-        }
-        def sdkDirProp = properties.getProperty("sdk.dir")
-        if (sdkDirProp != null) {
-            return new File(sdkDirProp)
-        } else {
-            sdkDirProp = properties.getProperty("android.dir")
-            if (sdkDirProp != null) {
-                return new File(rootDir, sdkDirProp)
-            } else {
-                throw new RuntimeException("No sdk.dir property defined in local.properties file.")
-            }
-        }
-    } else {
-        def envVar = System.getenv("ANDROID_HOME")
-        if (envVar != null) {
-            return new File(envVar)
-        } else {
-            def property = System.getProperty("android.home")
-            if (property != null) {
-                return new File(property)
-            }
-        }
-    }
-    throw  new RuntimeException("Can't find SDK path")
 }
