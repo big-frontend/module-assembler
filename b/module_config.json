@@ -22,7 +22,7 @@
     {
       "simpleName": "hotel-main",
       "sourcePath": ":hotel-module:main",
-      "format": "app",
+      "format": "bundle",
       "group": "hotel"
     },
     {
@@ -52,65 +52,64 @@
     {
       "simpleName": "hotel-lint",
       "sourcePath": ":hotel-module:hotel-lint",
-      "format": "jar",
-      "type": "tool",
+      "format": "tool",
       "group": "hotel"
     },
     {
       "simpleName": "hotel-foundation",
       "sourcePath": ":hotel-module:foundation",
-      "format": "bundle_foundation",
+      "format": "bundle",
       "group": "hotel"
     },
     {
       "simpleName": "hotel-export",
       "sourcePath": ":hotel-module:export",
-      "format": "bundle_foundation",
+      "format": "stub",
       "group": "hotel"
     },
     {
       "simpleName": "framework-baseui",
       "sourcePath": ":framework:baseui",
-      "format": "framework_foundation",
+      "format": "biz-foundation",
       "group": "fwk"
     },
     {
       "simpleName": "framework-network",
       "sourcePath": ":framework:network",
-      "format": "framework_foundation",
+      "format": "foundation",
       "group": "fwk"
     },
     {
       "simpleName": "framework-h5container",
       "sourcePath": ":framework:h5container",
-      "format": "framework_foundation",
+      "format": "foundation",
       "group": "fwk"
     },
     {
       "simpleName": "framework-reactcontainer",
       "sourcePath": ":framework:reactcontainer",
-      "format": "framework_foundation",
+      "format": "foundation",
       "group": "fwk"
     },
     {
       "simpleName": "framework-common",
       "sourcePath": ":framework:common",
-      "format": "framework_foundation",
+      "format": "foundation",
       "group": "fwk"
     },
     {
-      "simpleName": "im-main",
+      "simpleName": "plugin-im-main",
       "sourcePath": ":im-module:main",
-      "format": "app",
+      "format": "bundle",
       "group": "im",
-      "dynamic": "remote_plugin"
+      "dynamic": "local-plugin"
     },
     {
-      "simpleName": "im-chatroom",
+      "simpleName": "plugin-im-chatroom",
       "sourcePath": ":im-module:chatroom",
       "format": "bundle",
       "group": "im",
-      "dynamic": "local_plugin"
+      "dynamic": "local-plugin"
     }
   ]
 }

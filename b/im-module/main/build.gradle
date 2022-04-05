@@ -20,6 +20,6 @@ android {
     }
 }
 dependencies {
-    project.depsConfig("implementation", "im-chatroom")
+    implementation project.moduleify("plugin-im-chatroom")
     implementation "io.github.jamesfchen:replugin-parasite-api:${RP_VERSION}"
 }

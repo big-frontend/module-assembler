@@ -46,11 +46,10 @@ if (localProperties.getProperty('activeBuildArtifact', '')){
 gradle.ext.excludeModuleMap = new LinkedHashMap<String, Object>()
 gradle.ext.sourceModuleMap = new LinkedHashMap<String, Object>()
 gradle.ext.binaryModuleMap = new LinkedHashMap<String, Object>()
-gradle.ext.framworkSrcModuleMap = [:] //目前只使用了7个fwk的模块，其余模块暂且搁置
-gradle.ext.framworkAllModuleMap = [:]
-gradle.ext.bundleSrcModuleMap = [:]
 gradle.ext.sourcePath2SimpleNameMap = [:]
+
 gradle.ext.pluginSrcModuleMap = [:]
+gradle.ext.pluginBinaryModuleMap = [:]
 def findModule = { name ->
     for (def m : gradle.ext.allModules) {
         if (m.simpleName == name) {
@@ -73,20 +72,11 @@ excludeModulesStr.eachAfterSplit(',') {
 sourceModulesStr.eachAfterSplit(',') {
     gradle.ext.sourceModuleMap[it.simpleName] = it
     gradle.ext.sourcePath2SimpleNameMap[it.sourcePath] = it.simpleName
-    if (it.group == 'fwk') {
-        gradle.ext.framworkSrcModuleMap[it.simpleName] = it
-    }
-    if (it.format.contains('bundle')) {
-        gradle.ext.bundleSrcModuleMap[it.simpleName] = it
-    }
-    if (it.format.contains("plugin")){
+    if (it.dynamic){
         gradle.ext.pluginSrcModuleMap[it.simpleName] = it
     }
 }
 gradle.ext.allModules.each { m ->
-    if (m.group == 'fwk') {
-        gradle.ext.framworkAllModuleMap[m.simpleName] = m
-    }
     m.binaryPath = "${gradle.ext.groupId}:${m.simpleName}:1.0.0-$gradle.ext.activeBuildVariant-SNAPSHOT"
     if (!gradle.ext.sourceModuleMap.containsKey(m.simpleName) && !gradle.ext.excludeModuleMap.containsKey(m.simpleName)) {
         gradle.ext.binaryModuleMap[m.simpleName] = m
@@ -105,8 +95,11 @@ gradle.ext.sourceModuleMap.each { name, module ->
 gradle.ext.excludeModuleMap.each { _, module ->
     child("\u001B[31mexclude module\u001B[0m\t${module.sourcePath}")
 }
-gradle.ext.binaryModuleMap.each { _, module ->
+gradle.ext.binaryModuleMap.each { simpleName, module ->
     child("binary module\t${module.binaryPath}")
+    if (module.dynamic){
+        gradle.ext.pluginBinaryModuleMap[simpleName] = module
+    }
 }
 
 child("module end ========================================================================================")
