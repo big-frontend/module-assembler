@@ -9,6 +9,9 @@ import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.ClassWriter
 
+/**
+ * 如果没有扫描与插桩的处理会耗时983ms，扫描与插桩会消耗2685ms
+ */
 class IbcPlugin extends ScanClassPlugin {
     List<RouterInfo> routers
     List<ApiInfo> apis
