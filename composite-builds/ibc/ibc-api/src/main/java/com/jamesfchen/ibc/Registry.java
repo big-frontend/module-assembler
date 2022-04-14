@@ -1,13 +1,13 @@
 package com.jamesfchen.ibc;
 
+import static com.jamesfchen.ibc.Constants.ROUTER_TAG;
+
 import android.util.Log;
 
 import androidx.collection.ArrayMap;
 
 import com.jamesfchen.ibc.cbpc.IExport;
 import com.jamesfchen.ibc.router.IRouter;
-
-import static com.jamesfchen.ibc.Constants.ROUTER_TAG;
 
 /**
  * Copyright ® $ 2017

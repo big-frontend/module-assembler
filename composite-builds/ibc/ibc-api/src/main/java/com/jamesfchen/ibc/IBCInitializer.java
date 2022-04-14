@@ -14,18 +14,14 @@ public class IBCInitializer {
 
     public static void init(Context cxt) {
         if (inited) return;
-        register(cxt);
+        try {
+            Class.forName(Constants.PKG +".generated.RegistryProxy")
+                    .getMethod("register")
+                    .invoke(null);
+        //        register(cxt);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         inited = true;
-    }
-
-    /**
-     * 通过编译期插桩注册路由器
-     */
-    private static void register(Context cxt) {
-        //        Registry.getInstance().registerRouter("home", HomeRouter.class);
-//        Registry.getInstance().registerRouter("bundle1", Bundle1Router.class);
-//        Registry.getInstance().registerRouter("bundle2", Bundle2Router.class);
-//        Registry.getInstance().registerRouter("h5container", H5Router.class);
-//        Registry.getInstance().registerApi(CallImp.class);
     }
 }

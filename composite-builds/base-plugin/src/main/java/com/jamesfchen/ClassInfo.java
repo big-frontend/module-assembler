@@ -17,14 +17,21 @@ public class ClassInfo{
     public File classFile;
     public InputStream classStream;
     public String canonicalName;
+    public int status=-1;
+    public static final int BIRTH_JAR=0;
+    public static final int BIRTH_DIR=1;
+    public static final int DEATH_JAR=2;
+    public static final int DEATH_DIR=3;
 
-    ClassInfo(File mather, InputStream classStream, String canonicalName) {
+    ClassInfo(int status, File mather, InputStream classStream, String canonicalName) {
+        this.status = status;
         this.mather = mather;
         this.classStream = classStream;
         this.canonicalName = canonicalName;
     }
 
-    ClassInfo(File mather, File classFile, String canonicalName) {
+    ClassInfo(int status,File mather, File classFile, String canonicalName) {
+        this.status = status;
         this.mather = mather;
         this.classFile = classFile;
         this.canonicalName = canonicalName;
@@ -35,13 +42,15 @@ public class ClassInfo{
         if (classFile !=null){
             String info = "ClassInfo{" +
                     "mather=" + mather +
+                    ", status=" + status +
                     ", classFile=" + classFile +
                     ", canonicalName='" + canonicalName + '\'' +
                     '}';
             return  "Class In Dir "+info;
-        }else {
+        }else{
             String info = "ClassInfo{" +
                     "mather=" + mather +
+                    ", status=" + status +
                     ", classStream=" + classStream +
                     ", canonicalName='" + canonicalName + '\'' +
                     '}';

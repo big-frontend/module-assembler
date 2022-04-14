@@ -5,6 +5,12 @@ import org.gradle.api.logging.Logger;
 
 public final class P {
 
+    public static final int L_VERBOSE = 0;
+    public static final int L_DEBUG = 1;
+    public static final int L_INFO = 2;
+    public static final int L_WARN = 3;
+    public static final int L_ERROR = 4;
+    public static final int CURRENT_LEVEL = L_DEBUG;
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -24,11 +30,13 @@ public final class P {
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
     private static Logger logger;
-    public static void init(Project project){
-         logger = project.getLogger();
+
+    public static void init(Project project) {
+        logger = project.getLogger();
     }
-    private static void checkLogger(){
-        if (logger == null){
+
+    private static void checkLogger() {
+        if (logger == null) {
             throw new IllegalArgumentException("没有初始化Logger");
         }
     }
@@ -60,34 +68,43 @@ public final class P {
     }
 
     public static void error(Object message) {
+        if (CURRENT_LEVEL > L_ERROR) return;
         println(ANSI_RED + "" + message + "" + ANSI_RESET);
     }
 
     public static void warn(Object message) {
+        if (CURRENT_LEVEL > L_WARN) return;
         println(ANSI_YELLOW + "" + message + "" + ANSI_RESET);
     }
 
     public static void info(Object message) {
+        if (CURRENT_LEVEL > L_INFO) return;
         println(ANSI_GREEN + "" + message + "" + ANSI_RESET);
     }
 
     public static void debug(Object message) {
+        if (CURRENT_LEVEL > L_DEBUG) return;
         println(ANSI_BLUE + "" + message + "" + ANSI_RESET);
     }
 
     public static void verbose(Object message) {
+        if (CURRENT_LEVEL > L_VERBOSE) return;
         println(message);
     }
-    public static void child(Object msg){
-        println("👶[ gradle 开始 ] "+msg);
+
+    public static void child(Object msg) {
+        println("👶[ gradle 开始 ] " + msg);
     }
-    public static void teenager(Object msg){
-        println("👩‍🎓👨‍🎓[ initialzation ] "+msg);
+
+    public static void teenager(Object msg) {
+        println("👩‍🎓👨‍🎓[ initialzation ] " + msg);
     }
-    public static void middleAge(Object msg){
-        println("👰🤵[ configuration ] "+msg);
+
+    public static void middleAge(Object msg) {
+        println("👰🤵[ configuration ] " + msg);
     }
-    public static void theElderly(Object msg){
-        println("👵👴[ gradle 结束 ] "+msg);
+
+    public static void theElderly(Object msg) {
+        println("👵👴[ gradle 结束 ] " + msg);
     }
 }

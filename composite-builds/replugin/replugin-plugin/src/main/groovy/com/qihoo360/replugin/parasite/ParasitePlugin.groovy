@@ -17,19 +17,20 @@
 
 package com.qihoo360.replugin.parasite
 
+import com.android.build.api.transform.TransformInvocation
+import com.jamesfchen.ClassInfo
 import com.jamesfchen.FastInsertCodePlugin
 import com.jamesfchen.P
 import com.qihoo360.replugin.Checker
 import com.qihoo360.replugin.Constants
+import com.qihoo360.replugin.parasite2.injector.BaseInjector
 import com.qihoo360.replugin.util.AdbCli
 import com.qihoo360.replugin.util.Util
 import com.qihoo360.replugin.util.VariantCompat
 import javassist.ClassPool
-import org.gradle.api.GradleException
 import org.gradle.api.Project
-import java.lang.Integer
-import java.util.regex.Pattern
 
+import java.util.regex.Pattern
 /**
  * @author RePlugin Team
  */
@@ -160,7 +161,7 @@ repluginPluginConfig {
     }
 
     @Override
-    void onInsertCodeBegin() {
+    protected void onInsertCodeBegin(TransformInvocation transformInvocation) throws Exception {
         welcome()
         mPool = new ClassPool(true)
         //'替换 Activity 为 LoaderActivity'
@@ -180,13 +181,12 @@ repluginPluginConfig {
         mInjectors.each { nickName, injector ->
             injector.onInsertCodeBegin()
         }
-
     }
 
     @Override
-    byte[] onInsertCode(File mather, InputStream classStream, String canonicalName) {
+    protected byte[] onInsertCode(ClassInfo info) throws Exception{
         def classPath = canonicalName.replace(".", File.separator) + ".class"
-        mPool.insertClassPath(mather.absolutePath)
+//        mPool.insertClassPath(mather.absolutePath)
         def variantDir = mather.getParentFile().absolutePath.split(pluginName() + "Transform" + Pattern.quote(File.separator))[1]
         def variantDirArray = variantDir.split(Pattern.quote(File.separator))
         String variantName = ""
@@ -199,11 +199,11 @@ repluginPluginConfig {
             injector.setVariantName(variantName)
             println ">>> Do: ${nickName}"
             // 将 NickName 的第 0 个字符转换成小写，用作对应配置的名称
-            injector.onInsertCode(mather, classStream, canonicalName)
+//            injector.onInsertCode(info.mather, info.classStream, info.canonicalName)
         }
         if (mConfig.customInjectors != null) {
             mConfig.customInjectors.each {
-                injector.onInsertCode(mather, classStream, canonicalName)
+//                injector.onInsertCode(info.mather, info.classStream, info.canonicalName)
             }
         }
         return null

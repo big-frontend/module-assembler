@@ -13,7 +13,7 @@ import com.jamesfchen.ibc.Api;
  * @since: Jan/04/2022  Tue
  */
 @Api
-public class CallImp extends ICall{
+public class CallApi extends ICall{
 
     @Override
     public boolean call() {

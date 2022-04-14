@@ -17,7 +17,7 @@
 
 package com.qihoo360.replugin.parasite
 
-import com.jamesfchen.IInsertCode
+
 import com.qihoo360.replugin.util.Util
 import javassist.ClassPool
 import javassist.expr.ExprEditor
@@ -26,7 +26,7 @@ import org.gradle.api.Project
 /**
  * @author RePlugin Team
  */
-abstract class BaseInjector implements IInsertCode {
+abstract class BaseInjector {
     protected Project project
     protected ClassPool pool
     protected String canonicalName
@@ -48,14 +48,14 @@ abstract class BaseInjector implements IInsertCode {
 
     }
 
-    @Override
+//    @Override
     void onInsertCodeBegin() {
         if (editor == null) {
             editor = getEditor()
         }
     }
 
-    @Override
+//    @Override
     byte[] onInsertCode(File mather, InputStream classStream, String canonicalName) {
         this.canonicalName = canonicalName
         Util.newSection()
@@ -82,7 +82,7 @@ abstract class BaseInjector implements IInsertCode {
         }
     }
 
-    @Override
+//    @Override
     void onInsertCodeEnd() {
 
     }
