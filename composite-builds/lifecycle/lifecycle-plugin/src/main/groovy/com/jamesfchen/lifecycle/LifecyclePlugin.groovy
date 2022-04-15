@@ -4,7 +4,6 @@ import com.android.build.api.transform.TransformInvocation
 import com.jamesfchen.ClassInfo
 import com.jamesfchen.P
 import com.jamesfchen.ScanClassPlugin
-import org.gradle.api.Project
 
 class LifecyclePlugin extends ScanClassPlugin {
     List<String> appLifecycles
@@ -21,11 +20,11 @@ class LifecyclePlugin extends ScanClassPlugin {
     }
 
     @Override
-    void onScanClass(ClassInfo info) {
-        if (classInfo.canonicalName == LIFECYCLE_CANONICAL_NAME) {
-            lifecycleClassInfo = classInfo
-            return
-        }
+    void onScanClass(ClassInfo classInfo) {
+//        if (classInfo.canonicalName == LIFECYCLE_CANONICAL_NAME) {
+//            lifecycleClassInfo = classInfo
+//            return
+//        }
 //        ClassReader reader = new ClassReader(
 //                classInfo.birth == ClassInfo.BIRTH_DIR
 //                        ? classInfo.classFile.bytes
