@@ -9,9 +9,12 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/releases' }
         maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
+        gradlePluginPortal()
+//        maven {url "https://plugins.gradle.org/m2/"}
+        maven{ url "https://dl.bintray.com/kotlin/kotlin-eap"}
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.1"
+        classpath "com.android.tools.build:gradle:4.2.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN_VERSION}"
         classpath "com.alibaba:arouter-register:1.0.2"
         classpath "io.github.meituan-dianping:plugin:1.2.1"
@@ -30,6 +33,16 @@ plugins {
     id("io.github.jamesfchen.module-chef-plugin")
 }
 allprojects {
+    repositories {
+        maven { url uri("$rootDir/repo") }
+        mavenLocal()
+        mavenCentral()
+        maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://maven.aliyun.com/repository/releases' }
+        gradlePluginPortal()
+//        maven {url "https://plugins.gradle.org/m2/"}
+    }
     configurations.all {
         // don't cache changing modules at all，check for updates every build
         //一般在开发模式下，我们可以频繁的发布SNAPSHOT版本，

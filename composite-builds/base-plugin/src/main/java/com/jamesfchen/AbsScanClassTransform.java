@@ -93,7 +93,7 @@ public abstract class AbsScanClassTransform extends AbsTransform {
         P.debug("onFileRemoved >>> " + srcFile.getName() + "   srcFile exits:" + srcFile.exists() + "  destFile exits:" + destFile.exists());
         if (destFile.isDirectory()) {
             for (File file : com.android.utils.FileUtils.getAllFiles(destFile)) {
-                String canonicalName = F.canonicalName(srcRootDir, file);
+                String canonicalName = F.canonicalName(destRootDir, file);
                 if (canonicalName != null && !canonicalName.isEmpty()) {
                     onScanClass(new ClassInfo(ClassInfo.DEATH_DIR, destRootDir, file, canonicalName));
                 }

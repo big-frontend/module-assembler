@@ -13,18 +13,14 @@ java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
-
-apply plugin: 'groovy'
-tasks.withType(GroovyCompile) {
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
-}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly "com.android.tools.build:gradle:${rootProject.agpVersion}"
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'com.google.guava:guava:24.1-jre'
+    implementation 'commons-codec:commons-codec:1.15'
     api gradleApi()
-    api localGroovy()
-//    api "androidx.annotation:annotation:1.3.0"
-    api "com.android.tools.build:gradle:4.1.0"
+//    api "com.android.tools.build:gradle:4.2.1"
 //    implementation "org.javassist:javassist:3.20.0-GA"
     //    implementation group: 'org.ow2.asm', name: 'asm', version: '5.1'
 //    implementation group: 'org.ow2.asm', name: 'asm-commons', version: '5.1'

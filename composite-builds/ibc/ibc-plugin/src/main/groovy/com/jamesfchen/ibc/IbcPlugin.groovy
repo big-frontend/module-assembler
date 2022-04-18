@@ -41,7 +41,7 @@ class IbcPlugin extends ScanClassPlugin {
         deleteApis = Collections.synchronizedList(new ArrayList<ApiInfo>())
 
     }
-
+    @Override
     void onScanClass(ClassInfo classInfo) {
         if (classInfo.canonicalName.endsWith("Router") || classInfo.canonicalName.endsWith("Api")) {
 

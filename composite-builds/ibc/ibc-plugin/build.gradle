@@ -45,4 +45,6 @@ tasks.withType(GroovyCompile) {
 }
 dependencies {
     implementation project(':base-plugin')
+    compileOnly "com.android.tools.build:gradle:${rootProject.agpVersion}"
+    implementation localGroovy()
 }
