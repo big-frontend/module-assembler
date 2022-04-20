@@ -6,12 +6,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.firebase.perf.metrics.AddTrace;
 import com.jamesfchen.export.ICall;
 import com.jamesfchen.ibc.cbpc.IBCCbpc;
 
 public class StarterActivity extends Activity {
-    @AddTrace(name = "StarterActivity_onCreate", enabled = true /* optional */)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

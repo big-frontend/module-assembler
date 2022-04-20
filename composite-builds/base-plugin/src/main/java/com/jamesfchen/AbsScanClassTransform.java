@@ -58,13 +58,13 @@ public abstract class AbsScanClassTransform extends AbsTransform {
 
     @Override
     protected void onFileAdded(File srcRootDir, File destRootDir, File srcFile, File destFile) throws Exception {
-        P.debug("onFileAdded >>> " + srcFile.getName());
+        P.debug(this.getClass().getSimpleName()+" onFileAdded >>> " + srcFile.getName());
         fileAddedAndChanged(srcRootDir, destRootDir, srcFile, destFile);
     }
 
     @Override
     protected void onFileChanged(File srcRootDir, File destRootDir, File srcFile, File destFile) throws Exception {
-        P.debug("onFileChanged >>> " + srcFile.getName());
+        P.debug(this.getClass().getSimpleName()+" onFileChanged >>> " + srcFile.getName());
         fileAddedAndChanged(srcRootDir, destRootDir, srcFile, destFile);
     }
 
@@ -74,15 +74,14 @@ public abstract class AbsScanClassTransform extends AbsTransform {
         } catch (Exception ignored) {
             Files.createParentDirs(destFile);
         }
-        //新增加文件夹不需要copy
-        if (srcFile.isDirectory()) {
-            return;
-        }
+
         String canonicalName = F.canonicalName(srcRootDir, srcFile);
         if (canonicalName != null && !canonicalName.isEmpty()) {
             onScanClass(new ClassInfo(ClassInfo.BIRTH_DIR, destRootDir, srcFile, canonicalName));
-            FileUtils.copyFile(srcFile, destFile);
-        } else {
+        }
+        if (srcFile.isDirectory()) {
+            FileUtils.copyDirectory(srcFile, destFile);
+        }else {
             FileUtils.copyFile(srcFile, destFile);
         }
 
@@ -90,7 +89,7 @@ public abstract class AbsScanClassTransform extends AbsTransform {
 
     @Override
     protected void onFileRemoved(File srcRootDir, File destRootDir, File srcFile, File destFile) throws Exception {
-        P.debug("onFileRemoved >>> " + srcFile.getName() + "   srcFile exits:" + srcFile.exists() + "  destFile exits:" + destFile.exists());
+        P.debug(this.getClass().getSimpleName()+" onFileRemoved >>> " + srcFile.getName() + "   srcFile:" + srcFile+ "  destFile" + destFile);
         if (destFile.isDirectory()) {
             for (File file : com.android.utils.FileUtils.getAllFiles(destFile)) {
                 String canonicalName = F.canonicalName(destRootDir, file);
@@ -113,14 +112,14 @@ public abstract class AbsScanClassTransform extends AbsTransform {
 
     @Override
     protected void onJarAdded(File srcJar, File destJar, List<JarEntry> addedList) throws Exception {
-        P.debug("onJarAdded >>> addList:" + Arrays.toString(addedList.toArray()));
+        P.debug(this.getClass().getSimpleName()+" onJarAdded >>> addList:" + Arrays.toString(addedList.toArray()));
         scanJar(srcJar, destJar, ClassInfo.BIRTH_JAR, addedList);
         FileUtils.copyFile(srcJar, destJar);
     }
 
     @Override
     protected void onJarChanged(File srcJar, File destJar, List<JarEntry> addedList, List<JarEntry> removedList) throws Exception {
-        P.debug("onJarChanged >>> addedList:" + Arrays.toString(addedList.toArray()) + " removedList:" + Arrays.toString(removedList.toArray()));
+        P.debug(this.getClass().getSimpleName()+" onJarChanged >>> addedList:" + Arrays.toString(addedList.toArray()) + " removedList:" + Arrays.toString(removedList.toArray()));
 
         scanJar(srcJar, destJar, ClassInfo.BIRTH_JAR, addedList);
         scanJar(destJar, destJar, ClassInfo.DEATH_JAR, removedList);
@@ -129,7 +128,7 @@ public abstract class AbsScanClassTransform extends AbsTransform {
 
     @Override
     protected void onJarRemoved(File srcJar, File destJar, List<JarEntry> removedList) throws Exception {
-        P.debug("onJarAdded >>> removedList:" + Arrays.toString(removedList.toArray()));
+        P.debug(this.getClass().getSimpleName()+" onJarAdded >>> removedList:" + Arrays.toString(removedList.toArray()));
         scanJar(srcJar, destJar, ClassInfo.DEATH_JAR, removedList);
         if (destJar.exists()) {
             FileUtils.forceDelete(destJar);
