@@ -17,7 +17,6 @@ java {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.squareup:javapoet:1.13.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.10"
     implementation 'com.squareup:kotlinpoet:1.7.2'
     annotationProcessor 'com.google.auto.service:auto-service:1.0-rc4'
     testImplementation("com.google.testing.compile:compile-testing:0.10") {
@@ -25,4 +24,6 @@ dependencies {
         // confusing.
         exclude group: "com.google.auto.value", module: "auto-value"
     }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.30"
+    implementation "com.google.devtools.ksp:symbol-processing-api:1.5.30-1.0.0"
 }

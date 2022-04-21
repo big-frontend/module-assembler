@@ -49,6 +49,6 @@ dependencies {
     project.depsConfig("implementation", "hotel-foundation")
     implementation project.moduleify("framework-network")
     implementation project.moduleify("framework-common")
-    ksp "io.github.jamesfchen:ibc-ksp:1.0.0"
-    implementation "io.github.jamesfchen:ibc-ksp:1.0.0"
+    ksp "io.github.jamesfchen:ibc-compiler:1.0.0"
+    implementation "io.github.jamesfchen:ibc-compiler:1.0.0"
 }
