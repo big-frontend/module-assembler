@@ -1,0 +1,26 @@
+apply plugin: "java-gradle-plugin"
+gradlePlugin {
+    plugins {
+        t1plugin {
+            id = 't1plugin'
+            implementationClass = 'com.jamesfchen.T1plugin'
+        }
+        t2plugin {
+            id = 't1plugin'
+            implementationClass = 'com.jamesfchen.TestKotlinPlugin'
+        }
+    }
+}
+apply plugin: 'java'
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+apply plugin: 'kotlin'
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+dependencies {
+    implementation project(':base-plugin-ktx')
+    compileOnly "com.android.tools.build:gradle:${rootProject.agpVersion}"
+}

@@ -10,7 +10,7 @@ public final class P {
     public static final int L_INFO = 2;
     public static final int L_WARN = 3;
     public static final int L_ERROR = 4;
-    public static final int CURRENT_LEVEL = L_DEBUG;
+    public static final int CURRENT_LEVEL = L_INFO;
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
