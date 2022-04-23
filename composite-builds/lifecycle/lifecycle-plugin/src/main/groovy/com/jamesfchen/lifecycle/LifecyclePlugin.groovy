@@ -10,7 +10,7 @@ class LifecyclePlugin extends ScanClassPlugin {
     static final String LIFECYCLE_CANONICAL_NAME = "com.jamesfchen.lifecycle.LifecycleInitializer";
     ClassInfo lifecycleClassInfo
     @Override
-    String pluginName() {
+    String getName() {
         return "Lifecycle"
     }
 

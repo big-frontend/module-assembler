@@ -75,8 +75,9 @@ class IbcPlugin extends ScanClassPlugin {
         P.info("${deleteRouters.size()} deleteRouters:${deleteRouters.toListString()}")
         P.info("${addApis.size()} addApis:${addApis.toListString()}")
         P.info("${deleteApis.size()} deleteApis:${deleteApis.toListString()}")
+        if (addRouters.isEmpty() && deleteRouters.isEmpty() && addApis.isEmpty() && deleteApis.isEmpty()) return
         if (registerProxyClassFile.exists()) {
-            Injector.injectCode(registerProxyClassFile) { type, classStream ->
+            Injector.injectCode(registerProxyClassFile) { where, classStream ->
                 ClassReader reader = new ClassReader(classStream)
                 ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
                 ClassVisitor visitor = new IbcInjectorClassVisitor(writer, addRouters, addApis, deleteRouters, deleteApis)

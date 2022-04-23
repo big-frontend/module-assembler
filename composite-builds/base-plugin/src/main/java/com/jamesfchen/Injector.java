@@ -14,7 +14,7 @@ import java.util.zip.ZipEntry;
 
 public class Injector {
     public interface Callback {
-        byte[] call(String where, InputStream inputStream);
+        byte[] call(int where, InputStream inputStream);
     }
 
     public static void injectCode(ClassInfo info, Callback closure) {
@@ -34,7 +34,7 @@ public class Injector {
                     InputStream inputStream = jarFile.getInputStream(jarEntry);
                     jarOutputStream.putNextEntry(zipEntry);
                     if (jarName.equals(info.canonicalName.replace(".", "/") + ".class")) {
-                        byte[] codes = closure.call("jar", inputStream);
+                        byte[] codes = closure.call(Constants.JAR, inputStream);
                         jarOutputStream.write(codes);
                     } else {
                         int len;
@@ -73,11 +73,10 @@ public class Injector {
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(classFile);
-            byte[] codes = closure.call("dir", inputStream);
-            FileUtils.writeByteArrayToFile(classFile, codes);
-            inputStream.close();
+            byte[] codes = closure.call(Constants.DIR, inputStream);
+            if (codes !=null) FileUtils.writeByteArrayToFile(classFile, codes);
         } catch (Exception e) {
-
+            e.printStackTrace();
         } finally {
             if (inputStream != null) {
                 try {

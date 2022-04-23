@@ -1,5 +1,8 @@
 package com.jamesfchen;
 
+import static com.jamesfchen.Constants.DIR;
+import static com.jamesfchen.Constants.JAR;
+
 import com.android.build.api.transform.TransformInvocation;
 
 import org.apache.commons.io.FileUtils;

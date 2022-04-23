@@ -1,5 +1,8 @@
 package com.jamesfchen;
 
+import static com.jamesfchen.Constants.DIR;
+import static com.jamesfchen.Constants.JAR;
+
 import com.android.build.api.transform.Format;
 import com.android.build.api.transform.Transform;
 import com.android.build.api.transform.TransformException;
@@ -29,8 +32,7 @@ import java.util.jar.JarEntry;
 public abstract class AbsTransform extends Transform {
     ExecutorService executor = ForkJoinPool.commonPool();
     List<Callable<Void>> tasks = new ArrayList<>();
-    public static final int DIR = 0;
-    public static final int JAR = 1;
+
 
     protected abstract void onTransformBegin(TransformInvocation transformInvocation) throws Exception;
 
