@@ -11,7 +11,7 @@ import com.jamesfchen.ibc.Registry
  */
 object IBCCbpc {
     @JvmStatic
-    fun <T> findApi(clz: Class<T>): T  {
-        return Registry.getInstance().findApi(clz)
+    fun <T> findApi(clz: Class<T>): T?  {
+        return Registry.getInstance()?.findApi(clz)
     }
 }

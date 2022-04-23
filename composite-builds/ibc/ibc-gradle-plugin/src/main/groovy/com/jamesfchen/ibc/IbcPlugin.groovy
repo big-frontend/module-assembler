@@ -26,7 +26,7 @@ class IbcPlugin extends ScanClassPlugin {
     static final String REGISTRY_CLASS_PATH = "com/jamesfchen/ibc/Registry"
 
     @Override
-    String pluginName() {
+    String getName() {
         return "Ibc"
     }
 

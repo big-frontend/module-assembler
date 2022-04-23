@@ -13,9 +13,6 @@ import java.util.jar.JarEntry;
 /**
  * Copyright ® $ 2017
  * All right reserved.
- *
- * @author: jamesfchen
- * @since: Apr/14/2022  Thu
  */
 public abstract class AbsInsertCodeTransform extends AbsTransform {
     @Override

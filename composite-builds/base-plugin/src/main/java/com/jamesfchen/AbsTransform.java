@@ -21,8 +21,6 @@ import java.util.jar.JarEntry;
  * Copyright ® $ 2017
  * All right reserved.
  *
- * @author: jamesfchen
- * @since: Apr/10/2022  Sun
  *
  * AbsTransform
  * - 提供并发能力

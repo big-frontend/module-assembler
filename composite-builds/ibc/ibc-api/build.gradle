@@ -5,7 +5,7 @@ publish {
     name = "ibc-api"
     groupId = rootProject.groupId
     artifactId = "ibc-api"
-    version = "1.5.0"
+    version = rootProject.IBCROUTER_VERSION
     website = "https://github.com/JamesfChen/bundles-assembler"
 }
 dependencies {
@@ -14,4 +14,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'androidx.core:core-ktx:1.5.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
+    implementation 'androidx.annotation:annotation:1.2.0'
 }

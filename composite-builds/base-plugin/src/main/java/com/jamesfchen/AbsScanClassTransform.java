@@ -23,14 +23,8 @@ import java.util.jar.JarFile;
  * Copyright ® $ 2017
  * All right reserved.
  *
- * @author: jamesfchen
- * @since: Apr/10/2022  Sun
  */
 public abstract class AbsScanClassTransform extends AbsTransform {
-    @Override
-    public boolean isIncremental() {
-        return true;
-    }
 
     @Override
     protected void onTransformBegin(TransformInvocation transformInvocation) throws Exception {

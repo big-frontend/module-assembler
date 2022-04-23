@@ -14,8 +14,6 @@ import java.util.jar.JarFile;
  * Copyright ® $ 2017
  * All right reserved.
  *
- * @author: jamesfchen
- * @since: Apr/10/2022  Sun
  */
 public class Jarer {
 

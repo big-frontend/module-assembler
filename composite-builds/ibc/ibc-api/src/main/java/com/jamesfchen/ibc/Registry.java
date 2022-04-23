@@ -4,6 +4,7 @@ import static com.jamesfchen.ibc.Constants.ROUTER_TAG;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.collection.ArrayMap;
 
 import com.jamesfchen.ibc.cbpc.IExport;
@@ -39,6 +40,7 @@ public class Registry {
     public void registerRouter(String bundleName, Class<?> clz) {
         registerRouters.put(bundleName, clz);
     }
+    @Nullable
     public IRouter findRouter(String bundleName) {
         if (!IBCInitializer.inited) throw new IllegalStateException("IBCRouter未初始化");
         IRouter router = routers.get(bundleName);
@@ -61,6 +63,7 @@ public class Registry {
     public void registerApi(Class<?> clz) {
         registerApis.put(clz.getSuperclass(), clz);
     }
+    @Nullable
     public <T> T findApi(Class<T> clz) {
         if (!IBCInitializer.inited) throw new IllegalStateException("IBCRouter未初始化");
         T api = (T) apis.get(clz);

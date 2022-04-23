@@ -7,8 +7,6 @@ import java.util.jar.JarEntry;
  * Copyright ® $ 2017
  * All right reserved.
  *
- * @author: jamesfchen
- * @since: Apr/13/2022  Wed
  */
 public class F {
     public static String classPath(File rootDir, File file) {

@@ -3,7 +3,7 @@ publish {
     name="base-plugin"
     groupId = rootProject.groupId
     artifactId = "base-plugin"
-    version = "1.1.0"
+    version = "1.2.0"
     website = "https://github.com/JamesfChen/bundles-assembler"
     buildVariant = "java"
 }
@@ -15,10 +15,11 @@ java {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    compileOnly "com.android.tools.build:gradle:${rootProject.agpVersion}"
     compileOnly "com.android.tools.build:gradle:${rootProject.agpVersion}"
-    implementation 'commons-io:commons-io:2.11.0'
-    implementation 'com.google.guava:guava:24.1-jre'
-    implementation 'commons-codec:commons-codec:1.15'
+    api 'commons-io:commons-io:2.11.0'
+    api 'com.google.guava:guava:24.1-jre'
+    api 'commons-codec:commons-codec:1.15'
     api gradleApi()
 //    api "com.android.tools.build:gradle:4.2.1"
 //    implementation "org.javassist:javassist:3.20.0-GA"
