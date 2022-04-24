@@ -30,10 +30,10 @@ class IBCRouter {
             if (ibcUri.schema == "http"
                 || ibcUri.schema == "https"
             ) {
-                val router = Registry.getInstance().findRouter("h5container")
+                val router = Registry.findRouter("h5container")
                 router?.onOpen(cxt, ibcUri.uri, ibcUri.params)
             } else {
-                val router = Registry.getInstance().findRouter(ibcUri.host)
+                val router = Registry.findRouter(ibcUri.host)
                 router?.onOpen(cxt, ibcUri.page, ibcUri.params)
             }
         }

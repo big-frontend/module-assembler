@@ -83,17 +83,15 @@ class IbcInjectorClassVisitor extends ClassVisitor {
             def addRoutersIterator = addRouters.iterator()
             while (addRoutersIterator.hasNext()) {
                 def routerInfo = addRoutersIterator.next()
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Constants.REGISTRY_CLASS_PATH, "getInstance", "()"+Constants.REGISTRY_CLASS_DESC, false)
                 mv.visitLdcInsn(routerInfo.bindingBundleName)
                 mv.visitLdcInsn(Type.getType(routerInfo.descriptor))
-                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Constants.REGISTRY_CLASS_PATH, "registerRouter", "(Ljava/lang/String;Ljava/lang/Class;)V", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Constants.REGISTRY_CLASS_PATH, "registerRouter", "(Ljava/lang/String;Ljava/lang/Class;)V", false)
             }
             def addApisIterator = addApis.iterator()
             while (addApisIterator.hasNext()) {
                 def apiInfo = addApisIterator.next()
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Constants.REGISTRY_CLASS_PATH, "getInstance", "()"+Constants.REGISTRY_CLASS_DESC, false)
                 mv.visitLdcInsn(Type.getType(apiInfo.descriptor))
-                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Constants.REGISTRY_CLASS_PATH, "registerApi", "(Ljava/lang/Class;)V", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Constants.REGISTRY_CLASS_PATH, "registerApi", "(Ljava/lang/Class;)V", false)
             }
         }
     }

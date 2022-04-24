@@ -96,15 +96,13 @@ class IbcPlugin extends ScanClassPlugin {
 
             mv.visitCode();
             addRouters.each { routerInfo ->
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Constants.REGISTRY_CLASS_PATH, "getInstance", "()"+Constants.REGISTRY_CLASS_DESC, false)
                 mv.visitLdcInsn(routerInfo.bindingBundleName)
                 mv.visitLdcInsn(Type.getType(routerInfo.descriptor))
-                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Constants.REGISTRY_CLASS_PATH, "registerRouter", "(Ljava/lang/String;Ljava/lang/Class;)V", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Constants.REGISTRY_CLASS_PATH, "registerRouter", "(Ljava/lang/String;Ljava/lang/Class;)V", false)
             }
             addApis.each {
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Constants.REGISTRY_CLASS_PATH, "getInstance", "()"+Constants.REGISTRY_CLASS_DESC, false)
                 mv.visitLdcInsn(Type.getType(it.descriptor))
-                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Constants.REGISTRY_CLASS_PATH, "registerApi", "(Ljava/lang/Class;)V", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Constants.REGISTRY_CLASS_PATH, "registerApi", "(Ljava/lang/Class;)V", false)
             }
             mv.visitMaxs(0, 0)
             mv.visitInsn(Opcodes.RETURN)
@@ -112,7 +110,9 @@ class IbcPlugin extends ScanClassPlugin {
             cv.visitEnd();
 
             registerProxyClassFile.getParentFile().mkdirs();
-            new FileOutputStream(registerProxyClassFile).write(writer.toByteArray());
+            new FileOutputStream(registerProxyClassFile).withCloseable {
+                it.write(writer.toByteArray())
+            }
         }
 
 

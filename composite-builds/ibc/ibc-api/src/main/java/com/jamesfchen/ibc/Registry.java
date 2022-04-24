@@ -19,29 +19,22 @@ import com.jamesfchen.ibc.router.IRouter;
  */
 public class Registry {
     private static final String ROUTER_CONFIG = "BundleManifest.xml";
-    private ArrayMap<String, IRouter> routers;
-    private ArrayMap<String, Class<?>> registerRouters;
-    private ArrayMap<Class<?>, Class<?>> registerApis;
-    private ArrayMap<Class<?>, IExport> apis;
+    private static final ArrayMap<String, IRouter> routers;
+    private static final ArrayMap<String, Class<?>> registerRouters;
+    private static final ArrayMap<Class<?>, Class<?>> registerApis;
+    private static final ArrayMap<Class<?>, IExport> apis;
 
-    Registry(){
+    static {
         routers = new ArrayMap<>();
         registerRouters = new ArrayMap<>();
-        this.registerApis = new ArrayMap<>();
-        this.apis = new ArrayMap<>();
+        registerApis = new ArrayMap<>();
+        apis = new ArrayMap<>();
     }
-    public static Registry getInstance() {
-        return LazyHolder.INSTANCE;
-    }
-    private static class LazyHolder {
-        static final Registry INSTANCE = new Registry();
-
-    }
-    public void registerRouter(String bundleName, Class<?> clz) {
+    public static void registerRouter(String bundleName, Class<?> clz) {
         registerRouters.put(bundleName, clz);
     }
     @Nullable
-    public IRouter findRouter(String bundleName) {
+    public static IRouter findRouter(String bundleName) {
         if (!IBCInitializer.inited) throw new IllegalStateException("IBCRouter未初始化");
         IRouter router = routers.get(bundleName);
         if (router ==null){
@@ -60,11 +53,11 @@ public class Registry {
         }
         return router;
     }
-    public void registerApi(Class<?> clz) {
+    public static void registerApi(Class<?> clz) {
         registerApis.put(clz.getSuperclass(), clz);
     }
     @Nullable
-    public <T> T findApi(Class<T> clz) {
+    public static <T> T findApi(Class<T> clz) {
         if (!IBCInitializer.inited) throw new IllegalStateException("IBCRouter未初始化");
         T api = (T) apis.get(clz);
         if (api ==null){
