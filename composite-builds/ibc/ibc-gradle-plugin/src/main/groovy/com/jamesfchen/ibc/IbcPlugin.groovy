@@ -22,8 +22,7 @@ class IbcPlugin extends ScanClassPlugin {
     List<ApiInfo> addApis
     List<ApiInfo> deleteApis
     File dest;
-    static final String REGISTERPROXY_CLASS_PATH = "com/jamesfchen/ibc/generated/RegistryProxy"
-    static final String REGISTRY_CLASS_PATH = "com/jamesfchen/ibc/Registry"
+
 
     @Override
     String getName() {
@@ -70,13 +69,14 @@ class IbcPlugin extends ScanClassPlugin {
 
     @Override
     void onScanEnd() {
-        File registerProxyClassFile = new File(dest, REGISTERPROXY_CLASS_PATH + SdkConstants.DOT_CLASS)
+        File registerProxyClassFile = new File(dest, Constants.REGISTERPROXY_CLASS_PATH + SdkConstants.DOT_CLASS)
         P.info("${addRouters.size()} addRouters:${addRouters.toListString()}")
         P.info("${deleteRouters.size()} deleteRouters:${deleteRouters.toListString()}")
         P.info("${addApis.size()} addApis:${addApis.toListString()}")
         P.info("${deleteApis.size()} deleteApis:${deleteApis.toListString()}")
         if (addRouters.isEmpty() && deleteRouters.isEmpty() && addApis.isEmpty() && deleteApis.isEmpty()) return
         if (registerProxyClassFile.exists()) {
+            P.warn("RegistryProxy:"+registerProxyClassFile)
             Injector.injectCode(registerProxyClassFile) { where, classStream ->
                 ClassReader reader = new ClassReader(classStream)
                 ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
@@ -85,26 +85,26 @@ class IbcPlugin extends ScanClassPlugin {
                 return writer.toByteArray()
             }
         } else {
-            P.warn("RegistryProxy:"+dest)
+            P.warn("RegistryProxy not exists , rootDir:"+dest)
             ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
             ClassVisitor cv = new ClassVisitor(Opcodes.ASM5, writer) {
             };
-            cv.visit(50, Opcodes.ACC_PUBLIC, REGISTERPROXY_CLASS_PATH, null, "java/lang/Object", null);
+            cv.visit(50, Opcodes.ACC_PUBLIC, Constants.REGISTERPROXY_CLASS_PATH, null, "java/lang/Object", null);
 
             MethodVisitor mv = cv.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC,
                     "register", "()V", null, null);
 
             mv.visitCode();
             addRouters.each { routerInfo ->
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, REGISTRY_CLASS_PATH, "getInstance", "()Lcom/jamesfchen/ibc/Registry;", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Constants.REGISTRY_CLASS_PATH, "getInstance", "()"+Constants.REGISTRY_CLASS_DESC, false)
                 mv.visitLdcInsn(routerInfo.bindingBundleName)
                 mv.visitLdcInsn(Type.getType(routerInfo.descriptor))
-                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, REGISTRY_CLASS_PATH, "registerRouter", "(Ljava/lang/String;Ljava/lang/Class;)V", false)
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Constants.REGISTRY_CLASS_PATH, "registerRouter", "(Ljava/lang/String;Ljava/lang/Class;)V", false)
             }
             addApis.each {
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, REGISTRY_CLASS_PATH, "getInstance", "()Lcom/jamesfchen/ibc/Registry;", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Constants.REGISTRY_CLASS_PATH, "getInstance", "()"+Constants.REGISTRY_CLASS_DESC, false)
                 mv.visitLdcInsn(Type.getType(it.descriptor))
-                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, REGISTRY_CLASS_PATH, "registerApi", "(Ljava/lang/Class;)V", false)
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Constants.REGISTRY_CLASS_PATH, "registerApi", "(Ljava/lang/Class;)V", false)
             }
             mv.visitMaxs(0, 0)
             mv.visitInsn(Opcodes.RETURN)

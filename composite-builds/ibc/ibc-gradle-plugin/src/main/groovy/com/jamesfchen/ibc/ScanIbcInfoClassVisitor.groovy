@@ -7,8 +7,7 @@ import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.Opcodes
 
 class ScanIbcInfoClassVisitor extends ClassVisitor {
-    private static final String ROUTER_ANNOTATION_DESC = "Lcom/jamesfchen/ibc/Router;"
-    private static final String API_ANNOTATION_DESC = "Lcom/jamesfchen/ibc/Api;"
+
     boolean hasRouterAnnotation = false
     boolean hasApiAnnotation = false
     String classDescriptor
@@ -31,10 +30,10 @@ class ScanIbcInfoClassVisitor extends ClassVisitor {
 
     @Override
     AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-        if (ROUTER_ANNOTATION_DESC == descriptor) {
+        if (Constants.ROUTER_ANNOTATION_DESC == descriptor) {
             hasRouterAnnotation = true
         }
-        if (API_ANNOTATION_DESC == descriptor) {
+        if (Constants.API_ANNOTATION_DESC == descriptor) {
             hasApiAnnotation = true
         }
         AnnotationVisitor av = super.visitAnnotation(descriptor, visible)

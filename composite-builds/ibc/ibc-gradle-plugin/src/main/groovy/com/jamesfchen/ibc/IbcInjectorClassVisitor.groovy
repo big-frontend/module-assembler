@@ -4,6 +4,7 @@ import com.jamesfchen.P
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
+import org.objectweb.asm.Type
 import org.objectweb.asm.commons.AdviceAdapter
 
 class IbcInjectorClassVisitor extends ClassVisitor {
@@ -12,7 +13,7 @@ class IbcInjectorClassVisitor extends ClassVisitor {
     List<ApiInfo> addApis
     List<ApiInfo> deleteApis
     private hasRegisterMethod = false
-    static final String REGISTRY_CLASS_PATH = "com/jamesfchen/ibc/Registry";
+
 
     IbcInjectorClassVisitor(ClassVisitor classVisitor, List<RouterInfo> addRouters, List<ApiInfo> addApis, List<RouterInfo> deleteRouters, List<ApiInfo> deleteApis) {
         super(Opcodes.ASM6, classVisitor)
@@ -82,17 +83,17 @@ class IbcInjectorClassVisitor extends ClassVisitor {
             def addRoutersIterator = addRouters.iterator()
             while (addRoutersIterator.hasNext()) {
                 def routerInfo = addRoutersIterator.next()
-                mv.visitMethodInsn(INVOKESTATIC, REGISTRY_CLASS_PATH, "getInstance", "()Lcom/jamesfchen/ibc/Registry;", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Constants.REGISTRY_CLASS_PATH, "getInstance", "()"+Constants.REGISTRY_CLASS_DESC, false)
                 mv.visitLdcInsn(routerInfo.bindingBundleName)
                 mv.visitLdcInsn(Type.getType(routerInfo.descriptor))
-                mv.visitMethodInsn(INVOKEVIRTUAL, REGISTRY_CLASS_PATH, "registerRouter", "(Ljava/lang/String;Ljava/lang/Class;)V", false)
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Constants.REGISTRY_CLASS_PATH, "registerRouter", "(Ljava/lang/String;Ljava/lang/Class;)V", false)
             }
             def addApisIterator = addApis.iterator()
             while (addApisIterator.hasNext()) {
                 def apiInfo = addApisIterator.next()
-                mv.visitMethodInsn(INVOKESTATIC, REGISTRY_CLASS_PATH, "getInstance", "()Lcom/jamesfchen/ibc/Registry;", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Constants.REGISTRY_CLASS_PATH, "getInstance", "()"+Constants.REGISTRY_CLASS_DESC, false)
                 mv.visitLdcInsn(Type.getType(apiInfo.descriptor))
-                mv.visitMethodInsn(INVOKEVIRTUAL, REGISTRY_CLASS_PATH, "registerApi", "(Ljava/lang/Class;)V", false)
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Constants.REGISTRY_CLASS_PATH, "registerApi", "(Ljava/lang/Class;)V", false)
             }
         }
     }

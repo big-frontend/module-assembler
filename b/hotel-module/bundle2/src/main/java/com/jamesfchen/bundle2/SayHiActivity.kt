@@ -49,7 +49,7 @@ class SayHiActivity : Activity() {
 //                            .withString("key3", "888")
 //                            .navigation();
             val api = IBCCbpc.findApi(ICall::class.java)
-            if (api.call()) {
+            if (api?.call() == true) {
                 IBCRouter.open(this) {
                     uri = "b://h5container/page"
                     params(
