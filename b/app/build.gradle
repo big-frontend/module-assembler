@@ -28,6 +28,9 @@ android {
                 'BUGLY_APP_ID': '3d62251014', 'BUGLY_APP_KEY': 'a15ecf84-1786-40c6-abf5-fe975fce22e6', "BUGLY_APP_VERSION": "${rootProject.ext.versionName}",
                 'AMAP_KEY'    : '84198333a8ab4404cd35829dbb4ec435',
         ]
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        }
     }
     buildTypes {
         release {
@@ -53,4 +56,5 @@ dependencies {
     implementation project.moduleify("framework-common")
     ksp "io.github.jamesfchen:ibc-compiler-plugin:1.0.0"
     implementation "io.github.jamesfchen:ibc-compiler-plugin:1.0.0"
+    implementation 'com.iqiyi.xcrash:xcrash-android-lib:3.0.0'
 }
