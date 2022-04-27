@@ -13,7 +13,7 @@
 include(
     ":base-plugin", ":base-plugin-ktx",
     ":lifecycle:lifecycle-api", ":lifecycle:lifecycle-plugin",
-    ":ibc:ibc-api", ":ibc:ibc-compiler-plugin", ":ibc:ibc-gradle-plugin",
+    ":ibc:ibc-api", ":ibc:ibc-processor", ":ibc:ibc-gradle-plugin",
     ":temple-gradle-plugin"
 )
 include(":module-publisher-plugin")

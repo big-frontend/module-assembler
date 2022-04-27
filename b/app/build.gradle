@@ -54,7 +54,7 @@ dependencies {
     project.depsConfig("implementation", "hotel-foundation")
     implementation project.moduleify("framework-network")
     implementation project.moduleify("framework-common")
-    ksp "io.github.jamesfchen:ibc-compiler-plugin:1.0.0"
-    implementation "io.github.jamesfchen:ibc-compiler-plugin:1.0.0"
+    ksp "io.github.jamesfchen:ibc-processor:1.0.0"
+    implementation "io.github.jamesfchen:ibc-processor:1.0.0"
     implementation 'com.iqiyi.xcrash:xcrash-android-lib:3.0.0'
 }
