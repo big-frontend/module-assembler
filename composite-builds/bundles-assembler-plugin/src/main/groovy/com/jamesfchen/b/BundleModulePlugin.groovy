@@ -8,6 +8,7 @@ class BundleModulePlugin extends AndroidPlugin {
     String mainPlugin() {
         return 'com.android.library'
     }
+
     @Override
     void addPlugins(Project project) {
         super.addPlugins(project)
@@ -21,8 +22,10 @@ class BundleModulePlugin extends AndroidPlugin {
     @Override
     void onApply(Project project) {
         super.onApply(project)
-        project['kapt'].arguments {
-            arg("AROUTER_MODULE_NAME", project.getName())
+        if ('ARouter' == routerName) {
+            project['kapt'].arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
         }
         project.android {
 //            buildFeatures {
@@ -31,13 +34,13 @@ class BundleModulePlugin extends AndroidPlugin {
 //            }
         }
         project.dependencies {
-            if (lifecycleVersion){
+            if (lifecycleVersion) {
                 api "io.github.jamesfchen:lifecycle-api:$lifecycleVersion"
             }
             api routerLibrary
-            if ('ARouter' == routerName){
+            if ('ARouter' == routerName) {
                 kapt 'com.alibaba:arouter-compiler:1.2.1'
-            }else if ('WRouter' == routerName){
+            } else if ('WRouter' == routerName) {
                 annotationProcessor 'io.github.meituan-dianping:compiler:1.2.1'
             }
 //            def nav_version = "2.3.5"
