@@ -7,10 +7,10 @@
     组件化模块的管理工具，像对待女朋友们一样，轻松自在的管理---知名时间管理大师罗师傅.<br>
     <em>android</em>
     ]]></description>
-    <change-notes><![CDATA[
-       module manager 1.0版本发布了耶(*^▽^*).<br>
-    ]]>
-    </change-notes>
+<!--    <change-notes><![CDATA[-->
+<!--       module manager 1.0版本发布了耶(*^▽^*).<br>-->
+<!--    ]]>-->
+<!--    </change-notes>-->
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <!-- uncomment to enable plugin in all products
@@ -25,4 +25,14 @@
             <add-to-group group-id="MainToolBar" anchor="last"/>
         </action>
     </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="org.jetbrains.plugins.template.services.MyApplicationService"/>
+        <projectService serviceImplementation="org.jetbrains.plugins.template.services.MyProjectService"/>
+    </extensions>
+
+    <applicationListeners>
+        <listener class="org.jetbrains.plugins.template.listeners.MyProjectManagerListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
 </idea-plugin>
