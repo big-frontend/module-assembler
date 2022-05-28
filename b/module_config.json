@@ -8,66 +8,6 @@
   "groupId": "io.github.jamesfchen",
   "allModules": [
     {
-      "simpleName": "app",
-      "sourcePath": ":app",
-      "format": "app",
-      "group": "father"
-    },
-    {
-      "simpleName": "home-myhome",
-      "sourcePath": ":home-myhome",
-      "format": "bundle",
-      "group": "home"
-    },
-    {
-      "simpleName": "hotel-main",
-      "sourcePath": ":hotel-module:main",
-      "format": "bundle",
-      "group": "hotel"
-    },
-    {
-      "simpleName": "hotel-bundle1",
-      "sourcePath": ":hotel-module:bundle1",
-      "format": "bundle",
-      "group": "hotel"
-    },
-    {
-      "simpleName": "hotel-bundle2",
-      "sourcePath": ":hotel-module:bundle2",
-      "format": "bundle",
-      "group": "hotel"
-    },
-    {
-      "simpleName": "hotel-bundle3",
-      "sourcePath": ":hotel-module:bundle3",
-      "format": "bundle",
-      "group": "hotel"
-    },
-    {
-      "simpleName": "hotel-bundle4",
-      "sourcePath": ":hotel-module:bundle4",
-      "format": "bundle",
-      "group": "hotel"
-    },
-    {
-      "simpleName": "hotel-lint",
-      "sourcePath": ":hotel-module:hotel-lint",
-      "format": "tool",
-      "group": "hotel"
-    },
-    {
-      "simpleName": "hotel-foundation",
-      "sourcePath": ":hotel-module:foundation",
-      "format": "bundle",
-      "group": "hotel"
-    },
-    {
-      "simpleName": "hotel-export",
-      "sourcePath": ":hotel-module:export",
-      "format": "stub",
-      "group": "hotel"
-    },
-    {
       "simpleName": "framework-baseui",
       "sourcePath": ":framework:baseui",
       "format": "biz-foundation",
@@ -98,17 +38,78 @@
       "group": "fwk"
     },
     {
-      "simpleName": "plugin-im-main",
-      "sourcePath": ":im-module:main",
-      "format": "bundle",
+      "simpleName": "home-myhome",
+      "sourcePath": ":home-myhome",
+      "format": "nsbundle",
+      "group": "home"
+    },
+    {
+      "simpleName": "hotel-main",
+      "sourcePath": ":hotel-module:main",
+      "format": "nsbundle",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "hotel-bundle1",
+      "sourcePath": ":hotel-module:bundle1",
+      "format": "nsbundle",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "hotel-bundle2",
+      "sourcePath": ":hotel-module:bundle2",
+      "format": "nsbundle",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "hotel-bundle3",
+      "sourcePath": ":hotel-module:bundle3",
+      "format": "nsbundle",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "hotel-bundle4",
+      "sourcePath": ":hotel-module:bundle4",
+      "format": "nsbundle",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "hotel-lint",
+      "sourcePath": ":hotel-module:hotel-lint",
+      "format": "tool",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "hotel-foundation",
+      "sourcePath": ":hotel-module:foundation",
+      "format": "nsbundle",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "hotel-export",
+      "sourcePath": ":hotel-module:export",
+      "format": "stub",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "plugin-im",
+      "sourcePath": ":plugin-im",
+      "format": "ndbundle",
       "group": "im",
       "dynamic": "local-plugin"
     },
     {
-      "simpleName": "plugin-im-chatroom",
-      "sourcePath": ":im-module:chatroom",
-      "format": "bundle",
-      "group": "im",
+      "simpleName": "plugin-h5bundle",
+      "sourcePath": ":plugin-h5bundle",
+      "format": "h5bundle",
+      "group": "testhtml5",
+      "dynamic": "local-plugin"
+    },
+    {
+      "simpleName": "plugin-rnbundle",
+      "sourcePath": ":plugin-rnbundle",
+      "format": "rnbundle",
+      "group": "testreactnative",
       "dynamic": "local-plugin"
     }
   ]

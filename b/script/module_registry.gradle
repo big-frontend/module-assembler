@@ -7,7 +7,7 @@ def child(Object msg) {
  * 读取module_config.json信息以此来include具体的模块，对于模块的描述应该有这些信息
  * class Module{
  *    require  def simpleName 模块名的简写,给idea plugin读取
- *    require def format 模块格式(plugin bundle foundation jar ,bundle可以不参加编译，即exclude，但是framwork foundation必须被include)
+ *    require def format 模块格式(nsbundle ndbundle h5bundle rnbundle flutterbundle foundation jar ,bundle可以不参加编译，即exclude，但是framework foundation必须被include)
  *    require def group 分组是为了当exclude某个app时，其下的依赖的同组模块也会exclude
  *    require def type {api,processor,tool} 对于framework内部的模块来说，有暴露给app层的api模块，还有有processor、tool
  *    require def sourcePath :components:hotel-module:foundation
@@ -82,6 +82,7 @@ gradle.ext.allModules.each { m ->
         gradle.ext.binaryModuleMap[m.simpleName] = m
     }
 }
+include ":app"
 child("module info ========================================================================================")
 child("activeBuildVariant:"+gradle.ext.activeBuildVariant)
 child("module begin ========================================================================================")

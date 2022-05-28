@@ -10,8 +10,8 @@ pluginBundle {
     def ver = "1.7.1"
     version ver
     plugins {
-        bundlePlugin {
-            displayName = 'bundle-plugin'
+        nsbundlePlugin {
+            displayName = 'nsbundle-plugin'
             tags = ['bundles-assembler']
             version = ver
         }
@@ -77,11 +77,29 @@ tasks.withType(GroovyCompile) {
 apply plugin: "java-gradle-plugin"
 gradlePlugin {
     plugins {
-        bundlePlugin {
-            id = "${rootProject.groupId}.bundle-plugin"
-            implementationClass = 'com.jamesfchen.b.BundleModulePlugin'
-            displayName = 'bundle-plugin'
-            description = "bundle-plugin"
+        flutterbundlePlugin {
+            id = "${rootProject.groupId}.flutterbundle-plugin"
+            implementationClass = 'com.jamesfchen.b.FlutterBundlePlugin'
+            displayName = 'flutterbundle-plugin'
+            description = "flutterbundle-plugin"
+        }
+        rnbundlePlugin {
+            id = "${rootProject.groupId}.rnbundle-plugin"
+            implementationClass = 'com.jamesfchen.b.RnBundlePlugin'
+            displayName = 'rnbundle-plugin'
+            description = "rnbundle-plugin"
+        }
+        h5bundlePlugin {
+            id = "${rootProject.groupId}.h5bundle-plugin"
+            implementationClass = 'com.jamesfchen.b.H5BundlePlugin'
+            displayName = 'h5bundle-plugin'
+            description = "h5bundle-plugin"
+        }
+        nsbundlePlugin {
+            id = "${rootProject.groupId}.nsbundle-plugin"
+            implementationClass = 'com.jamesfchen.b.NsBundlePlugin'
+            displayName = 'nsbundle-plugin'
+            description = "nsbundle-plugin"
         }
         foundationPlugin {
             id = "${rootProject.groupId}.foundation-plugin"
