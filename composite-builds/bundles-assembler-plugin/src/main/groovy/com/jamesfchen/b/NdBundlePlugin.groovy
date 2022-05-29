@@ -6,7 +6,6 @@ import org.gradle.api.Project
 /**
  * native dynamic bundle
  */
-@Mixin(ReClassPlugin)
 class NdBundlePlugin extends AndroidPlugin {
     def parasite = new ReClassPlugin()
     @Override
