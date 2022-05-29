@@ -23,7 +23,7 @@ import com.jamesfchen.FastInsertCodePlugin
 import com.jamesfchen.P
 import com.qihoo360.replugin.Checker
 import com.qihoo360.replugin.Constants
-import com.qihoo360.replugin.parasite2.injector.BaseInjector
+import com.qihoo360.replugin.parasite.BaseInjector
 import com.qihoo360.replugin.util.AdbCli
 import com.qihoo360.replugin.util.Util
 import com.qihoo360.replugin.util.VariantCompat

@@ -84,7 +84,7 @@ gradlePlugin {
     plugins {
         ndbundlePlugin {
             id = "${rootProject.groupId}.ndbundle-plugin"
-            implementationClass = 'com.qihoo360.replugin.parasite2.NdBundlePlugin'
+            implementationClass = 'com.jamesfchen.b.NdBundlePlugin'
             displayName = "pluginify-parasite-plugin"
             description = "pluginify-parasite-plugin"
         }

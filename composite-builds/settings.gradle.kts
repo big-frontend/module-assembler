@@ -19,4 +19,4 @@ include(
 include(":module-publisher-plugin")
 include(":bundles-assembler-plugin")
 include(":replugin-host-api")
-include(":replugin-parasite-api")
+include(":ndbundle-api")

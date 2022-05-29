@@ -8,6 +8,12 @@
   "groupId": "io.github.jamesfchen",
   "allModules": [
     {
+      "simpleName": "framework-loader",
+      "sourcePath": ":framework:loader",
+      "format": "foundation",
+      "group": "fwk"
+    },
+    {
       "simpleName": "framework-baseui",
       "sourcePath": ":framework:baseui",
       "format": "biz-foundation",

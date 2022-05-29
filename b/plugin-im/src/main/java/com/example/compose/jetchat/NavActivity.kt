@@ -38,6 +38,9 @@ import com.example.compose.jetchat.conversation.LocalBackPressedDispatcher
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.jamesfchen.chatroom.R
 import com.jamesfchen.chatroom.databinding.ContentMainBinding
+import com.jamesfchen.export.ICall
+import com.jamesfchen.ibc.cbpc.IBCCbpc.findApi
+import com.jamesfchen.ibc.router.IBCRouter
 import kotlinx.coroutines.launch
 
 /**
@@ -48,7 +51,13 @@ class NavActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val api = findApi(ICall::class.java)
+        if (api?.call() == true) {
+            //打开当前bundle内部的页面
+            IBCRouter.open(this) {
+                uri = "b://bundle1/sayme"
+            }
+        }
         // Turn off the decor fitting system windows, which allows us to handle insets,
         // including IME animations
         WindowCompat.setDecorFitsSystemWindows(window, false)

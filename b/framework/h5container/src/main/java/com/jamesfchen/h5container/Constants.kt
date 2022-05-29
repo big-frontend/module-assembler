@@ -7,4 +7,4 @@ package com.jamesfchen.h5container
  * @author: jamesfchen
  * @since: Jan/23/2022  Sun
  */
-internal const val EXTRA_URL = "url"
+const val EXTRA_URL = "url"

@@ -26,7 +26,6 @@ abstract class AndroidPlugin extends BasePlugin {
 
     @Override
     void onApply(Project project) {
-
         project.android {
             compileSdkVersion Integer.parseInt(project.rootProject.compileSdkVersion)
             buildToolsVersion project.rootProject.buildToolsVersion
