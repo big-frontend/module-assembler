@@ -5,7 +5,7 @@ publish {
     name = "ibc-api"
     groupId = rootProject.groupId
     artifactId = "ibc-api"
-    version = rootProject.IBCROUTER_VERSION
+    version = rootProject.IBC_VERSION
     website = "https://github.com/JamesfChen/bundles-assembler"
 }
 dependencies {

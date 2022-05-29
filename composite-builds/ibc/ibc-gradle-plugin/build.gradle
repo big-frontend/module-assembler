@@ -23,13 +23,13 @@ pluginBundle {
             displayName = 'ibc plugin'
 //            description = "组件化之后，组件监听app的生命周期工具"
             tags = ['bundles-assembler']
-            version rootProject.IBCROUTER_VERSION
+            version rootProject.IBC_VERSION
         }
     }
     mavenCoordinates {
         groupId = rootProject.groupId
         artifactId = "ibc-plugin"
-        version = rootProject.IBCROUTER_VERSION
+        version = rootProject.IBC_VERSION
     }
 }
 apply plugin: 'java'

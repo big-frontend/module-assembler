@@ -16,14 +16,18 @@
 
 package com.qihoo360.replugin;
 
+import static com.qihoo360.replugin.helper.LogDebug.LOG;
+import static com.qihoo360.replugin.helper.LogDebug.PLUGIN_TAG;
+import static com.qihoo360.replugin.helper.LogRelease.LOGR;
+
 import android.os.Build;
 
-import com.qihoo360.replugin.utils.ReflectUtils;
 import com.qihoo360.loader.utils.StringUtils;
 import com.qihoo360.loader2.PMF;
 import com.qihoo360.replugin.base.IPC;
 import com.qihoo360.replugin.helper.LogDebug;
 import com.qihoo360.replugin.helper.LogRelease;
+import com.qihoo360.replugin.utils.ReflectUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -32,10 +36,6 @@ import java.net.URL;
 import java.util.Enumeration;
 
 import dalvik.system.PathClassLoader;
-
-import static com.qihoo360.replugin.helper.LogDebug.LOG;
-import static com.qihoo360.replugin.helper.LogDebug.PLUGIN_TAG;
-import static com.qihoo360.replugin.helper.LogRelease.LOGR;
 
 /**
  * 宿主的ClassLoader，插件框架的核心之一

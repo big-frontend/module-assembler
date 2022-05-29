@@ -56,6 +56,9 @@ class MainActivity : Activity() {
             val i = Intent()
             i.component = ComponentName(this@MainActivity,"com.example.compose.jetchat.NavActivity")
             RePlugin.startActivity(this@MainActivity,i)
+            IBCRouter.open(this) {
+                uri = "b://im/nav"
+            }
         }
         binding.btAndroidNavigator.setOnClickListener {
             val i = Intent(this@MainActivity,AndroidNavigatorActivity::class.java)

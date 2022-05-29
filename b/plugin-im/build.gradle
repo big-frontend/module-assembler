@@ -1,22 +1,16 @@
 plugins {
-    id "io.github.jamesfchen.foundation-plugin"
+    id "io.github.jamesfchen.ndbundle-plugin"
 }
-
-//plugins {
-//    id 'io.github.jamesfchen.replugin-parasite-plugin'
-//}
-//repluginPluginConfig {
-//    pluginName = "im"
-//    hostApplicationId = rootProject.applicationId
-//    hostAppLauncherActivity = "com.jamesfchen.myhome.SplashActivity"
-//}
-//apply from:"$rootDir/script/app_config.gradle"
+repluginPluginConfig {
+    pluginName = "im"
+    hostApplicationId = rootProject.applicationId
+    hostAppLauncherActivity = "com.jamesfchen.myhome.SplashActivity"
+}
+apply from: "$rootDir/script/app_config.gradle"
 
 
-project.plugins.apply('kotlin-android')
-project.plugins.apply('kotlin-kapt')
 apply from: "$rootDir/script/ui_compose.gradle"
-android{
+android {
     buildFeatures {
         viewBinding true
     }
@@ -29,7 +23,7 @@ dependencies {
     api 'androidx.lifecycle:lifecycle-common-java8:2.4.1'
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     api "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
-    def navigationVersion ='2.4.1'
+    def navigationVersion = '2.4.1'
     api "androidx.navigation:navigation-fragment:$navigationVersion"
     api "androidx.navigation:navigation-runtime-ktx:$navigationVersion"
     api "androidx.navigation:navigation-common-ktx:$navigationVersion"

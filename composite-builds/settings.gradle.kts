@@ -18,6 +18,5 @@ include(
 )
 include(":module-publisher-plugin")
 include(":bundles-assembler-plugin")
-include(":replugin:replugin-plugin")
-include(":replugin:replugin-host-api")
-include(":replugin:replugin-parasite-api")
+include(":replugin-host-api")
+include(":replugin-parasite-api")

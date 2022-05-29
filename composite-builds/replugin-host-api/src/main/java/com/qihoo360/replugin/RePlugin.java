@@ -16,6 +16,8 @@
 
 package com.qihoo360.replugin;
 
+import static com.qihoo360.replugin.helper.LogDebug.LOG;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.BroadcastReceiver;
@@ -67,8 +69,6 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import static com.qihoo360.replugin.helper.LogDebug.LOG;
 
 /**
  * RePlugin的对外入口类 <p>

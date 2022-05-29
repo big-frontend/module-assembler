@@ -7,9 +7,14 @@ pluginBundle {
     website = "https://github.com/JamesfChen/bundles-assembler"
     description = "bundles-assembler-plugin"
     tags = ['bundles-assembler']
-    def ver = "1.7.1"
+    def ver = "1.7.2"
     version ver
     plugins {
+        ndbundlePlugin {
+            displayName = 'ndbundle-plugin'
+            tags = ['bundles-assembler']
+            version = ver
+        }
         nsbundlePlugin {
             displayName = 'nsbundle-plugin'
             tags = ['bundles-assembler']
@@ -77,6 +82,12 @@ tasks.withType(GroovyCompile) {
 apply plugin: "java-gradle-plugin"
 gradlePlugin {
     plugins {
+        ndbundlePlugin {
+            id = "${rootProject.groupId}.ndbundle-plugin"
+            implementationClass = 'com.qihoo360.replugin.parasite2.NdBundlePlugin'
+            displayName = "pluginify-parasite-plugin"
+            description = "pluginify-parasite-plugin"
+        }
         flutterbundlePlugin {
             id = "${rootProject.groupId}.flutterbundle-plugin"
             implementationClass = 'com.jamesfchen.b.FlutterBundlePlugin'
@@ -145,5 +156,22 @@ gradlePlugin {
         }
     }
 }
+String verPath = "${project.projectDir}/src/main/groovy/com/qihoo360/replugin/Constants.groovy"
+String verLine = new File(verPath).filterLine { it =~ /def static final VER =/ }
+version = "${verLine.split("\"")[1]}" // 版本
+//红色醒目打印显示版本号
+java.lang.System.err.println "version=${version}"
 dependencies {
+    compileOnly "com.android.tools.build:gradle:${rootProject.agpVersion}"
+    implementation 'org.json:json:20180813'
+    implementation 'org.codehaus.groovy:groovy:3.0.9'
+    implementation 'com.squareup:javapoet:1.13.0'
+    implementation 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
+    implementation 'org.javassist:javassist:3.18.2-GA'
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'net.dongliu:apk-parser:2.2.0'
+    implementation 'com.google.guava:guava:24.1-jre'
+    implementation 'commons-codec:commons-codec:1.15'
+    implementation project(':base-plugin')
+    implementation localGroovy()
 }
