@@ -10,8 +10,6 @@ public class ModuleConfig {
 //    String description;
     @NotNull
     List<String> buildVariants;
-    @Nullable
-    List<String> buildArtifacts;
     @NotNull
     List<Module> allModules;
 }

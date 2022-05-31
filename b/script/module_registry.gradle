@@ -19,7 +19,6 @@ def config = new JsonSlurper().parse(file("$rootDir/module_config.json"))
 gradle.ext.allModules = config.allModules
 gradle.ext.groupId = config.groupId
 gradle.ext.buildVariants = config.buildVariants
-gradle.ext.buildArtifacts = config.buildArtifacts
 def localProperties = new Properties()
 def localPropertiesFile = new File(rootDir, 'local.properties')
 if (localPropertiesFile.exists()) {
@@ -34,13 +33,6 @@ if (localProperties.getProperty('activeBuildVariant', '')){
 }else {
     gradle.ext.activeBuildVariant = gradle.ext.buildVariants.get(0)
     localProperties.setProperty("activeBuildVariant", gradle.ext.activeBuildVariant)
-    localProperties.store(new FileOutputStream(localPropertiesFile), "update modules")
-}
-if (localProperties.getProperty('activeBuildArtifact', '')){
-    gradle.ext.activeBuildArtifact = localProperties.getProperty('activeBuildArtifact', '')
-}else if (gradle.ext.buildArtifacts !=null && !gradle.ext.buildArtifacts.isEmpty()){
-    gradle.ext.activeBuildArtifact = gradle.ext.buildArtifacts.get(0)
-    localProperties.setProperty("activeBuildArtifact", gradle.ext.activeBuildArtifact)
     localProperties.store(new FileOutputStream(localPropertiesFile), "update modules")
 }
 gradle.ext.excludeModuleMap = new LinkedHashMap<String, Object>()

@@ -11,6 +11,8 @@ public class Result {
     @NotNull
     String sourceModules;
     @NotNull
+    String binaryModules;
+    @NotNull
     String activeBuildVariant;
     @Nullable
     String activeBuildArtifact;

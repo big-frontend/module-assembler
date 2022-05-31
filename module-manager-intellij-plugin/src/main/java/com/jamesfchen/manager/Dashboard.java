@@ -21,9 +21,19 @@ public class Dashboard extends JDialog {
     private JPanel allModulePanel;
     private JPanel settingsPanel;
     private JPanel buildVariantsPanel;
+    private JPanel moduleSettings;
+    private JPanel hotkeys;
+    private JRadioButton sb1;
+    private JRadioButton fwkrb1;
+    private JRadioButton sb2;
+    private JRadioButton sb3;
+    private JRadioButton fwkrb2;
+    private JRadioButton db1;
+    private JRadioButton db2;
     private String activeBuildVariant;
-    private JPanel buildArtifactsPanel;
-    private String activeBuildArtifact;
+    private ButtonGroup fwbg;
+    private ButtonGroup sbbg;
+    private ButtonGroup dbbg;
 
     public Dashboard() {
         setSize(new Dimension(1000, 697));
@@ -35,10 +45,10 @@ public class Dashboard extends JDialog {
             if (okl != null) {
                 Result result = new Result();
                 result.activeBuildVariant = activeBuildVariant;
-                result.activeBuildArtifact = activeBuildArtifact;
                 int componentCount = allModulePanel.getComponentCount();
                 StringBuilder excludesb = new StringBuilder();
                 StringBuilder sourcesb = new StringBuilder();
+                StringBuilder binarysb = new StringBuilder();
                 for (int i = 0; i < componentCount; ++i) {
                     JPanel fieldText = (JPanel) allModulePanel.getComponent(i);
                     JLabel moduleName = (JLabel) fieldText.getComponent(0);
@@ -50,10 +60,14 @@ public class Dashboard extends JDialog {
                     } else if ("exclude".equals(selectedItem)) {
                         excludesb.append(moduleName.getText());
                         excludesb.append(",");
+                    }else {
+                        binarysb.append(moduleName.getText());
+                        binarysb.append(",");
                     }
                 }
                 result.sourceModules = sourcesb.toString();
                 result.excludeModules = excludesb.toString();
+                result.binaryModules = binarysb.toString();
                 okl.call(result);
             }
             dispose();
@@ -77,6 +91,16 @@ public class Dashboard extends JDialog {
                 if (cancell != null) cancell.call();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        fwbg = new ButtonGroup();
+        fwbg.add(fwkrb1);
+        fwbg.add(fwkrb2);
+        sbbg = new ButtonGroup();
+        sbbg.add(sb1);
+        sbbg.add(sb2);
+        sbbg.add(sb3);
+        dbbg = new ButtonGroup();
+        dbbg.add(db1);
+        dbbg.add(db2);
     }
 
     protected OkListener okl = null;
@@ -135,30 +159,30 @@ public class Dashboard extends JDialog {
         buildVariantsPanel.add(comboBox, bagConstraints);
 
     }
-    public void bindBuildArtifacts(String buildArtifact, List<String> buildArtifacts){
-        this.activeBuildArtifact = buildArtifact;
-        GridBagConstraints bagConstraints = new GridBagConstraints();
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        //add jlabel
-        bagConstraints.weightx = 1;
-        JLabel jLabel = new JLabel();
-        jLabel.setText(buildArtifact);
-        jLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        jLabel.setFont(new Font("黑体", 1, 12));
-        jLabel.setForeground(Color.green);
-        buildArtifactsPanel.add(jLabel, bagConstraints);
-        ComboBoxModel<String> comboBoxModel = new CollectionComboBoxModel<>(buildArtifacts);
-        ComboBox<String> comboBox = new ComboBox<>(comboBoxModel);
-        bagConstraints.weightx = 1;
-        comboBox.setEditable(true);
-        comboBox.setSelectedItem(buildArtifact);
-        comboBox.addItemListener(e -> {
-            jLabel.setText(e.getItem().toString());
-            this.activeBuildArtifact = e.getItem().toString();
-        });
-        buildArtifactsPanel.add(comboBox, bagConstraints);
-
-    }
+//    public void bindBuildArtifacts(String buildArtifact, List<String> buildArtifacts){
+//        this.activeBuildArtifact = buildArtifact;
+//        GridBagConstraints bagConstraints = new GridBagConstraints();
+//        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
+//        //add jlabel
+//        bagConstraints.weightx = 1;
+//        JLabel jLabel = new JLabel();
+//        jLabel.setText(buildArtifact);
+//        jLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//        jLabel.setFont(new Font("黑体", 1, 12));
+//        jLabel.setForeground(Color.green);
+//        buildArtifactsPanel.add(jLabel, bagConstraints);
+//        ComboBoxModel<String> comboBoxModel = new CollectionComboBoxModel<>(buildArtifacts);
+//        ComboBox<String> comboBox = new ComboBox<>(comboBoxModel);
+//        bagConstraints.weightx = 1;
+//        comboBox.setEditable(true);
+//        comboBox.setSelectedItem(buildArtifact);
+//        comboBox.addItemListener(e -> {
+//            jLabel.setText(e.getItem().toString());
+//            this.activeBuildArtifact = e.getItem().toString();
+//        });
+//        buildArtifactsPanel.add(comboBox, bagConstraints);
+//
+//    }
     private interface Callback {
         JComponent call(Map.Entry<String, Module> entry);
     }
