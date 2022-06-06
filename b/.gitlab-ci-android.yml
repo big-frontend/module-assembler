@@ -36,18 +36,18 @@ stages:
   - test
   - deploy
 
-home-myhome-build:
+home-module-build:
   only:
     changes:
-      - b/home-myhome/**/*
+      - b/home-module/**/*
   stage: build
   script:
-    - ./gradlew :home-myhome:assemble
+    - ./gradlew :home-module:assemble
 
-home-myhome-deploy:
+home-module-deploy:
   only:
     changes:
-      - b/home-myhome/**/*
+      - b/home-module/**/*
   stage: deploy
   script:
     - ./gradlew :app:assemble

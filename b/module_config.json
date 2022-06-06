@@ -44,8 +44,8 @@
       "group": "fwk"
     },
     {
-      "simpleName": "home-myhome",
-      "sourcePath": ":home-myhome",
+      "simpleName": "home-module",
+      "sourcePath": ":home-module",
       "format": "nsbundle",
       "group": "home"
     },
