@@ -9,7 +9,7 @@ import com.sun.istack.NotNull;
 import java.io.*;
 import java.util.Properties;
 
-import static com.jamesfchen.manager.NotificationUtil.showNotification;
+import static com.jamesfchen.manager.NotificationUtil.showErrorNotification;
 
 public class FileUtil {
     static Project project;
@@ -24,7 +24,7 @@ public class FileUtil {
 
     public static Properties getLocalProperties() {
         if (localPropertiesFile == null) {
-            showNotification("localid", "不存在local.properties文件");
+            showErrorNotification("localid", "不存在local.properties文件");
             return null;
         }
         Properties localProperties = new Properties();
@@ -32,7 +32,7 @@ public class FileUtil {
             localProperties.load(localPropertiesFile.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
-            showNotification("local_id2", "local.properties解析失败");
+            showErrorNotification("local_id2", "local.properties解析失败");
         }
         return localProperties;
     }
@@ -40,31 +40,31 @@ public class FileUtil {
     public static void storeLocalProperties(Properties properties) {
         try {
             if (localPropertiesFile == null) {
-                showNotification("local_id3", "不存在local.properties文件");
+                showErrorNotification("local_id3", "不存在local.properties文件");
                 return;
             }
             OutputStream outputstream = new FileOutputStream(localPropertiesFile.getCanonicalPath());
             properties.store(outputstream, "update modules");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            showNotification("local_id3", "不存在local.properties文件");
+            showErrorNotification("local_id3", "不存在local.properties文件");
         } catch (IOException e) {
             e.printStackTrace();
-            showNotification("local_id4", "存入local.properties解析失败");
+            showErrorNotification("local_id4", "存入local.properties解析失败");
         }
     }
 
     public static ModuleConfig parseModuleConfig() {
         try {
             if (moduleConfigFile == null) {
-                showNotification("moduleconfig_id", "不存在module_config.json文件");
+                showErrorNotification("moduleconfig_id", "不存在module_config.json文件");
                 return null;
             }
             JsonReader reader = new JsonReader(new InputStreamReader(moduleConfigFile.getInputStream()));
             return new Gson().fromJson(reader, ModuleConfig.class);
         } catch (IOException e) {
             e.printStackTrace();
-            showNotification("moduleconfig_id2", "module_config.json解析失败");
+            showErrorNotification("moduleconfig_id2", "module_config.json解析失败");
             return null;
         }
     }

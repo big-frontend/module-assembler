@@ -38,7 +38,7 @@
                     <properties/>
                     <border type="none" title="fwks"/>
                     <children>
-                      <component id="c25d" class="javax.swing.JRadioButton" binding="fwkrb1">
+                      <component id="c25d" class="javax.swing.JRadioButton" binding="fwkrb0">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -46,7 +46,7 @@
                           <text value="source"/>
                         </properties>
                       </component>
-                      <component id="11301" class="javax.swing.JRadioButton" binding="fwkrb2">
+                      <component id="11301" class="javax.swing.JRadioButton" binding="fwkrb1">
                         <constraints>
                           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -64,7 +64,7 @@
                     <properties/>
                     <border type="none" title="static bundles"/>
                     <children>
-                      <component id="e8887" class="javax.swing.JRadioButton" binding="sb1">
+                      <component id="e8887" class="javax.swing.JRadioButton" binding="sbrb0">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -72,7 +72,7 @@
                           <text value="source"/>
                         </properties>
                       </component>
-                      <component id="61f51" class="javax.swing.JRadioButton" binding="sb2">
+                      <component id="61f51" class="javax.swing.JRadioButton" binding="sbrb1">
                         <constraints>
                           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -80,7 +80,7 @@
                           <text value="binary"/>
                         </properties>
                       </component>
-                      <component id="2f080" class="javax.swing.JRadioButton" binding="sb3">
+                      <component id="2f080" class="javax.swing.JRadioButton" binding="sbrb2">
                         <constraints>
                           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -98,7 +98,7 @@
                     <properties/>
                     <border type="none" title="dynamic bundles"/>
                     <children>
-                      <component id="9709" class="javax.swing.JRadioButton" binding="db1">
+                      <component id="9709" class="javax.swing.JRadioButton" binding="dbrb0">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -106,7 +106,7 @@
                           <text value="source"/>
                         </properties>
                       </component>
-                      <component id="71207" class="javax.swing.JRadioButton" binding="db2">
+                      <component id="71207" class="javax.swing.JRadioButton" binding="dbrb1">
                         <constraints>
                           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>

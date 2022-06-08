@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.*;
 
-import static com.jamesfchen.manager.NotificationUtil.showNotification;
+import static com.jamesfchen.manager.NotificationUtil.showErrorNotification;
 
 public class MyAction extends AnAction {
     @Override
@@ -25,7 +25,7 @@ public class MyAction extends AnAction {
         if (localProperties == null) return;
         String activeBuildVariant = getActiveBuildVariant(localProperties,config.buildVariants);
         if (activeBuildVariant ==null){
-            showNotification("bindBuildVariants", "请配置buildVariants");
+            showErrorNotification("bindBuildVariants", "请配置buildVariants");
             return;
         }
         String excludeModulesStr = localProperties.getProperty("excludeModules");
@@ -91,9 +91,11 @@ public class MyAction extends AnAction {
         Dashboard d2 = new Dashboard();
         d2.setOKListener(new Dashboard.OkListener() {
             @Override
-            public void call(Result result) {
+            public boolean call(Result result) {
+                System.out.println("result:"+result);
                 if ("all".equals(activeBuildVariant)  && result.binaryModules.length() >=1 ){
-                    showNotification("notsupport", "all 模式下，不支持组件化");
+                    NotificationUtil.showErrorNotification("notsupport", "all 模式下，不支持组件化,请将所有binary模块转换成source 或者 exclude");
+                    return false;
                 }
                 localProperties.setProperty("excludeModules",result.excludeModules);
                 localProperties.setProperty("sourceModules", result.sourceModules);
@@ -103,6 +105,7 @@ public class MyAction extends AnAction {
                 if (syncProjectAction != null) {
                     syncProjectAction.actionPerformed(e);
                 }
+                return true;
             }
         });
         d2.setCancelListener(new Dashboard.CancelListener() {

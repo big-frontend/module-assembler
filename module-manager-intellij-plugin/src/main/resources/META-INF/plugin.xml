@@ -21,8 +21,10 @@
         <action id="com.jamesfchen.manager.MyAction" class="com.jamesfchen.manager.MyAction"
                 icon="/META-INF/pluginIcon_16.svg"
                 text="module manager action" description="Haha">
-            <add-to-group group-id="ToolsMenu" anchor="last"/>
-            <add-to-group group-id="MainToolBar" anchor="last"/>
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <add-to-group group-id="ToolbarRunGroup" anchor="after" relative-to-action="RunnerActions"/>
+<!--            <add-to-group group-id="ToolsMenu" anchor="last"/>-->
+<!--            <add-to-group group-id="MainToolBar" anchor="last"/>-->
         </action>
     </actions>
 

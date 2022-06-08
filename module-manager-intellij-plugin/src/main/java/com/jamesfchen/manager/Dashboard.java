@@ -9,10 +9,6 @@ import java.awt.event.*;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.List;
-
-import static com.jamesfchen.manager.NotificationUtil.showNotification;
-
-
 public class Dashboard extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -21,19 +17,24 @@ public class Dashboard extends JDialog {
     private JPanel allModulePanel;
     private JPanel settingsPanel;
     private JPanel buildVariantsPanel;
+    private String activeBuildVariant;
     private JPanel moduleSettings;
     private JPanel hotkeys;
-    private JRadioButton sb1;
-    private JRadioButton fwkrb1;
-    private JRadioButton sb2;
-    private JRadioButton sb3;
-    private JRadioButton fwkrb2;
-    private JRadioButton db1;
-    private JRadioButton db2;
-    private String activeBuildVariant;
     private ButtonGroup fwbg;
+    private JRadioButton fwkrb0;
+    private JRadioButton fwkrb1;
     private ButtonGroup sbbg;
+    private JRadioButton sbrb0;
+    private JRadioButton sbrb1;
+    private JRadioButton sbrb2;
     private ButtonGroup dbbg;
+    private JRadioButton dbrb0;
+    private JRadioButton dbrb1;
+    int fwkSelected = -1;
+    int sbSelected = -1;
+    //-1 0 1
+    int dbSelected = -1;
+
 
     public Dashboard() {
         setSize(new Dimension(1000, 697));
@@ -42,6 +43,7 @@ public class Dashboard extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         buttonOK.addActionListener(e -> {
+            boolean close = true;
             if (okl != null) {
                 Result result = new Result();
                 result.activeBuildVariant = activeBuildVariant;
@@ -68,9 +70,14 @@ public class Dashboard extends JDialog {
                 result.sourceModules = sourcesb.toString();
                 result.excludeModules = excludesb.toString();
                 result.binaryModules = binarysb.toString();
-                okl.call(result);
+                result.fwkSelected = fwkSelected;
+                result.sbSelected = sbSelected;
+                result.dbSelected = dbSelected;
+                close = okl.call(result);
             }
-            dispose();
+            if (close){
+                dispose();
+            }
         });
         buttonCancel.addActionListener(e -> {
             if (cancell != null) cancell.call();
@@ -92,15 +99,36 @@ public class Dashboard extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         fwbg = new ButtonGroup();
+        fwbg.add(fwkrb0);
         fwbg.add(fwkrb1);
-        fwbg.add(fwkrb2);
+        fwkrb0.addActionListener(e -> {
+            fwkSelected  = 0;
+        });
+        fwkrb0.addActionListener(e -> {
+            fwkSelected = 1;
+        });
         sbbg = new ButtonGroup();
-        sbbg.add(sb1);
-        sbbg.add(sb2);
-        sbbg.add(sb3);
+        sbbg.add(sbrb0);
+        sbbg.add(sbrb1);
+        sbbg.add(sbrb2);
+        sbrb0.addActionListener(e -> {
+            sbSelected = 0;
+        });
+        sbrb1.addActionListener(e -> {
+            sbSelected = 1;
+        });
+        sbrb2.addActionListener(e -> {
+            sbSelected = 0;
+        });
         dbbg = new ButtonGroup();
-        dbbg.add(db1);
-        dbbg.add(db2);
+        dbbg.add(dbrb0);
+        dbbg.add(dbrb1);
+        dbrb0.addActionListener(e -> {
+            dbSelected = 0;
+        });
+        dbrb1.addActionListener(e -> {
+            dbSelected = 1;
+        });
     }
 
     protected OkListener okl = null;
@@ -108,7 +136,7 @@ public class Dashboard extends JDialog {
 
 
     public interface OkListener {
-        void call(Result result);
+        boolean call(Result result);
     }
     public interface CancelListener {
         void call();
