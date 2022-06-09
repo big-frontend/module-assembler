@@ -41,7 +41,7 @@ class ParasitePlugin extends FastInsertCodePlugin {
     private Map<String, BaseInjector> mInjectors = new HashMap<>()
 
     @Override
-    protected String pluginName() {
+    String getName() {
         return "Parasite"
     }
 

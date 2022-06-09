@@ -31,6 +31,7 @@ plugins {
     id("io.github.jamesfchen.lifecycle-plugin") apply(false)
     id("io.github.jamesfchen.module-publisher-plugin") apply(false)
     id("io.github.jamesfchen.module-chef-plugin")
+    id 'io.github.jamesfchen.t1plugin' apply(false)
 }
 allprojects {
     repositories {

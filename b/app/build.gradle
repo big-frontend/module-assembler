@@ -2,8 +2,6 @@ plugins {
     id "io.github.jamesfchen.app-plugin"
     id 'com.google.gms.google-services'
     id("com.google.devtools.ksp") version "1.5.30-1.0.0"
-//    id 't1plugin'
-//    id 't2plugin'
 }
 ksp {
     arg("option1", "value1")
@@ -13,6 +11,7 @@ ksp {
 // 可以在这里自定义常驻进程的名字
 // persistentName = ":XXXXService"
 //}
+apply plugin: 'io.github.jamesfchen.t1plugin'
 apply from: "$rootDir/script/app_config.gradle"
 apply from: "$rootDir/script/tinker_config.gradle"
 android {
@@ -44,7 +43,7 @@ android {
     }
 }
 dependencies {
-    project.depsConfig("implementation", "home-myhome")
+    project.depsConfig("implementation", "home-module")
     project.depsConfig("implementation", "hotel-bundle1")
     project.depsConfig("implementation", "hotel-bundle2")
     project.depsConfig("implementation", "hotel-bundle3")
