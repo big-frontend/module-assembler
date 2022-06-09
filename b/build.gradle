@@ -11,7 +11,7 @@ buildscript {
         maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
         gradlePluginPortal()
 //        maven {url "https://plugins.gradle.org/m2/"}
-        maven{ url "https://dl.bintray.com/kotlin/kotlin-eap"}
+        maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.2.1"
@@ -23,15 +23,16 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.8'
         classpath 'com.google.firebase:perf-plugin:1.4.0'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
-        classpath ('com.tencent.tinker:tinker-patch-gradle-plugin:1.9.14.19')
+        classpath('com.tencent.tinker:tinker-patch-gradle-plugin:1.9.14.19')
+        //classpath "io.github.jamesfchen:module-publisher-plugin:1.4.4"
     }
 }
 plugins {
     id("io.github.jamesfchen.ibc-plugin") apply(false)
     id("io.github.jamesfchen.lifecycle-plugin") apply(false)
-    id("io.github.jamesfchen.module-publisher-plugin") apply(false)
     id("io.github.jamesfchen.module-chef-plugin")
-    id 'io.github.jamesfchen.t1plugin' apply(false)
+    id("io.github.jamesfchen.nsb-publisher-plugin") apply(false)
+    id('io.github.jamesfchen.t1plugin') apply(false)
 }
 allprojects {
     repositories {
@@ -71,7 +72,7 @@ allprojects {
     }
 
 }
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-

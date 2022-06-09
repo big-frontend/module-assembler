@@ -8,16 +8,21 @@ pluginBundle {
     description = "module-publisher-plugin"
     tags = ['bundles-assembler']
     plugins {
-        modulePublisherPlugin {
-            displayName = 'module-publisher-plugin'
+        nsPublisherPlugin {
+            displayName = 'nsb-publisher-plugin'
             tags = ['bundles-assembler']
-            version '1.4.3'
+            version = '1.4.4'
+        }
+        ndPublisherPlugin {
+            displayName = 'ndb-publisher-plugin'
+            tags = ['bundles-assembler']
+            version = '1.4.4'
         }
     }
     mavenCoordinates {
         groupId = rootProject.groupId
         artifactId = 'module-publisher-plugin'
-        version = '1.4.3'
+        version = '1.4.4'
     }
 }
 apply plugin: 'java'
@@ -34,11 +39,17 @@ tasks.withType(GroovyCompile) {
 apply plugin: "java-gradle-plugin"
 gradlePlugin {
     plugins {
-        modulePublisherPlugin {
-            id = "${rootProject.groupId}.module-publisher-plugin"
-            implementationClass = 'com.jamesfchen.publisher.PublisherPlugin'
-            displayName ='module-publisher-plugin'
-            description = "module-publisher-plugin"
+        nsPublisherPlugin {
+            id = "${rootProject.groupId}.nsb-publisher-plugin"
+            implementationClass = 'com.jamesfchen.publisher.NsbPublisherPlugin'
+            displayName ='nsb-publisher-plugin'
+            description = "nsb-publisher-plugin"
+        }
+        ndPublisherPlugin {
+            id = "${rootProject.groupId}.ndb-publisher-plugin"
+            implementationClass = 'com.jamesfchen.publisher.NdbPublisherPlugin'
+            displayName ='ndb-publisher-plugin'
+            description = "ndb-publisher-plugin"
         }
     }
 }

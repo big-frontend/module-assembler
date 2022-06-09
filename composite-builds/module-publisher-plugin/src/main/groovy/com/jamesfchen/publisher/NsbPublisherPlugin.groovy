@@ -1,11 +1,10 @@
 package com.jamesfchen.publisher
 
+import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.api.tasks.bundling.Jar
-import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.plugins.signing.SigningExtension
 
 /**
@@ -28,8 +27,8 @@ import org.gradle.plugins.signing.SigningExtension
  *
  * ps：对于发布的类型来说只会有两种aar和jar
  */
-class PublisherPlugin implements Plugin<Project> {
 
+class NsbPublisherPlugin implements Plugin<Project> {
     Project myProject
 
     @Override
@@ -37,8 +36,8 @@ class PublisherPlugin implements Plugin<Project> {
         myProject = project
         project.plugins.apply('maven-publish')
         project.plugins.apply('signing')
-        project.extensions.create('publish', PublishExtension)
         if (Checker.isApk(project)) return
+        project.extensions.create('publish', PublishExtension)
         project.tasks.whenTaskAdded { task ->
             if (task.name.contains('ToMavenCentralRepository')) {
                 def ext = project['publish'] as PublishExtension
@@ -59,22 +58,24 @@ class PublisherPlugin implements Plugin<Project> {
             loadUserInfo(project, ext)
             configMaven(project, ext)
         }
+
     }
 
     private void loadUserInfo(Project project, PublishExtension ext) {
         Properties properties = new Properties()
         File localPropertiesFile = project.rootProject.file("local.properties");
-        if (localPropertiesFile.exists()) {
-            properties.load(localPropertiesFile.newDataInputStream())
-            //发布release必须要求签名，否则发布会失败
-            if (!ext.version.endsWith('SNAPSHOT')) {
-                project.ext["signing.keyId"] = properties.getProperty("signingKeyId")
-                project.ext["signing.password"] = properties.getProperty("signingPassword")
-                project.ext["signing.secretKeyRingFile"] = properties.getProperty("signingSecretKeyRingFile")
-                ext.signingKeyId = properties.getProperty("signingKeyId")
-                ext.signingSecretKeyRingFile = properties.getProperty("signingPassword")
-                ext.signingPassword = properties.getProperty("signingSecretKeyRingFile")
-            }
+        if (!localPropertiesFile.exists()) {
+            throw new GradleException("local.properties文件不存在")
+        }
+        properties.load(localPropertiesFile.newDataInputStream())
+        //发布release必须要求签名，否则发布会失败
+        if (!ext.version.endsWith('SNAPSHOT')) {
+            project.ext["signing.keyId"] = properties.getProperty("signingKeyId")
+            project.ext["signing.password"] = properties.getProperty("signingPassword")
+            project.ext["signing.secretKeyRingFile"] = properties.getProperty("signingSecretKeyRingFile")
+            ext.signingKeyId = properties.getProperty("signingKeyId")
+            ext.signingSecretKeyRingFile = properties.getProperty("signingPassword")
+            ext.signingPassword = properties.getProperty("signingSecretKeyRingFile")
         }
         if (project.properties.containsKey("useJamesfChenSnapshots")
                 && project["useJamesfChenSnapshots"] != null
@@ -261,4 +262,3 @@ class PublisherPlugin implements Plugin<Project> {
 //    }
     }
 }
-

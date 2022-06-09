@@ -52,7 +52,7 @@
     {
       "simpleName": "hotel-main",
       "sourcePath": ":hotel-module:main",
-      "format": "nsbundle",
+      "format": "app",
       "group": "hotel"
     },
     {
