@@ -93,7 +93,7 @@ public class MyAction extends AnAction {
             @Override
             public boolean call(Result result) {
                 System.out.println("result:"+result);
-                if ("all".equals(activeBuildVariant)  && result.binaryModules.length() >=1 ){
+                if ("all".equals(result.activeBuildVariant)  && result.binaryModules.length() >=1 ){
                     NotificationUtil.showErrorNotification("notsupport", "all 模式下，不支持组件化,请将所有binary模块转换成source 或者 exclude");
                     return false;
                 }

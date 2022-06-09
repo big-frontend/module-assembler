@@ -15,6 +15,7 @@ public class Module {
 //    public String canonicalName;
     public String format;
     public String group;
+    public String dynamic;
 //    public String binary_artifact;
 //    public List<String> deps;
 }

@@ -2,6 +2,7 @@ package com.jamesfchen.manager;
 
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.CollectionComboBoxModel;
+import com.intellij.ui.JBColor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +10,8 @@ import java.awt.event.*;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.List;
+import java.util.TreeMap;
+
 public class Dashboard extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -30,11 +33,9 @@ public class Dashboard extends JDialog {
     private ButtonGroup dbbg;
     private JRadioButton dbrb0;
     private JRadioButton dbrb1;
-    int fwkSelected = -1;
-    int sbSelected = -1;
-    //-1 0 1
-    int dbSelected = -1;
-
+    Map<String, Module> excludeModuleMap = new TreeMap<String, Module>();
+    Map<String, Module> sourceModuleMap = new TreeMap<String, Module>();
+    Map<String, Module> binaryModuleMap = new TreeMap<String, Module>();
 
     public Dashboard() {
         setSize(new Dimension(1000, 697));
@@ -62,7 +63,7 @@ public class Dashboard extends JDialog {
                     } else if ("exclude".equals(selectedItem)) {
                         excludesb.append(moduleName.getText());
                         excludesb.append(",");
-                    }else {
+                    } else {
                         binarysb.append(moduleName.getText());
                         binarysb.append(",");
                     }
@@ -70,12 +71,9 @@ public class Dashboard extends JDialog {
                 result.sourceModules = sourcesb.toString();
                 result.excludeModules = excludesb.toString();
                 result.binaryModules = binarysb.toString();
-                result.fwkSelected = fwkSelected;
-                result.sbSelected = sbSelected;
-                result.dbSelected = dbSelected;
                 close = okl.call(result);
             }
-            if (close){
+            if (close) {
                 dispose();
             }
         });
@@ -102,33 +100,114 @@ public class Dashboard extends JDialog {
         fwbg.add(fwkrb0);
         fwbg.add(fwkrb1);
         fwkrb0.addActionListener(e -> {
-            fwkSelected  = 0;
+            foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
+                Module module = binaryModuleMap.get(moduleNameJLabel.getText());
+                if (module !=null && "fwk".equals(module.group)){
+                    binaryModuleMap.remove(module.simpleName);
+                    sourceModuleMap.put(module.simpleName,module);
+                    moduleNameJLabel.setForeground(JBColor.GREEN);
+                    moduleStateComboBox.setSelectedIndex(0);
+                }
+            });
+
         });
-        fwkrb0.addActionListener(e -> {
-            fwkSelected = 1;
+        fwkrb1.addActionListener(e -> {
+            foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
+                Module module = sourceModuleMap.get(moduleNameJLabel.getText());
+                if (module !=null && "fwk".equals(module.group)){
+                    sourceModuleMap.remove(module.simpleName);
+                    binaryModuleMap.put(module.simpleName,module);
+                    moduleNameJLabel.setForeground(JBColor.ORANGE);
+                    moduleStateComboBox.setSelectedIndex(1);
+                }
+            });
         });
         sbbg = new ButtonGroup();
         sbbg.add(sbrb0);
         sbbg.add(sbrb1);
         sbbg.add(sbrb2);
         sbrb0.addActionListener(e -> {
-            sbSelected = 0;
+            foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
+                Module module = binaryModuleMap.get(moduleNameJLabel.getText());
+                if (module ==null) module = excludeModuleMap.get(moduleNameJLabel.getText());
+                if (module !=null && !"fwk".equals(module.group) && module.dynamic == null){
+                    binaryModuleMap.remove(module.simpleName);
+                    excludeModuleMap.remove(module.simpleName);
+                    sourceModuleMap.put(module.simpleName,module);
+                    moduleNameJLabel.setForeground(JBColor.GREEN);
+                    moduleStateComboBox.setSelectedIndex(0);
+                }
+            });
         });
         sbrb1.addActionListener(e -> {
-            sbSelected = 1;
+            foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
+                Module module = sourceModuleMap.get(moduleNameJLabel.getText());
+                if (module ==null) module = excludeModuleMap.get(moduleNameJLabel.getText());
+                if (module !=null && !"fwk".equals(module.group) && module.dynamic == null){
+                    sourceModuleMap.remove(module.simpleName);
+                    excludeModuleMap.remove(module.simpleName);
+                    binaryModuleMap.put(module.simpleName,module);
+                    moduleNameJLabel.setForeground(JBColor.ORANGE);
+                    moduleStateComboBox.setSelectedIndex(1);
+                }
+            });
         });
         sbrb2.addActionListener(e -> {
-            sbSelected = 0;
+            foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
+                Module module = sourceModuleMap.get(moduleNameJLabel.getText());
+                if (module == null) module = binaryModuleMap.get(moduleNameJLabel.getText());
+                if (module !=null && !"fwk".equals(module.group) && module.dynamic == null){
+                    sourceModuleMap.remove(module.simpleName);
+                    binaryModuleMap.remove(module.simpleName);
+                    excludeModuleMap.put(module.simpleName,module);
+                    moduleNameJLabel.setForeground(JBColor.RED);
+                    if ("home".equals(module.group)){
+                        moduleStateComboBox.setSelectedIndex(1);
+                    }else {
+                        moduleStateComboBox.setSelectedIndex(2);
+                    }
+                }
+            });
         });
         dbbg = new ButtonGroup();
         dbbg.add(dbrb0);
         dbbg.add(dbrb1);
         dbrb0.addActionListener(e -> {
-            dbSelected = 0;
+            foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
+                Module module = binaryModuleMap.get(moduleNameJLabel.getText());
+                if (module !=null && module.dynamic != null){
+                    binaryModuleMap.remove(module.simpleName);
+                    sourceModuleMap.put(module.simpleName,module);
+                    moduleNameJLabel.setForeground(JBColor.GREEN);
+                    moduleStateComboBox.setSelectedIndex(0);
+                }
+            });
         });
         dbrb1.addActionListener(e -> {
-            dbSelected = 1;
+            foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
+                Module module = sourceModuleMap.get(moduleNameJLabel.getText());
+                if (module !=null && module.dynamic != null){
+                    sourceModuleMap.remove(module.simpleName);
+                    binaryModuleMap.put(module.simpleName,module);
+                    moduleNameJLabel.setForeground(JBColor.ORANGE);
+                    moduleStateComboBox.setSelectedIndex(1);
+                }
+            });
+
         });
+    }
+    interface onEach{
+        void call(JLabel moduleNameJLabel,ComboBox<String> moduleStateComboBox);
+    }
+    public void foreachModules(onEach o){
+        int componentCount = allModulePanel.getComponentCount();
+        for (int i = 0; i < componentCount; ++i) {
+            JPanel fieldText = (JPanel) allModulePanel.getComponent(i);
+            JLabel moduleNameJLabel = (JLabel) fieldText.getComponent(0);
+            ComboBox<String> comboBox = (ComboBox<String>) fieldText.getComponent(1);
+            o.call(moduleNameJLabel,comboBox);
+
+        }
     }
 
     protected OkListener okl = null;
@@ -138,9 +217,11 @@ public class Dashboard extends JDialog {
     public interface OkListener {
         boolean call(Result result);
     }
+
     public interface CancelListener {
         void call();
     }
+
     public void setOKListener(OkListener l) {
         this.okl = l;
     }
@@ -150,20 +231,24 @@ public class Dashboard extends JDialog {
     }
 
     public void bindExcludePanel(Map<String, Module> moduleMap) {
+        excludeModuleMap = moduleMap;
         bindPanel(moduleMap, entry -> {
-            JPanel fieldText = createFieldText(entry, Color.red, "exclude");
+            JPanel fieldText = createFieldText(entry, JBColor.RED, "exclude");
             return fieldText;
         });
     }
 
     public void bindSourcePanel(Map<String, Module> moduleMap) {
-        bindPanel(moduleMap, entry -> createFieldText(entry, Color.green, "source"));
+        sourceModuleMap = moduleMap;
+        bindPanel(moduleMap, entry -> createFieldText(entry, JBColor.GREEN, "source"));
     }
 
     public void bindBinaryPanel(Map<String, Module> moduleMap) {
-        bindPanel(moduleMap, entry -> createFieldText(entry, Color.orange, "binary"));
+        binaryModuleMap = moduleMap;
+        bindPanel(moduleMap, entry -> createFieldText(entry, JBColor.ORANGE, "binary"));
     }
-    public void bindBuildVariants(String activeBuildVariant,List<String> variants){
+
+    public void bindBuildVariants(String activeBuildVariant, List<String> variants) {
         this.activeBuildVariant = activeBuildVariant;
         GridBagConstraints bagConstraints = new GridBagConstraints();
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -173,7 +258,7 @@ public class Dashboard extends JDialog {
         jLabel.setText(activeBuildVariant);
         jLabel.setHorizontalAlignment(SwingConstants.CENTER);
         jLabel.setFont(new Font("黑体", 1, 12));
-        jLabel.setForeground(Color.green);
+        jLabel.setForeground(JBColor.GREEN);
         buildVariantsPanel.add(jLabel, bagConstraints);
         ComboBoxModel<String> comboBoxModel = new CollectionComboBoxModel<>(variants);
         ComboBox<String> comboBox = new ComboBox<>(comboBoxModel);
@@ -187,7 +272,8 @@ public class Dashboard extends JDialog {
         buildVariantsPanel.add(comboBox, bagConstraints);
 
     }
-//    public void bindBuildArtifacts(String buildArtifact, List<String> buildArtifacts){
+
+    //    public void bindBuildArtifacts(String buildArtifact, List<String> buildArtifacts){
 //        this.activeBuildArtifact = buildArtifact;
 //        GridBagConstraints bagConstraints = new GridBagConstraints();
 //        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -250,10 +336,10 @@ public class Dashboard extends JDialog {
         ComboBoxModel<String> comboBoxModel;
         if ("fwk".equalsIgnoreCase(entry.getValue().group) || "home".equalsIgnoreCase(entry.getValue().group)) {
             comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "binary"));
-        }else if ("plugin".equalsIgnoreCase(entry.getValue().format)){
+        } else if ("plugin".equalsIgnoreCase(entry.getValue().format)) {
             comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "exclude"));
         } else {
-            comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "binary","exclude"));
+            comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "binary", "exclude"));
         }
         ComboBox<String> comboBox = new ComboBox<>(comboBoxModel);
         comboBox.setSelectedItem(defaultGroupName);
@@ -261,11 +347,11 @@ public class Dashboard extends JDialog {
         comboBox.setEditable(true);
         comboBox.addItemListener(e -> {
             if ("source".equals(comboBox.getSelectedItem())) {
-                jLabel.setForeground(Color.green);
+                jLabel.setForeground(JBColor.GREEN);
             } else if ("exclude".equals(comboBox.getSelectedItem())) {
-                jLabel.setForeground(Color.red);
+                jLabel.setForeground(JBColor.RED);
             } else if ("binary".equals(comboBox.getSelectedItem())) {
-                jLabel.setForeground(Color.orange);
+                jLabel.setForeground(JBColor.ORANGE);
             }
         });
         jPanel.add(comboBox, bagConstraints);
