@@ -33,6 +33,7 @@ public class Dashboard extends JDialog {
     private ButtonGroup dbbg;
     private JRadioButton dbrb0;
     private JRadioButton dbrb1;
+    private JRadioButton dbrb2;
     Map<String, Module> excludeModuleMap = new TreeMap<String, Module>();
     Map<String, Module> sourceModuleMap = new TreeMap<String, Module>();
     Map<String, Module> binaryModuleMap = new TreeMap<String, Module>();
@@ -102,9 +103,9 @@ public class Dashboard extends JDialog {
         fwkrb0.addActionListener(e -> {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = binaryModuleMap.get(moduleNameJLabel.getText());
-                if (module !=null && "fwk".equals(module.group)){
+                if (module != null && "fwk".equals(module.group)) {
                     binaryModuleMap.remove(module.simpleName);
-                    sourceModuleMap.put(module.simpleName,module);
+                    sourceModuleMap.put(module.simpleName, module);
                     moduleNameJLabel.setForeground(JBColor.GREEN);
                     moduleStateComboBox.setSelectedIndex(0);
                 }
@@ -114,9 +115,9 @@ public class Dashboard extends JDialog {
         fwkrb1.addActionListener(e -> {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = sourceModuleMap.get(moduleNameJLabel.getText());
-                if (module !=null && "fwk".equals(module.group)){
+                if (module != null && "fwk".equals(module.group)) {
                     sourceModuleMap.remove(module.simpleName);
-                    binaryModuleMap.put(module.simpleName,module);
+                    binaryModuleMap.put(module.simpleName, module);
                     moduleNameJLabel.setForeground(JBColor.ORANGE);
                     moduleStateComboBox.setSelectedIndex(1);
                 }
@@ -129,11 +130,11 @@ public class Dashboard extends JDialog {
         sbrb0.addActionListener(e -> {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = binaryModuleMap.get(moduleNameJLabel.getText());
-                if (module ==null) module = excludeModuleMap.get(moduleNameJLabel.getText());
-                if (module !=null && !"fwk".equals(module.group) && module.dynamic == null){
+                if (module == null) module = excludeModuleMap.get(moduleNameJLabel.getText());
+                if (module != null && !"fwk".equals(module.group) && module.dynamic == null) {
                     binaryModuleMap.remove(module.simpleName);
                     excludeModuleMap.remove(module.simpleName);
-                    sourceModuleMap.put(module.simpleName,module);
+                    sourceModuleMap.put(module.simpleName, module);
                     moduleNameJLabel.setForeground(JBColor.GREEN);
                     moduleStateComboBox.setSelectedIndex(0);
                 }
@@ -142,11 +143,11 @@ public class Dashboard extends JDialog {
         sbrb1.addActionListener(e -> {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = sourceModuleMap.get(moduleNameJLabel.getText());
-                if (module ==null) module = excludeModuleMap.get(moduleNameJLabel.getText());
-                if (module !=null && !"fwk".equals(module.group) && module.dynamic == null){
+                if (module == null) module = excludeModuleMap.get(moduleNameJLabel.getText());
+                if (module != null && !"fwk".equals(module.group) && module.dynamic == null) {
                     sourceModuleMap.remove(module.simpleName);
                     excludeModuleMap.remove(module.simpleName);
-                    binaryModuleMap.put(module.simpleName,module);
+                    binaryModuleMap.put(module.simpleName, module);
                     moduleNameJLabel.setForeground(JBColor.ORANGE);
                     moduleStateComboBox.setSelectedIndex(1);
                 }
@@ -156,15 +157,17 @@ public class Dashboard extends JDialog {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = sourceModuleMap.get(moduleNameJLabel.getText());
                 if (module == null) module = binaryModuleMap.get(moduleNameJLabel.getText());
-                if (module !=null && !"fwk".equals(module.group) && module.dynamic == null){
+                if (module != null && !"fwk".equals(module.group) && module.dynamic == null) {
                     sourceModuleMap.remove(module.simpleName);
                     binaryModuleMap.remove(module.simpleName);
-                    excludeModuleMap.put(module.simpleName,module);
-                    moduleNameJLabel.setForeground(JBColor.RED);
-                    if ("home".equals(module.group)){
+                    if ("home".equals(module.group)) {
+                        moduleNameJLabel.setForeground(JBColor.ORANGE);
                         moduleStateComboBox.setSelectedIndex(1);
-                    }else {
+                        binaryModuleMap.put(module.simpleName, module);
+                    } else {
+                        moduleNameJLabel.setForeground(JBColor.RED);
                         moduleStateComboBox.setSelectedIndex(2);
+                        excludeModuleMap.put(module.simpleName, module);
                     }
                 }
             });
@@ -172,12 +175,15 @@ public class Dashboard extends JDialog {
         dbbg = new ButtonGroup();
         dbbg.add(dbrb0);
         dbbg.add(dbrb1);
+        dbbg.add(dbrb2);
         dbrb0.addActionListener(e -> {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = binaryModuleMap.get(moduleNameJLabel.getText());
-                if (module !=null && module.dynamic != null){
+                if (module == null) module = excludeModuleMap.get(moduleNameJLabel.getText());
+                if (module != null && module.dynamic != null) {
                     binaryModuleMap.remove(module.simpleName);
-                    sourceModuleMap.put(module.simpleName,module);
+                    excludeModuleMap.remove(module.simpleName);
+                    sourceModuleMap.put(module.simpleName, module);
                     moduleNameJLabel.setForeground(JBColor.GREEN);
                     moduleStateComboBox.setSelectedIndex(0);
                 }
@@ -186,26 +192,44 @@ public class Dashboard extends JDialog {
         dbrb1.addActionListener(e -> {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = sourceModuleMap.get(moduleNameJLabel.getText());
-                if (module !=null && module.dynamic != null){
+                if (module == null) module = excludeModuleMap.get(moduleNameJLabel.getText());
+                if (module != null && module.dynamic != null) {
                     sourceModuleMap.remove(module.simpleName);
-                    binaryModuleMap.put(module.simpleName,module);
+                    excludeModuleMap.remove(module.simpleName);
+                    binaryModuleMap.put(module.simpleName, module);
                     moduleNameJLabel.setForeground(JBColor.ORANGE);
                     moduleStateComboBox.setSelectedIndex(1);
                 }
             });
 
         });
+        dbrb2.addActionListener(e -> {
+            foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
+                Module module = sourceModuleMap.get(moduleNameJLabel.getText());
+                if (module == null) module = binaryModuleMap.get(moduleNameJLabel.getText());
+                if (module != null && module.dynamic != null) {
+                    sourceModuleMap.remove(module.simpleName);
+                    binaryModuleMap.remove(module.simpleName);
+                    excludeModuleMap.put(module.simpleName, module);
+                    moduleNameJLabel.setForeground(JBColor.YELLOW);
+                    moduleStateComboBox.setSelectedIndex(2);
+                }
+            });
+
+        });
     }
-    interface onEach{
-        void call(JLabel moduleNameJLabel,ComboBox<String> moduleStateComboBox);
+
+    interface onEach {
+        void call(JLabel moduleNameJLabel, ComboBox<String> moduleStateComboBox);
     }
-    public void foreachModules(onEach o){
+
+    public void foreachModules(onEach o) {
         int componentCount = allModulePanel.getComponentCount();
         for (int i = 0; i < componentCount; ++i) {
             JPanel fieldText = (JPanel) allModulePanel.getComponent(i);
             JLabel moduleNameJLabel = (JLabel) fieldText.getComponent(0);
             ComboBox<String> comboBox = (ComboBox<String>) fieldText.getComponent(1);
-            o.call(moduleNameJLabel,comboBox);
+            o.call(moduleNameJLabel, comboBox);
 
         }
     }
@@ -245,7 +269,7 @@ public class Dashboard extends JDialog {
 
     public void bindBinaryPanel(Map<String, Module> moduleMap) {
         binaryModuleMap = moduleMap;
-        bindPanel(moduleMap, entry -> createFieldText(entry, JBColor.ORANGE, "binary"));
+        bindPanel(moduleMap, entry -> createFieldText(entry, JBColor.YELLOW, "binary"));
     }
 
     public void bindBuildVariants(String activeBuildVariant, List<String> variants) {
@@ -351,7 +375,7 @@ public class Dashboard extends JDialog {
             } else if ("exclude".equals(comboBox.getSelectedItem())) {
                 jLabel.setForeground(JBColor.RED);
             } else if ("binary".equals(comboBox.getSelectedItem())) {
-                jLabel.setForeground(JBColor.ORANGE);
+                jLabel.setForeground(JBColor.YELLOW);
             }
         });
         jPanel.add(comboBox, bagConstraints);
