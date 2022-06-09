@@ -9,9 +9,22 @@ import org.apache.commons.io.FileUtils;
 import org.gradle.internal.impldep.com.google.common.io.Files;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.jar.JarEntry;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Copyright ® $ 2017
@@ -131,17 +144,118 @@ public abstract class AbsInsertCodeTransform extends AbsTransform {
     protected void onFull(int where, File src, File dest) throws Exception {
         switch (where) {
             case DIR: {
-//                scanDir(src, dest);
+                insertDir(src, dest);
                 FileUtils.copyDirectory(src, dest);
                 break;
             }
             case JAR: {
-//                scanJar(src, dest, ClassInfo.BIRTH_JAR, null);
+                insertJar(src, dest, ClassInfo.BIRTH_JAR, null);
                 FileUtils.copyFile(src, dest);
                 break;
             }
             default:
                 throw new UnsupportedOperationException("不存在 " + where);
         }
+    }
+
+    void insertJar(File srcJar, File destJar, int classStatus, List<ZipEntry> jarEntries) {
+        File optZipFile = new File(srcJar.getParent(), srcJar.getName() + ".opt");
+        if (optZipFile.exists()) {
+            optZipFile.delete();
+        }
+        try (ZipOutputStream optZipFos = new ZipOutputStream(new FileOutputStream(optZipFile)); ZipFile theZip = new ZipFile(srcJar)) {
+            List<? extends ZipEntry> entries;
+            if (jarEntries != null) {
+                entries = jarEntries;
+            } else {
+                entries = Collections.list(theZip.entries());
+            }
+            for (ZipEntry zipEntry : entries) {
+                try (InputStream inputStream = theZip.getInputStream(zipEntry)) {
+                    String canonicalName = F.canonicalName(zipEntry);
+                    String fileName = zipEntry.getName().substring(zipEntry.getName().lastIndexOf("/") + 1);
+                    //创建一个新的zip entry
+                    optZipFos.putNextEntry(new ZipEntry(zipEntry.getName()));
+                    if (canonicalName == null || canonicalName.isEmpty()
+                            || "R.class".equals(fileName)
+                            || "BuildConfig.class".equals(fileName)
+                            || fileName.startsWith("R$")
+                            //                            || canonicalName.startsWith("androidx")
+                            //                            || canonicalName.startsWith("android")
+                            //                            || canonicalName.startsWith("kotlin")
+                            || canonicalName.startsWith("org.bouncycastle")
+                    ) {
+                        int len;
+                        byte[] buffer = new byte[1024];
+                        while ((len = (inputStream.read(buffer))) != -1) {
+                            optZipFos.write(len);
+                        }
+                    } else {
+                        byte[] codes = onInsertCode(new ClassInfo(classStatus, destJar, inputStream, canonicalName));
+                        if (codes.length != 0) {
+                            P.info(codes.length + " lenght");
+                            optZipFos.write(codes);
+                        } else {
+                            int len;
+                            byte[] buffer = new byte[1024];
+                            while ((len = (inputStream.read(buffer))) != -1) {
+                                optZipFos.write(len);
+                            }
+                        }
+                    }
+                    optZipFos.closeEntry();
+                } catch (Exception e) {
+                    P.error(e.getLocalizedMessage());
+                }
+            }
+        } catch (Exception e) {
+            P.error(e.getLocalizedMessage());
+            return;
+        }
+        if (srcJar.exists()) {
+            srcJar.delete();
+        }
+        optZipFile.renameTo(srcJar);
+
+    }
+
+    void insertDir(File srcRootDir, File destRootDir) throws IOException {
+        java.nio.file.Files.walkFileTree(Paths.get(srcRootDir.getAbsolutePath()), new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                String canonicalName = F.canonicalName(srcRootDir, file.toFile());
+                if (canonicalName == null || canonicalName.isEmpty()
+                        || "R.class".equals(file.getFileName().toString())
+                        || "BuildConfig.class".equals(file.getFileName().toString())
+                        || file.getFileName().toString().startsWith("R$")
+                ) {
+                    return super.visitFile(file, attrs);
+                }
+                FileOutputStream fos = null;
+                try {
+                    byte[] codes = new byte[0];
+                    FileInputStream fis = null;
+                    try {
+                        fis = new FileInputStream(file.toFile());
+                        codes = onInsertCode(new ClassInfo(ClassInfo.BIRTH_DIR, destRootDir, fis, canonicalName));
+                    } catch (Exception e) {
+                        P.error(e.getLocalizedMessage());
+                    } finally {
+                        if (fis != null) fis.close();
+                    }
+                    if (codes.length != 0) {
+                        fos = new FileOutputStream(file.toFile());
+                        fos.write(codes);
+                    }
+                } catch (Exception e) {
+                    P.error(e.getLocalizedMessage());
+                } finally {
+                    if (fos != null) {
+                        fos.close();
+                    }
+                }
+                return super.visitFile(file, attrs);
+            }
+        });
     }
 }

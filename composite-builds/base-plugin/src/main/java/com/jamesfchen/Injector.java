@@ -17,6 +17,12 @@ public class Injector {
         byte[] call(int where, InputStream inputStream);
     }
 
+    /**
+     * 存在JarFile 存在安全问题，需要使用ZipFile
+     * @param info
+     * @param closure
+     */
+    @Deprecated
     public static void injectCode(ClassInfo info, Callback closure) {
         if (info.classStream != null) {
             JarFile jarFile = null;

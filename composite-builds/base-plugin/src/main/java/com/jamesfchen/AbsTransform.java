@@ -205,6 +205,8 @@ public abstract class AbsTransform extends Transform {
             P.info("Transform cost : " + cost + " ms  isIncremental:" + isIncremental);
         } catch (Exception e) {
             P.error(e.getLocalizedMessage());
+        }finally {
+            executor.shutdownNow();
         }
     }
 

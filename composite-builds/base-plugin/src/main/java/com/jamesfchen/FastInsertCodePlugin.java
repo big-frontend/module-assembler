@@ -10,12 +10,6 @@ import org.gradle.api.Project;
 import java.util.Set;
 
 public abstract class FastInsertCodePlugin extends AbsInsertCodeTransform implements Plugin<Project> {
-    protected abstract String pluginName();
-
-    @Override
-    public String getName() {
-        return pluginName() + "Transform";
-    }
 
     @Override
     public Set<QualifiedContent.ContentType> getInputTypes() {
@@ -29,6 +23,7 @@ public abstract class FastInsertCodePlugin extends AbsInsertCodeTransform implem
 
     @Override
     public void apply(Project project) {
+        P.debug("project[" + project + "] apply " + this.getClass().getSimpleName());
         if (project.getPlugins().hasPlugin("com.android.application")) {
             AppExtension android = (AppExtension) project.getExtensions().getByType(AppExtension.class);
 //            //groovy中不能使用匿名内部类，否则会报错
