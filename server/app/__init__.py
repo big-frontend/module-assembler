@@ -14,6 +14,33 @@ from werkzeug.utils import import_string
 author:hawks jamesf
 '''
 
+from app import db
+from app import auth
+from app import location
+from app import blog
+from app import home
+from flask_restful import Api
+
+
+def register_blueprint(app):
+    app.register_blueprint(auth.bp)
+    app.register_blueprint(location.bp)
+    app.register_blueprint(blog.bp)
+    app.register_blueprint(home.bp)
+    app.add_url_rule('/', endpoint='index')
+
+
+def register_logging(app):
+    """
+    logging的配置有两种：dictConfig配置表 与 代码配置
+    """
+    if not app.debug:
+        app.logger.addHandler(mail_handler)
+
+
+def register_commands(app):
+    db.oncreate_app(app)
+
 
 def create_app(config_file=None, config_object=DevelopmentConfig):
     app = Flask(__name__, instance_relative_config=True)
@@ -44,28 +71,11 @@ def create_app(config_file=None, config_object=DevelopmentConfig):
         dsn="https://c659bb3641e14a86b54a0d3db91ff7ea@sentry.io/2495776",
         integrations=[FlaskIntegration()]
     )
-
-    if not app.debug:
-        app.logger.addHandler(mail_handler)
     # @app.route('/')
     # def hello_world():
     #     return 'Hello World!'
+    register_commands(app)
+    register_blueprint(app)
+    register_logging(app)
 
-    from . import db
-    db.oncreate_app(app)
-
-    from . import auth
-    app.register_blueprint(auth.bp)
-
-    from . import location
-    app.register_blueprint(location.bp)
-
-    from . import blog
-    app.register_blueprint(blog.bp)
-
-    from . import home
-    app.register_blueprint(home.bp)
-    app.add_url_rule('/', endpoint='index')
     return app
-
-
