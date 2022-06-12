@@ -1,7 +1,5 @@
 # coding=utf-8
 from app import create_app
-from config import ProductionConfig, DevelopmentConfig
-import logging
 
 '''
 - 127.0.0.1：回环地址。该地址指电脑本身，主要预留测试本机的TCP/IP协议是否正常。只要使用这个地址发送数据，则数据包不会出现在网络传输过程中。
@@ -23,8 +21,8 @@ IPV4中，0.0.0.0地址被用于表示一个无效的，未知的或者不可用
 '''
 def main():
     # app = create_app(config="settings.yaml")
-    app = create_app(config_file='prod_config.py',
-                     config_object=DevelopmentConfig)
+    print("正式服务启动"+"."*100)
+    app = create_app(config_file='prod_config.py')
     app.run(host='0.0.0.0', port=9000)
 if __name__ == '__main__':
     main()

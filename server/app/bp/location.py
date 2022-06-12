@@ -1,20 +1,9 @@
 # -*- coding: utf-8 -*-
-import functools
 from flask import (
-    Blueprint, flash, redirect, request, session, url_for,
-    template_rendered, render_template,
-    g, current_app, appcontext_tearing_down, appcontext_popped, appcontext_pushed, request_tearing_down, json
+    Blueprint, request, json
 )
-from contextlib import contextmanager
-from werkzeug.security import check_password_hash, generate_password_hash
-from werkzeug.exceptions import HTTPException, BadRequest, ClientDisconnected, Unauthorized, abort
 
-from app.db import get_db
-from app.auth import signin_required
-import logging
-from logging.handlers import SMTPHandler
-import click
-from flask.cli import with_appcontext
+from app.storage import get_db
 
 bp = Blueprint('location', __name__, url_prefix='/location')
 

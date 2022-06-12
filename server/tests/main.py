@@ -1,5 +1,5 @@
 from app import create_app
-from config.__init__ import TestingConfig
+from app.config import TestingConfig
 
 '''
 - 127.0.0.1：回环地址。该地址指电脑本身，主要预留测试本机的TCP/IP协议是否正常。只要使用这个地址发送数据，则数据包不会出现在网络传输过程中。

@@ -1,64 +1,52 @@
-import os
-from flask import Flask
-import sentry_sdk
-from sentry_sdk.integrations.flask import FlaskIntegration
-import logging
-
-from flask.logging import default_handler
-
-from config import DevelopmentConfig, mail_handler
-
-from werkzeug.utils import import_string
-
 '''
 author:hawks jamesf
 '''
 
-from app import db
-from app import auth
-from app import location
-from app import blog
-from app import home
-from flask_restful import Api
+import os
+
+import sentry_sdk
+from flask import Flask, current_app
+from flask_login import LoginManager
+
+from sentry_sdk.integrations.flask import FlaskIntegration
+from app import bp, api, storage
+from flask_wtf.csrf import CSRFProtect
+from app.config import DevelopmentConfig
+from app.storage.user import AnonymousUser, User
+from app.util import l
+from app.storage import user as user_dao
 
 
-def register_blueprint(app):
-    app.register_blueprint(auth.bp)
-    app.register_blueprint(location.bp)
-    app.register_blueprint(blog.bp)
-    app.register_blueprint(home.bp)
-    app.add_url_rule('/', endpoint='index')
+def flask_login_init(app):
+    csrf_protect = CSRFProtect()
+    csrf_protect.init_app(app)
+    login_manager = LoginManager()
+    login_manager.session_protection = "strong"
+    login_manager.anonymous_user = AnonymousUser
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        current_app.logger.info(user_id)
+        # return user_dao.get(user_id=user_id)
+        return User.query.get(user_id)
+    @login_manager.unauthorized_handler
+    def unauthorized():
+        return "未授权"
 
 
-def register_logging(app):
-    """
-    logging的配置有两种：dictConfig配置表 与 代码配置
-    """
-    if not app.debug:
-        app.logger.addHandler(mail_handler)
-
-
-def register_commands(app):
-    db.oncreate_app(app)
-
-
-def create_app(config_file=None, config_object=DevelopmentConfig):
+def create_app(config_file=None, config_object=DevelopmentConfig()):
     app = Flask(__name__, instance_relative_config=True)
-
     # 优先从文件区配置，有利于动态改变正在运行的app配置
-    # if config_file is not  None:
-    if config_object:
+    if config_file:
+        l.i("读取config_file")
+        app.config.from_pyfile(config_file, silent=True)
+    else:
         # 1.cfg =import_string('config.DevelopmentConfig')
         # app.config.from_object(cfg)
         # 2 app.config.from_object('config.DevelopmentConfig')
+        l.i("读取config_object")
         app.config.from_object(config_object)
-
-    else:
-        app.config.from_pyfile(config_file, silent=True)
-
-    logging.info('flask env : {}'.format(app.config['SECRET_KEY']))
-    app.config.from_mapping(SECRET_KEY='dev' if app.config['SECRET_KEY'] is None else app.config['SECRET_KEY'],
-                            DATABASE=os.path.join(app.instance_path, 'app.sqlite'))
     # app.config.from_envvar()
     # app.config.from_json()
     # app.config.update()
@@ -71,11 +59,12 @@ def create_app(config_file=None, config_object=DevelopmentConfig):
         dsn="https://c659bb3641e14a86b54a0d3db91ff7ea@sentry.io/2495776",
         integrations=[FlaskIntegration()]
     )
-    # @app.route('/')
-    # def hello_world():
-    #     return 'Hello World!'
-    register_commands(app)
-    register_blueprint(app)
-    register_logging(app)
 
+    # 注册路由
+    api.init(app)
+    bp.init(app)
+    # 初始化数据库
+    storage.init(app)
+    l.init(app)
+    flask_login_init(app)
     return app

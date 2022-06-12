@@ -9,8 +9,8 @@ from flask import (
 from flask.cli import with_appcontext
 from werkzeug.exceptions import HTTPException, BadRequest, ClientDisconnected, Unauthorized, abort
 
-from app.auth import signin_required
-from app.db import get_db
+from app.bp.auth import signin_required
+from app.storage import get_db
 
 bp = Blueprint('blog', __name__, cli_group=None)
 
@@ -172,10 +172,10 @@ class UserApi(MethodView):
     decorators = [signin_required]
 
     def get(self):
-        print('user api get')
+        print('user bp get')
 
     def post(self):
-        print('user api post')
+        print('user bp post')
 
 
 bp.add_url_rule('/userapi/', view_func=UserApi.as_view('userapi'))

@@ -12,8 +12,19 @@ name = "tsinghua"
 flask = "*"
 sentry-sdk = "*"
 flask-restful = "*"
+flask-login = "*"
+gitpython = "*"
+flask-sqlalchemy = "*"
+sqlalchemy = "*"
+flask-wtf = "*"
+wtforms = "*"
+gunicorn = "*"
+redis = "*"
+email-validator = "*"
+flask-mail = "*"
 
 [dev-packages]
+python-dotenv = "*"
 
 [requires]
 python_version = "3.8"

@@ -1,21 +1,4 @@
-from .logging import logger_dict
-from logging.config import dictConfig
-from logging.handlers import SMTPHandler
-import logging
-
-# load logging configuration
-dictConfig(logger_dict)
-
-# load mail configuration
-mail_handler = SMTPHandler(
-    mailhost='127.0.0.1',
-    fromaddr='server-error@example.com',
-    toaddrs=['hawksjamesf@gmail.com'],
-    subject='Application Error'
-)
-mail_handler.setLevel(logging.ERROR)
-mail_handler.setFormatter(logging.Formatter(
-    '[%(asctime)s] %(levelname)s in %(module)s: %(message)s'))
+import os
 
 
 class Config(object):
@@ -31,6 +14,11 @@ class Config(object):
     @property
     def DATABASE_URI(self):  # Note: all caps
         return 'mysql://user@{}/foo'.format(self.DB_SERVER)
+
+    SECRET_KEY = os.environ.get('B_SECRET', 'secret-key')
+    WTF_CSRF_ENABLED = False
+    AVATAR_PATH = '/avatar/'
+    COOKIE_ENABLE = False
 
 
 class ProductionConfig(Config):
@@ -51,3 +39,6 @@ class TestingConfig(Config):
     TESTING = True
     DB_SERVER = 'localhost'
     DATABASE_URI = 'sqlite:///:memory:'
+
+    # 登录cookie 防止退出浏览器重新登录
+    COOKIE_ENABLE = True

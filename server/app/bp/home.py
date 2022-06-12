@@ -4,10 +4,10 @@ from flask import (
     g, current_app
 )
 
-bp = Blueprint('home', __name__, cli_group=None)
+bp = Blueprint('home', __name__, cli_group=None, url_prefix='/api')
 
 
-@bp.route('/')
+@bp.route('/tab1')
 def index():
     return render_template('tab1/index.html')
 
