@@ -4,6 +4,7 @@ import com.android.build.api.transform.QualifiedContent;
 import com.android.build.gradle.AppExtension;
 import com.android.build.gradle.internal.pipeline.TransformManager;
 
+import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
@@ -24,6 +25,8 @@ public abstract class FastInsertCodePlugin extends AbsInsertCodeTransform implem
     @Override
     public void apply(Project project) {
         P.debug("project[" + project + "] apply " + this.getClass().getSimpleName());
+        //如果使用plugins{}使用插件， registerTransform在agp7中需要在afterEvaluate中被注册
+//        project.afterEvaluate(theProject -> {
         if (project.getPlugins().hasPlugin("com.android.application")) {
             AppExtension android = (AppExtension) project.getExtensions().getByType(AppExtension.class);
 //            //groovy中不能使用匿名内部类，否则会报错
@@ -33,6 +36,7 @@ public abstract class FastInsertCodePlugin extends AbsInsertCodeTransform implem
         }
 //        project.getExtensions().findByType(BaseExtension.class)
 //                .registerTransform(this);
+//        });
     }
 
 }

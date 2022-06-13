@@ -117,6 +117,8 @@ gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
     @Override
     void afterEvaluate(Project project, ProjectState state) {
         //if (!project.subprojects.isEmpty())return
+        //all模式下不发布组件
+        if (gradle.ext.activeBuildVariant == 'all') return
         def simpleName = project.gradle.sourcePath2SimpleNameMap[project.path]
         if (simpleName) {
             def m = project.gradle.sourceModuleMap[simpleName]

@@ -25,6 +25,8 @@ public abstract class ScanClassPlugin extends AbsScanClassTransform implements P
     @Override
     public void apply(Project project) {
         P.debug("project[" + project + "] apply " + this.getClass().getSimpleName());
+        //如果使用plugins{}使用插件， registerTransform在agp7中需要在afterEvaluate中被注册
+//        project.afterEvaluate(theProject -> {
         if (project.getPlugins().hasPlugin("com.android.application")) {
             AppExtension android = (AppExtension) project.getExtensions().getByType(AppExtension.class);
             //groovy中不能使用匿名内部类，否则会报错
@@ -34,6 +36,7 @@ public abstract class ScanClassPlugin extends AbsScanClassTransform implements P
         }
 //        project.getExtensions().findByType(BaseExtension.class)
 //                .registerTransform(this);
+//        });
     }
 
 

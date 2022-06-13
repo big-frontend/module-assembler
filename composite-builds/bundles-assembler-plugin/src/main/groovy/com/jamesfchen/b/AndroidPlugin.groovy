@@ -56,19 +56,20 @@ abstract class AndroidPlugin extends BasePlugin {
                     proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
                 }
             }
-            variantFilter { variant ->
-                def flavors = variant.flavors*.name
-                def buildType = variant.buildType.name
-                def a = project.gradle.activeBuildVariant.toLowerCase()
-                if (!a.contains(buildType)) {
-                    setIgnore(true)
-                }
-                for (def flavor in flavors) {
-                    if (!a.contains(flavor)) {
+            def a = project.gradle.activeBuildVariant
+            if (a != 'all' && a in project.gradle.ext.buildVariants) {
+                variantFilter { variant ->
+                    def flavors = variant.flavors*.name
+                    def buildType = variant.buildType.name
+                    if (!a.toLowerCase().contains(buildType)) {
                         setIgnore(true)
                     }
+                    for (def flavor in flavors) {
+                        if (!a.toLowerCase().contains(flavor)) {
+                            setIgnore(true)
+                        }
+                    }
                 }
-
             }
         }
     }
