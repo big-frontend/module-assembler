@@ -7,68 +7,74 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 public class Injector {
     public interface Callback {
         byte[] call(int where, InputStream inputStream);
     }
 
-    /**
-     * 存在JarFile 存在安全问题，需要使用ZipFile
-     * @param info
-     * @param closure
-     */
-    @Deprecated
     public static void injectCode(ClassInfo info, Callback closure) {
         if (info.classStream != null) {
-            JarFile jarFile = null;
-            try {
-                jarFile = new JarFile(info.mather);
-                File optJarFile = new File(info.mather.getParent(), info.mather.getName() + ".opt");
-                if (optJarFile.exists()) {
-                    optJarFile.delete();
-                }
-                JarOutputStream jarOutputStream = new JarOutputStream(new FileOutputStream(optJarFile));
-                while (jarFile.entries().hasMoreElements()) {
-                    JarEntry jarEntry = jarFile.entries().nextElement();
-                    String jarName = jarEntry.getName();
-                    ZipEntry zipEntry = new ZipEntry(jarName);
-                    InputStream inputStream = jarFile.getInputStream(jarEntry);
-                    jarOutputStream.putNextEntry(zipEntry);
-                    if (jarName.equals(info.canonicalName.replace(".", "/") + ".class")) {
-                        byte[] codes = closure.call(Constants.JAR, inputStream);
-                        jarOutputStream.write(codes);
-                    } else {
-                        int len;
-                        byte[] buffer = new byte[1024];
-                        while ((len = (inputStream.read(buffer))) != -1) {
-                            jarOutputStream.write(len);
-                        }
-                    }
-                    inputStream.close();
-                    jarOutputStream.closeEntry();
-                }
-                jarOutputStream.close();
-                if (info.mather.exists()) {
-                    info.mather.delete();
-                }
-                optJarFile.renameTo(info.mather);
-            } catch (Exception ignore) {
-
-            } finally {
-                if (jarFile != null) {
-                    try {
-                        jarFile.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
+            File optZipFile = new File(info.mather.getParent(), info.mather.getName() + ".opt");
+            if (optZipFile.exists()) {
+                optZipFile.delete();
             }
+            try (ZipOutputStream optZipFos = new ZipOutputStream(new FileOutputStream(optZipFile)); ZipFile theZip = new ZipFile(info.mather)) {
+                for (ZipEntry zipEntry : Collections.list(theZip.entries())) {
+                    try (InputStream inputStream = theZip.getInputStream(zipEntry)) {
+                        String canonicalName = F.canonicalName(zipEntry);
+                        String fileName = zipEntry.getName().substring(zipEntry.getName().lastIndexOf("/") + 1);
+                        //创建一个新的zip entry
+                        optZipFos.putNextEntry(new ZipEntry(zipEntry.getName()));
+                        if (canonicalName == null || canonicalName.isEmpty()
+                                || "R.class".equals(fileName)
+                                || "BuildConfig.class".equals(fileName)
+                                || fileName.startsWith("R$")
+                                //                            || canonicalName.startsWith("androidx")
+                                //                            || canonicalName.startsWith("android")
+                                //                            || canonicalName.startsWith("kotlin")
+                                || canonicalName.startsWith("org.bouncycastle")
+                        ) {
+                            int len;
+                            byte[] buffer = new byte[1024];
+                            while ((len = (inputStream.read(buffer))) != -1) {
+                                optZipFos.write(len);
+                            }
+                        } else {
+                            if (info.canonicalName.equals(canonicalName)) {
+                                byte[] codes = closure.call(Constants.JAR, inputStream);
+                                optZipFos.write(codes);
+                            } else {
+                                int len;
+                                byte[] buffer = new byte[1024];
+                                while ((len = (inputStream.read(buffer))) != -1) {
+                                    optZipFos.write(len);
+                                }
+                            }
+                        }
+                        optZipFos.closeEntry();
+                    } catch (Exception e) {
+                        P.error("foreach zip file\n"+e.getLocalizedMessage());
+                        return;
+                    }
+                }
+
+            } catch (Exception e) {
+                P.error(e.getLocalizedMessage());
+                return;
+            }
+            if (info.mather.exists()) {
+                boolean delete = info.mather.delete();
+                P.info(delete ?"删除成功":"删除失败");
+            }
+            optZipFile.renameTo(info.mather);
         } else {
             injectCode(info.classFile, closure);
         }

@@ -193,7 +193,6 @@ public abstract class AbsInsertCodeTransform extends AbsTransform {
                     } else {
                         byte[] codes = onInsertCode(new ClassInfo(classStatus, destJar, inputStream, canonicalName));
                         if (codes.length != 0) {
-                            P.info(codes.length + " lenght");
                             optZipFos.write(codes);
                         } else {
                             int len;
