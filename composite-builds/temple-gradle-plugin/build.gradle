@@ -43,7 +43,7 @@ compileKotlin {
 }
 dependencies {
     implementation project(':base-plugin')
-    compileOnly "com.android.tools.build:gradle:${rootProject.agpVersion}"
+    compileOnly "com.android.tools.build:gradle:${rootProject.AGP_VERSION}"
     implementation 'org.javassist:javassist:3.18.2-GA'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.KOTLIN_VERSION}"
 }

@@ -39,7 +39,7 @@ class T1plugin : FastInsertCodePlugin() {
 //            val makeClass = classPool.makeClassIfNew(info.classStream)
             val makeClass = classPool.makeClass(info.classStream)
 //                val makeClass = classPool.getCtClass(info.canonicalName)
-            println("cjf ${makeClass.name}  ${info?.mather.absolutePath}")
+            println("cjf ${makeClass.name}  ${info?.mather2.absolutePath}")
             try {
                 makeClass.defrost()
                 val declaredMethod = makeClass.getDeclaredMethod("onCreate", null)
@@ -48,7 +48,7 @@ class T1plugin : FastInsertCodePlugin() {
 //                    makeClass.writeFile(info.mather2?.absolutePath)
                 return makeClass.toBytecode()
             } catch (e: Exception) {
-                println("1 could not create onCreate() in ${makeClass.name};${info.mather?.exists()}   ${info.mather?.absolutePath}\n$e")
+                println("1 could not create onCreate() in ${makeClass.name};${info.mather2?.exists()}   ${info.mather2?.absolutePath}\n$e")
             } finally {
                 makeClass.detach()
             }

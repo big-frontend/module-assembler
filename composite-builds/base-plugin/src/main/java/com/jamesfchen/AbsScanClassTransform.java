@@ -74,7 +74,7 @@ public abstract class AbsScanClassTransform extends AbsTransform {
 
         String canonicalName = F.canonicalName(srcRootDir, srcFile);
         if (canonicalName != null && !canonicalName.isEmpty()) {
-            onScanClass(new ClassInfo(ClassInfo.BIRTH_DIR, destRootDir, srcFile, canonicalName));
+            onScanClass(new ClassInfo(ClassInfo.BIRTH_DIR,srcRootDir, destRootDir, srcFile, canonicalName));
         }
         if (srcFile.isDirectory()) {
             FileUtils.copyDirectory(srcFile, destFile);
@@ -91,13 +91,13 @@ public abstract class AbsScanClassTransform extends AbsTransform {
             for (File file : com.android.utils.FileUtils.getAllFiles(destFile)) {
                 String canonicalName = F.canonicalName(destRootDir, file);
                 if (canonicalName != null && !canonicalName.isEmpty()) {
-                    onScanClass(new ClassInfo(ClassInfo.DEATH_DIR, destRootDir, file, canonicalName));
+                    onScanClass(new ClassInfo(ClassInfo.DEATH_DIR,srcRootDir, destRootDir, file, canonicalName));
                 }
             }
         } else {
             String canonicalName = F.canonicalName(destRootDir, destFile);
             if (canonicalName != null && !canonicalName.isEmpty()) {
-                onScanClass(new ClassInfo(ClassInfo.DEATH_DIR, destRootDir, destFile, canonicalName));
+                onScanClass(new ClassInfo(ClassInfo.DEATH_DIR,srcRootDir, destRootDir, destFile, canonicalName));
             }
         }
 
@@ -164,7 +164,7 @@ public abstract class AbsScanClassTransform extends AbsTransform {
                     return super.visitFile(file, attrs);
                 }
                 try {
-                    onScanClass(new ClassInfo(ClassInfo.BIRTH_DIR, destRootDir, file.toFile(), canonicalName));
+                    onScanClass(new ClassInfo(ClassInfo.BIRTH_DIR,srcRootDir, destRootDir, file.toFile(), canonicalName));
                 } catch (Exception e) {
                     P.error(e.getLocalizedMessage());
                 }
@@ -198,7 +198,7 @@ public abstract class AbsScanClassTransform extends AbsTransform {
                 ) {
                     continue;
                 }
-                onScanClass(new ClassInfo(classStatus, destJar, inputStream, canonicalName));
+                onScanClass(new ClassInfo(classStatus,srcJar, destJar, inputStream, canonicalName));
                 inputStream.close();
             }
         } catch (Exception e) {

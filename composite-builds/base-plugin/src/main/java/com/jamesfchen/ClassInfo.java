@@ -13,7 +13,8 @@ import java.io.InputStream;
  * }
  */
 public class ClassInfo{
-    public File mather;//jar or dir
+    public File mather1;//jar or dir
+    public File mather2;//jar or dir
     public File classFile;
     public InputStream classStream;
     public String canonicalName;
@@ -23,16 +24,18 @@ public class ClassInfo{
     public static final int DEATH_JAR=2;
     public static final int DEATH_DIR=3;
 
-    ClassInfo(int status, File mather, InputStream classStream, String canonicalName) {
+    ClassInfo(int status, File mather1,File mather2, InputStream classStream, String canonicalName) {
         this.status = status;
-        this.mather = mather;
+        this.mather1 = mather1;
+        this.mather2 = mather2;
         this.classStream = classStream;
         this.canonicalName = canonicalName;
     }
 
-    ClassInfo(int status,File mather, File classFile, String canonicalName) {
+    ClassInfo(int status,File mather1, File mather2, File classFile, String canonicalName) {
         this.status = status;
-        this.mather = mather;
+        this.mather1 = mather1;
+        this.mather2 = mather2;
         this.classFile = classFile;
         this.canonicalName = canonicalName;
     }
@@ -41,7 +44,7 @@ public class ClassInfo{
     public  String toString() {
         if (classFile !=null){
             String info = "ClassInfo{" +
-                    "mather=" + mather +
+                    "mather=" + mather2 +
                     ", status=" + status +
                     ", classFile=" + classFile +
                     ", canonicalName='" + canonicalName + '\'' +
@@ -49,7 +52,7 @@ public class ClassInfo{
             return  "Class In Dir "+info;
         }else{
             String info = "ClassInfo{" +
-                    "mather=" + mather +
+                    "mather=" + mather2 +
                     ", status=" + status +
                     ", classStream=" + classStream +
                     ", canonicalName='" + canonicalName + '\'' +

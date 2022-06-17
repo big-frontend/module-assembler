@@ -191,7 +191,7 @@ public abstract class AbsInsertCodeTransform extends AbsTransform {
                             optZipFos.write(len);
                         }
                     } else {
-                        byte[] codes = onInsertCode(new ClassInfo(classStatus, destJar, inputStream, canonicalName));
+                        byte[] codes = onInsertCode(new ClassInfo(classStatus,srcJar, destJar, inputStream, canonicalName));
                         if (codes.length != 0) {
                             optZipFos.write(codes);
                         } else {
@@ -236,7 +236,7 @@ public abstract class AbsInsertCodeTransform extends AbsTransform {
                     FileInputStream fis = null;
                     try {
                         fis = new FileInputStream(file.toFile());
-                        codes = onInsertCode(new ClassInfo(ClassInfo.BIRTH_DIR, destRootDir, fis, canonicalName));
+                        codes = onInsertCode(new ClassInfo(ClassInfo.BIRTH_DIR,srcRootDir, destRootDir, fis, canonicalName));
                     } catch (Exception e) {
                         P.error(e.getLocalizedMessage());
                     } finally {

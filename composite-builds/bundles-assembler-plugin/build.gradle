@@ -162,7 +162,7 @@ version = "${verLine.split("\"")[1]}" // 版本
 //红色醒目打印显示版本号
 java.lang.System.err.println "version=${version}"
 dependencies {
-    compileOnly "com.android.tools.build:gradle:${rootProject.agpVersion}"
+    compileOnly "com.android.tools.build:gradle:${rootProject.AGP_VERSION}"
     implementation 'org.json:json:20180813'
     implementation 'org.codehaus.groovy:groovy:3.0.9'
     implementation 'com.squareup:javapoet:1.13.0'

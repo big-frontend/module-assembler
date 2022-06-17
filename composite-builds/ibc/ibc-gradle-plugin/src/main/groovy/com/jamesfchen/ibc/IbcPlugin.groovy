@@ -44,7 +44,7 @@ class IbcPlugin extends ScanClassPlugin {
     void onScanClass(ClassInfo classInfo) {
         if (classInfo.canonicalName.endsWith("Router") || classInfo.canonicalName.endsWith("Api")) {
 
-            P.debug(classInfo.status + "  " + classInfo.canonicalName + "  " + classInfo.mather)
+            P.debug(classInfo.status + "  " + classInfo.canonicalName + "  " + classInfo.mather2)
 
             ClassReader reader
             if (classInfo.status == ClassInfo.BIRTH_DIR || classInfo.status == ClassInfo.DEATH_DIR) {

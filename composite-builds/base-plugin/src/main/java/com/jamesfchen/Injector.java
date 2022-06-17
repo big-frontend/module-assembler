@@ -8,9 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -22,11 +19,11 @@ public class Injector {
 
     public static void injectCode(ClassInfo info, Callback closure) {
         if (info.classStream != null) {
-            File optZipFile = new File(info.mather.getParent(), info.mather.getName() + ".opt");
+            File optZipFile = new File(info.mather2.getParent(), info.mather2.getName() + ".opt");
             if (optZipFile.exists()) {
                 optZipFile.delete();
             }
-            try (ZipOutputStream optZipFos = new ZipOutputStream(new FileOutputStream(optZipFile)); ZipFile theZip = new ZipFile(info.mather)) {
+            try (ZipOutputStream optZipFos = new ZipOutputStream(new FileOutputStream(optZipFile)); ZipFile theZip = new ZipFile(info.mather2)) {
                 for (ZipEntry zipEntry : Collections.list(theZip.entries())) {
                     try (InputStream inputStream = theZip.getInputStream(zipEntry)) {
                         String canonicalName = F.canonicalName(zipEntry);
@@ -70,11 +67,11 @@ public class Injector {
                 P.error(e.getLocalizedMessage());
                 return;
             }
-            if (info.mather.exists()) {
-                boolean delete = info.mather.delete();
+            if (info.mather2.exists()) {
+                boolean delete = info.mather2.delete();
                 P.info(delete ?"删除成功":"删除失败");
             }
-            optZipFile.renameTo(info.mather);
+            optZipFile.renameTo(info.mather2);
         } else {
             injectCode(info.classFile, closure);
         }

@@ -19,7 +19,7 @@ compileKotlin {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly "com.android.tools.build:gradle:${rootProject.agpVersion}"
+    compileOnly "com.android.tools.build:gradle:${rootProject.AGP_VERSION}"
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'com.google.guava:guava:24.1-jre'
     implementation 'commons-codec:commons-codec:1.15'
