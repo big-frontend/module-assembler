@@ -32,6 +32,14 @@ gradlePlugin {
         }
     }
 }
+gradlePlugin {
+    plugins {
+        tlcplugin {
+            id = "${rootProject.groupId}.tlc-plugin"
+            implementationClass = 'com.jamesfchen.TlcPlugin'
+        }
+    }
+}
 apply plugin: 'java'
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
