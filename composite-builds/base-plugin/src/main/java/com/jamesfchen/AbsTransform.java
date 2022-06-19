@@ -130,7 +130,7 @@ public abstract class AbsTransform extends Transform {
                                         }
                                     }
                                 } catch (Exception e) {
-                                    P.error(e.getLocalizedMessage());
+                                    e.printStackTrace();
                                 }
                                 return null;
                             });
@@ -140,7 +140,7 @@ public abstract class AbsTransform extends Transform {
                             try {
                                 onFull(DIR, srcDir, destDir);
                             } catch (Exception e) {
-                                P.error(e.getLocalizedMessage());
+                                e.printStackTrace();
                             }
                             return null;
                         });
@@ -183,7 +183,7 @@ public abstract class AbsTransform extends Transform {
                                     }
                                 }
                             } catch (Exception e) {
-                                P.error(e.getLocalizedMessage());
+                                e.printStackTrace();
                             }
                             return null;
                         });
@@ -192,7 +192,7 @@ public abstract class AbsTransform extends Transform {
                             try {
                                 onFull(JAR, srcJar, destJar);
                             } catch (Exception e) {
-                                P.error(e.getLocalizedMessage());
+                                e.printStackTrace();
                             }
                             return null;
                         });
@@ -204,7 +204,7 @@ public abstract class AbsTransform extends Transform {
             long cost = System.currentTimeMillis() - start;
             P.info("Transform cost : " + cost + " ms  isIncremental:" + isIncremental);
         } catch (Exception e) {
-            P.error(e.getLocalizedMessage());
+            e.printStackTrace();
         }finally {
             executor.shutdownNow();
         }

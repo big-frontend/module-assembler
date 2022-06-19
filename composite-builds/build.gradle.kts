@@ -12,8 +12,8 @@ buildscript {
 
     }
     dependencies {
-        val agpVersion :String by project
-        classpath("com.android.tools.build:gradle:${agpVersion}")
+        val AGP_VERSION :String by project
+        classpath("com.android.tools.build:gradle:${AGP_VERSION}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")
         classpath("com.github.dcendents:android-maven-gradle-plugin:2.1")
         classpath("io.github.jamesfchen:module-publisher-plugin:1.4.3")

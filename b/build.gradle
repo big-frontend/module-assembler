@@ -33,7 +33,7 @@ plugins {
     id("io.github.jamesfchen.module-chef-plugin")
     id("io.github.jamesfchen.nsb-publisher-plugin") apply(false)
     id('io.github.jamesfchen.t1plugin') apply(false)
-//    id('io.github.jamesfchen.tlc-plugin') apply(false)
+    id('io.github.jamesfchen.tlc-plugin') apply(false)
 }
 allprojects {
     repositories {
