@@ -20,8 +20,7 @@ gradle.ext.buildVariants = config.buildVariants
 def localProperties = new Properties()
 def localPropertiesFile = new File(rootDir, 'local.properties')
 if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
+    localPropertiesFile.withReader('UTF-8') { reader -> localProperties.load(reader)
     }
 }
 def excludeModulesStr = localProperties.getProperty('excludeModules', '')
@@ -83,8 +82,7 @@ gradle.ext.sourceModuleMap.each { name, module ->
         project(module.sourcePath).projectDir = new File(rootProject.projectDir, module.projectDir)
     }
 }
-gradle.ext.excludeModuleMap.each { _, module ->
-    child("\u001B[31mexclude module\u001B[0m\t${module.sourcePath}")
+gradle.ext.excludeModuleMap.each { _, module -> child("\u001B[31mexclude module\u001B[0m\t${module.sourcePath}")
 }
 gradle.ext.binaryModuleMap.each { simpleName, module ->
     child("binary module\t${module.binaryPath}")
@@ -122,30 +120,10 @@ gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
         def simpleName = project.gradle.sourcePath2SimpleNameMap[project.path]
         if (simpleName) {
             def m = project.gradle.sourceModuleMap[simpleName]
-            if (m.format == 'rnbundle') {
-            } else if (m.format == 'h5bundle') {
-            } else if (m.format == 'h5bundle') {
-
-            } else if (m.format == 'ndbundle') {
-                project.plugins.apply("io.github.jamesfchen.ndb-publisher-plugin")
-                project['publish'].with {
-                    name = simpleName
-                    groupId = project.gradle.groupId
-                    artifactId = simpleName
-                    version = "1.0.0-${project.gradle.activeBuildVariant}-SNAPSHOT"
-                    website = "https://github.com/JamesfChen/bundles-assembler"
-                }
-            } else if (m.format == 'nsbundle') {
-                project.plugins.apply("io.github.jamesfchen.nsb-publisher-plugin")
-                project['publish'].with {
-                    name = simpleName
-                    groupId = project.gradle.groupId
-                    artifactId = simpleName
-                    version = "1.0.0-${project.gradle.activeBuildVariant}-SNAPSHOT"
-                    website = "https://github.com/JamesfChen/bundles-assembler"
-                }
-            } else if (m.group == 'fwk') {
-                project.plugins.apply("io.github.jamesfchen.nsb-publisher-plugin")
+            if (m.group == 'fwk' || m.format == 'nsbundle' || m.format == 'ndbundle'
+//                    || m.format == 'h5bundle' || m.format == 'h5bundle' || m.format == 'rnbundle'
+            ) {
+                project.plugins.apply("io.github.jamesfchen.module-publisher-plugin")
                 project['publish'].with {
                     name = simpleName
                     groupId = project.gradle.groupId

@@ -51,6 +51,7 @@ dependencies {
     project.depsConfig("implementation", "hotel-bundle4")
     project.depsConfig("implementation", "hotel-export")
     project.depsConfig("implementation", "hotel-foundation")
+    project.depsConfig("dynamicImplementation", "plugin-im")
     implementation project.moduleify("framework-network")
     implementation project.moduleify("framework-common")
     ksp "io.github.jamesfchen:ibc-processor:1.0.0"

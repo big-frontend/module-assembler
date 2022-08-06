@@ -25,10 +25,9 @@ import org.gradle.plugins.signing.SigningExtension
  *   发布到远程maven central(nexus仓库)
  * ./gradlew publishXxxPublicationsToMavenCentralRepository
  *
- * ps：对于发布的类型来说有aar、jar 、 aab/apk
- */
+ * ps：对于发布的类型来说有aar、jar 、 aab/apk*/
 
-class PublisherPlugin implements Plugin<Project> {
+class NsbPublisherPlugin implements Plugin<Project> {
     Project myProject
 
     @Override
@@ -36,6 +35,9 @@ class PublisherPlugin implements Plugin<Project> {
         myProject = project
         project.plugins.apply('maven-publish')
         project.plugins.apply('signing')
+//        if (Checker.isApk(project)) {
+//            throw new GradleException("必须apply plugin在library工程中")
+//        }
         project.extensions.create('publish', PublishExtension)
         project.tasks.whenTaskAdded { task ->
             if (task.name.contains('ToMavenCentralRepository')) {
@@ -76,9 +78,7 @@ class PublisherPlugin implements Plugin<Project> {
             ext.signingSecretKeyRingFile = properties.getProperty("signingPassword")
             ext.signingPassword = properties.getProperty("signingSecretKeyRingFile")
         }
-        if (project.properties.containsKey("useJamesfChenSnapshots")
-                && project["useJamesfChenSnapshots"] != null
-                && project["useJamesfChenSnapshots"] == "true") {
+        if (project.properties.containsKey("useJamesfChenSnapshots") && project["useJamesfChenSnapshots"] != null && project["useJamesfChenSnapshots"] == "true") {
 //                println(">>> 使用jamesfchen的maven central发布，但是只能发布snapshot")
             ext.ossrhUsername = 'delta'
             ext.ossrhPassword = 'vCKe*5vHBh3xH2.'

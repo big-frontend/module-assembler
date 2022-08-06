@@ -7,6 +7,7 @@ class AppModulePlugin extends AndroidPlugin {
     String mainPlugin() {
         return 'com.android.application'
     }
+
     @Override
     void addPlugins(Project project) {
         super.addPlugins(project)
@@ -50,6 +51,18 @@ class AppModulePlugin extends AndroidPlugin {
                 }
                 debug {
                     signingConfig signingConfigs.debugSigningConfig
+                }
+            }
+        }
+        project.configurations.create("dynamicImplementation")
+        //在project.afterEvaluate之后plugin-im还没有变成binary会导致project.configurations.dynamicImplementation.asPath，所以放在project.gradle.buildFinished
+        project.gradle.buildFinished {
+            //集成plugin到asset目录
+            for (def d : project.configurations.dynamicImplementation.dependencies) {
+                println("dynamicImplementation:" + d.name)
+                def m = project.gradle.pluginBinaryModuleMap[d.name]
+                if (m) {
+                    println(d.name + " " + project.configurations.dynamicImplementation.asPath)
                 }
             }
         }

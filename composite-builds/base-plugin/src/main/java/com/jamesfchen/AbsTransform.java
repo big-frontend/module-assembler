@@ -89,7 +89,7 @@ public abstract class AbsTransform extends Transform {
     }
 
     @Override
-    public void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
+    public synchronized final void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
         try {
             long start = System.currentTimeMillis();
             boolean isIncremental = transformInvocation.isIncremental();

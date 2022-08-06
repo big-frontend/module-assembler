@@ -24,16 +24,14 @@ buildscript {
         classpath 'com.google.firebase:perf-plugin:1.4.0'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
         classpath('com.tencent.tinker:tinker-patch-gradle-plugin:1.9.14.19')
-        //classpath "io.github.jamesfchen:module-publisher-plugin:1.4.4"
     }
 }
 plugins {
     id("io.github.jamesfchen.ibc-plugin") apply(false)
     id("io.github.jamesfchen.lifecycle-plugin") apply(false)
-    id("io.github.jamesfchen.module-chef-plugin")
-    id("io.github.jamesfchen.nsb-publisher-plugin") apply(false)
     id('io.github.jamesfchen.t1plugin') apply(false)
     id('io.github.jamesfchen.tlc-plugin') apply(false)
+    id("io.github.jamesfchen.module-publisher-plugin") apply(false)
 }
 allprojects {
     repositories {
