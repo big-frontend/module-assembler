@@ -28,7 +28,7 @@ import org.gradle.plugins.signing.SigningExtension
  * ps：对于发布的类型来说只会有两种aar和jar
  */
 
-class NsbPublisherPlugin implements Plugin<Project> {
+class PublisherPlugin implements Plugin<Project> {
     Project myProject
 
     @Override
