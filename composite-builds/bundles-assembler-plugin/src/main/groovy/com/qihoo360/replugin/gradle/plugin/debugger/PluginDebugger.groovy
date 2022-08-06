@@ -46,10 +46,10 @@ class PluginDebugger {
         }
         def flavor = variant.getFlavorName()
         apkFile = new File("${apkDir}/$flavor/$buildType", apkName)
-
-        if (!apkFile.exists() || apkFile.length() == 0) {
-            apkFile = new File(apkDir, variantConfiguration.getBaseName() + File.separator + apkName)
-        }
+        println("cjf ${apkFile}")
+//        if (!apkFile.exists() || apkFile.length() == 0) {
+//            apkFile = new File(apkDir, variantConfiguration.getBaseName() + File.separator + apkName)
+//        }
 
         adbFile = project.android.getAdbExe()
 

@@ -1,6 +1,10 @@
 package com.jamesfchen.b
 
+import com.qihoo360.replugin.util.VariantCompat
+import org.gradle.api.GradleException
 import org.gradle.api.Project
+
+import java.nio.channels.FileChannel
 
 class AppModulePlugin extends AndroidPlugin {
     @Override
@@ -55,14 +59,101 @@ class AppModulePlugin extends AndroidPlugin {
             }
         }
         project.configurations.create("dynamicImplementation")
-        //在project.afterEvaluate之后plugin-im还没有变成binary会导致project.configurations.dynamicImplementation.asPath，所以放在project.gradle.buildFinished
-        project.gradle.buildFinished {
-            //集成plugin到asset目录
-            for (def d : project.configurations.dynamicImplementation.dependencies) {
-                println("dynamicImplementation:" + d.name)
-                def m = project.gradle.pluginBinaryModuleMap[d.name]
-                if (m) {
-                    println(d.name + " " + project.configurations.dynamicImplementation.asPath)
+        project.android.applicationVariants.all { variant ->
+            def mergeVariantAssets = project.tasks.getByName("merge${variant.name.capitalize()}Assets")
+            mergeVariantAssets.doLast {
+                //copy plugin to assets目录
+                for (def d : project.configurations.dynamicImplementation.dependencies) {
+                    println("dynamicImplementation:" + d.name)
+                    def m = project.gradle.pluginBinaryModuleMap[d.name]
+                    if (m) {
+                        def c = project.configurations.getByName("dynamicImplementation")
+                        println(d.name + " " + c.asPath + " " + c.singleFile.name)
+                        def pluginsDir = new File(project.buildDir, "plugins")
+                        if (!pluginsDir.exists()) {
+                            pluginsDir.mkdirs()
+                            File oneDir = new File(new File(project.buildDir, "plugins"), c.singleFile.name)
+                            if (!oneDir.exists()) {
+                                oneDir.mkdirs()
+                            }
+                            P.info("${oneDir.name} 下载....1\n")
+                            updatePlugin(variant, c.asPath, oneDir)
+                        } else {
+                            File oneDir = new File(new File(project.buildDir, "plugins"), c.singleFile.name)
+                            if (!oneDir.exists()) {
+                                oneDir.mkdirs()
+                                File[] allDir = pluginsDir.listFiles()
+                                def simpleName = c.singleFile.name.split("\\d.\\d.\\d")[0].trim()
+                                for (def dir : allDir) {
+                                    P.info(simpleName + " " + dir.name)
+                                    if (dir.name.contains(simpleName)) {
+                                        P.info("删除 ${dir.name}\n")
+                                        dir.deleteDir()
+                                        break
+                                    }
+                                }
+                                P.info("${oneDir.name} 下载....2\n")
+                                updatePlugin(variant, c.asPath, oneDir)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void updatePlugin(def variant, String zipPath, File destDir) {
+        def ant = new AntBuilder()
+        ant.unzip(src: zipPath, dest: destDir, overwrite: "true")
+        def buildType = variant.buildType.name
+        def flavor = variant.getFlavorName()
+        def o = VariantCompat.getMergeAssetsTask(variant).outputDir?.get()?.getAsFile()
+        if (o == null) {
+            throw new GradleException("有点问题:${VariantCompat.getMergeAssetsTask(variant).outputDir}")
+        }
+        def pluginsDirOnAssets = new File(o, 'plugins')
+        File apkFile = null
+        String fileName = null
+        for (def f : destDir.listFiles()) {
+            def split = f.name.split('\\.')
+            def suffix = split[1]
+            if (suffix == 'apk') {
+                apkFile = f
+                fileName = split[0]
+                break
+            }
+        }
+        if (apkFile == null) {
+            throw new GradleException("$destDir 没有找到apk")
+        }
+        copyFileNIO(apkFile, new File(pluginsDirOnAssets, fileName + ".jar"))
+    }
+
+
+    public boolean copyFileNIO(File srcFile, File destFile) {
+        FileChannel inChannel = null;
+        FileChannel outChannel = null;
+        try {
+            inChannel = new FileInputStream(srcFile).getChannel();
+            outChannel = new FileOutputStream(destFile).getChannel();
+            inChannel.transferTo(0, inChannel.size(), outChannel);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (inChannel != null) {
+                try {
+                    inChannel.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (outChannel != null) {
+                try {
+                    outChannel.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
