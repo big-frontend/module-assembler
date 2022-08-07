@@ -66,7 +66,7 @@ class AppModulePlugin extends AndroidPlugin {
                 for (def d : project.configurations.dynamicImplementation.dependencies) {
                     println("dynamicImplementation:" + d.name)
                     def m = project.gradle.pluginBinaryModuleMap[d.name]
-                    if (m) {
+                    if (m && m.dynamic == 'local-plugin') {
                         def c = project.configurations.getByName("dynamicImplementation")
                         println(d.name + " " + c.asPath + " " + c.singleFile.name)
                         def pluginsDir = new File(project.buildDir, "plugins")
