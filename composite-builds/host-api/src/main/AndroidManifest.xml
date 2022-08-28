@@ -211,6 +211,21 @@
             android:authorities="${applicationId}.loader.p.pip"
             android:exported="false" >
         </provider>
+        <activity
+                android:name="com.jamesfchen.h5container.WebViewActivity"
+                android:exported="true"
+                android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                        android:host="h5container"
+                        android:path="/page"
+                        android:scheme="b" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

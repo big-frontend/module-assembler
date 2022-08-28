@@ -58,6 +58,9 @@ class AppModulePlugin extends AndroidPlugin {
                 }
             }
         }
+        project.dependencies {
+            implementation "io.github.jamesfchen:host-api:1.0.0"
+        }
         project.configurations.create("dynamicImplementation")
         project.android.applicationVariants.all { variant ->
             def mergeVariantAssets = project.tasks.getByName("merge${variant.name.capitalize()}Assets")

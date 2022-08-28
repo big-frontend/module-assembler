@@ -75,6 +75,7 @@ class NdBundlePlugin extends AndroidPlugin {
                 implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 //                implementation "androidx.navigation:navigation-compose:$navigationVersion"
             }
+            implementation "io.github.jamesfchen:ndbundle-api:1.0.0"
         }
     }
 }

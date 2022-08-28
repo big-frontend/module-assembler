@@ -5,12 +5,15 @@ android {
         versionName "1.0.0"
         consumerProguardFiles 'proguard-rules.pro'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 apply plugin: "io.github.jamesfchen.module-publisher-plugin"
 publish {
-    name = "replugin-host-api"
+    name = "host-api"
     groupId = rootProject.groupId
-    artifactId = "replugin-host-api"
+    artifactId = "host-api"
     version = "1.0.0"
     website = "https://github.com/JamesfChen/bundles-assembler"
 }
@@ -23,4 +26,7 @@ dependencies {
     // 以“占位符”（Provided）的方式来引用support-v4，不会编入AAR
     // 但宿主需要支持Support-v4（至少应支持LocalBroadcastManager）
     compileOnly 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.20"
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
 }

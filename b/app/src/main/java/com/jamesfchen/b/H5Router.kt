@@ -1,4 +1,4 @@
-package com.jamesfchen.loader
+package com.jamesfchen.b
 
 import android.content.Context
 import android.os.Bundle
@@ -18,6 +18,7 @@ import java.net.URI
 @Router(bindingBundle = "h5container")
 class H5Router : IRouter {
     override fun onOpen(cxt: Context, page: String, params: Bundle?): Boolean {
+
         val url = params?.getString(EXTRA_URL)
         if (!url.isNullOrEmpty()) {
             WebViewActivity.startActivity(cxt, url)

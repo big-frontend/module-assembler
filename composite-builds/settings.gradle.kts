@@ -18,5 +18,5 @@ include(
 )
 include(":module-publisher-plugin")
 include(":bundles-assembler-plugin")
-include(":replugin-host-api")
+include(":host-api")
 include(":ndbundle-api")

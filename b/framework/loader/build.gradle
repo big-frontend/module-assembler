@@ -3,7 +3,5 @@ plugins{
 }
 dependencies {
     implementation project.moduleify('framework-common')
-    compileOnly project.moduleify('framework-h5container')
     implementation("io.github.jamesfchen:ibc-api:$rootProject.IBC_VERSION")
-    implementation "io.github.jamesfchen:replugin-host-api:1.0.0"
 }

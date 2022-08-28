@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.webkit.WebView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.jamesfchen.h5container.databinding.ActivityWebviewBinding
 
 /**
  * Copyright ® $ 2020
@@ -28,19 +27,19 @@ class WebViewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityWebviewBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+//        val binding = ActivityWebviewBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
         val url = intent.getStringExtra(EXTRA_URL)
         if (url.isNullOrEmpty()) {
             Toast.makeText(this, "url为空", Toast.LENGTH_LONG).show()
             return
         }
-        binding.wvContainer.loadUrl(url)
-        binding.wvContainer.webViewClient = H5WebViewClient()
-        binding.wvContainer.settings.javaScriptEnabled = true
-        binding.wvContainer.settings.allowFileAccess = true//可以使用file:// 访问
-        binding.wvContainer.settings.javaScriptCanOpenWindowsAutomatically = true
-        binding.wvContainer.webChromeClient = H5WebChromeClient()
+//        binding.wvContainer.loadUrl(url)
+//        binding.wvContainer.webViewClient = H5WebViewClient()
+//        binding.wvContainer.settings.javaScriptEnabled = true
+//        binding.wvContainer.settings.allowFileAccess = true//可以使用file:// 访问
+//        binding.wvContainer.settings.javaScriptCanOpenWindowsAutomatically = true
+//        binding.wvContainer.webChromeClient = H5WebChromeClient()
         WebView.setWebContentsDebuggingEnabled(true);
     }
 }

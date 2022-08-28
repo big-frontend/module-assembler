@@ -27,18 +27,6 @@
       "group": "fwk"
     },
     {
-      "simpleName": "framework-h5container",
-      "sourcePath": ":framework:h5container",
-      "format": "foundation",
-      "group": "fwk"
-    },
-    {
-      "simpleName": "framework-reactcontainer",
-      "sourcePath": ":framework:reactcontainer",
-      "format": "foundation",
-      "group": "fwk"
-    },
-    {
       "simpleName": "framework-common",
       "sourcePath": ":framework:common",
       "format": "foundation",

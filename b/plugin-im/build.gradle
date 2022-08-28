@@ -14,5 +14,4 @@ dependencies {
 //    compileOnly project.moduleify("framework-network")
 //    compileOnly project.moduleify("framework-common")
     compileOnly project.moduleify("hotel-export")
-    implementation "io.github.jamesfchen:ndbundle-api:1.0.0"
 }
