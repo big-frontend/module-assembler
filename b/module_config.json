@@ -101,6 +101,8 @@
     {
       "simpleName": "plugin-im",
       "sourcePath": ":plugin-im",
+      "versionCode":"3",
+      "versionName":"3.0.0-SNAPSHOT",
       "format": "ndbundle",
       "group": "im",
       "dynamic": "local-plugin"

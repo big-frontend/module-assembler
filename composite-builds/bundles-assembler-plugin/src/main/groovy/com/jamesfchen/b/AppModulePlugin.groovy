@@ -61,44 +61,47 @@ class AppModulePlugin extends AndroidPlugin {
         project.configurations.create("dynamicImplementation")
         project.android.applicationVariants.all { variant ->
             def mergeVariantAssets = project.tasks.getByName("merge${variant.name.capitalize()}Assets")
-            mergeVariantAssets.doLast {
-                //copy plugin to assets目录
-                for (def d : project.configurations.dynamicImplementation.dependencies) {
-                    println("dynamicImplementation:" + d.name)
-                    def m = project.gradle.pluginBinaryModuleMap[d.name]
-                    if (m && m.dynamic == 'local-plugin') {
-                        def c = project.configurations.getByName("dynamicImplementation")
-                        println(d.name + " " + c.asPath + " " + c.singleFile.name)
-                        def pluginsDir = new File(project.buildDir, "plugins")
-                        if (!pluginsDir.exists()) {
-                            pluginsDir.mkdirs()
+            def updateVariantPlugin = project.tasks.create(name: "update${variant.name.capitalize()}Plugin") {
+                doLast {
+                    //copy plugin to assets目录
+                    for (def d : project.configurations.dynamicImplementation.dependencies) {
+                        println("dynamicImplementation:" + d.name)
+                        def m = project.gradle.pluginBinaryModuleMap[d.name]
+                        if (m && m.dynamic == 'local-plugin') {
+                            def c = project.configurations.getByName("dynamicImplementation")
+                            println(d.name + " path:" + c.asPath + " " + c.singleFile.name)
+                            def pluginsDir = new File(project.buildDir, "plugins")
                             File oneDir = new File(new File(project.buildDir, "plugins"), c.singleFile.name)
-                            if (!oneDir.exists()) {
-                                oneDir.mkdirs()
-                            }
-                            P.info("${oneDir.name} 下载....1\n")
-                            updatePlugin(variant, c.asPath, oneDir)
-                        } else {
-                            File oneDir = new File(new File(project.buildDir, "plugins"), c.singleFile.name)
-                            if (!oneDir.exists()) {
+                            if (!pluginsDir.exists()) {
+                                //从来没有下载过插件
+                                pluginsDir.mkdirs()
+                                if (!oneDir.exists()) {
+                                    oneDir.mkdirs()
+                                }
+                                P.info("${oneDir.name} 下载....1")
+                                updatePlugin(variant, c.asPath, oneDir)
+                            } else if (!oneDir.exists() || oneDir.getName().endsWith("SNAPSHOT.zip")) {
+                                //文件不存在或者为SNAPSHOT立马更新
                                 oneDir.mkdirs()
                                 File[] allDir = pluginsDir.listFiles()
                                 def simpleName = c.singleFile.name.split("\\d.\\d.\\d")[0].trim()
                                 for (def dir : allDir) {
-                                    P.info(simpleName + " " + dir.name)
                                     if (dir.name.contains(simpleName)) {
-                                        P.info("删除 ${dir.name}\n")
+                                        P.info("删除 ${dir.name}")
                                         dir.deleteDir()
-                                        break
                                     }
                                 }
-                                P.info("${oneDir.name} 下载....2\n")
+                                P.info("${oneDir.name} 下载....2")
                                 updatePlugin(variant, c.asPath, oneDir)
+                            } else {
+                                P.info("${oneDir.name} 无需更新")
                             }
                         }
                     }
                 }
             }
+            mergeVariantAssets.finalizedBy updateVariantPlugin
+            def packageVariantAssets = project.tasks.getByName("package${variant.name.capitalize()}")
         }
     }
 
@@ -158,4 +161,5 @@ class AppModulePlugin extends AndroidPlugin {
             }
         }
     }
+
 }

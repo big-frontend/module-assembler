@@ -66,7 +66,7 @@ sourceModulesStr.eachAfterSplit(',') {
     }
 }
 gradle.ext.allModules.each { m ->
-    m.binaryPath = "${gradle.ext.groupId}:${m.simpleName}:1.0.0-$gradle.ext.activeBuildVariant-SNAPSHOT"
+    m.binaryPath = "${gradle.ext.groupId}:${m.simpleName}:${newVersion(gradle, m)}"
     if (!gradle.ext.sourceModuleMap.containsKey(m.simpleName) && !gradle.ext.excludeModuleMap.containsKey(m.simpleName)) {
         gradle.ext.binaryModuleMap[m.simpleName] = m
     }
@@ -128,10 +128,31 @@ gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
                     name = simpleName
                     groupId = project.gradle.groupId
                     artifactId = simpleName
-                    version = "1.0.0-${project.gradle.activeBuildVariant}-SNAPSHOT"
+                    version = newVersion(project.gradle, m)
                     website = "https://github.com/JamesfChen/bundles-assembler"
                 }
+            }
+            if (m.format == 'ndbundle') {
+                project.android.defaultConfig.versionCode = Integer.parseInt(m.versionCode)
+                project.android.defaultConfig.versionName = m.versionName
+                project.version = Integer.parseInt(m.versionCode)
             }
         }
     }
 })
+
+static def newVersion(def gradle, def m) {
+    def ver = "1.0.0-${gradle.activeBuildVariant}-SNAPSHOT"
+    if (m.versionName) {
+        if (!m.versionCode) throw new IllegalArgumentException("参数错误 versionName:${m.versionName} versionCode:${m.versionCode}")
+        def a = m.versionName.split('-')
+        if (a.size() == 1) {
+            ver = "${a[0]}-${gradle.activeBuildVariant}"
+        } else if (a.size() == 2) {
+            ver = "${a[0]}-${gradle.activeBuildVariant}-SNAPSHOT"
+        } else {
+            throw new IllegalArgumentException("参数错误 versionName:${m.versionName} versionCode:${m.versionCode}")
+        }
+    }
+    return ver
+}
