@@ -17,5 +17,5 @@ dependencies {
     implementation project.moduleify('framework-baseui')
     compileOnly project.moduleify("framework-network")
     compileOnly project.moduleify("framework-common")
-    api "io.github.jamesfchen:replugin-host-api:1.0.0"
+
 }

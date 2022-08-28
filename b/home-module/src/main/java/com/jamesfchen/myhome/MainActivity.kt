@@ -1,12 +1,10 @@
 package com.jamesfchen.myhome
 
 import android.app.Activity
-import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import com.jamesfchen.ibc.router.IBCRouter
 import com.jamesfchen.myhome.databinding.ActivityMainBinding
-import com.qihoo360.replugin.RePlugin
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +21,11 @@ class MainActivity : Activity() {
             //打开当前bundle内部的页面
             IBCRouter.open(this) {
                 uri = "b://bundle1/sayme"
+            }
+        }
+        binding.btIm.setOnClickListener {
+            IBCRouter.open(this) {
+                uri = "b://im/nav"
             }
         }
         binding.btReact.setOnClickListener {
@@ -52,11 +55,7 @@ class MainActivity : Activity() {
                 )
             }
         }
-        binding.btIm.setOnClickListener {
-            IBCRouter.open(this) {
-                uri = "b://im/nav"
-            }
-        }
+
         binding.btAndroidNavigator.setOnClickListener {
             val i = Intent(this@MainActivity,AndroidNavigatorActivity::class.java)
             startActivity(i)

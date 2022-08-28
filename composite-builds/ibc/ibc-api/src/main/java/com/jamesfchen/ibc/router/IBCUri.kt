@@ -12,7 +12,7 @@ import java.util.*
  * * *
  * * * scheme://bundle/page?param1=value1&param2=value2 ...
  * * * e.g. 打开其他bundle的页面 b://hotel/sayhi or b://com.jamesfchen.rn/sayhi or b://com.jamesfchen.flutter/sayhi
- * * *      打开h5 http://jamesfchen.page.link
+ * * *      打开h5 http://jamesfchen.page.link(默认首页 http://jamesfchen.page.link/index.html)
  * * *      打开当前bundle内部的page /sayhi
  * * *      打开其他应用的页面(deep link/app link) meituan://
  * * *
