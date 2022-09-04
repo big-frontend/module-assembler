@@ -29,11 +29,11 @@ class AlchemyEncoder(json.JSONEncoder):
 
 
 class UserApi(Resource):
-    def get(self, user_id=None, method=None):
+    def get(self, user_id=None):
         # print(json.dumps(User.query.all(),cls= AlchemyEncoder))
         return jsonify({
             'code': 1,
-            'data': user_dao.get(username="cjf")
+            'data': user_dao.get(id=user_id) if user_id else user_dao.get()
         })
 
     def post(self, user_id=None, action=None):

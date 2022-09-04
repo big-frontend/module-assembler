@@ -1,0 +1,35 @@
+plugins {
+    id 'io.github.jamesfchen.app-plugin'
+}
+android {
+    defaultConfig {
+        resValue "string", "app_name", "b.app"
+    }
+    buildTypes {
+        release {
+            multiDexEnabled = true//support android 20 or lower
+            minifyEnabled true
+            shrinkResources true
+        }
+        debug {
+            crunchPngs = false//优化编译速度：关闭png
+            multiDexEnabled = false//优化编译速度：关闭multidex
+            minifyEnabled false
+            shrinkResources false
+//            applicationIdSuffix = '.debug'
+        }
+    }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a', "arm64-v8a", 'armeabi', 'x86'
+//            exclude "x86","x86_64"
+            universalApk false
+        }
+    }
+}
+dependencies {
+    project.depsConfig("implementation", "bundle1")
+    project.depsConfig("implementation", "bundle2")
+}

@@ -1,0 +1,37 @@
+{
+  "author": "jamesfchen",
+  "description": "该配置文件给idea plugin插件和gradle plugin读取,idea plugin通过该文件可以实现管理想要编译的模块，gradle plugin则可以根据这些模块信息生成快速模块",
+  "buildVariants": [
+    "debug",
+    "release"
+  ],
+  "activeBuildVariant": "debug",
+  "groupId": "com.jamesfchen.b",
+  "allModules": [
+    {
+      "simpleName": "bundle1",
+      "sourcePath": ":bundle1",
+      "format": "bundle",
+      "group": "a"
+    },
+    {
+      "simpleName": "bundle2",
+      "sourcePath": "::bundle2",
+      "format": "bundle",
+      "group": "b"
+    },
+    {
+      "simpleName": "export",
+      "sourcePath": ":export",
+      "format": "bundle_foundation",
+      "group": "a"
+    },
+    {
+      "simpleName": "fwk-loader",
+      "sourcePath": ":framework:loader",
+      "format": "framework_foundation",
+      "type": "api",
+      "group": "fwk"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jamesfchen.bundle2">
+
+    <application>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.B.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="www.jamesfchen.com"
+                    android:scheme="jamesfchen"  android:path="/hotel/main"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".SayHiActivity"/>
+    </application>
+
+</manifest>
