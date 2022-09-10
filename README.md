@@ -1,7 +1,7 @@
 ### 技术分享
-[2021年 Android组件化分享](https://jamesfchen.github.io/blog/2021-12-31/shared-android-component)
+[2021年 Android组件化分享](https://electrolyteJ.github.io/blog/2021-12-31/shared-android-component)
 
-[bundles-assembler 项目wiki](https://github.com/JamesfChen/bundles-assembler/wiki)
+[bundles-assembler 项目wiki](https://github.com/electrolyteJ/bundles-assembler/wiki)
 
 ### 项目结构
 
