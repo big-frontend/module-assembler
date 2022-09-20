@@ -37,7 +37,9 @@ class HostPlugin implements Plugin<Project> {
         println "${TAG} Welcome to replugin world ! "
         this.project = project
         project.extensions.create(Constants.HOST_CONFIG, HostConfig)
-
+        project.dependencies {
+//            api "io.github.jamesfchen:replugin-host-api:1.0.0"
+        }
         project.afterEvaluate {
             if (!project.plugins.hasPlugin('com.android.application')) throw new IllegalArgumentException("replugin-host 插件必须在app模块配置")
             def android = project.extensions.getByType(AppExtension)

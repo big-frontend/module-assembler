@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-import com.google.firebase.perf.metrics.AddTrace;
 import com.jamesfchen.ibc.router.IBCRouter;
 import com.jamesfchen.ibc.router.UriBuilder;
 
@@ -22,7 +21,6 @@ import com.jamesfchen.ibc.router.UriBuilder;
  */
 //@Route(path = "/bundle1/sayme")
 public class SayMeActivity extends Activity {
-    @AddTrace(name = "SayMeActivity_onCreate", enabled = true /* optional */)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

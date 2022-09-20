@@ -5,7 +5,6 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.zip.ZipEntry;
@@ -39,37 +38,28 @@ public class Injector {
                                 //                            || canonicalName.startsWith("kotlin")
                                 || canonicalName.startsWith("org.bouncycastle")
                         ) {
-                            int len;
-                            byte[] buffer = new byte[1024];
-                            while ((len = (inputStream.read(buffer))) != -1) {
-                                optZipFos.write(len);
-                            }
-                        } else {
-                            if (info.canonicalName.equals(canonicalName)) {
-                                byte[] codes = closure.call(Constants.JAR, inputStream);
+                            F.copyIs2Os(inputStream, optZipFos);
+                        } else if (info.canonicalName.equals(canonicalName)) {
+                            byte[] codes = closure.call(Constants.JAR, inputStream);
+                            if (codes.length != 0) {
                                 optZipFos.write(codes);
                             } else {
-                                int len;
-                                byte[] buffer = new byte[1024];
-                                while ((len = (inputStream.read(buffer))) != -1) {
-                                    optZipFos.write(len);
-                                }
+                                F.copyIs2Os(inputStream, optZipFos);
                             }
+                        } else {
+                            F.copyIs2Os(inputStream, optZipFos);
                         }
                         optZipFos.closeEntry();
                     } catch (Exception e) {
-                        P.error("foreach zip file\n"+e.getLocalizedMessage());
-                        return;
+                        e.printStackTrace();
                     }
                 }
 
             } catch (Exception e) {
-                P.error(e.getLocalizedMessage());
-                return;
+                e.printStackTrace();
             }
             if (info.mather2.exists()) {
-                boolean delete = info.mather2.delete();
-                P.info(delete ?"删除成功":"删除失败");
+                info.mather2.delete();
             }
             optZipFile.renameTo(info.mather2);
         } else {
@@ -79,21 +69,11 @@ public class Injector {
     }
 
     public static void injectCode(File classFile, Callback closure) {
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(classFile);
+        try (InputStream inputStream = new FileInputStream(classFile)) {
             byte[] codes = closure.call(Constants.DIR, inputStream);
-            if (codes !=null) FileUtils.writeByteArrayToFile(classFile, codes);
+            if (codes != null) FileUtils.writeByteArrayToFile(classFile, codes);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 

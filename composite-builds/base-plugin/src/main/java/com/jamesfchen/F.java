@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.zip.ZipEntry;
 
@@ -42,54 +44,30 @@ public class F {
         }
     }
 
-    public boolean copyFileNIO(File srcFile, File destFile) {
-        FileChannel inChannel = null;
-        FileChannel outChannel = null;
-        try {
-            inChannel = new FileInputStream(srcFile).getChannel();
-            outChannel = new FileOutputStream(destFile).getChannel();
+    public static boolean copyFileNIO(File srcFile, File destFile) {
+        try (FileChannel inChannel = new FileInputStream(srcFile).getChannel(); FileChannel outChannel = new FileOutputStream(destFile).getChannel();) {
             inChannel.transferTo(0, inChannel.size(), outChannel);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            if (inChannel != null) {
-                try {
-                    inChannel.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (outChannel != null) {
-                try {
-                    outChannel.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
-    public void copyFileNIO(FileInputStream fis, FileOutputStream fos) {
-        copyFileNIO(fis.getChannel(),fos.getChannel());
+    public static void copyFileNIO(FileInputStream fis, FileOutputStream fos) throws IOException {
+        copyFileNIO(fis.getChannel(), fos.getChannel());
     }
-    public void copyFileNIO(FileChannel inChannel, FileChannel outChannel) {
-        try {
-            inChannel.transferTo(0, inChannel.size(), outChannel);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                inChannel.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                outChannel.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+    public static void copyFileNIO(FileChannel inChannel, FileChannel outChannel) throws IOException {
+        inChannel.transferTo(0, inChannel.size(), outChannel);
+    }
+
+    public static void copyIs2Os(InputStream is, OutputStream os) throws IOException {
+        int len;
+        byte[] buffer = new byte[8192];
+        while ((len = (is.read(buffer))) != -1) {
+            os.write(buffer, 0, len);
         }
     }
+
 }

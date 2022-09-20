@@ -9,8 +9,6 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
-import com.google.firebase.perf.metrics.AddTrace
 import com.jamesfchen.export.ICall
 import com.jamesfchen.ibc.cbpc.IBCCbpc
 import com.jamesfchen.ibc.router.IBCRouter
@@ -24,7 +22,6 @@ import com.jamesfchen.ibc.router.IBCRouter
  */
 //@Route(path = "/bundle2/sayhi")
 class SayHiActivity : Activity() {
-    @AddTrace(name = "SayHiActivity_onCreate", enabled = true)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val tv = Button(this)
@@ -62,24 +59,6 @@ class SayHiActivity : Activity() {
                 }
             }
         }
-        FirebaseDynamicLinks.getInstance()
-            .getDynamicLink(intent)
-            .addOnSuccessListener(this) { pendingDynamicLinkData ->
-                // Get deep link from result (may be null if no link is found)
-                var deepLink: Uri? = null
-                if (pendingDynamicLinkData != null) {
-                    deepLink = pendingDynamicLinkData.link
-                }
-                Log.w("cjf", "deepLink:$deepLink")
-
-
-                // Handle the deep link. For example, open the linked
-                // content, or apply promotional credit to the user's
-                // account.
-                // ...
-
-                // ...
-            }
-            .addOnFailureListener(this) { e -> Log.w("cjf", "getDynamicLink:onFailure", e) }
     }
+
 }

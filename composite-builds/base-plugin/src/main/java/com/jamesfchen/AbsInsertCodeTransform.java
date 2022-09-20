@@ -185,31 +185,22 @@ public abstract class AbsInsertCodeTransform extends AbsTransform {
                             //                            || canonicalName.startsWith("kotlin")
                             || canonicalName.startsWith("org.bouncycastle")
                     ) {
-                        int len;
-                        byte[] buffer = new byte[1024];
-                        while ((len = (inputStream.read(buffer))) != -1) {
-                            optZipFos.write(len);
-                        }
+                        F.copyIs2Os(inputStream, optZipFos);
                     } else {
-                        byte[] codes = onInsertCode(new ClassInfo(classStatus,srcJar, destJar, inputStream, canonicalName));
+                        byte[] codes = onInsertCode(new ClassInfo(classStatus, srcJar, destJar, inputStream, canonicalName));
                         if (codes.length != 0) {
                             optZipFos.write(codes);
                         } else {
-                            int len;
-                            byte[] buffer = new byte[1024];
-                            while ((len = (inputStream.read(buffer))) != -1) {
-                                optZipFos.write(len);
-                            }
+                            F.copyIs2Os(inputStream, optZipFos);
                         }
                     }
                     optZipFos.closeEntry();
                 } catch (Exception e) {
-                    P.error(e.getLocalizedMessage());
+                    e.printStackTrace();
                 }
             }
         } catch (Exception e) {
-            P.error(e.getLocalizedMessage());
-            return;
+            e.printStackTrace();
         }
         if (srcJar.exists()) {
             srcJar.delete();
@@ -236,7 +227,7 @@ public abstract class AbsInsertCodeTransform extends AbsTransform {
                     FileInputStream fis = null;
                     try {
                         fis = new FileInputStream(file.toFile());
-                        codes = onInsertCode(new ClassInfo(ClassInfo.BIRTH_DIR,srcRootDir, destRootDir, fis, canonicalName));
+                        codes = onInsertCode(new ClassInfo(ClassInfo.BIRTH_DIR, srcRootDir, destRootDir, fis, canonicalName));
                     } catch (Exception e) {
                         P.error(e.getLocalizedMessage());
                     } finally {

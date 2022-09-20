@@ -10,7 +10,7 @@ import org.gradle.api.Project;
 
 import java.util.Set;
 
-public abstract class ScanClassPlugin extends AbsScanClassTransform implements Plugin<Project> {
+public abstract class   ScanClassPlugin extends AbsScanClassTransform implements Plugin<Project> {
 
     @Override
     public Set<QualifiedContent.ContentType> getInputTypes() {
