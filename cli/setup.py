@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 setup(
     name='bundcli',
     version='1.0.0',
-    packages=find_packages(include=['cli']),
+    packages=find_packages(include=['cmds']),
     include_package_data=True,
     zip_safe=False,
     install_requires=[
@@ -17,7 +17,7 @@ setup(
     long_description='''bundles assembler cli''',
     long_description_content_type="text/markdown",
     license="Apache2",
-    url='https://jamesfchen.github.io/pyadb/',
+    url='https://github.com/electrolyteJ/bundles-assembler/wiki',
     # keywords="",
     # url='',
     classifiers=[
@@ -43,7 +43,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'bundcli=cli:entry',
+            'bundcli=cmds:entry',
         ],
     }
 )
