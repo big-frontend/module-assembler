@@ -6,6 +6,8 @@ import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.plugins.signing.SigningExtension
+import org.gradle.api.tasks.bundling.Jar
+import org.gradle.api.tasks.javadoc.Javadoc
 
 /**
  * [Android库发布到Maven Central全攻略](https://xiaozhuanlan.com/topic/6174835029)
@@ -232,13 +234,17 @@ class PublisherPlugin implements Plugin<Project> {
 //                from javadoc.destinationDir
 //            }
         } else {
-            project.tasks.create(name: 'sourcesJar', group: "documentation", type: Jar, dependsOn: 'classes') {
-                classifier = 'sources'
-                from project.sourceSets.main.allSource
+            if (project.tasks.findByName('sourcesJar') == null) {
+                project.tasks.create(name: 'sourcesJar', group: "documentation", type: Jar, dependsOn: 'classes') {
+                    classifier = 'sources'
+                    from project.sourceSets.main.allSource
+                }
             }
-            project.tasks.create(name: 'javadocJar', group: "documentation", type: Jar, dependsOn: 'javadoc') {
-                classifier = 'javadoc'
-                from project.javadoc.destinationDir
+            if (project.tasks.findByName('javadocJar') == null) {
+                project.tasks.create(name: 'javadocJar', group: "documentation", type: Jar, dependsOn: 'javadoc') {
+                    classifier = 'javadoc'
+                    from project.javadoc.destinationDir
+                }
             }
         }
 
