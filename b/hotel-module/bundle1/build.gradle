@@ -16,6 +16,5 @@ android {
 dependencies {
     implementation project.moduleify("hotel-export")
     kapt 'io.github.jamesfchen:ibc-processor:1.3.0'
-    compileOnly project.moduleify("framework-network")
-    compileOnly project.moduleify("framework-common")
+    compileOnly project.moduleify('fwk-base')
 }

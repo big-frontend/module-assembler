@@ -16,9 +16,5 @@ dependencies {
     project.depsConfig("implementation", "hotel-bundle4")
     project.depsConfig("implementation", "hotel-export")
     project.depsConfig("implementation", "hotel-foundation")
-    project.depsConfig("implementation", "framework-webcontainer")
-    implementation project.moduleify("framework-common")
-
-
-
+    implementation project.moduleify('fwk-base')
 }

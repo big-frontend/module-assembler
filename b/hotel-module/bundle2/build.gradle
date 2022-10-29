@@ -4,6 +4,5 @@ plugins{
 dependencies {
     implementation project.moduleify("hotel-export")
     implementation project.moduleify("hotel-foundation")
-    compileOnly project.moduleify("framework-network")
-    compileOnly project.moduleify("framework-common")
+    compileOnly project.moduleify('fwk-base')
 }

@@ -52,8 +52,7 @@ dependencies {
     project.depsConfig("implementation", "hotel-export")
     project.depsConfig("implementation", "hotel-foundation")
     project.depsConfig("dynamicImplementation", "plugin-im")
-    implementation project.moduleify("framework-network")
-    implementation project.moduleify("framework-common")
+    implementation project.moduleify("fwk-base")
     ksp "io.github.jamesfchen:ibc-processor:1.0.0"
     implementation "io.github.jamesfchen:ibc-processor:1.0.0"
     implementation 'com.iqiyi.xcrash:xcrash-android-lib:3.0.0'

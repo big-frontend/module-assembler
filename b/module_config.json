@@ -9,27 +9,8 @@
   "groupId": "io.github.jamesfchen",
   "allModules": [
     {
-      "simpleName": "framework-loader",
-      "sourcePath": ":framework:loader",
-      "format": "foundation",
-      "group": "fwk"
-    },
-    {
-      "simpleName": "framework-baseui",
-      "sourcePath": ":framework:baseui",
-      "format": "biz-foundation",
-      "group": "fwk"
-    },
-    {
-      "simpleName": "framework-network",
-      "sourcePath": ":framework:network",
-      "format": "foundation",
-      "group": "fwk"
-    },
-    {
-      "simpleName": "framework-common",
-      "sourcePath": ":framework:common",
-      "format": "foundation",
+      "simpleName": "fwk-base",
+      "sourcePath": ":base",
       "group": "fwk"
     },
     {

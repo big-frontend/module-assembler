@@ -10,8 +10,6 @@ android {
     }
 }
 dependencies {
-//    implementation project.moduleify('framework-baseui')
-//    compileOnly project.moduleify("framework-network")
-//    compileOnly project.moduleify("framework-common")
     compileOnly project.moduleify("hotel-export")
+//    compileOnly project.moduleify('fwk-base')
 }

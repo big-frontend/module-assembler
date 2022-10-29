@@ -30,8 +30,5 @@ dependencies {
     // into a lint.jar file and publishes it to your
     // Android library.
 //    lintPublish project.moduleify('hotel-lint')
-    implementation project.moduleify('framework-baseui')
-    compileOnly project.moduleify("framework-network")
-    compileOnly project.moduleify("framework-common")
-
+    compileOnly project.moduleify('fwk-base')
 }
