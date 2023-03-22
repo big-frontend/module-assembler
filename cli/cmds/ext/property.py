@@ -1,10 +1,7 @@
-
 import re
 import sys
 import time
-from enum import Enum, unique
 from io import TextIOWrapper
-from os import path as opath
 
 
 class IllegalArgumentException(Exception):
@@ -229,6 +226,9 @@ class Properties(object):
             self.__parse(lines)
         except IOError as e:
             raise
+
+    def hasProperty(self, key):
+        return key in self._props
 
     def getProperty(self, key):
         """ Return a property for the given key """

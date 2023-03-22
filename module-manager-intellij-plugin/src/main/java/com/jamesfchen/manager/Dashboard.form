@@ -149,6 +149,12 @@
                 <border type="line"/>
                 <children/>
               </grid>
+              <grid id="2af93" binding="serverApiEnvsPanel" layout-manager="GridBagLayout">
+                <constraints/>
+                <properties/>
+                <border type="line"/>
+                <children/>
+              </grid>
             </children>
           </grid>
         </children>

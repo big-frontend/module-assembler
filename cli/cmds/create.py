@@ -1,5 +1,11 @@
+"""
+模块创建
+"""
+from argparse import ArgumentParser
+
 from fwk import BaseCommand
 from enum import Enum, unique
+
 
 class Create(BaseCommand):
     def _create_parser(self, p):
@@ -16,15 +22,15 @@ class Create(BaseCommand):
                 TYPE.FLUTTER.name.lower(),
                 TYPE.REACTNATIVE.name.lower(),
                 TYPE.HTML5.name.lower(),
-                TYPE.NATIVE_STACTIC.name.lower(),
-                TYPE.NATIVE_DYNIMAC.name.lower(),
+                TYPE.NATIVE_STATIC.name.lower(),
+                TYPE.NATIVE_DYNAMIC.name.lower(),
             ],
             default=TYPE.NONE.name.lower(),
             help="模块类型"
         )
         return pyadb_parser
 
-    def _parse_args(self, args: "ArgumentParser"):
+    def _parse_args(self, args: ArgumentParser):
         self.__basic = args.basic
 
     def _execute(self):
@@ -37,5 +43,5 @@ class TYPE(Enum):
     FLUTTER = 1
     REACTNATIVE = 2
     HTML5 = 3
-    NATIVE_STACTIC = 4
-    NATIVE_DYNIMAC = 5
+    NATIVE_STATIC = 4
+    NATIVE_DYNAMIC = 5

@@ -1,13 +1,18 @@
 """
+模块管理
+
 python  script/module_manager.py -fp=source -dbp=exclude -sbp=exclude
 python  script/module_manager.py -v all -e a -e b
 
 """
+from argparse import ArgumentParser
+
 from fwk import BaseCommand
 import json
-from os import path as opath
+from cmds.ext import util
 from enum import Enum, unique
 from cmds.ext.property import Properties
+
 
 class Picker(BaseCommand):
     def _create_parser(self, p):
@@ -31,28 +36,25 @@ class Picker(BaseCommand):
                             help='fwk选择源码集成 or 二进制包集成')
         parser.add_argument('-sbp', '--static_bundle_policy', dest='static_bundle_policy',
                             choices=[Policy.BINARY.name.lower(), Policy.SOURCE.name.lower(),
-                                    Policy.EXCLUDE.name.lower()],
+                                     Policy.EXCLUDE.name.lower()],
                             default=Policy.NONE.name.lower(),
                             help='static bundle源码集成 or 二进制包集成 or 不参与集成')
         parser.add_argument('-dbp', '--dynamic_bundle_policy', dest='dynamic_bundle_policy',
                             choices=[Policy.BINARY.name.lower(), Policy.SOURCE.name.lower(),
-                                    Policy.EXCLUDE.name.lower()],
+                                     Policy.EXCLUDE.name.lower()],
                             default=Policy.NONE.name.lower(),
                             help='dynamic bundle源码集成 or 二进制包集成 or 不参与集成')
         return parser
 
-    def _parse_args(self, args: "ArgumentParser"):
+    def _parse_args(self, args: ArgumentParser):
         self.__args = args
-        ##todo local.properties  与 module_config.json文件路径需要通过全局配置获取
-        root_path = opath.dirname(opath.dirname(__file__))
-        self.__local_properties_path = opath.join(root_path, 'local.properties')
-        module_config_path = opath.join(root_path, 'module_config.json')
+        self.__local_properties_path = util.get_local_properties_path()
         self.__p = Properties()
-        self.__p.load(open(self.__local_properties_path))
+        self.__p.load(open(self.__local_properties_path,encoding='utf-8'))
         self.__fwk_modules = dict()
         self.__nsbundle_modules = dict()
         self.__ndbundle_modules = dict()
-        with open(module_config_path, encoding='utf-8') as f:
+        with open(util.get_module_config_path(), encoding='utf-8') as f:
             module_config = json.load(f)
             for m in module_config['allModules']:
                 if m['group'] == 'fwk':
@@ -70,20 +72,20 @@ class Picker(BaseCommand):
 
         if not self.__p['activeBuildVariant']:
             self.__p['activeBuildVariant'] = 'all'
-        #includeAll
-        if not self.__p['sourceModules']:
+        # includeAll
+        if not self.__p.hasProperty('sourceModules'):
             for k in self.__fwk_modules.keys():
-                self.__p['sourceModules'] +=f'{k},'
+                self.__p['sourceModules'] += f'{k},'
             for k in self.__nsbundle_modules.keys():
-                self.__p['sourceModules'] +=f'{k},'
+                self.__p['sourceModules'] += f'{k},'
             for k in self.__ndbundle_modules.keys():
-                self.__p['excludeModules'] +=f'{k},'
+                self.__p['excludeModules'] += f'{k},'
         #     self.__p.store(open(local_properties_path, 'w'))
         # if not self.__p['excludeModules']:
         #     pass
 
         if self.__p['activeBuildVariant'] == 'all' and args.binary_modules:
-            raise BaseException("all 模式下，不支持组件化,请将所有binary模块转换成source 或者 exclude")
+            raise RuntimeError("all 模式下，不支持组件化,请将所有binary模块转换成source 或者 exclude")
 
         if args.source_modules: self.sourceify(args.source_modules)
         if args.exclude_modules: self.execludeify(args.exclude_modules)
@@ -114,11 +116,12 @@ class Picker(BaseCommand):
             self.sourceify(self.__ndbundle_modules.keys())
         elif args.dynamic_bundle_policy == Policy.EXCLUDE.name.lower():
             self.execludeify(self.__ndbundle_modules.keys())
-        self.__p.store(open(self.__local_properties_path, 'w'))
+        self.__p.store(open(self.__local_properties_path, 'w', encoding='utf-8'))
 
-    def duplicate(self,sources, excludes, binaries):
+    def duplicate(self, sources, excludes, binaries):
         # 重复就抛出异常
         pass
+
     def remove_module(self, property_name, m):
         n = ''
         for e in self.__p[property_name].split(','):
@@ -126,33 +129,32 @@ class Picker(BaseCommand):
                 n += f'{e},'
         self.__p[property_name] = n
 
-    def sourceify(self,modules):
+    def sourceify(self, modules):
         source_modules = [e for e in self.__p['sourceModules'].split(",") if e]
         for s in modules:
             if s not in source_modules:
-                self.__pp['sourceModules'] += f'{s},'
+                self.__p['sourceModules'] += f'{s},'
 
-            self.remove_module(self.__p, 'excludeModules', s)
+            self.remove_module('excludeModules', s)
 
-
-    def execludeify(self,modules):
+    def execludeify(self, modules):
         exclude_modules = [e for e in self.__p['excludeModules'].split(",") if e]
         for e in modules:
             if e not in exclude_modules:
                 self.__p['excludeModules'] += f'{e},'
 
-            self.remove_module(self.__p, 'sourceModules', e)
+            self.remove_module('sourceModules', e)
 
-
-    def binaryify(self,modules):
+    def binaryify(self, modules):
         source_modules = [e for e in self.__p['sourceModules'].split(",") if e]
         exclude_modules = [e for e in self.__p['excludeModules'].split(",") if e]
         for b in modules:
             if b in source_modules:
-                self.remove_module(self.__p, 'sourceModules', b)
+                self.remove_module('sourceModules', b)
 
             if b in exclude_modules:
-                self.remove_module(self.__p, 'excludeModules', b)
+                self.remove_module('excludeModules', b)
+
 
 @unique
 class Policy(Enum):
@@ -160,5 +162,3 @@ class Policy(Enum):
     SOURCE = 1
     EXCLUDE = 2
     BINARY = 3
-
-

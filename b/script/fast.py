@@ -1,8 +1,3 @@
-"""
-python  script/module_manager.py -fp=source -dbp=exclude -sbp=exclude
-python  script/module_manager.py -v all -e a -e b
-
-"""
 import argparse
 import json
 import re
@@ -11,7 +6,190 @@ import time
 from enum import Enum, unique
 from io import TextIOWrapper
 from os import path as opath
+import subprocess,platform
 
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        usage="fast build",
+        description=__doc__,
+    )
+    parser.add_argument('--version', action='version', version='1.0.0')
+    parser.add_argument('-env', '--active-server-api-env', dest='active_server_api_env',default='', type=str,
+                        help='服务api环境 eg. fast -env=test')
+    parser.add_argument('-v', '--active-build-variant', dest='active_build_variant',default='', type=str,
+                        help='变体 eg. fast -v=debug')
+    parser.add_argument('-sm', '--source-module', dest='source_modules', action="append",default=[],
+                        help='以源码参与构建的模块 eg. fast -sm=flight-module -sm=hotel-module')
+    parser.add_argument('-em', '--exclude-module', dest='exclude_modules', action="append",default=[],
+                        help='以二进制包参与构建的模块 eg. fast -em=flight-module -em=hotel-module')
+    parser.add_argument('-bm', '--binary-module', dest='binary_modules', action="append",default=[],
+                        help='不参与构建的模块 eg. fast -bm=flight-module -bm=hotel-module')
+    parser.add_argument('--ndbify-modules', dest='ndb_modules', action="append",default=[],
+                        help='native static bundle 转成 native dynamic  bundle')
+    parser.add_argument('-fp', '--fwk-policy', dest='fwk_policy',
+                        choices=[Policy.BINARY.name.lower(), Policy.SOURCE.name.lower()],
+                        default=Policy.NONE.name.lower(),
+                        help='fwk选择源码集成 or 二进制包集成 eg. fast -fp=source')
+    parser.add_argument('-sbp', '--static-bundle-policy', dest='static_bundle_policy',
+                        choices=[Policy.BINARY.name.lower(), Policy.SOURCE.name.lower(),
+                                 Policy.EXCLUDE.name.lower()],
+                        default=Policy.NONE.name.lower(),
+                        help='static bundle源码集成 or 二进制包集成 or 不参与集成 eg. fast -sbp=exclude')
+    parser.add_argument('-dbp', '--dynamic-bundle-policy', dest='dynamic_bundle_policy',
+                        choices=[Policy.BINARY.name.lower(), Policy.SOURCE.name.lower(),
+                                 Policy.EXCLUDE.name.lower()],
+                        default=Policy.NONE.name.lower(),
+                        help='dynamic bundle源码集成 or 二进制包集成 or 不参与集成 eg. fast -dbp=exclude')
+    parser.add_argument('--task', dest='gradle_task', default='', type=str,required =True,
+                        help='gradle 执行的任务 eg. fast --task=app:debug')
+    parser.add_argument('--task-arg', dest='gradle_task_args',  action="append",default=[],
+                        help='gradle 执行的任务的参数  eg. fast --task=app:debug --task_arg=name:xiaoming')
+
+    parser.set_defaults(func=parse_args)
+    parser.parse_args()
+    args = parser.parse_args()
+    args.func(args)
+
+def parse_args(args):
+    # 1.读取配置文件数据
+    root_path = opath.dirname(opath.dirname(__file__))
+    local_properties_path = opath.join(root_path, 'local.properties')
+    module_config_path = opath.join(root_path, 'module_config.json')
+    local_props = Properties()
+    local_props.load(open(local_properties_path,encoding='utf-8'))
+    fwk_modules = dict()
+    nsbundle_modules = dict()
+    ndbundle_modules = dict()
+    with open(module_config_path, encoding='utf-8') as f:
+        module_config = json.load(f)
+        for m in module_config['allModules']:
+            if m['group'] == 'fwk':
+                fwk_modules[m["simpleName"]] = m
+            elif not m.get('dynamic'):
+                nsbundle_modules[m["simpleName"]] = m
+            elif m['dynamic']:
+                ndbundle_modules[m["simpleName"]] = m
+
+    print(args)
+    # 2.构建环境预配置
+    if args.active_build_variant:
+        local_props['activeBuildVariant'] = args.active_build_variant
+
+    if args.active_server_api_env:
+        local_props['activeServerApiEnv'] = args.active_server_api_env
+
+    if not local_props['activeServerApiEnv']:
+        local_props['activeServerApiEnv'] = 'production'
+
+    if not local_props['activeBuildVariant']:
+        local_props['activeBuildVariant'] = 'all'
+    #includeAll
+    if not local_props.hasProperty('sourceModules'):
+        for k in fwk_modules.keys():
+            local_props['sourceModules'] +=f'{k},'
+        for k in nsbundle_modules.keys():
+            local_props['sourceModules'] +=f'{k},'
+        for k in ndbundle_modules.keys():
+            local_props['excludeModules'] +=f'{k},'
+
+    if local_props['activeBuildVariant'] == 'all' and args.binary_modules:
+        raise BaseException("all 模式下，不支持组件化,请将所有binary模块转换成source 或者 exclude")
+
+    if args.source_modules: sourceify(local_props,args.source_modules)
+    if args.exclude_modules: execludeify(local_props,args.exclude_modules)
+    if args.binary_modules: binaryify(local_props,args.binary_modules)
+    if args.ndb_modules: ndbify(module_config_path,module_config,args.ndb_modules)
+    if args.fwk_policy == Policy.BINARY.name.lower():
+        binaryify(local_props,fwk_modules.keys())
+    elif args.fwk_policy == Policy.SOURCE.name.lower():
+        sourceify(local_props,fwk_modules.keys())
+
+    if args.static_bundle_policy == Policy.BINARY.name.lower():
+        binaryify(local_props,nsbundle_modules.keys())
+    elif args.static_bundle_policy == Policy.SOURCE.name.lower():
+        sourceify(local_props,nsbundle_modules.keys())
+    elif args.static_bundle_policy == Policy.EXCLUDE.name.lower():
+        a = []
+        home_module = []
+        for _, m in nsbundle_modules.items():
+            if m.get("group") != 'home':
+                a.append(m['simpleName'])
+            else:
+                home_module.append(m['simpleName'])
+        execludeify(local_props,a)
+        binaryify(local_props,home_module)
+
+    if args.dynamic_bundle_policy == Policy.BINARY.name.lower():
+        binaryify(local_props,ndbundle_modules.keys())
+    elif args.dynamic_bundle_policy == Policy.SOURCE.name.lower():
+        sourceify(local_props,ndbundle_modules.keys())
+    elif args.dynamic_bundle_policy == Policy.EXCLUDE.name.lower():
+        execludeify(local_props,ndbundle_modules.keys())
+    local_props.store(open(local_properties_path, 'w',encoding='utf-8'))
+
+    # 3.执行gradle任务
+    is_windows = "Windows" in platform.system()
+    cmd_list = 'gradlew.bat ' if is_windows else 'gradle '
+    cmd_list += args.gradle_task +' '
+    for arg in args.gradle_task_args:
+       cmd_list += f'-{arg} '
+    print(cmd_list)
+    subprocess.run(cmd_list,shell=True)
+
+def duplicate(sources, excludes, binaries):
+    # 重复就抛出异常
+    pass
+
+
+def remove_module(p, property_name, m):
+    n = ''
+    for e in p[property_name].split(','):
+        if e and e != m:
+            n += f'{e},'
+    p[property_name] = n
+
+
+def sourceify(p,modules):
+    source_modules = [e for e in p['sourceModules'].split(",") if e]
+    for s in modules:
+        if s not in source_modules:
+            p['sourceModules'] += f'{s},'
+        remove_module(p, 'excludeModules', s)
+
+
+def execludeify(p,modules):
+    exclude_modules = [e for e in p['excludeModules'].split(",") if e]
+    for e in modules:
+        if e not in exclude_modules:
+            p['excludeModules'] += f'{e},'
+
+        remove_module(p, 'sourceModules', e)
+
+
+def binaryify(p,modules):
+    source_modules = [e for e in p['sourceModules'].split(",") if e]
+    exclude_modules = [e for e in p['excludeModules'].split(",") if e]
+    for b in modules:
+        if b in source_modules:
+            remove_module(p, 'sourceModules', b)
+
+        if b in exclude_modules:
+            remove_module(p, 'excludeModules', b)
+
+def ndbify(module_config_path,module_config,modules):
+    for m in module_config['allModules']:
+        if m['simpleName'] in modules:
+            m['format'] = 'ndbundle'
+            m['dynamic'] = 'local-plugin'
+    with open(module_config_path,'w', encoding='utf-8') as f:
+        f.write(json.dumps(module_config,indent =2,ensure_ascii =False))
+
+@unique
+class Policy(Enum):
+    NONE = 0
+    SOURCE = 1
+    EXCLUDE = 2
+    BINARY = 3
 
 class IllegalArgumentException(Exception):
 
@@ -235,7 +413,8 @@ class Properties(object):
             self.__parse(lines)
         except IOError as e:
             raise
-
+    def hasProperty(self, key):
+        return key in self._props
     def getProperty(self, key):
         """ Return a property for the given key """
 
@@ -305,163 +484,8 @@ class Properties(object):
         except KeyError:
             if hasattr(self._props, name):
                 return getattr(self._props, name)
-
-
-root_path = opath.dirname(opath.dirname(__file__))
-local_properties_path = opath.join(root_path, 'local.properties')
-module_config_path = opath.join(root_path, 'module_config.json')
-p = Properties()
-p.load(open(local_properties_path))
-fwk_modules = dict()
-nsbundle_modules = dict()
-ndbundle_modules = dict()
-with open(module_config_path, encoding='utf-8') as f:
-    module_config = json.load(f)
-    for m in module_config['allModules']:
-        if m['group'] == 'fwk':
-            fwk_modules[m["simpleName"]] = m
-        elif not m.get('dynamic'):
-            nsbundle_modules[m["simpleName"]] = m
-        elif m['dynamic']:
-            ndbundle_modules[m["simpleName"]] = m
-
-
-def duplicate(sources, excludes, binaries):
-    # 重复就抛出异常
-    pass
-
-
-def remove_module(p, property_name, m):
-    n = ''
-    for e in p[property_name].split(','):
-        if e and e != m:
-            n += f'{e},'
-    p[property_name] = n
-
-
-def sourceify(modules):
-    source_modules = [e for e in p['sourceModules'].split(",") if e]
-    for s in modules:
-        if s not in source_modules:
-            p['sourceModules'] += f'{s},'
-
-        remove_module(p, 'excludeModules', s)
-
-
-def execludeify(modules):
-    exclude_modules = [e for e in p['excludeModules'].split(",") if e]
-    for e in modules:
-        if e not in exclude_modules:
-            p['excludeModules'] += f'{e},'
-
-        remove_module(p, 'sourceModules', e)
-
-
-def binaryify(modules):
-    source_modules = [e for e in p['sourceModules'].split(",") if e]
-    exclude_modules = [e for e in p['excludeModules'].split(",") if e]
-    for b in modules:
-        if b in source_modules:
-            remove_module(p, 'sourceModules', b)
-
-        if b in exclude_modules:
-            remove_module(p, 'excludeModules', b)
-
-
-def parse_args(args):
-    print(args)
-    if args.active_build_variant:
-        p['activeBuildVariant'] = args.active_build_variant
-
-    if not p['activeBuildVariant']:
-        p['activeBuildVariant'] = 'all'
-    #includeAll
-    if not p['sourceModules']:
-        for k in fwk_modules.keys():
-            p['sourceModules'] +=f'{k},'
-        for k in nsbundle_modules.keys():
-            p['sourceModules'] +=f'{k},'
-        for k in ndbundle_modules.keys():
-            p['excludeModules'] +=f'{k},'
-    #     p.store(open(local_properties_path, 'w'))
-    # if not p['excludeModules']:
-    #     pass
-
-    if p['activeBuildVariant'] == 'all' and args.binary_modules:
-        raise BaseException("all 模式下，不支持组件化,请将所有binary模块转换成source 或者 exclude")
-
-    if args.source_modules: sourceify(args.source_modules)
-    if args.exclude_modules: execludeify(args.exclude_modules)
-    if args.binary_modules: binaryify(args.binary_modules)
-    if args.fwk_policy == Policy.BINARY.name.lower():
-        binaryify(fwk_modules.keys())
-    elif args.fwk_policy == Policy.SOURCE.name.lower():
-        sourceify(fwk_modules.keys())
-
-    if args.static_bundle_policy == Policy.BINARY.name.lower():
-        binaryify(nsbundle_modules.keys())
-    elif args.static_bundle_policy == Policy.SOURCE.name.lower():
-        sourceify(nsbundle_modules.keys())
-    elif args.static_bundle_policy == Policy.EXCLUDE.name.lower():
-        a = []
-        home_module = []
-        for _, m in nsbundle_modules.items():
-            if m.get("group") != 'home':
-                a.append(m['simpleName'])
-            else:
-                home_module.append(m['simpleName'])
-        execludeify(a)
-        binaryify(home_module)
-
-    if args.dynamic_bundle_policy == Policy.BINARY.name.lower():
-        binaryify(ndbundle_modules.keys())
-    elif args.dynamic_bundle_policy == Policy.SOURCE.name.lower():
-        sourceify(ndbundle_modules.keys())
-    elif args.dynamic_bundle_policy == Policy.EXCLUDE.name.lower():
-        execludeify(ndbundle_modules.keys())
-    p.store(open(local_properties_path, 'w'))
-
-
-@unique
-class Policy(Enum):
-    NONE = 0
-    SOURCE = 1
-    EXCLUDE = 2
-    BINARY = 3
-
-
-parser = argparse.ArgumentParser(
-    usage="module manager",
-    description=__doc__,
-)
-parser.add_argument('--version', action='version', version='1.0.0')
-parser.add_argument('-v', '--activeBuildVariant', dest='active_build_variant',
-                    default='', type=str,
-                    help='变体')
-parser.add_argument('-s', '--source', dest='source_modules', action="append",
-                    default=[],
-                    help='以源码参与构建的模块')
-parser.add_argument('-e', '--exclude', dest='exclude_modules', action="append",
-                    default=[],
-                    help='以二进制包参与构建的模块')
-parser.add_argument('-b', '--binary', dest='binary_modules', action="append",
-                    default=[],
-                    help='不参与构建的模块')
-parser.add_argument('-fp', '--fwk_policy', dest='fwk_policy',
-                    choices=[Policy.BINARY.name.lower(), Policy.SOURCE.name.lower()],
-                    default=Policy.NONE.name.lower(),
-                    help='fwk选择源码集成 or 二进制包集成')
-parser.add_argument('-sbp', '--static_bundle_policy', dest='static_bundle_policy',
-                    choices=[Policy.BINARY.name.lower(), Policy.SOURCE.name.lower(),
-                             Policy.EXCLUDE.name.lower()],
-                    default=Policy.NONE.name.lower(),
-                    help='static bundle源码集成 or 二进制包集成 or 不参与集成')
-parser.add_argument('-dbp', '--dynamic_bundle_policy', dest='dynamic_bundle_policy',
-                    choices=[Policy.BINARY.name.lower(), Policy.SOURCE.name.lower(),
-                             Policy.EXCLUDE.name.lower()],
-                    default=Policy.NONE.name.lower(),
-                    help='dynamic bundle源码集成 or 二进制包集成 or 不参与集成')
-parser.set_defaults(func=parse_args)
-parser.parse_args()
-args = parser.parse_args()
-args.func(args)
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass

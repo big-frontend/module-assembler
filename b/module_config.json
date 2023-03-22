@@ -6,6 +6,11 @@
     "debug",
     "release"
   ],
+  "serverApiEnvs": [
+    "production",
+    "test",
+    "dev"
+  ],
   "groupId": "io.github.jamesfchen",
   "allModules": [
     {

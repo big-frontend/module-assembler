@@ -1,3 +1,5 @@
+from argparse import ArgumentParser
+
 from fwk import BaseCommand
 
 
@@ -11,7 +13,7 @@ class Bundle(BaseCommand):
 
         return pyadb_parser
 
-    def _parse_args(self, args: "ArgumentParser"):
+    def _parse_args(self, args: ArgumentParser):
         self.__basic = args.basic
 
     def _execute(self):
