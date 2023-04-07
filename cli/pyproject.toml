@@ -1,0 +1,60 @@
+[tool.poetry]
+name = "bundcli"
+version = "1.0.0"
+description = "bundles assembler cli"
+authors = ["electrolyteJ <hawks.jamesf@gmail.com>"]
+#maintainers = [
+#  {name = "A. Great Maintainer", email = "maintainer@example.com" } # Optional
+#]
+license = "Apache2"
+classifiers = [
+    # How mature is this project? Common values are
+    #   3 - Alpha
+    #   4 - Beta
+    #   5 - Production/Stable
+    'Development Status :: 5 - Production/Stable',
+    # Pick your license as you wish (should match "license" above)
+    'License :: OSI Approved :: Apache Software License',
+    # Specify the Python versions you support here. In particular, ensure
+    # that you indicate whether you support Python 2, Python 3 or both.
+    # 'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.3',
+    'Programming Language :: Python :: 3.4',
+    'Programming Language :: Python :: 3.5',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.9',
+]
+packages = [{include = "cmds", from = "src"}]
+#keywords = ["sample", "setuptools", "development"]  # Optional
+#license = {file = "LICENSE.txt"}
+
+
+[project.urls]  # Optional
+"Homepage" = "https://github.com/electrolyteJ/bundles-assembler/wiki"
+"Bug Reports" = "https://github.com/pypa/sampleproject/issues"
+"Funding" = "https://donate.pypi.org"
+"Source" = "https://github.com/electrolyteJ/bundles-assembler"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "2.27.1"
+tqdm = "^4.65.0"
+#cmd-fwk = "^1.2.2"
+
+
+[tool.poetry.dev-dependencies]
+#pylint = "*"
+#isort = "*"
+#pytest = "*"
+#mkdocs = "*"
+#mkdocs-material = "*"
+
+
+[tool.poetry.scripts]
+bundcli = 'cmds:entry'
