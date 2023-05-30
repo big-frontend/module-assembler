@@ -9,8 +9,6 @@ public class ModuleConfig {
 //    String author;
 //    String description;
     @NotNull
-    List<String> serverApiEnvs;
-    @NotNull
     List<String> buildVariants;
     @NotNull
     List<Module> allModules;

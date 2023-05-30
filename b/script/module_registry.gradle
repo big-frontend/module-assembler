@@ -17,7 +17,6 @@ def config = new JsonSlurper().parse(file("$rootDir/module_config.json"))
 gradle.ext.allModules = config.allModules
 gradle.ext.groupId = config.groupId
 gradle.ext.buildVariants = config.buildVariants
-gradle.ext.serverApiEnvs = config.serverApiEnvs
 def localProperties = new Properties()
 def localPropertiesFile = new File(rootDir, 'local.properties')
 if (localPropertiesFile.exists()) {
@@ -31,13 +30,6 @@ if (localProperties.getProperty('activeBuildVariant', '')) {
 } else {
     gradle.ext.activeBuildVariant = gradle.ext.buildVariants.get(0)
     localProperties.setProperty("activeBuildVariant", gradle.ext.activeBuildVariant)
-    localProperties.store(new FileOutputStream(localPropertiesFile), "update modules")
-}
-if (localProperties.getProperty('activeServerApiEnv')){
-    gradle.ext.activeServerApiEnv = localProperties.getProperty('activeServerApiEnv')
-}else {
-    gradle.ext.activeServerApiEnv = gradle.ext.serverApiEnvs.get(0)
-    localProperties.setProperty("activeServerApiEnv", gradle.ext.activeServerApiEnv)
     localProperties.store(new FileOutputStream(localPropertiesFile), "update modules")
 }
 gradle.ext.excludeModuleMap = new LinkedHashMap<String, Object>()

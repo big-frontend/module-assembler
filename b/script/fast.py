@@ -14,8 +14,6 @@ def main() -> None:
         description=__doc__,
     )
     parser.add_argument('--version', action='version', version='1.0.0')
-    parser.add_argument('-env', '--active-server-api-env', dest='active_server_api_env',default='', type=str,
-                        help='服务api环境 eg. fast -env=test')
     parser.add_argument('-v', '--active-build-variant', dest='active_build_variant',default='', type=str,
                         help='变体 eg. fast -v=debug')
     parser.add_argument('-sm', '--source-module', dest='source_modules', action="append",default=[],
@@ -74,12 +72,6 @@ def parse_args(args):
     # 2.构建环境预配置
     if args.active_build_variant:
         local_props['activeBuildVariant'] = args.active_build_variant
-
-    if args.active_server_api_env:
-        local_props['activeServerApiEnv'] = args.active_server_api_env
-
-    if not local_props['activeServerApiEnv']:
-        local_props['activeServerApiEnv'] = 'production'
 
     if not local_props['activeBuildVariant']:
         local_props['activeBuildVariant'] = 'all'

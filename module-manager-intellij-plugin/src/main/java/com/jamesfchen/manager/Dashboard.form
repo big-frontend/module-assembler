@@ -3,7 +3,7 @@
   <grid id="cbd77" binding="contentPane" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="48" y="54" width="639" height="297"/>
+      <xy x="48" y="54" width="668" height="297"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -144,12 +144,6 @@
             <border type="line"/>
             <children>
               <grid id="96ae5" binding="buildVariantsPanel" layout-manager="GridBagLayout">
-                <constraints/>
-                <properties/>
-                <border type="line"/>
-                <children/>
-              </grid>
-              <grid id="2af93" binding="serverApiEnvsPanel" layout-manager="GridBagLayout">
                 <constraints/>
                 <properties/>
                 <border type="line"/>

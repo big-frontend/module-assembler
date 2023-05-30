@@ -21,8 +21,6 @@ public class Dashboard extends JDialog {
     private JPanel settingsPanel;
     private JPanel buildVariantsPanel;
     private String activeBuildVariant;
-    private JPanel serverApiEnvsPanel;
-    private String activeServerApiEnv;
     private JPanel moduleSettings;
     private JPanel hotkeys;
     private ButtonGroup fwbg;
@@ -51,7 +49,6 @@ public class Dashboard extends JDialog {
             if (okl != null) {
                 Result result = new Result();
                 result.activeBuildVariant = activeBuildVariant;
-                result.activeServerApiEnv = activeServerApiEnv;
                 int componentCount = allModulePanel.getComponentCount();
                 StringBuilder excludesb = new StringBuilder();
                 StringBuilder sourcesb = new StringBuilder();
@@ -274,30 +271,6 @@ public class Dashboard extends JDialog {
         binaryModuleMap = moduleMap;
         bindPanel(moduleMap, entry -> createFieldText(entry, JBColor.YELLOW, "binary"));
     }
-    public void bindServerApiEnvs(String activeServerApiEnv, List<String> envs) {
-        this.activeServerApiEnv = activeServerApiEnv;
-        GridBagConstraints bagConstraints = new GridBagConstraints();
-        bagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        //add jlabel
-        bagConstraints.weightx = 1;
-        JLabel jLabel = new JLabel();
-        jLabel.setText(activeServerApiEnv);
-        jLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        jLabel.setFont(new Font("黑体", 1, 12));
-        jLabel.setForeground(JBColor.GREEN);
-        serverApiEnvsPanel.add(jLabel, bagConstraints);
-        ComboBoxModel<String> comboBoxModel = new CollectionComboBoxModel<>(envs);
-        ComboBox<String> comboBox = new ComboBox<>(comboBoxModel);
-        bagConstraints.weightx = 1;
-        comboBox.setEditable(true);
-        comboBox.setSelectedItem(activeServerApiEnv);
-        comboBox.addItemListener(e -> {
-            jLabel.setText(e.getItem().toString());
-            this.activeServerApiEnv = e.getItem().toString();
-        });
-        serverApiEnvsPanel.add(comboBox, bagConstraints);
-    }
-
     public void bindBuildVariants(String activeBuildVariant, List<String> variants) {
         this.activeBuildVariant = activeBuildVariant;
         GridBagConstraints bagConstraints = new GridBagConstraints();

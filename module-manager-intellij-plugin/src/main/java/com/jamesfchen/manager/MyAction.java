@@ -28,11 +28,6 @@ public class MyAction extends AnAction {
             showErrorNotification("bindBuildVariants", "请配置buildVariants");
             return;
         }
-        String activeServerApiEnv = getActiveServerApiEnv(localProperties,config.serverApiEnvs);
-        if (activeServerApiEnv ==null){
-            showErrorNotification("serverApiEnvs", "请配置serverApiEnvs");
-            return;
-        }
         String excludeModulesStr = localProperties.getProperty("excludeModules");
         String sourceModulesStr = localProperties.getProperty("sourceModules");
         Map<String, Module> allModuleMap = new TreeMap<>();
@@ -93,7 +88,6 @@ public class MyAction extends AnAction {
         System.out.println(" excludeModuleMap:" + excludeModuleMap);
         System.out.println(" binaryModuleMap:" + binaryModuleMap);
         System.out.println(" activeBuildVariant:" + activeBuildVariant + " buildVariants:" + config.buildVariants);
-        System.out.println(" activeServerApiEnv:" + activeServerApiEnv + " serverApiEnvs:" + config.serverApiEnvs);
         Dashboard d2 = new Dashboard();
         d2.setOKListener(new Dashboard.OkListener() {
             @Override
@@ -106,7 +100,6 @@ public class MyAction extends AnAction {
                 localProperties.setProperty("excludeModules",result.excludeModules);
                 localProperties.setProperty("sourceModules", result.sourceModules);
                 localProperties.setProperty("activeBuildVariant", result.activeBuildVariant);
-                localProperties.setProperty("activeServerApiEnv", result.activeServerApiEnv);
                 FileUtil.storeLocalProperties(localProperties);
                 AnAction syncProjectAction = e.getActionManager().getAction("Android.SyncProject");
                 if (syncProjectAction != null) {
@@ -126,7 +119,6 @@ public class MyAction extends AnAction {
             d2.bindExcludePanel(excludeModuleMap);
             d2.bindBinaryPanel(binaryModuleMap);
             d2.bindBuildVariants(activeBuildVariant, config.buildVariants);
-            d2.bindServerApiEnvs(activeServerApiEnv, config.serverApiEnvs);
             d2.pack();
             d2.setVisible(true);
         }
@@ -145,20 +137,5 @@ public class MyAction extends AnAction {
             FileUtil.storeLocalProperties(localProperties);
         }
         return activeBuildVariant;
-    }
-
-    @Nullable
-    String getActiveServerApiEnv(Properties localProperties, List<String> serverApiEnvs) {
-        String activeServerApiEnv = localProperties.getProperty("activeServerApiEnv");
-        if (serverApiEnvs == null || serverApiEnvs.isEmpty()) {
-            return null;
-        }
-        //第一次初始化项目时,local.properties文件没有activeServerApiEnv
-        if (activeServerApiEnv == null || activeServerApiEnv.isEmpty()) {
-            activeServerApiEnv = serverApiEnvs.get(0);
-            localProperties.setProperty("activeServerApiEnv", activeServerApiEnv);
-            FileUtil.storeLocalProperties(localProperties);
-        }
-        return activeServerApiEnv;
     }
 }

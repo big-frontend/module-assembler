@@ -14,6 +14,4 @@ public class Result {
     String binaryModules;
     @NotNull
     String activeBuildVariant;
-    @NotNull
-    String activeServerApiEnv;
 }
