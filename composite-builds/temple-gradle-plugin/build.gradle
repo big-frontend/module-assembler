@@ -26,17 +26,9 @@ gradlePlugin {
     plugins {
         t1plugin {
             id = "${rootProject.groupId}.t1plugin"
-            implementationClass = 'com.jamesfchen.T1plugin'
+            implementationClass = 'com.electrolytej.T1plugin'
             displayName = 't1plugin'
             description = "t1plugin"
-        }
-    }
-}
-gradlePlugin {
-    plugins {
-        tlcplugin {
-            id = "${rootProject.groupId}.tlc-plugin"
-            implementationClass = 'com.jamesfchen.TlcPlugin'
         }
     }
 }
