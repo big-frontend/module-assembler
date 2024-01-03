@@ -28,9 +28,6 @@ buildscript {
 }
 plugins {
     id("io.github.jamesfchen.ibc-plugin") apply(false)
-    id("io.github.jamesfchen.lifecycle-plugin") apply(false)
-    id('io.github.jamesfchen.t1plugin') apply(false)
-    id('io.github.jamesfchen.tlc-plugin') apply(false)
     id("io.github.jamesfchen.module-publisher-plugin") apply(false)
 }
 allprojects {

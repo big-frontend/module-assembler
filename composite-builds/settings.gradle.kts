@@ -12,7 +12,6 @@
 //}
 include(
     ":base-plugin", ":base-plugin-ktx",
-    ":lifecycle:lifecycle-api", ":lifecycle:lifecycle-plugin",
     ":ibc:ibc-api", ":ibc:ibc-processor", ":ibc:ibc-gradle-plugin",
     ":temple-gradle-plugin"
 )
