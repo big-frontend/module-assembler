@@ -1,3 +1,5 @@
+<!-- Plugin description -->
+
 > It is module manager for idea plugin
 > 
 > 组件化模块的管理工具，像对待女朋友们一样，轻松自在的管理。
@@ -10,6 +12,7 @@
 组件化模块看板，能选择模块集成到项目的方式。exclude选择不集成到组件化项目，source源码编译的方式集成，binary(aar/jar)文件集成。如果想了解更多，
 可以移步到组件化的项目[bundles assembler](https://github.com/JamesfChen/bundles-assembler/tree/main/android) , 宝记得star【bundles assembler】
 
+<!-- Plugin description end -->
 
 ## Installation
 

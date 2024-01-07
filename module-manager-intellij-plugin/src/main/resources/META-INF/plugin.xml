@@ -1,22 +1,20 @@
 <idea-plugin>
     <id>com.jamesfchen.manager.modulemanager</id>
     <name>Module Manager</name>
-    <vendor email="hawksjamesf@gmail.com" url="https://github.com/JamesfChen/module-manager-plugin">jamesfchen</vendor>
-
-    <description><![CDATA[
-    组件化模块的管理工具，像对待女朋友们一样，轻松自在的管理---知名时间管理大师罗师傅.<br>
-    <em>android</em>
-    ]]></description>
+    <vendor email="hawksjamesf@gmail.com" url="https://github.com/JamesfChen/module-manager-plugin">electrolytej</vendor>
 <!--    <change-notes><![CDATA[-->
 <!--       module manager 1.0版本发布了耶(*^▽^*).<br>-->
 <!--    ]]>-->
 <!--    </change-notes>-->
+
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <!-- uncomment to enable plugin in all products
     -->
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.platform</depends>
+
+    <resource-bundle>messages.MyBundle</resource-bundle>
     <actions>
         <action id="com.jamesfchen.manager.MyAction" class="com.jamesfchen.manager.MyAction"
                 icon="/META-INF/pluginIcon_16.svg"
