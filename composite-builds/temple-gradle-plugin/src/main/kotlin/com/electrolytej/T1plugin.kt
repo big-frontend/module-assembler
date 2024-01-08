@@ -6,7 +6,7 @@ import org.gradle.api.Project
 class T1plugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-        println("T1plugin")
+//        println("T1plugin")
     }
 
 }

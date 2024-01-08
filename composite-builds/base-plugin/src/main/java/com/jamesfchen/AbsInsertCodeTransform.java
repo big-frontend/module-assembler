@@ -96,12 +96,16 @@ public abstract class AbsInsertCodeTransform extends AbsTransform {
     protected void onFileRemoved(File srcRootDir, File destRootDir, File srcFile, File destFile) throws Exception {
         P.debug("onFileRemoved >>> " + srcFile.getName() + "   srcFile exits:" + srcFile.exists() + "  destFile exits:" + destFile.exists());
         if (destFile.isDirectory()) {
-            for (File file : com.android.utils.FileUtils.getAllFiles(destFile)) {
-                String canonicalName = F.canonicalName(srcRootDir, file);
-                if (canonicalName != null && !canonicalName.isEmpty()) {
+            java.nio.file.Files.walkFileTree(Paths.get(destFile.getAbsolutePath()), new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    String canonicalName = F.canonicalName(srcRootDir, file.toFile());
+                    if (canonicalName != null && !canonicalName.isEmpty()) {
 //                    onScanClass(new ClassInfo(ClassInfo.DEATH_DIR, destRootDir, file, canonicalName));
+                    }
+                    return super.visitFile(file, attrs);
                 }
-            }
+            });
         } else {
             String canonicalName = F.canonicalName(destRootDir, destFile);
             if (canonicalName != null && !canonicalName.isEmpty()) {

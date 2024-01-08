@@ -48,29 +48,6 @@
       "sourcePath": ":hotel-module:export",
       "format": "stub",
       "group": "hotel"
-    },
-    {
-      "simpleName": "im-module",
-      "sourcePath": ":im-module",
-      "versionCode":"3",
-      "versionName":"3.0.0-SNAPSHOT",
-      "format": "ndbundle",
-      "group": "im",
-      "dynamic": "local-plugin"
-    },
-    {
-      "simpleName": "plugin-h5bundle",
-      "sourcePath": ":plugin-h5bundle",
-      "format": "h5bundle",
-      "group": "testhtml5",
-      "dynamic": "local-plugin"
-    },
-    {
-      "simpleName": "plugin-rnbundle",
-      "sourcePath": ":plugin-rnbundle",
-      "format": "rnbundle",
-      "group": "testreactnative",
-      "dynamic": "local-plugin"
     }
   ]
 }

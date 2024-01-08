@@ -2,37 +2,34 @@ pluginManagement {
     repositories {
         maven { url uri("$rootDir/repo") }
         mavenLocal()
-        maven { url "https://jitpack.io" }
-        maven { url 'https://maven.aliyun.com/repository/google/' }
-        maven { url 'https://maven.aliyun.com/repository/releases' }
         maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
         maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
-        gradlePluginPortal()
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url = uri("https://artifact.bytedance.com/repository/byteX/") }
+        google()
         mavenCentral()
-//        maven {url "https://plugins.gradle.org/m2/"}
-        maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
+        gradlePluginPortal()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven{ url "https://dl.bintray.com/kotlin/kotlin-eap"}
     }
-//    def name = '../composite-builds'
-//    if (file(name).isDirectory()) {
-//        includeBuild(name)
-//    }
-
 }
-//plugins {
-//    id("io.github.jamesfchen.t1plugin")
-//}
-//dependencyResolutionManagement {
+dependencyResolutionManagement {
 //    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-//    repositories {
-//        maven { url uri("$rootDir/repo") }
-//        mavenLocal()
-//        mavenCentral()
-//        maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
-//        maven { url 'https://maven.aliyun.com/repository/google/' }
-//        maven { url 'https://maven.aliyun.com/repository/releases' }
-//        gradlePluginPortal()
-//    }
-//}
+    repositories {
+        maven { url uri("$rootDir/repo") }
+        mavenLocal()
+        maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
+        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven { url "https://jitpack.io" }
+        maven { url = uri("https://artifact.bytedance.com/repository/byteX/") }
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+}
 apply from:'./script/trace_gradle.gradle'
 apply from:'./script/module_registry.gradle'
 includeBuild("../composite-builds")

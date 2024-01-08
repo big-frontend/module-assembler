@@ -1,4 +1,4 @@
-apply from: "$rootDir/script/aar.gradle"
+apply from: "$rootDir/aar.gradle"
 apply plugin: "io.github.jamesfchen.module-publisher-plugin"
 
 publish {
@@ -13,6 +13,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'androidx.core:core-ktx:1.5.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.20"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${KOTLIN_VERSION}"
     implementation 'androidx.annotation:annotation:1.2.0'
 }

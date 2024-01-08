@@ -40,7 +40,7 @@ class NsBundlePlugin extends AndroidPlugin {
             if (lifecycleVersion) {
                 api "io.github.jamesfchen:lifecycle-api:$lifecycleVersion"
             }
-            api routerLibrary
+            if (routerLibrary) api routerLibrary
             if ('ARouter' == routerName) {
                 kapt 'com.alibaba:arouter-compiler:1.2.1'
             } else if ('WRouter' == routerName) {

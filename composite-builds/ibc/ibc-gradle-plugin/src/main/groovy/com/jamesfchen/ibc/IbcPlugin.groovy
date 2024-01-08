@@ -1,6 +1,5 @@
 package com.jamesfchen.ibc
 
-import com.android.SdkConstants
 import com.android.build.api.transform.Format
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.api.transform.TransformInvocation
@@ -69,7 +68,7 @@ class IbcPlugin extends ScanClassPlugin {
 
     @Override
     void onScanEnd() {
-        File registerProxyClassFile = new File(dest, Constants.REGISTERPROXY_CLASS_PATH + SdkConstants.DOT_CLASS)
+        File registerProxyClassFile = new File(dest, Constants.REGISTERPROXY_CLASS_PATH + ".class")
         P.info("${addRouters.size()} addRouters:${addRouters.toListString()}")
         P.info("${deleteRouters.size()} deleteRouters:${deleteRouters.toListString()}")
         P.info("${addApis.size()} addApis:${addApis.toListString()}")

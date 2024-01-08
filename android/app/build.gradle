@@ -1,7 +1,7 @@
 plugins {
     id "io.github.jamesfchen.app-plugin"
     id 'com.google.gms.google-services'
-    id("com.google.devtools.ksp") version "1.5.30-1.0.0"
+    id("com.google.devtools.ksp") version "1.7.10-1.0.6"
 }
 ksp {
     arg("option1", "value1")
@@ -52,7 +52,7 @@ dependencies {
     project.depsConfig("implementation", "hotel-foundation")
     project.depsConfig("dynamicImplementation", "plugin-im")
     implementation project.moduleify("fwk-base")
-    ksp "io.github.jamesfchen:ibc-processor:1.0.0"
+//    ksp "io.github.jamesfchen:ibc-processor:1.0.0"
     implementation "io.github.jamesfchen:ibc-processor:1.0.0"
     implementation 'com.iqiyi.xcrash:xcrash-android-lib:3.0.0'
 }

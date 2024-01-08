@@ -10,11 +10,6 @@ pluginBundle {
     def ver = "1.7.2"
     version ver
     plugins {
-        ndbundlePlugin {
-            displayName = 'ndbundle-plugin'
-            tags = ['bundles-assembler']
-            version = ver
-        }
         nsbundlePlugin {
             displayName = 'nsbundle-plugin'
             tags = ['bundles-assembler']
@@ -73,39 +68,9 @@ tasks.withType(GroovyCompile) {
     targetCompatibility = '1.8'
 }
 
-//apply plugin: 'kotlin'
-//compileKotlin {
-//    kotlinOptions.jvmTarget = "1.8"
-//}
-
-
 apply plugin: "java-gradle-plugin"
 gradlePlugin {
     plugins {
-        ndbundlePlugin {
-            id = "${rootProject.groupId}.ndbundle-plugin"
-            implementationClass = 'com.jamesfchen.b.NdBundlePlugin'
-            displayName = "pluginify-parasite-plugin"
-            description = "pluginify-parasite-plugin"
-        }
-        flutterbundlePlugin {
-            id = "${rootProject.groupId}.flutterbundle-plugin"
-            implementationClass = 'com.jamesfchen.b.FlutterBundlePlugin'
-            displayName = 'flutterbundle-plugin'
-            description = "flutterbundle-plugin"
-        }
-        rnbundlePlugin {
-            id = "${rootProject.groupId}.rnbundle-plugin"
-            implementationClass = 'com.jamesfchen.b.RnBundlePlugin'
-            displayName = 'rnbundle-plugin'
-            description = "rnbundle-plugin"
-        }
-        h5bundlePlugin {
-            id = "${rootProject.groupId}.h5bundle-plugin"
-            implementationClass = 'com.jamesfchen.b.H5BundlePlugin'
-            displayName = 'h5bundle-plugin'
-            description = "h5bundle-plugin"
-        }
         nsbundlePlugin {
             id = "${rootProject.groupId}.nsbundle-plugin"
             implementationClass = 'com.jamesfchen.b.NsBundlePlugin'
@@ -156,11 +121,6 @@ gradlePlugin {
         }
     }
 }
-String verPath = "${project.projectDir}/src/main/groovy/com/qihoo360/replugin/Constants.groovy"
-String verLine = new File(verPath).filterLine { it =~ /def static final VER =/ }
-version = "${verLine.split("\"")[1]}" // 版本
-//红色醒目打印显示版本号
-java.lang.System.err.println "version=${version}"
 dependencies {
     compileOnly "com.android.tools.build:gradle:${rootProject.AGP_VERSION}"
     implementation 'org.json:json:20180813'

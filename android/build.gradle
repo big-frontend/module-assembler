@@ -2,19 +2,21 @@
 buildscript {
     repositories {
         maven { url uri("$rootDir/repo") }
-        mavenCentral()
         mavenLocal()
-        maven { url "https://jitpack.io" }
-        maven { url 'https://maven.aliyun.com/repository/google/' }
-        maven { url 'https://maven.aliyun.com/repository/releases' }
         maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
         maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven { url = uri("https://artifact.bytedance.com/repository/byteX/") }
+        google()
+        mavenCentral()
         gradlePluginPortal()
-//        maven {url "https://plugins.gradle.org/m2/"}
-        maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven{ url "https://dl.bintray.com/kotlin/kotlin-eap"}
+
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.2.1"
+        classpath "com.android.tools.build:gradle:7.3.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN_VERSION}"
         classpath "com.alibaba:arouter-register:1.0.2"
         classpath "io.github.meituan-dianping:plugin:1.2.1"
@@ -31,17 +33,6 @@ plugins {
     id("io.github.jamesfchen.module-publisher-plugin") apply(false)
 }
 allprojects {
-    repositories {
-        maven { url uri("$rootDir/repo") }
-        mavenLocal()
-        mavenCentral()
-        maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
-        maven { url 'https://maven.aliyun.com/repository/google/' }
-        maven { url 'https://maven.aliyun.com/repository/releases' }
-        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
-        gradlePluginPortal()
-//        maven {url "https://plugins.gradle.org/m2/"}
-    }
     configurations.all {
         // don't cache changing modules at all，check for updates every build
         //一般在开发模式下，我们可以频繁的发布SNAPSHOT版本，
@@ -66,7 +57,38 @@ allprojects {
 //        }
 //    }
     }
-
+    repositories {
+        maven { url uri("$rootDir/repo") }
+        mavenLocal()
+        maven { url 'https://s01.oss.sonatype.org/content/repositories/public/' }
+        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven { url = uri("https://artifact.bytedance.com/repository/byteX/") }
+        maven { url "https://jitpack.io" }
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    tasks.withType(JavaCompile).all {
+        sourceCompatibility = JavaVersion.VERSION_11.majorVersion
+        targetCompatibility = JavaVersion.VERSION_11.majorVersion
+    }
+    tasks.withType(Test).all {
+        testLogging {
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+            showExceptions = true
+            showCauses = true
+            showStackTraces = true
+        }
+    }
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all{
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_11.majorVersion
+            apiVersion = "1.5"
+            freeCompilerArgs = ["-Xno-optimized-callable-references"]
+        }
+    }
 }
 
 task clean(type: Delete) {

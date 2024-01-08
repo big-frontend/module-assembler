@@ -22,7 +22,6 @@ dependencies {
     api gradleApi()
 //    api "com.android.tools.build:gradle:4.2.1"
 //    implementation "org.javassist:javassist:3.20.0-GA"
-    //    implementation group: 'org.ow2.asm', name: 'asm', version: '5.1'
 //    implementation group: 'org.ow2.asm', name: 'asm-commons', version: '5.1'
 
 }

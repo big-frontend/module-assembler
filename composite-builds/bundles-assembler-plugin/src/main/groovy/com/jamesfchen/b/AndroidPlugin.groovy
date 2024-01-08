@@ -1,6 +1,5 @@
 package com.jamesfchen.b
 
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 
 abstract class AndroidPlugin extends BasePlugin {
@@ -17,7 +16,7 @@ abstract class AndroidPlugin extends BasePlugin {
             navigationVersion = project.rootProject.findProperty("NAVIGATION_VERSION")
             lifecycleVersion = project.rootProject.findProperty("LIFECYCLE_VERSION")
             (routerName, routerPlugin, routerLibrary) = pickupRouter(project)
-            P.info("pick up router, $routerLibrary")
+            if (routerLibrary) P.info("pick up router, $routerLibrary")
             isFirst = false
         }
         project.plugins.apply('kotlin-android')
@@ -37,25 +36,8 @@ abstract class AndroidPlugin extends BasePlugin {
                     versionCode Integer.parseInt(project.rootProject.versionCode)
                     versionName project.rootProject.versionName
                 }
-                testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
             }
-            compileOptions {
-                sourceCompatibility JavaVersion.VERSION_1_8
-                targetCompatibility JavaVersion.VERSION_1_8
-            }
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-            buildTypes {
-                debug {
-                    minifyEnabled false
-                    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-                }
-                release {
-                    minifyEnabled false
-                    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-                }
-            }
+
             def a = project.gradle.activeBuildVariant
             if (a != 'all' && a in project.gradle.ext.buildVariants) {
                 variantFilter { variant ->
@@ -89,6 +71,6 @@ abstract class AndroidPlugin extends BasePlugin {
         if (project.rootProject.findProperty("AROUTER_VERSION")) return ["ARouter", "com.alibaba.arouter", "com.alibaba:arouter-api:$project.rootProject.AROUTER_VERSION"]
         if (project.rootProject.findProperty("WROUTER_VERSION")) return ["WRouter", "WMRouter", "io.github.meituan-dianping:router:$project.rootProject.WROUTER_VERSION"]
         if (project.rootProject.findProperty("IBC_VERSION")) return ["IBCRouter", "io.github.jamesfchen.ibc-plugin", "io.github.jamesfchen:ibc-api:$project.rootProject.IBC_VERSION"]
-        return ["IBCRouter", "io.github.jamesfchen.ibc-plugin", "io.github.jamesfchen:ibc-api:$project.rootProject.IBC_VERSION"]
+        return ["", "", ""]
     }
 }
