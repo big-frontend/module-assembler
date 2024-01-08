@@ -33,3 +33,5 @@ dependencyResolutionManagement {
 apply from:'./script/trace_gradle.gradle'
 apply from:'./script/module_registry.gradle'
 includeBuild("../composite-builds")
+include ':dynamicfeature'
+include ':dynamicfeature2'
