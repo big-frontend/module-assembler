@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.sun.istack.NotNull;
-
 import java.io.*;
 import java.util.Properties;
 

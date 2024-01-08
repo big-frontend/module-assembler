@@ -24,15 +24,21 @@
 <!--            <add-to-group group-id="ToolsMenu" anchor="last"/>-->
 <!--            <add-to-group group-id="MainToolBar" anchor="last"/>-->
         </action>
+        <action id="com.electrolytej.manager.ModuleManagerAction" class="com.electrolytej.manager.ModuleManagerAction"
+                icon="/META-INF/pluginIcon_16.svg"
+                text="module manager action" description="Haha">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <add-to-group group-id="ToolbarRunGroup" anchor="after" relative-to-action="RunnerActions"/>
+            <!--            <add-to-group group-id="ToolsMenu" anchor="last"/>-->
+            <!--            <add-to-group group-id="MainToolBar" anchor="last"/>-->
+        </action>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="org.jetbrains.plugins.template.services.MyApplicationService"/>
-        <projectService serviceImplementation="org.jetbrains.plugins.template.services.MyProjectService"/>
+        <toolWindow factoryClass="org.jetbrains.plugins.template.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
     </extensions>
-
     <applicationListeners>
-        <listener class="org.jetbrains.plugins.template.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+        <listener class="org.jetbrains.plugins.template.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
+
 </idea-plugin>
