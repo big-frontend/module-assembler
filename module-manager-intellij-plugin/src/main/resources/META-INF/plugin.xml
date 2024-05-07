@@ -18,7 +18,7 @@
     <actions>
         <action id="com.jamesfchen.manager.MyAction" class="com.jamesfchen.manager.MyAction"
                 icon="/META-INF/pluginIcon_16.svg"
-                text="module manager action" description="Haha">
+                text="module manager" description="Haha">
             <add-to-group group-id="MainMenu" anchor="last"/>
             <add-to-group group-id="ToolbarRunGroup" anchor="after" relative-to-action="RunnerActions"/>
 <!--            <add-to-group group-id="ToolsMenu" anchor="last"/>-->
@@ -26,7 +26,7 @@
         </action>
         <action id="com.electrolytej.manager.ModuleManagerAction" class="com.electrolytej.manager.ModuleManagerAction"
                 icon="/META-INF/pluginIcon_16.svg"
-                text="module manager action" description="Haha">
+                text="module manager" description="Haha">
             <add-to-group group-id="MainMenu" anchor="last"/>
             <add-to-group group-id="ToolbarRunGroup" anchor="after" relative-to-action="RunnerActions"/>
             <!--            <add-to-group group-id="ToolsMenu" anchor="last"/>-->

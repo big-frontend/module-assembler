@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.jamesfchen.manager.MyForm">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <tabbedpane id="3c049" binding="tabbedPane1" default-binding="true">
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="4c9ac" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <tabbedpane title="Untitled"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="c04ae" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <tabbedpane title="Untitled"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </tabbedpane>
+      <component id="88674" class="javax.swing.JButton" binding="button1" default-binding="true">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <text value="Button"/>
+        </properties>
+      </component>
+      <component id="6e105" class="javax.swing.JTextField" binding="textField">
+        <constraints border-constraint="East"/>
+        <properties>
+          <text value="asdfasdf "/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

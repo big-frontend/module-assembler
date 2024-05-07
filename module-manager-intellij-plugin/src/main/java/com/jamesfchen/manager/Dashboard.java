@@ -1,5 +1,6 @@
 package com.jamesfchen.manager;
 
+import com.electrolytej.manager.Result;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.CollectionComboBoxModel;
 import com.intellij.ui.JBColor;
@@ -11,6 +12,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.List;
 import java.util.TreeMap;
+import com.electrolytej.manager.Module;
+import java.lang.String;
 
 public class Dashboard extends JDialog {
     private JPanel contentPane;

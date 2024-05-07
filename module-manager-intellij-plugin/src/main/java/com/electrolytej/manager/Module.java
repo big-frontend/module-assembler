@@ -1,4 +1,4 @@
-package com.jamesfchen.manager;
+package com.electrolytej.manager;
 
 
 public class Module {
@@ -12,10 +12,9 @@ public class Module {
      * deps : [":hotel-module:bundle1",":hotel-module:bundle2"]
      */
     public String simpleName;
-//    public String canonicalName;
     public String format;
     public String group;
     public String dynamic;
 //    public String binary_artifact;
-//    public List<String> deps;
+    public Type type = Type.NONE;
 }

@@ -1,4 +1,4 @@
-package com.jamesfchen.manager;
+package com.electrolytej.manager;
 
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationDisplayType;

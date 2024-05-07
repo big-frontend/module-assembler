@@ -1,13 +1,13 @@
-package com.jamesfchen.manager;
+package com.electrolytej.manager;
 
-import com.electrolytej.manager.*;
-import com.electrolytej.manager.Module;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
-import java.util.*;
 
-public class MyAction extends AnAction {
+import java.util.List;
+import java.util.Map;
+
+public class ModuleManagerAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         Project project = e.getProject();
@@ -18,32 +18,31 @@ public class MyAction extends AnAction {
         Map<String, Module> modules = FileUtil.getModules();
         if (modules == null || modules.isEmpty()) return;
         List<BuildVariant> buildVariants = FileUtil.getBuildVariants();
-        if (buildVariants == null || modules.isEmpty()) return;
+        if (buildVariants == null || buildVariants.isEmpty()) return;
 
-        Dashboard d2 = new Dashboard();
+        ViewModel vm = new ViewModel();
+
+        System.out.println(" ViewModel:" + vm);
+
+        SampleDialogWrapper d2 = new SampleDialogWrapper(vm);
         d2.setOKListener(result -> {
             System.out.println("result:" + result);
-            if ("all".equals(result.activeBuildVariant) && result.binaryModules.length() >= 1) {
+            if ("all".equals(result.activeBuildVariant) && !result.binaryModules.isEmpty()) {
                 NotificationUtil.showErrorNotification("notsupport", "all 模式下，不支持组件化,请将所有binary模块转换成source 或者 exclude");
                 return false;
             }
-            FileUtil.storeLocalProperties(result.excludeModules,result.sourceModules,result.activeBuildVariant);
+            FileUtil.storeLocalProperties(result.excludeModules, result.sourceModules, result.activeBuildVariant);
             AnAction syncProjectAction = e.getActionManager().getAction("Android.SyncProject");
             if (syncProjectAction != null) {
                 syncProjectAction.actionPerformed(e);
             }
             return true;
         });
-        d2.setCancelListener(() -> d2.dispose());
+        d2.setCancelListener(d2::disposeIfNeeded);
         if (!d2.isShowing()) {
-            //modules
-//            d2.bindSourcePanel(sourceModuleMap);
-//            d2.bindExcludePanel(excludeModuleMap);
-//            d2.bindBinaryPanel(binaryModuleMap);
 //            d2.bindBuildVariants(activeBuildVariant, config.buildVariants);
-            d2.pack();
-            d2.setVisible(true);
+            d2.showAndGet();
+//            d2.setVisible(true);
         }
     }
-
 }
