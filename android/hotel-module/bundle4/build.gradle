@@ -1,5 +1,8 @@
 plugins{
     id "io.github.jamesfchen.nsbundle-plugin"
 }
+android{
+    namespace "com.jamesfchen.bundle4"
+}
 dependencies {
 }

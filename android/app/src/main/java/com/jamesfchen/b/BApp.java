@@ -5,8 +5,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
-import com.jamesfchen.ibc.IBCInitializer;
-
 /**
  * Copyright ® $ 2017
  * All right reserved.
@@ -41,7 +39,7 @@ public class BApp extends Application {
 //        }
 //        ARouter.init(this);
 //        ProcessLifecycleOwner.get().getLifecycle().addObserver(new AppLifecycleObserver());
-        IBCInitializer.init(this);
+//        IBCInitializer.init(this);
 //        LifecycleInitializer.init(this);
 //        xcrash.XCrash.init(this);
 //        rePluginProxy.onCreate();

@@ -237,12 +237,14 @@ class PublisherPlugin implements Plugin<Project> {
             if (project.tasks.findByName('sourcesJar') == null) {
                 project.tasks.create(name: 'sourcesJar', group: "documentation", type: Jar, dependsOn: 'classes') {
                     classifier = 'sources'
+//                    archiveClassifier = "javadoc"
                     from project.sourceSets.main.allSource
                 }
             }
             if (project.tasks.findByName('javadocJar') == null) {
                 project.tasks.create(name: 'javadocJar', group: "documentation", type: Jar, dependsOn: 'javadoc') {
                     classifier = 'javadoc'
+//                    archiveClassifier = "javadoc"
                     from project.javadoc.destinationDir
                 }
             }

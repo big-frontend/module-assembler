@@ -1,7 +1,14 @@
-include(
-    ":base-plugin", ":base-plugin-ktx",
-    ":ibc:ibc-api", ":ibc:ibc-processor", ":ibc:ibc-gradle-plugin",
-    ":temple-gradle-plugin"
-)
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    versionCatalogs {
+        create("libs") {
+            from(files("../android/gradle/libs.versions.toml"))
+        }
+    }
+}
+
 include(":module-publisher-plugin")
-include(":bundles-assembler-plugin")
+include(":module-assembler-plugin")

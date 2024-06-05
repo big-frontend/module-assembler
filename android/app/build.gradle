@@ -1,15 +1,14 @@
 plugins {
     id "io.github.jamesfchen.app-plugin"
-    id 'com.google.gms.google-services'
-    id("com.google.devtools.ksp") version "1.7.10-1.0.6"
+    id("com.google.devtools.ksp")
 }
 ksp {
     arg("option1", "value1")
     arg("option2", "value2")
 }
-//apply plugin: 'io.github.jamesfchen.t1plugin'
-apply from: "$rootDir/script/tinker_config.gradle"
+apply from: "$rootDir/scripts/tinker_config.gradle"
 android {
+    namespace "com.jamesfchen.b"
     defaultConfig {
         resValue "string", "app_name", "b.app"
         buildConfigField('String', 'BUGLY_APP_ID', '"3d62251014"')
@@ -78,13 +77,12 @@ android {
 //                // if true, only report errors.
 //                ignoreWarnings true
     }
-    dynamicFeatures = [':dynamicfeature', ':dynamicfeature2']
-//    buildFeatures {
+    dynamicFeatures = [':dynamicfeature']
+    buildFeatures {
 //        viewBinding true
-//    }
-    //    buildFeatures {
 //        dataBinding true
-//    }
+        buildConfig true
+    }
 
 //    splits {
 //        abi {
@@ -115,6 +113,14 @@ android {
 //        }
 //
 //    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
 }
 configurations {
     apkCheckerDependency
@@ -132,6 +138,6 @@ dependencies {
     project.depsConfig("dynamicImplementation", "plugin-im")
     implementation project.moduleify("fwk-base")
 //    ksp "io.github.jamesfchen:ibc-processor:1.0.0"
-    implementation "io.github.jamesfchen:ibc-processor:1.0.0"
+//    implementation "io.github.jamesfchen:ibc-processor:1.0.0"
     implementation 'com.iqiyi.xcrash:xcrash-android-lib:3.0.0'
 }

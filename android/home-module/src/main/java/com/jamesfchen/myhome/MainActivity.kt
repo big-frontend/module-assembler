@@ -57,8 +57,6 @@ class MainActivity : Activity() {
         }
 
         binding.btAndroidNavigator.setOnClickListener {
-            val i = Intent(this@MainActivity,AndroidNavigatorActivity::class.java)
-            startActivity(i)
         }
     }
 

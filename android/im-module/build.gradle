@@ -2,8 +2,8 @@ plugins {
     id "io.github.jamesfchen.ndbundle-plugin"
 }
 
-apply from: "$rootDir/script/app_config.gradle"
-apply from: "$rootDir/script/ui_compose.gradle"
+apply from: "$rootDir/scripts/app_config.gradle"
+apply from: "$rootDir/scripts/ui_compose.gradle"
 android {
     buildFeatures {
         viewBinding true

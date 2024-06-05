@@ -22,13 +22,13 @@ pluginBundle {
 }
 apply plugin: 'java'
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 apply plugin: 'groovy'
 tasks.withType(GroovyCompile) {
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
 }
 
 apply plugin: "java-gradle-plugin"

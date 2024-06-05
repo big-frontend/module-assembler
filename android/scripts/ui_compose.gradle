@@ -1,0 +1,67 @@
+def ktOptions = [
+        //1.5.10-1.0.0  1.6.10-1.1.1
+        ktceVersion: "1.0.3",
+        ktcVersion : "1.5.30"
+]
+android {
+    defaultConfig {
+        vectorDrawables {
+            useSupportLibrary true
+        }
+
+    }
+    buildFeatures {
+        compose true
+
+        // Disable unused AGP features
+//        buildConfig false
+//        aidl false
+//        renderScript false
+//        resValues false
+//        shaders false
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion ktOptions.ktceVersion
+        kotlinCompilerVersion ktOptions.ktcVersion
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+//        useIR = true
+//        freeCompilerArgs = freeCompilerArgs + [ "-P","plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"]
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+dependencies {
+    api 'com.google.accompanist:accompanist-insets:0.19.0'
+    api "com.google.accompanist:accompanist-insets-ui:0.19.0"
+    //compose
+    def composeVersion = ktOptions.ktceVersion
+    api "androidx.compose.foundation:foundation-layout:${composeVersion}"
+    api "androidx.compose.runtime:runtime:${composeVersion}"
+    api "androidx.compose.ui:ui-util:${composeVersion}"
+    api "androidx.compose.ui:ui-viewbinding:${composeVersion}"
+    api "androidx.compose.compiler:compiler:${composeVersion}"
+    api "androidx.compose.ui:ui:${composeVersion}"
+    // Tooling support (Previews, etc.)
+    api "androidx.compose.ui:ui-tooling:${composeVersion}"
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    api "androidx.compose.foundation:foundation:${composeVersion}"
+    api "androidx.compose.material:material:${composeVersion}"
+    api "androidx.compose.material:material-icons-core:${composeVersion}"
+    api "androidx.compose.material:material-icons-extended:${composeVersion}"
+    // Integration with observables
+    api "androidx.compose.runtime:runtime-livedata:${composeVersion}"
+    api "androidx.compose.runtime:runtime-rxjava2:${composeVersion}"
+    // UI Tests
+    androidTestApi "androidx.compose.ui:ui-test-junit4:${composeVersion}"
+    api 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
+
+    api "com.google.android.material:material:1.4.0"
+    api 'androidx.activity:activity-compose:1.4.0'
+
+
+}

@@ -1,0 +1,134 @@
+plugins {
+    id "com.gradle.plugin-publish" version "0.15.0"
+}
+//发布到远程gradle plugin portal，获得approval超级慢
+pluginBundle {
+    vcsUrl = 'https://github.com/electrolytej/module-assembler'
+    website = "https://github.com/electrolytej/module-assembler"
+    description = "module-assembler-plugin"
+    tags = ['module-assembler']
+    def ver = "1.7.2"
+    version ver
+    plugins {
+        nsbundlePlugin {
+            displayName = 'nsbundle-plugin'
+            tags = ['module-assembler']
+            version = ver
+        }
+        foundationPlugin {
+            displayName = 'foundation-plugin'
+            tags = ['module-assembler']
+            version = ver
+        }
+        apiPlugin {
+            displayName = 'api-plugin'
+            tags = ['module-assembler']
+            version = ver
+        }
+        appPlugin {
+            displayName = 'app-plugin'
+            tags = ['module-assembler']
+            version = ver
+        }
+        aptPlugin {
+            displayName = 'apt-plugin'
+            tags = ['module-assembler']
+            version = ver
+        }
+        lintPlugin {
+            displayName = 'lint-plugin'
+            tags = ['module-assembler']
+            version = ver
+        }
+        jarPlugin {
+            displayName = 'jar-plugin'
+            tags = ['module-assembler']
+            version = ver
+        }
+    }
+    mavenCoordinates {
+        groupId = rootProject.groupId
+        artifactId = 'module-assembler-plugin'
+        version = ver
+    }
+}
+apply plugin: 'java'
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+apply plugin: 'groovy'
+tasks.withType(GroovyCompile) {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+apply plugin: "java-gradle-plugin"
+gradlePlugin {
+    plugins {
+        moduleRegistryPlugin {
+            id = "${rootProject.groupId}.module-registry-plugin"
+            implementationClass = 'ModuleRegistryPlugin'
+            displayName = 'module-registry-plugin'
+            description = "module-registry-plugin"
+        }
+        nsbundlePlugin {
+            id = "${rootProject.groupId}.nsbundle-plugin"
+            implementationClass = 'NsBundlePlugin'
+            displayName = 'nsbundle-plugin'
+            description = "nsbundle-plugin"
+        }
+        foundationPlugin {
+            id = "${rootProject.groupId}.foundation-plugin"
+            implementationClass = 'FoundationModulePlugin'
+            displayName = 'foundation-plugin'
+            description = "foundation-plugin"
+        }
+        apiPlugin {
+            id = "${rootProject.groupId}.api-plugin"
+            implementationClass = 'ApiModulePlugin'
+            displayName = 'api-plugin'
+            description = "api-plugin"
+        }
+        appPlugin {
+            id = "${rootProject.groupId}.app-plugin"
+            implementationClass = 'AppModulePlugin'
+            displayName = 'app-plugin'
+            description = "app-plugin"
+        }
+        aptPlugin {
+            id = "${rootProject.groupId}.apt-plugin"
+            implementationClass = 'AptModulePlugin'
+            displayName = 'apt-plugin'
+            description = "apt-plugin"
+        }
+        lintPlugin {
+            id = "${rootProject.groupId}.lint-plugin"
+            implementationClass = 'LintModulePlugin'
+            displayName = 'lint-plugin'
+            description = "lint-plugin"
+        }
+        jarPlugin {
+            id = "${rootProject.groupId}.jar-plugin"
+            implementationClass = 'JarModulePlugin'
+            displayName = 'jar-plugin'
+            description = "jar-plugin"
+        }
+    }
+}
+dependencies {
+    compileOnly(libs.android.gradlePlugin)
+    implementation 'org.json:json:20180813'
+    implementation 'org.codehaus.groovy:groovy:3.0.9'
+    implementation 'com.squareup:javapoet:1.13.0'
+    implementation 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
+    implementation 'org.javassist:javassist:3.18.2-GA'
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'net.dongliu:apk-parser:2.2.0'
+    implementation 'com.google.guava:guava:24.1-jre'
+    implementation 'commons-codec:commons-codec:1.15'
+    implementation localGroovy()
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.1.3'
+    implementation 'org.slf4j:slf4j-nop:1.7.36'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+}

@@ -29,7 +29,7 @@ before_script:
   - echo "activeBuildVariant=debug" >> local.properties
   - chmod +x ./gradlew
 after_script:
-  - echo "root after script"
+  - echo "root after scripts"
 #  - cd ..
 stages:
   - build
