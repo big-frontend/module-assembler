@@ -13,7 +13,7 @@ pluginManagement {
         maven("https://plugins.gradle.org/m2/")
         maven("https://dl.bintray.com/kotlin/kotlin-eap")
     }
-    includeBuild("../composite-builds")
+    includeBuild("../module-assembler-gradle-plugin")
 }
 dependencyResolutionManagement {
 //    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -27,8 +27,6 @@ dependencyResolutionManagement {
         maven("https://artifact.bytedance.com/repository/byteX/")
         mavenCentral()
         google()
-        gradlePluginPortal()
-        maven("https://plugins.gradle.org/m2/")
     }
 }
 

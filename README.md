@@ -7,21 +7,13 @@
 
 - b //客户端项目
     - app: 集成所有的bundle
-    - framework(ios/android)：用于运行react native 、h5 、flutter 、native bundle的框架
+    - base
     - hotel-module/home-module：native bundle有myhome、bundle1-4
-    - rnbundle：react native bundle
-    - h5bundle: h5 bundle
 - server //server端管理打包发布,目前主要使用gitlab ci(ci server)
 
-- composite-builds //高效快速的插件工具(gradle plugin)
-    - ibc // module router & rpc
-    - lifecycle // listener app lifecycle
-    - module-publisher-plugin // module publish
-    - bundles-assembler-plugin // bundles-assembler-plugin
-    - replugin // replugin
-
-- module-manager-intellij-plugin //性感的模块管理工具(idea plugin)
+- module-assembler-gradle-plugin //高效快速的插件工具
+    - module-publisher-plugin // module publish plugin
+    - module-assembler-plugin // module-assembler-plugin
+  
+- module-assembler-intellij-plugin //性感的模块管理工具
 - cli //项目cli
-
-
-
