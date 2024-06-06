@@ -14,10 +14,10 @@
       "group": "fwk"
     },
     {
-      "simpleName": "home-module",
-      "sourcePath": ":home-module",
+      "simpleName": "main-module",
+      "sourcePath": ":main-module",
       "format": "nsbundle",
-      "group": "home"
+      "group": "main"
     },
     {
       "simpleName": "hotel-bundle1",
