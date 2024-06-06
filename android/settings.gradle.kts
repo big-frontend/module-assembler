@@ -14,6 +14,7 @@ pluginManagement {
         maven("https://dl.bintray.com/kotlin/kotlin-eap")
     }
     includeBuild("../module-assembler-gradle-plugin")
+    includeBuild("../module-publisher-gradle-plugin")
 }
 dependencyResolutionManagement {
 //    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
