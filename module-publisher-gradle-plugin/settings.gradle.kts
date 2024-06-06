@@ -10,4 +10,4 @@ dependencyResolutionManagement {
     }
 }
 
-//include(":module-assembler-plugin")
+//include(":module-publisher-plugin")
