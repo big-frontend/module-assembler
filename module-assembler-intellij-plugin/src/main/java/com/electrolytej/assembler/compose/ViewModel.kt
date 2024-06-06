@@ -1,5 +1,6 @@
-package com.electrolytej.manager
+package com.electrolytej.assembler.compose
 
+import com.electrolytej.assembler.Module
 import org.jetbrains.annotations.ApiStatus
 import java.util.*
 

@@ -16,7 +16,7 @@
 
 ## [1.0.0]
 ### Added
-- module manager 1.0版本发布了耶(*^▽^*).
+- module assembler 1.0版本发布了耶(*^▽^*).
 
 [comment]: <> (### Changed)
 

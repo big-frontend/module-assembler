@@ -1,48 +1,49 @@
-package com.electrolytej.manager;
+package com.electrolytej.assembler.swingui;
 
+import com.electrolytej.assembler.*;
+import com.electrolytej.assembler.Module;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
-import java.util.List;
-import java.util.Map;
-
-public class ModuleManagerAction extends AnAction {
+public class MyAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         Project project = e.getProject();
         if (project == null) return;
         boolean ret = FileUtil.init(project);
-        if (ret) return;
+        if (!ret) return;
 
         Map<String, Module> modules = FileUtil.getModules();
-        if (modules == null || modules.isEmpty()) return;
+        if (modules.isEmpty()) return;
         List<BuildVariant> buildVariants = FileUtil.getBuildVariants();
         if (buildVariants == null || buildVariants.isEmpty()) return;
 
-        ViewModel vm = new ViewModel();
-
-        System.out.println(" ViewModel:" + vm);
-
-        SampleDialogWrapper d2 = new SampleDialogWrapper(vm);
+        Dashboard d2 = new Dashboard();
         d2.setOKListener(result -> {
             System.out.println("result:" + result);
             if ("all".equals(result.activeBuildVariant) && !result.binaryModules.isEmpty()) {
                 NotificationUtil.showErrorNotification("notsupport", "all 模式下，不支持组件化,请将所有binary模块转换成source 或者 exclude");
                 return false;
             }
-            FileUtil.storeLocalProperties(result.excludeModules, result.sourceModules, result.activeBuildVariant);
+            FileUtil.storeLocalProperties(result.excludeModules,result.sourceModules,result.activeBuildVariant);
             AnAction syncProjectAction = e.getActionManager().getAction("Android.SyncProject");
             if (syncProjectAction != null) {
                 syncProjectAction.actionPerformed(e);
             }
             return true;
         });
-        d2.setCancelListener(d2::disposeIfNeeded);
+        d2.setCancelListener(() -> d2.dispose());
         if (!d2.isShowing()) {
-//            d2.bindBuildVariants(activeBuildVariant, config.buildVariants);
-            d2.showAndGet();
-//            d2.setVisible(true);
+            //modules
+            d2.bindPanel(modules);
+            d2.bindBuildVariants(FileUtil.getActiveBuildVariant(),buildVariants.stream().map(buildVariant -> buildVariant.name).toList());
+            d2.pack();
+            d2.setVisible(true);
         }
     }
+
 }

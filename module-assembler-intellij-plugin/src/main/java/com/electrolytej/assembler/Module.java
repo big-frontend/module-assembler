@@ -1,4 +1,4 @@
-package com.electrolytej.manager;
+package com.electrolytej.assembler;
 
 
 public class Module {

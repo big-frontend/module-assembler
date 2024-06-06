@@ -1,4 +1,4 @@
-package com.electrolytej.manager;
+package com.electrolytej.assembler;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.*;
 import java.util.*;
 
-import static com.electrolytej.manager.NotificationUtil.showErrorNotification;
+import static com.electrolytej.assembler.NotificationUtil.showErrorNotification;
 
 public class FileUtil {
     static Project project;

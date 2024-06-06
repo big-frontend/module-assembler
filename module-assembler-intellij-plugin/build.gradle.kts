@@ -34,6 +34,9 @@ kotlin {
         vendor = JvmVendorSpec.JETBRAINS
     }
 }
+sourceSets.main {
+    java.srcDirs("src/main/java")
+}
 
 // Configure Gradle IntelliJ Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {

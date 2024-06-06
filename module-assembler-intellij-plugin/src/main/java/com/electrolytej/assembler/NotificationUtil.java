@@ -1,4 +1,4 @@
-package com.electrolytej.manager;
+package com.electrolytej.assembler;
 
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationDisplayType;

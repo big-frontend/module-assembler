@@ -1,4 +1,4 @@
-package com.electrolytej.manager;
+package com.electrolytej.assembler;
 
 import org.jetbrains.annotations.NotNull;
 import java.util.List;

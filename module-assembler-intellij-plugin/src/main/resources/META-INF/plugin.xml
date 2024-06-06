@@ -1,9 +1,9 @@
 <idea-plugin>
-    <id>com.jamesfchen.manager.modulemanager</id>
-    <name>Module Manager</name>
-    <vendor email="hawksjamesf@gmail.com" url="https://github.com/JamesfChen/module-manager-plugin">electrolytej</vendor>
+    <id>com.electrolytej.assembler</id>
+    <name>Module Assembler</name>
+    <vendor email="electrolytej@gmail.com" url="https://github.com/big-frontend/module-assembler-intellij-plugin">electrolytej</vendor>
 <!--    <change-notes><![CDATA[-->
-<!--       module manager 1.0版本发布了耶(*^▽^*).<br>-->
+<!--       module assembler 1.0版本发布了耶(*^▽^*).<br>-->
 <!--    ]]>-->
 <!--    </change-notes>-->
 
@@ -16,17 +16,17 @@
 
     <resource-bundle>messages.MyBundle</resource-bundle>
     <actions>
-        <action id="com.jamesfchen.manager.MyAction" class="com.jamesfchen.manager.MyAction"
+        <action id="com.electrolytej.assembler.swingui.MyAction" class="com.electrolytej.assembler.swingui.MyAction"
                 icon="/META-INF/pluginIcon_16.svg"
-                text="module manager" description="Haha">
+                text="module assembler1" description="Haha">
             <add-to-group group-id="MainMenu" anchor="last"/>
             <add-to-group group-id="ToolbarRunGroup" anchor="after" relative-to-action="RunnerActions"/>
 <!--            <add-to-group group-id="ToolsMenu" anchor="last"/>-->
 <!--            <add-to-group group-id="MainToolBar" anchor="last"/>-->
         </action>
-        <action id="com.electrolytej.manager.ModuleManagerAction" class="com.electrolytej.manager.ModuleManagerAction"
+        <action id="com.electrolytej.assembler.compose.ModuleAssemblerAction" class="com.electrolytej.assembler.compose.ModuleAssemblerAction"
                 icon="/META-INF/pluginIcon_16.svg"
-                text="module manager" description="Haha">
+                text="module assembler2" description="assembler">
             <add-to-group group-id="MainMenu" anchor="last"/>
             <add-to-group group-id="ToolbarRunGroup" anchor="after" relative-to-action="RunnerActions"/>
             <!--            <add-to-group group-id="ToolsMenu" anchor="last"/>-->

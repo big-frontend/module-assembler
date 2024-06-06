@@ -1,5 +1,4 @@
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
 }
-
-rootProject.name = "module-manager-intellij-plugin"
+rootProject.name = "module-assembler-intellij-plugin"

@@ -1,19 +1,23 @@
-package com.electrolytej.manager
+package com.electrolytej.assembler.compose
 
+import com.electrolytej.assembler.Module
+import com.electrolytej.assembler.Result
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.CollectionComboBoxModel
 import com.intellij.ui.JBColor
-import com.intellij.ui.components.JBCheckBox
-import com.intellij.ui.components.dialog
-import com.intellij.ui.dsl.builder.*
-import com.intellij.ui.dsl.gridLayout.HorizontalAlign
-import com.intellij.ui.dsl.gridLayout.VerticalAlign
+import com.intellij.ui.dsl.builder.RowLayout
+import com.intellij.ui.dsl.builder.bindItem
+import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.builder.text
 import org.jetbrains.annotations.Nullable
 import java.awt.*
 import java.awt.event.ItemEvent
-import javax.swing.*
+import javax.swing.ComboBoxModel
+import javax.swing.JLabel
+import javax.swing.JPanel
+import javax.swing.SwingConstants
 
 
 class SampleDialogWrapper(val viewModel: ViewModel) : DialogWrapper(true) {
@@ -21,10 +25,10 @@ class SampleDialogWrapper(val viewModel: ViewModel) : DialogWrapper(true) {
     private var cancell: CancelListener? = null
 
     init {
-        title = "module manager"
-        init()
+        title = "module assembler"
         setSize(1000, 697)
         isModal = true
+        init()
     }
 
     @Nullable
