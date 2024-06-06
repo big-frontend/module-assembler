@@ -1,4 +1,0 @@
-apply plugin:'io.github.jamesfchen.api-plugin'
-dependencies {
-    api "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.KOTLIN_VERSION"
-}

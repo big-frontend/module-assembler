@@ -1,5 +1,0 @@
-apply plugin:'io.github.jamesfchen.bundle-plugin'
-dependencies {
-    implementation project.moduleify("export")
-    implementation project.moduleify("fwk-loader")
-}
