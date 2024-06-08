@@ -9,16 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-import com.jamesfchen.ibc.router.IBCRouter;
-import com.jamesfchen.ibc.router.UriBuilder;
+//import com.jamesfchen.ibc.router.IBCRouter;
+//import com.jamesfchen.ibc.router.UriBuilder;
 
-/**
- * Copyright ® $ 2017
- * All right reserved.
- *
- * @author: jamesfchen
- * @since: Jun/13/2021  Sun
- */
 //@Route(path = "/bundle1/sayme")
 public class SayMeActivity extends Activity {
     @Override
@@ -43,9 +36,9 @@ public class SayMeActivity extends Activity {
 //                            .withLong("key1", 666L)
 //                            .withString("key3", "888")
 //                            .navigation();
-                UriBuilder uriBuilder =new  UriBuilder();
-                uriBuilder.setUri("b://bundle2/sayhi");
-                IBCRouter.open(SayMeActivity.this,uriBuilder);
+//                UriBuilder uriBuilder =new  UriBuilder();
+//                uriBuilder.setUri("b://bundle2/sayhi");
+//                IBCRouter.open(SayMeActivity.this,uriBuilder);
 //
             }
         });

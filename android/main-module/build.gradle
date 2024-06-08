@@ -1,8 +1,8 @@
 plugins{
-    id "io.github.jamesfchen.nsbundle-plugin"
+    id "io.github.jamesfchen.static-bundle-plugin"
 }
 android {
-    namespace "com.jamesfchen.myhome"
+    namespace "com.jamesfchen.main"
     buildFeatures {
         viewBinding true
     }

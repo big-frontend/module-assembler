@@ -56,7 +56,6 @@ abstract class AndroidPlugin extends BasePlugin {
     protected static def pickupRouter(Project project) {
         if (project.rootProject.findProperty("AROUTER_VERSION")
                 && project.rootProject.findProperty("WROUTER_VERSION")
-                && project.rootProject.findProperty("NAVIGATION_VERSION")
                 && project.rootProject.findProperty("IBC_VERSION")) {
             throw new IllegalArgumentException("四个只能选择一个")
         } else if (project.rootProject.findProperty("IBC_VERSION") && project.rootProject.findProperty("WROUTER_VERSION")) {
@@ -68,11 +67,9 @@ abstract class AndroidPlugin extends BasePlugin {
         }
 
         VersionCatalog libs = project.extensions.getByType(VersionCatalogsExtension).named("libs")
-        if (project.rootProject.findProperty("NAVIGATION_VERSION")) return ["Navigation", "androidx.navigation.safeargs", "androidx.navigation:navigation-runtime-ktx:$project.rootProject.NAVIGATION_VERSION"]
         if (project.rootProject.findProperty("AROUTER_VERSION")) return ["ARouter", "com.alibaba.arouter", "com.alibaba:arouter-api:$project.rootProject.AROUTER_VERSION"]
         if (project.rootProject.findProperty("WROUTER_VERSION")) return ["WRouter", "WMRouter", "io.github.meituan-dianping:router:$project.rootProject.WROUTER_VERSION"]
-//        if (project.rootProject.findProperty("IBC_VERSION")) return ["IBCRouter", "io.github.jamesfchen.ibc-plugin", "io.github.jamesfchen:ibc-api:$project.rootProject.IBC_VERSION"]
-        if (project.rootProject.findProperty("IBC_VERSION")) return ["IBCRouter", "", "io.github.jamesfchen:ibc-api:$project.rootProject.IBC_VERSION"]
+        if (project.rootProject.findProperty("IBC_VERSION")) return ["IBCRouter", "io.github.jamesfchen.ibc-plugin", "io.github.jamesfchen:ibc-api:$project.rootProject.IBC_VERSION"]
         return ["", "", ""]
     }
 }

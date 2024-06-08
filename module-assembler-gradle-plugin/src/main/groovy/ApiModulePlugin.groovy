@@ -17,7 +17,7 @@ class ApiModulePlugin extends AndroidPlugin {
     void onApply(Project project) {
         super.onApply(project)
         project.dependencies {
-            if (AndroidPlugin.routerLibrary) api AndroidPlugin.routerLibrary
+            if (routerLibrary) api routerLibrary
         }
     }
 }

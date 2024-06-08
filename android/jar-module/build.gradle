@@ -1,10 +1,15 @@
 plugins {
+    id "io.github.jamesfchen.jar-plugin"
+    id "io.github.jamesfchen.module-publisher-plugin"
 }
 
-android {
-    buildFeatures {
-        viewBinding true
-    }
+publish {
+    name = "jar-module"
+    groupId = "io.github.jamesfchen"
+    artifactId = "jar-module"
+    version = "1.0.0-${gradle.activeBuildVariant}-SNAPSHOT"
+    website = "https://github.com/JamesfChen/bundles-assembler"
 }
+
 dependencies {
 }

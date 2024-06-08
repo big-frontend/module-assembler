@@ -77,7 +77,6 @@ android {
 //                // if true, only report errors.
 //                ignoreWarnings true
     }
-    dynamicFeatures = [':dynamicfeature']
     buildFeatures {
 //        viewBinding true
 //        dataBinding true
@@ -122,20 +121,12 @@ android {
         jvmTarget = '17'
     }
 }
-configurations {
-    apkCheckerDependency
-    all*.exclude group: 'com.google.guava', module: 'listenablefuture'
-//    all*.exclude group: "com.google.protobuf", module: "protobuf-javalite"
-}
 dependencies {
-    project.depsConfig("implementation", "home-module")
+    project.depsConfig("implementation", "main-module")
     project.depsConfig("implementation", "hotel-bundle1")
     project.depsConfig("implementation", "hotel-bundle2")
     project.depsConfig("implementation", "hotel-bundle3")
-    project.depsConfig("implementation", "hotel-bundle4")
     project.depsConfig("implementation", "hotel-export")
-    project.depsConfig("implementation", "hotel-foundation")
-    project.depsConfig("dynamicImplementation", "plugin-im")
     implementation project.moduleify("fwk-base")
 //    ksp "io.github.jamesfchen:ibc-processor:1.0.0"
 //    implementation "io.github.jamesfchen:ibc-processor:1.0.0"

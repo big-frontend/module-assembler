@@ -79,6 +79,7 @@ public class FileUtil {
         Map<String, Module> sourceModuleMap = new TreeMap<String, Module>();
         Map<String, Module> binaryModuleMap = new TreeMap<String, Module>();
         for (Module m : config.allModules) {
+            if ("app".equals(m.simpleName) || "host".equals(m.group)) continue;
             allModuleMap.put(m.simpleName, m);
         }
         //第一次初始化项目时，local.properties文件没有excludeModules、sourceModules、apps这三个，默认所有模块都为binary

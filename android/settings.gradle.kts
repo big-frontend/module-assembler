@@ -32,10 +32,6 @@ dependencyResolutionManagement {
 }
 
 apply("./scripts/trace_gradle.gradle")
-
-include(":dynamicfeature")
-include(":dynamicfeature2")
-
 plugins {
     id("io.github.jamesfchen.module-registry-plugin")
 }

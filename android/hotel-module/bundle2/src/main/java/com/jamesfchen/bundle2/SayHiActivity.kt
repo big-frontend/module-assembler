@@ -9,9 +9,6 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
-import com.jamesfchen.export.ICall
-import com.jamesfchen.ibc.cbpc.IBCCbpc
-import com.jamesfchen.ibc.router.IBCRouter
 
 /**
  * Copyright ® $ 2017
@@ -45,19 +42,19 @@ class SayHiActivity : Activity() {
 //                            .withLong("key1", 666L)
 //                            .withString("key3", "888")
 //                            .navigation();
-            val api = IBCCbpc.findApi(ICall::class.java)
-            if (api?.call() == true) {
-                IBCRouter.open(this) {
-                    uri = "b://h5container/page"
-                    params(
-//                        "url" to "file:///android_asset/AApp.html",
-                        "url" to "https://spacecraft-plan.github.io/SpacecraftReact/#/",
-                        "key2" to "cjf2",
-                        "key3" to 1,
-                        "key4" to true
-                    )
-                }
-            }
+//            val api = IBCCbpc.findApi(ICall::class.java)
+//            if (api?.call() == true) {
+//                IBCRouter.open(this) {
+//                    uri = "b://h5container/page"
+//                    params(
+////                        "url" to "file:///android_asset/AApp.html",
+//                        "url" to "https://spacecraft-plan.github.io/SpacecraftReact/#/",
+//                        "key2" to "cjf2",
+//                        "key3" to 1,
+//                        "key4" to true
+//                    )
+//                }
+//            }
         }
     }
 

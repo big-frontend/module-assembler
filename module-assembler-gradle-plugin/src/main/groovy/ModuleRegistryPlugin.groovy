@@ -15,7 +15,8 @@ class ModuleRegistryPlugin implements Plugin<Settings> {
         def rootDir = settings.rootDir
         /**
          * 读取module_config.json信息以此来include具体的模块，对于模块的描述应该有这些信息
-         * class Module{*    require  def simpleName 模块名的简写,给idea plugin读取
+         * class Module{
+         *     require  def simpleName 模块名的简写,给idea plugin读取
          *    require def format 模块格式(nsbundle ndbundle h5bundle rnbundle flutterbundle foundation jar ,bundle可以不参加编译，即exclude，但是framework foundation必须被include)
          *    require def group 分组是为了当exclude某个app时，其下的依赖的同组模块也会exclude
          *    require def type {api,processor,tool} 对于framework内部的模块来说，有暴露给app层的api模块，还有有processor、tool
@@ -23,7 +24,23 @@ class ModuleRegistryPlugin implements Plugin<Settings> {
          *    require def binaryPath default: {package}:simpleName:1.0.0 ,默认的binary_artifact需要保证simpelName唯一性,先暂时用1.0.0站位，后面应该通过获取远程版本和本地版本进行自动升级
          *    option def deps 不应有这个属性，要编译成什么应该通过excludeModule和sourceModule,默认都是aar编译//option def build_source(source or binary),binary(aar jar)编译更快
          *}*/
-        def config = new JsonSlurper().parse(new File("$rootDir/module_config.json"))
+        def config= new JsonSlurper().parse(new File("$rootDir/module_config.json"))
+        Iterator<Object> iterator = config.allModules.iterator();
+//        gradle.ext.dynamicModuleMap = [:]
+        gradle.ext.dynamicModule = []
+        def appModule = null
+        while (iterator.hasNext()){
+            def module = iterator.next()
+            if (module.format == "ndbundle") {
+//                gradle.ext.dynamicModuleMap[module.simpleName] = module
+                gradle.ext.dynamicModule.add(module.sourcePath)
+            }
+            if (module.simpleName == "app" || module.group == "host"){
+                appModule = module
+                iterator.remove()
+            }
+        }
+        gradle.ext.appModule = appModule
         gradle.ext.allModules = config.allModules
         gradle.ext.groupId = config.groupId
         gradle.ext.buildVariants = config.buildVariants
@@ -46,8 +63,8 @@ class ModuleRegistryPlugin implements Plugin<Settings> {
         gradle.ext.binaryModuleMap = new LinkedHashMap<String, Object>()
         gradle.ext.sourcePath2SimpleNameMap = [:]
 
-        gradle.ext.pluginSrcModuleMap = [:]
-        gradle.ext.pluginBinaryModuleMap = [:]
+//        gradle.ext.pluginSrcModuleMap = [:]
+//        gradle.ext.pluginBinaryModuleMap = [:]
         def findModule = { name ->
             for (def m : gradle.ext.allModules) {
                 if (m.simpleName == name) {
@@ -73,9 +90,9 @@ class ModuleRegistryPlugin implements Plugin<Settings> {
         sourceModulesStr.eachAfterSplit(',') {
             gradle.ext.sourceModuleMap[it.simpleName] = it
             gradle.ext.sourcePath2SimpleNameMap[it.sourcePath] = it.simpleName
-            if (it.dynamic) {
-                gradle.ext.pluginSrcModuleMap[it.simpleName] = it
-            }
+//            if (it.dynamic) {
+//                gradle.ext.pluginSrcModuleMap[it.simpleName] = it
+//            }
         }
         gradle.ext.allModules.each { m ->
             m.binaryPath = "${gradle.ext.groupId}:${m.simpleName}:${newVersion(gradle, m)}"
@@ -83,10 +100,14 @@ class ModuleRegistryPlugin implements Plugin<Settings> {
                 gradle.ext.binaryModuleMap[m.simpleName] = m
             }
         }
-        settings.include ":app"
         child("module info ========================================================================================")
         child("activeBuildVariant:" + gradle.ext.activeBuildVariant)
         child("module begin ========================================================================================")
+        child("app    module\t${appModule.sourcePath}")
+        settings.include appModule.sourcePath
+        if (appModule.projectDir) {
+            project(appModule.sourcePath).projectDir = new File(rootProject.projectDir, appModule.projectDir)
+        }
         gradle.ext.sourceModuleMap.each { name, module ->
             child("source module\t${module.sourcePath}")
             settings.include module.sourcePath
@@ -97,9 +118,9 @@ class ModuleRegistryPlugin implements Plugin<Settings> {
         gradle.ext.excludeModuleMap.each { _, module -> child("\u001B[31mexclude module\u001B[0m\t${module.sourcePath}")}
         gradle.ext.binaryModuleMap.each { simpleName, module ->
             child("binary module\t${module.binaryPath}")
-            if (module.dynamic) {
-                gradle.ext.pluginBinaryModuleMap[simpleName] = module
-            }
+//            if (module.dynamic) {
+//                gradle.ext.pluginBinaryModuleMap[simpleName] = module
+//            }
         }
 
         child("module end ========================================================================================")
@@ -131,22 +152,15 @@ class ModuleRegistryPlugin implements Plugin<Settings> {
                 def simpleName = project.gradle.sourcePath2SimpleNameMap[project.path]
                 if (simpleName) {
                     def m = project.gradle.sourceModuleMap[simpleName]
-                    if (m.group == 'fwk' || m.format == 'nsbundle' || m.format == 'ndbundle'
-//                    || m.format == 'h5bundle' || m.format == 'h5bundle' || m.format == 'rnbundle'
-                    ) {
+                    if (m.group == 'fwk' || m.format == 'nsbundle' || m.format == 'ndbundle') {
                         project.plugins.apply("io.github.jamesfchen.module-publisher-plugin")
                         project['publish'].with {
                             name = simpleName
                             groupId = project.gradle.groupId
                             artifactId = simpleName
                             version = newVersion(project.gradle, m)
-                            website = "https://github.com/JamesfChen/bundles-assembler"
+                            website = "https://github.com/electrolytej/module-assembler"
                         }
-                    }
-                    if (m.format == 'ndbundle') {
-                        project.android.defaultConfig.versionCode = Integer.parseInt(m.versionCode)
-                        project.android.defaultConfig.versionName = m.versionName
-                        project.version = Integer.parseInt(m.versionCode)
                     }
                 }
             }

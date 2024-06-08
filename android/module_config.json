@@ -14,15 +14,15 @@
       "group": "host"
     },
     {
-      "simpleName": "fwk-base",
-      "sourcePath": ":base",
-      "group": "fwk"
-    },
-    {
       "simpleName": "main-module",
       "sourcePath": ":main-module",
       "format": "nsbundle",
       "group": "main"
+    },
+    {
+      "simpleName": "fwk-base",
+      "sourcePath": ":base",
+      "group": "fwk"
     },
     {
       "simpleName": "hotel-bundle1",
@@ -45,7 +45,7 @@
     {
       "simpleName": "hotel-bundle4",
       "sourcePath": ":hotel-module:bundle4",
-      "format": "nsbundle",
+      "format": "ndbundle",
       "group": "hotel"
     },
     {
@@ -53,6 +53,24 @@
       "sourcePath": ":hotel-module:export",
       "format": "api",
       "group": "hotel"
+    },
+    {
+      "simpleName": "jar-module",
+      "sourcePath": ":jar-module",
+      "format": "fwk",
+      "group": "jar"
+    },
+    {
+      "simpleName": "im-export",
+      "sourcePath": ":im-module:export",
+      "format": "api",
+      "group": "im"
+    },
+    {
+      "simpleName": "im-bundle",
+      "sourcePath": ":im-module:bundle",
+      "format": "ndbundle",
+      "group": "im"
     }
   ]
 }

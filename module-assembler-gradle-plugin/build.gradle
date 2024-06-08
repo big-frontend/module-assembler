@@ -72,11 +72,17 @@ gradlePlugin {
             displayName = 'module-registry-plugin'
             description = "module-registry-plugin"
         }
-        nsbundlePlugin {
-            id = "${rootProject.groupId}.nsbundle-plugin"
-            implementationClass = 'NsBundlePlugin'
-            displayName = 'nsbundle-plugin'
-            description = "nsbundle-plugin"
+        sbundlePlugin {
+            id = "${rootProject.groupId}.static-bundle-plugin"
+            implementationClass = 'StaticBundlePlugin'
+            displayName = 'static-bundle-plugin'
+            description = "static-bundle-plugin"
+        }
+        dbundlePlugin {
+            id = "${rootProject.groupId}.dynamic-bundle-plugin"
+            implementationClass = 'DynamicBundlePlugin'
+            displayName = 'dynamic-bundle-plugin'
+            description = "dynamic-bundle-plugin"
         }
         foundationPlugin {
             id = "${rootProject.groupId}.foundation-plugin"
@@ -125,7 +131,6 @@ dependencies {
     implementation 'org.javassist:javassist:3.18.2-GA'
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'net.dongliu:apk-parser:2.2.0'
-    implementation 'com.google.guava:guava:24.1-jre'
     implementation 'commons-codec:commons-codec:1.15'
     implementation localGroovy()
     implementation 'org.apache.httpcomponents.client5:httpclient5:5.1.3'

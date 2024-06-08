@@ -1,5 +1,4 @@
-
-
+import com.electrolytej.b.P
 import org.gradle.api.Project
 
 class AppModulePlugin extends AndroidPlugin {
@@ -45,6 +44,10 @@ class AppModulePlugin extends AndroidPlugin {
                 debug {
                     signingConfig signingConfigs.debugSigningConfig
                 }
+            }
+            if (project.gradle.ext.dynamicModule){
+                P.info("dynamicFeatures: ${project.gradle.ext.dynamicModule}")
+                dynamicFeatures = project.gradle.ext.dynamicModule
             }
         }
     }

@@ -4,6 +4,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.plugins.signing.SigningExtension
 import org.gradle.api.tasks.bundling.Jar
@@ -78,9 +79,9 @@ class PublisherPlugin implements Plugin<Project> {
             ext.signingSecretKeyRingFile = properties.getProperty("signingPassword")
             ext.signingPassword = properties.getProperty("signingSecretKeyRingFile")
         }
-        if (project.properties.containsKey("useJamesfChenSnapshots")
-                && project["useJamesfChenSnapshots"] != null
-                && project["useJamesfChenSnapshots"] == "true") {
+        if (project.properties.containsKey("useElectrolytejSnapshots")
+                && project["useElectrolytejSnapshots"] != null
+                && project["useElectrolytejSnapshots"] == "true") {
 //                println(">>> 使用jamesfchen的maven central发布，但是只能发布snapshot")
             ext.ossrhUsername = 'delta'
             ext.ossrhPassword = 'vCKe*5vHBh3xH2.'
@@ -165,7 +166,7 @@ class PublisherPlugin implements Plugin<Project> {
 
     }
 
-    def configPom(Project project, org.gradle.api.publish.maven.MavenPom pom, PublishExtension ext) {
+    def configPom(Project project, MavenPom pom, PublishExtension ext) {
         pom.name = ext.name
         if (Checker.isApk(project)) {
             pom.packaging = "zip"
@@ -236,15 +237,15 @@ class PublisherPlugin implements Plugin<Project> {
         } else {
             if (project.tasks.findByName('sourcesJar') == null) {
                 project.tasks.create(name: 'sourcesJar', group: "documentation", type: Jar, dependsOn: 'classes') {
-                    classifier = 'sources'
-//                    archiveClassifier = "javadoc"
+//                    classifier = 'sources'
+                    archiveClassifier = "sources"
                     from project.sourceSets.main.allSource
                 }
             }
             if (project.tasks.findByName('javadocJar') == null) {
                 project.tasks.create(name: 'javadocJar', group: "documentation", type: Jar, dependsOn: 'javadoc') {
-                    classifier = 'javadoc'
-//                    archiveClassifier = "javadoc"
+//                    classifier = 'javadoc'
+                    archiveClassifier = "javadoc"
                     from project.javadoc.destinationDir
                 }
             }
@@ -252,7 +253,7 @@ class PublisherPlugin implements Plugin<Project> {
 
         if (project.hasProperty("kotlin")) {
             // Disable creating javadocs
-            project.tasks.withType(Javadoc) {
+            project.tasks.withType(Javadoc).configureEach {
                 enabled = false
             }
         }
