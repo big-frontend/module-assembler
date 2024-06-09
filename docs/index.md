@@ -5,7 +5,8 @@
 
 先定义一下bundle和foundation,bundle是依附于app framework的native bundle、flutter bundle、react native bundle、hybrid bundle，有些bundle具有动态性能被app framework动态加载；foundation是赋予上层能力的基础服务，更像是一些用来快速开发页面的toolkits，比如网络、存储、图像、音视频都是foundation。bundle之间相互解耦，bundle之间的通信主要有两种页面路由和rpc。
 
-![architecture](https://github.com/big-frontend/bundles-assembler/blob/main/android/art/architecture.png)
+
+![architecture](assets/images/architecture.png)
 
 ### 能力
 声明了一些名词解释，我们来看看module assembler能提供怎么样的能力：
