@@ -41,10 +41,11 @@ app集成方式|jar/aar/source静态集成|jar/aar/source/apk 动静结合集成
 - bundle懒加载(lazy load)
 
 回顾一下插件化与组件化
-| 解耦的方式| 构建/执行  | 打包方式|
+
+| 解耦的方式| 构建/执行  | 打包方式
 |---|---|---|    
-|组件化 |      编译时 |     aar/jar|
-|插件化 |      运行时 |     apk/dex|
+|组件化 |      编译时 |     aar/jar
+|插件化 |      运行时 |     apk/dex
 
 先来说说立即加载，通过dexbuilder在编译期间将aar/jar的dex整合到app的dex中，然后经过art加载执行。再来说说延迟加载 与 懒加载 ，两者的区别在于，前者会在MQ处于idle或者 draw end的阶段进行加载，不与界面的初始绘制抢夺cpu，后者使用时才会进行加载(在IBC接口调用时，才进行模块加载)。两者的共同点都是利用了插件化的技术实现，经由apkbuilder打包为apk，在安装加载时，会被extra出dex被ClassLoader加载 或者 直接被LoaderApk加载。
 

@@ -1,4 +1,4 @@
-> bundles-assembler-plugin
+> module-assembler-plugin
 ```gradle
 //app 模块
 plugins{
