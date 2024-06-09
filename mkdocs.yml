@@ -1,0 +1,27 @@
+site_name: My Docs
+theme:
+  name: material
+  locale: en
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - django
+
+nav:
+  - Home: index.md
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - attr_list
+  - def_list
+  - tables
+  - pymdownx.highlight:
+      use_pygments: false
+  - pymdownx.snippets
+  - pymdownx.superfences
+#  - callouts
+#  - mdx_gh_links:
+#      user: mkdocs
+#      repo: mkdocs
+#  - mkdocs-click
