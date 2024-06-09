@@ -1,8 +1,6 @@
 ### 技术分享
 [2021年 Android组件化分享](https://electrolyteJ.github.io/blog/2021-12-31/shared-android-component)
 
-[bundles-assembler 项目wiki](https://github.com/electrolyteJ/bundles-assembler/wiki)
-
 ### 项目结构
 
 - b //客户端项目
