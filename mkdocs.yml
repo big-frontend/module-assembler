@@ -13,17 +13,23 @@ nav:
     - 'Blog': blog.md
     
 markdown_extensions:
+  - smarty
+  - footnotes
+  - meta
   - toc:
       permalink: true
   - attr_list
-  - def_list
-  - tables
-  - pymdownx.highlight:
-      use_pygments: false
-  - pymdownx.snippets
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  # - pymdownx.emoji:
+  #     emoji_index: !!python/name:materialx.emoji.twemoji
+  #     emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.smartsymbols
   - pymdownx.superfences
-#  - callouts
-#  - mdx_gh_links:
-#      user: mkdocs
-#      repo: mkdocs
-#  - mkdocs-click
+  - pymdownx.tilde
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
