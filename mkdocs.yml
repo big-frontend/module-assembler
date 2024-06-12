@@ -6,6 +6,12 @@ theme:
   hljs_languages:
     - yaml
     - django
+  features:
+    - navigation.tabs
+    - navigation.sections
+    # - navigation.expand
+    - navigation.path
+    - navigation.indexes
 
 nav:
   - 'Home': 
