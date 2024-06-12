@@ -7,6 +7,7 @@
 
 
 ![architecture](docs/assets/images/architecture.png)
+![](assets/images/architecture.png)
 
 ### 能力
 
