@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from fwk import BaseCommand
+from fast import BaseCommand
 
 
 class Bundle(BaseCommand):

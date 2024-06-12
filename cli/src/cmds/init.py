@@ -3,11 +3,11 @@
 """
 from argparse import ArgumentParser
 
-from fwk import BaseCommand
+from fast import BaseCommand
 import zipfile
 import os
-from fwk import log
-from cmds.ext.util import download_file
+from fast import log
+from cmds.util import download_file
 
 template_project_url = 'https://github.com/JamesfChen/bundles-assembler-template/archive/refs/heads/main.zip'
 

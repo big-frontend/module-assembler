@@ -7,11 +7,11 @@ python  script/module_manager.py -v all -e a -e b
 """
 from argparse import ArgumentParser
 
-from fwk import BaseCommand
+from fast import BaseCommand
 import json
-from cmds.ext import util
+from cmds import util
 from enum import Enum, unique
-from cmds.ext.property import Properties
+from cmds.property import Properties
 
 
 class Picker(BaseCommand):
@@ -57,7 +57,7 @@ class Picker(BaseCommand):
         with open(util.get_module_config_path(), encoding='utf-8') as f:
             module_config = json.load(f)
             for m in module_config['allModules']:
-                if m['group'] == 'fwk':
+                if m['group'] == 'fast':
                     self.__fwk_modules[m["simpleName"]] = m
                 elif not m.get('dynamic'):
                     self.__nsbundle_modules[m["simpleName"]] = m

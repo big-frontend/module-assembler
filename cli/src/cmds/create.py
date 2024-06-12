@@ -3,7 +3,7 @@
 """
 from argparse import ArgumentParser
 
-from fwk import BaseCommand
+from fast import BaseCommand
 from enum import Enum, unique
 
 

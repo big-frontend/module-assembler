@@ -1,3 +1,2 @@
-- echo y|pip3 uninstall bundcli
-- poetry install | poetry build | pip3 install dist/bundcli-1.0.0-py3-none-any.whl --force
+- poetry install | poetry build | poetry run bundcli
 - bundcli --help 

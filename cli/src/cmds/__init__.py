@@ -1,4 +1,3 @@
-# import fwk, os
+import fast, os
 def entry():
-    print("bundcli")
-    # fwk.load_cmds(os.path.dirname(__file__), 'cmds')
+    fast.load_cmds(__file__, 'cmds')

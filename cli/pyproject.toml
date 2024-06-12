@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "bundcli"
 version = "1.0.0"
-description = "bundles assembler cli"
-authors = ["electrolyteJ <hawks.jamesf@gmail.com>"]
+description = "module assembler cli"
+authors = ["electrolyteJ <electrolytej@gmail.com>"]
 #maintainers = [
 #  {name = "A. Great Maintainer", email = "maintainer@example.com" } # Optional
 #]
@@ -45,7 +45,7 @@ build-backend = "poetry.core.masonry.api"
 python = "^3.10"
 requests = "2.27.1"
 tqdm = "^4.65.0"
-#cmd-fwk = "^1.2.2"
+flashcli = "^1.3.0"
 
 
 [tool.poetry.dev-dependencies]
