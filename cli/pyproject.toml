@@ -7,6 +7,7 @@ authors = ["electrolyteJ <electrolytej@gmail.com>"]
 #  {name = "A. Great Maintainer", email = "maintainer@example.com" } # Optional
 #]
 license = "Apache2"
+readme = "README.md"
 classifiers = [
     # How mature is this project? Common values are
     #   3 - Alpha
