@@ -8,8 +8,10 @@ theme:
     - django
 
 nav:
-  - Home: index.md
-
+  - 'Home': 
+    - 'Index': index.md
+    - 'Blog': blog.md
+    
 markdown_extensions:
   - toc:
       permalink: true
