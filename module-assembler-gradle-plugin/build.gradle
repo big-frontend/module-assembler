@@ -1,56 +1,5 @@
 plugins {
-    id "com.gradle.plugin-publish" version "0.15.0"
-}
-//发布到远程gradle plugin portal，获得approval超级慢
-pluginBundle {
-    vcsUrl = 'https://github.com/electrolytej/module-assembler'
-    website = "https://github.com/electrolytej/module-assembler"
-    description = "module-assembler-plugin"
-    tags = ['module-assembler']
-    def ver = "1.7.2"
-    version ver
-    plugins {
-        nsbundlePlugin {
-            displayName = 'nsbundle-plugin'
-            tags = ['module-assembler']
-            version = ver
-        }
-        foundationPlugin {
-            displayName = 'foundation-plugin'
-            tags = ['module-assembler']
-            version = ver
-        }
-        apiPlugin {
-            displayName = 'api-plugin'
-            tags = ['module-assembler']
-            version = ver
-        }
-        appPlugin {
-            displayName = 'app-plugin'
-            tags = ['module-assembler']
-            version = ver
-        }
-        aptPlugin {
-            displayName = 'apt-plugin'
-            tags = ['module-assembler']
-            version = ver
-        }
-        lintPlugin {
-            displayName = 'lint-plugin'
-            tags = ['module-assembler']
-            version = ver
-        }
-        jarPlugin {
-            displayName = 'jar-plugin'
-            tags = ['module-assembler']
-            version = ver
-        }
-    }
-    mavenCoordinates {
-        groupId = rootProject.groupId
-        artifactId = 'module-assembler-plugin'
-        version = ver
-    }
+    id("com.gradle.plugin-publish") version "1.2.1"
 }
 apply plugin: 'java'
 java {
@@ -62,63 +11,74 @@ tasks.withType(GroovyCompile) {
     sourceCompatibility = '17'
     targetCompatibility = '17'
 }
-
-apply plugin: "java-gradle-plugin"
+version = "1.0.0"
+group ="io.github.electrolytej"
 gradlePlugin {
+    vcsUrl = 'https://github.com/electrolytej/module-assembler.git'
+    website = "https://github.com/big-frontend/module-assembler"
     plugins {
         moduleRegistryPlugin {
-            id = "${rootProject.groupId}.module-registry-plugin"
+            id = "${group}.module-registry-plugin"
             implementationClass = 'ModuleRegistryPlugin'
             displayName = 'module-registry-plugin'
             description = "module-registry-plugin"
+            tags = ['module-assembler']
         }
         sbundlePlugin {
-            id = "${rootProject.groupId}.static-bundle-plugin"
+            id = "${group}.static-bundle-plugin"
             implementationClass = 'StaticBundlePlugin'
             displayName = 'static-bundle-plugin'
             description = "static-bundle-plugin"
+            tags = ['module-assembler']
         }
         dbundlePlugin {
-            id = "${rootProject.groupId}.dynamic-bundle-plugin"
+            id = "${group}.dynamic-bundle-plugin"
             implementationClass = 'DynamicBundlePlugin'
             displayName = 'dynamic-bundle-plugin'
             description = "dynamic-bundle-plugin"
+            tags = ['module-assembler']
         }
         foundationPlugin {
-            id = "${rootProject.groupId}.foundation-plugin"
+            id = "${group}.foundation-plugin"
             implementationClass = 'FoundationModulePlugin'
             displayName = 'foundation-plugin'
             description = "foundation-plugin"
+            tags = ['module-assembler']
         }
         apiPlugin {
-            id = "${rootProject.groupId}.api-plugin"
+            id = "${group}.api-plugin"
             implementationClass = 'ApiModulePlugin'
             displayName = 'api-plugin'
             description = "api-plugin"
+            tags = ['module-assembler']
         }
         appPlugin {
-            id = "${rootProject.groupId}.app-plugin"
+            id = "${group}.app-plugin"
             implementationClass = 'AppModulePlugin'
             displayName = 'app-plugin'
             description = "app-plugin"
+            tags = ['module-assembler']
         }
         aptPlugin {
-            id = "${rootProject.groupId}.apt-plugin"
+            id = "${group}.apt-plugin"
             implementationClass = 'AptModulePlugin'
             displayName = 'apt-plugin'
             description = "apt-plugin"
+            tags = ['module-assembler']
         }
         lintPlugin {
-            id = "${rootProject.groupId}.lint-plugin"
+            id = "${group}.lint-plugin"
             implementationClass = 'LintModulePlugin'
             displayName = 'lint-plugin'
             description = "lint-plugin"
+            tags = ['module-assembler']
         }
         jarPlugin {
-            id = "${rootProject.groupId}.jar-plugin"
+            id = "${group}.jar-plugin"
             implementationClass = 'JarModulePlugin'
             displayName = 'jar-plugin'
             description = "jar-plugin"
+            tags = ['module-assembler']
         }
     }
 }

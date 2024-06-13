@@ -1,5 +1,5 @@
 plugins{
-    id "io.github.jamesfchen.dynamic-bundle-plugin"
+    id "io.github.electrolytej.dynamic-bundle-plugin"
 }
 android{
     namespace "com.jamesfchen.bundle4"

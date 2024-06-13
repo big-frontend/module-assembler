@@ -1,5 +1,5 @@
 plugins{
-    id "io.github.jamesfchen.api-plugin"
+    id "io.github.electrolytej.api-plugin"
 }
 
 android{

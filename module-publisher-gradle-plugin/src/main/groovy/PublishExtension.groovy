@@ -1,5 +1,3 @@
-package com.jamesfchen.publisher
-
 class PublishExtension {
     String name
     String groupId

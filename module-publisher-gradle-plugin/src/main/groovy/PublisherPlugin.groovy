@@ -1,5 +1,3 @@
-package com.jamesfchen.publisher
-
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project

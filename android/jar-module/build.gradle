@@ -1,6 +1,6 @@
 plugins {
-    id "io.github.jamesfchen.jar-plugin"
-    id "io.github.jamesfchen.module-publisher-plugin"
+    id "io.github.electrolytej.jar-plugin"
+    id "io.github.electrolytej.module-publisher-plugin"
 }
 
 publish {
@@ -8,7 +8,7 @@ publish {
     groupId = "io.github.jamesfchen"
     artifactId = "jar-module"
     version = "1.0.0-${gradle.activeBuildVariant}-SNAPSHOT"
-    website = "https://github.com/JamesfChen/bundles-assembler"
+    website = "https://github.com/big-frontend/module-assembler"
 }
 
 dependencies {

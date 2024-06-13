@@ -33,6 +33,6 @@ dependencyResolutionManagement {
 
 apply("./scripts/trace_gradle.gradle")
 plugins {
-    id("io.github.jamesfchen.module-registry-plugin")
+    id("io.github.electrolytej.module-registry-plugin")
 }
 

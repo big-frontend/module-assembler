@@ -9,5 +9,3 @@ dependencyResolutionManagement {
         }
     }
 }
-
-//include(":module-assembler-plugin")

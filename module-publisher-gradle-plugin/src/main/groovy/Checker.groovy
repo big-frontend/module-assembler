@@ -1,5 +1,3 @@
-package com.jamesfchen.publisher
-
 import org.gradle.api.Project
 
 class Checker {

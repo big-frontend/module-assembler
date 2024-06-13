@@ -37,7 +37,7 @@ plugins {
     alias(libs.plugins.secrets) apply false
     alias(libs.plugins.room) apply false
     alias(libs.plugins.module.graph) apply true // Plugin applied to allow module graph generation
-    id("io.github.jamesfchen.module-publisher-plugin") apply false
+    id("io.github.electrolytej.module-publisher-plugin") apply false
 }
 allprojects {
 //    configurations.all {

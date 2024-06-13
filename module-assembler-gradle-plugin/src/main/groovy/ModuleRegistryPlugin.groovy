@@ -26,13 +26,11 @@ class ModuleRegistryPlugin implements Plugin<Settings> {
          *}*/
         def config= new JsonSlurper().parse(new File("$rootDir/module_config.json"))
         Iterator<Object> iterator = config.allModules.iterator();
-//        gradle.ext.dynamicModuleMap = [:]
         gradle.ext.dynamicModule = []
         def appModule = null
         while (iterator.hasNext()){
             def module = iterator.next()
             if (module.format == "ndbundle") {
-//                gradle.ext.dynamicModuleMap[module.simpleName] = module
                 gradle.ext.dynamicModule.add(module.sourcePath)
             }
             if (module.simpleName == "app" || module.group == "host"){
@@ -153,13 +151,13 @@ class ModuleRegistryPlugin implements Plugin<Settings> {
                 if (simpleName) {
                     def m = project.gradle.sourceModuleMap[simpleName]
                     if (m.group == 'fwk' || m.format == 'nsbundle' || m.format == 'ndbundle') {
-                        project.plugins.apply("io.github.jamesfchen.module-publisher-plugin")
+                        project.plugins.apply("io.github.electrolytej.module-publisher-plugin")
                         project['publish'].with {
                             name = simpleName
                             groupId = project.gradle.groupId
                             artifactId = simpleName
                             version = newVersion(project.gradle, m)
-                            website = "https://github.com/electrolytej/module-assembler"
+                            website = "https://github.com/big-frontend/module-assembler"
                         }
                     }
                 }
