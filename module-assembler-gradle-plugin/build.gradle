@@ -15,7 +15,7 @@ version = "1.0.0"
 group ="io.github.electrolytej"
 gradlePlugin {
     vcsUrl = 'https://github.com/big-frontend/module-assembler.git'
-    website = "https://github.com/big-frontend/module-assembler/tree/main/module-assembler-intellij-plugin"
+    website = "https://github.com/big-frontend/module-assembler/tree/main/module-assembler-gradle-plugin"
     plugins {
         moduleRegistryPlugin {
             id = "${group}.module-registry-plugin"

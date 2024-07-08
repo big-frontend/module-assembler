@@ -14,8 +14,8 @@ tasks.withType(GroovyCompile) {
 version = "1.0.0"
 group = "io.github.electrolytej"
 gradlePlugin {
-    vcsUrl = 'https://github.com/electrolytej/module-assembler.git'
-    website = "https://github.com/big-frontend/module-assembler"
+    vcsUrl = 'https://github.com/big-frontend/module-assembler.git'
+    website = "https://github.com/big-frontend/module-assembler/tree/main/module-publisher-gradle-plugin"
     plugins {
         modulePublisherPlugin {
             id = "${group}.module-publisher-plugin"
