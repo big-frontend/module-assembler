@@ -16,9 +16,4 @@ plugins{
 plugins{
       id 'io.github.electrolytej.api-plugin'
  }
-
-//处理模块的厨师，放在rootProject的build.gradle
-plugins{
-    id 'io.github.electrolytej.module-chef-plugin'
-}
 ```
