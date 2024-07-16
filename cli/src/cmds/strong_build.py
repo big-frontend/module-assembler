@@ -2,13 +2,13 @@
 # GIT_COMMIT
 # git diff $GIT_COMMIT $GIT_PREVIOUS_SUCCESSFUL_COMMIT --name-status
 # git diff ae80330a 425cd6d6 --name-only
-import collections
-import json
-import os
-import subprocess
-import sys
-from os import path as opath
-from subprocess import PIPE
+# import collections
+# import json
+# import os
+# import subprocess
+# import sys
+# from os import path as opath
+# from subprocess import PIPE
 
 # root_path = opath.dirname(opath.dirname(__file__))
 # module_config_path = opath.join(root_path, 'module_config.json')

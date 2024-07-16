@@ -30,10 +30,8 @@ jobs:
       with:
         version: 1.8.3
 
-    - name: poetry install 
-      run: poetry shell && poetry install && poetry run macli --help
-    - name: poetry build 
-      run: cd cli && poetry build && pip3 uninstall macli && pip3 install dist/*.whl --force
+    - name: uninstall macli | poetry install 
+      run: echo y | pip3 uninstall macli && poetry install
     - name: run macli
       run: cd android && macli picker --help
 

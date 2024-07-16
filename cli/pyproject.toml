@@ -52,10 +52,7 @@ flashcli = "^1.3.0"
 #pylint = "*"
 #isort = "*"
 #pytest = "*"
-#mkdocs = "*"
-#mkdocs-material = "*"
 
 
 [tool.poetry.scripts]
-bundcli = 'cmds:entry'
 macli = 'cmds:entry'
