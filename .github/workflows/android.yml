@@ -31,7 +31,7 @@ jobs:
         version: 1.8.3
 
     - name: poetry install 
-      run: poetry install && poetry run macli --help
+      run: poetry shell && poetry install && poetry run macli --help
     - name: poetry build 
       run: cd cli && poetry build && pip3 uninstall macli && pip3 install dist/*.whl --force
     - name: run macli
