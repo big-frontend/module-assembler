@@ -15,6 +15,7 @@ pluginManagement {
     }
     includeBuild("../module-assembler-gradle-plugin")
     includeBuild("../module-publisher-gradle-plugin")
+
 }
 dependencyResolutionManagement {
 //    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -29,10 +30,11 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
     }
+
 }
 
-apply("./scripts/trace_gradle.gradle")
 plugins {
-    id("io.github.electrolytej.module-registry-plugin")
+    id("io.github.electrolytej.module-assembler-settings")
 }
+
 

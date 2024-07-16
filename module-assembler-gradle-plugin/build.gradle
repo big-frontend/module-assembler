@@ -17,11 +17,18 @@ gradlePlugin {
     vcsUrl = 'https://github.com/big-frontend/module-assembler.git'
     website = "https://github.com/big-frontend/module-assembler/tree/main/module-assembler-gradle-plugin"
     plugins {
+        moduleAssemblerPlugin {
+            id = "${group}.module-assembler-rootproject-plugin"
+            implementationClass = 'ModuleAssemblerRootProjectPlugin'
+            displayName = 'module-assembler-rootproject-plugin'
+            description = "module-assembler-rootproject-plugin"
+            tags = ['module-assembler']
+        }
         moduleRegistryPlugin {
-            id = "${group}.module-registry-plugin"
-            implementationClass = 'ModuleRegistryPlugin'
-            displayName = 'module-registry-plugin'
-            description = "module-registry-plugin"
+            id = "${group}.module-assembler-settings"
+            implementationClass = 'ModuleAssemblerSettingsPlugin'
+            displayName = 'module-assembler-settings'
+            description = "module-assembler-settings"
             tags = ['module-assembler']
         }
         sbundlePlugin {

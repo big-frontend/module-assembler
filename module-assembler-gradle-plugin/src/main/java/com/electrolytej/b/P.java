@@ -58,21 +58,23 @@ public final class P {
     private static void println(Object message) {
         System.out.println(message);
     }
-
+    private static void print(Object message) {
+        System.out.print(message);
+    }
     public static void error(Object message) {
-        println(ANSI_RED + "" + message + "" + ANSI_RESET);
+        println(read(message));
     }
 
     public static void warn(Object message) {
-        println(ANSI_YELLOW + "" + message + "" + ANSI_RESET);
+        println(yellow(message));
     }
 
     public static void info(Object message) {
-        println(ANSI_GREEN + "" + message + "" + ANSI_RESET);
+        println(green(message));
     }
 
     public static void debug(Object message) {
-        println(ANSI_BLUE + "" + message + "" + ANSI_RESET);
+        println(blue(message));
     }
 
     public static void verbose(Object message) {
@@ -89,5 +91,20 @@ public final class P {
     }
     public static void theElderly(Object msg){
         println("👵👴[ gradle 结束 ] "+msg);
+    }
+
+    public static String read(Object message) {
+        return ANSI_RED + message + ANSI_RESET;
+    }
+    public static String yellow(Object message) {
+        return ANSI_YELLOW + message + ANSI_RESET;
+    }
+
+    public static String green(Object message) {
+        return ANSI_GREEN + message + ANSI_RESET;
+    }
+
+    public static String blue(Object message) {
+        return ANSI_BLUE + message + ANSI_RESET;
     }
 }

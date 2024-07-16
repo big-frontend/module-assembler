@@ -45,9 +45,8 @@ class AppModulePlugin extends AndroidPlugin {
                     signingConfig signingConfigs.debugSigningConfig
                 }
             }
-            if (project.gradle.ext.dynamicModule){
-                P.info("dynamicFeatures: ${project.gradle.ext.dynamicModule}")
-                dynamicFeatures = project.gradle.ext.dynamicModule
+            if (project.gradle.ext.dynamicModules){
+                dynamicFeatures = project.gradle.ext.dynamicModules
             }
         }
     }

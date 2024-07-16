@@ -38,6 +38,7 @@ plugins {
     alias(libs.plugins.room) apply false
     alias(libs.plugins.module.graph) apply true // Plugin applied to allow module graph generation
     id("io.github.electrolytej.module-publisher-plugin") apply false
+    id("io.github.electrolytej.module-assembler-rootproject-plugin") apply true
 }
 allprojects {
 //    configurations.all {
