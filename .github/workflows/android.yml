@@ -31,9 +31,7 @@ jobs:
         version: 1.8.3
 
     - name: uninstall macli | poetry install 
-      run: echo y | pip3 uninstall macli && poetry install
-    - name: run macli
-      run: cd android && macli picker --help
+      run: echo y | pip3 uninstall macli && poetry install && cd android && macli picker --help
 
     - name: poetry run android
       run: poetry run android
