@@ -30,7 +30,7 @@ jobs:
 
 
     - name: poetry install | poetry build 
-      run: poetry install && cd cli && poetry build 
+      run: poetry install && cd cli && poetry build && pip3 install dist/macli-1.0.0-py2.py3-none-any.whl --force
     - name: run macli
       run: cd android && macli picker --help
 
