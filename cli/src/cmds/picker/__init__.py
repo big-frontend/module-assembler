@@ -4,8 +4,8 @@ from argparse import ArgumentParser
 from fast import BaseCommand
 import json
 from cmds import util
-from enum import Enum, unique
 from cmds.picker import Properties
+from cmds.picker import Policy
 
 
 class Picker(BaseCommand):
@@ -157,9 +157,3 @@ class Picker(BaseCommand):
                 self.remove_module('excludeModules', b)
 
 
-@unique
-class Policy(Enum):
-    NONE = 0
-    SOURCE = 1
-    EXCLUDE = 2
-    BINARY = 3
