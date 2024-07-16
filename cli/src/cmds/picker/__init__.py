@@ -4,6 +4,9 @@ from enum import Enum, unique
 from fast import BaseCommand
 import json
 from cmds import util
+from .property import Properties
+
+
 class Picker(BaseCommand):
     """
     模块管理
@@ -46,6 +49,7 @@ class Picker(BaseCommand):
 
     def _parse_args(self, args: ArgumentParser):
         pass
+
     def _execute(self):
         pass
 
