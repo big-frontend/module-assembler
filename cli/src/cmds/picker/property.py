@@ -4,15 +4,15 @@ import time
 from io import TextIOWrapper
 
 
-class IllegalArgumentException(Exception):
-
-    def __init__(self, lineno, msg):
-        self.lineno = lineno
-        self.msg = msg
-
-    def __str__(self):
-        s = 'Exception at line number %d => %s' % (self.lineno, self.msg)
-        return s
+# class IllegalArgumentException(Exception):
+#
+#     def __init__(self, lineno, msg):
+#         self.lineno = lineno
+#         self.msg = msg
+#
+#     def __str__(self):
+#         s = 'Exception at line number %d => %s' % (self.lineno, self.msg)
+#         return s
 
 
 class Properties(object):
