@@ -31,8 +31,8 @@ jobs:
 
     - name: poetry install
       run: poetry install
-    - name: run macli
+    - name: poetry run macli
       run: poetry run macli --help
 
-    - name: Build with Gradle
-      run: chmod +x android/gradlew && cd android ; ./gradlew build
+    - name: poetry run android
+      run: poetry run android
