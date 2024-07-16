@@ -27,7 +27,8 @@ jobs:
 
     - name: Install Poetry Action        
       uses: snok/install-poetry@v1.3.4
-
+      with:
+        version: 1.8.3
 
     - name: poetry install 
       run: poetry install && poetry run macli --help
