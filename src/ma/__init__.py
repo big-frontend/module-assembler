@@ -3,9 +3,9 @@ def android():
     root_dir =  os.getcwd()
     gradlew = f'{root_dir}/android/gradlew'
     print(f"android {gradlew}")
-    os.system(f'{gradlew} app:assemble')
+    os.system(f' cd android && {gradlew} app:assemble')
 
 
 def cli():
     args = ' '.join(sys.argv[1:])
-    os.system(f'cd cli && poetry install && poetry run macli {args}')
+    os.system(f'cd cli && poetry install &&  cd ../android && macli {args}')

@@ -33,6 +33,6 @@ jobs:
     - name: poetry install
       run: poetry install
     - name: run macli
-      run: poetry run macli picker --help
+      run: poetry run macli picker -sbp source
     - name: run android
-      run: cd android && macli picker -sbp source &&  poetry run android
+      run:  poetry run android
