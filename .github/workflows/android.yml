@@ -29,10 +29,10 @@ jobs:
       uses: snok/install-poetry@v1.3.4
 
 
-    - name: poetry install
-      run: poetry install
-    - name: poetry run macli
-      run: poetry run macli --help
+    - name: poetry install | poetry build | poetry publish
+      run: poetry install && poetry build && poetry publish
+    - name: run macli
+      run: cd android && macli picker --help
 
     - name: poetry run android
       run: poetry run android
