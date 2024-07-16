@@ -3,8 +3,7 @@ from argparse import ArgumentParser
 from fast import BaseCommand
 import json
 from cmds import util
-from cmds.picker.property import Properties
-from cmds.picker.policy import Policy
+
 
 
 class Picker(BaseCommand):
