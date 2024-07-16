@@ -1,10 +1,9 @@
 from argparse import ArgumentParser
+from enum import Enum, unique
 
 from fast import BaseCommand
 import json
 from cmds import util
-from cmds.picker.policy import Policy
-
 class Picker(BaseCommand):
     """
     模块管理
@@ -49,3 +48,11 @@ class Picker(BaseCommand):
         pass
     def _execute(self):
         pass
+
+
+@unique
+class Policy(Enum):
+    NONE = 0
+    SOURCE = 1
+    EXCLUDE = 2
+    BINARY = 3
