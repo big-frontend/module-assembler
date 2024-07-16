@@ -1,6 +1,5 @@
 .DS_Store
 bundcli.egg-info/
-build/
 __pycache__/
 dist/
 poetry.lock
