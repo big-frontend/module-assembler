@@ -1,4 +1,3 @@
-
 from argparse import ArgumentParser
 
 from fast import BaseCommand
@@ -12,10 +11,11 @@ class Picker(BaseCommand):
     """
     模块管理
 
-    python  script/module_manager.py -fp=source -dbp=exclude -sbp=exclude
-    python  script/module_manager.py -v all -e a -e b
+    python  picker -fp=source -dbp=exclude -sbp=exclude
+    python  picker -v all -e a -e b
 
     """
+
     def _create_parser(self, p):
         parser = p.add_parser('picker')
         parser.add_argument('--version', action='version', version='1.0.0')
@@ -51,7 +51,7 @@ class Picker(BaseCommand):
         self.__args = args
         self.__local_properties_path = util.get_local_properties_path()
         self.__p = Properties()
-        self.__p.load(open(self.__local_properties_path,encoding='utf-8'))
+        self.__p.load(open(self.__local_properties_path, encoding='utf-8'))
         self.__fwk_modules = dict()
         self.__nsbundle_modules = dict()
         self.__ndbundle_modules = dict()
@@ -155,5 +155,3 @@ class Picker(BaseCommand):
 
             if b in exclude_modules:
                 self.remove_module('excludeModules', b)
-
-

@@ -1,6 +1,3 @@
-.idea
-lint-report*.html
-lint-report*.xml
 .DS_Store
 bundcli.egg-info/
 build/
