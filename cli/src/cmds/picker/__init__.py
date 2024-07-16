@@ -16,7 +16,8 @@ class Picker(BaseCommand):
     """
 
     def _create_parser(self, p):
-        pass
+        parser = p.add_parser('picker')
+        return parser
     def _parse_args(self, args: ArgumentParser):
         pass
     def _execute(self):
