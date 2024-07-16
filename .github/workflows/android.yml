@@ -30,8 +30,9 @@ jobs:
       with:
         version: 1.8.3
 
-    - name: poetry run macli
-      run: echo y | pip3 uninstall macli flashcli && cd cli && poetry install && poetry run macli picker --help
-
-    - name: poetry run android
-      run: poetry install &&  poetry run android
+    - name: poetry install
+      run: poetry install
+    - name: run macli
+      run: poetry run macli picker -sbp source
+    - name: run android
+      run: poetry run android

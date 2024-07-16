@@ -8,4 +8,4 @@ def android():
 
 def cli():
     args = ' '.join(sys.argv[1:])
-    os.system(f'cd cli  &&  poetry run macli {args}')
+    os.system(f'cd cli && poetry install && poetry run macli {args}')
