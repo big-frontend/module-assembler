@@ -9,7 +9,8 @@ class Config(BaseCommand):
         return pyadb_parser
 
     def _parse_args(self, args: ArgumentParser):
-        self.__basic = args.basic
+        pass
 
     def _execute(self):
         pass
+        print("asfdasfsad")
