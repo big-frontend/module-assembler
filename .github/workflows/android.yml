@@ -29,8 +29,10 @@ jobs:
       uses: snok/install-poetry@v1.3.4
 
 
-    - name: poetry install | poetry build 
-      run: poetry install && cd cli && poetry build && pip3 install dist/*.whl --force
+    - name: poetry install 
+      run: poetry install && poetry run macli --help
+    - name: poetry build 
+      run: cd cli && poetry build && pip3 install dist/*.whl --force
     - name: run macli
       run: cd android && macli picker --help
 
