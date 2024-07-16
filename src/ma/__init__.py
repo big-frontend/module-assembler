@@ -3,7 +3,7 @@ def android():
     root_dir =  os.getcwd()
     gradlew = f'{root_dir}/android/gradlew'
     print(f"android {gradlew}")
-    os.system(f'cd android && {gradlew} app:assemble')
+    os.system(f'{gradlew} app:assemble')
 
 
 def cli():
