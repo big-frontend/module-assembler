@@ -30,7 +30,7 @@ jobs:
 
 
     - name: poetry install | poetry build 
-      run: poetry install && poetry build 
+      run: poetry install && cd cli && poetry build 
     - name: run macli
       run: cd android && macli picker --help
 
