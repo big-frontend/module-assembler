@@ -19,7 +19,6 @@ packages = [{ include = "ma", from = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-macli = { path = "cli" }
 
 
 [tool.poetry.group.dev.dependencies]
@@ -45,4 +44,3 @@ warn_return_any = true
 
 [tool.poetry.scripts]
 android = 'ma:android'
-macli = 'ma:cli'
