@@ -1,20 +1,21 @@
-"""
-模块管理
 
-python  script/module_manager.py -fp=source -dbp=exclude -sbp=exclude
-python  script/module_manager.py -v all -e a -e b
-
-"""
 from argparse import ArgumentParser
 
 from fast import BaseCommand
 import json
 from cmds import util
 from enum import Enum, unique
-from cmds.property import Properties
+from cmds.picker import Properties
 
 
 class Picker(BaseCommand):
+    """
+    模块管理
+
+    python  script/module_manager.py -fp=source -dbp=exclude -sbp=exclude
+    python  script/module_manager.py -v all -e a -e b
+
+    """
     def _create_parser(self, p):
         parser = p.add_parser('picker')
         parser.add_argument('--version', action='version', version='1.0.0')
