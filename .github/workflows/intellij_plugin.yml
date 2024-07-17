@@ -1,0 +1,24 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup jdk-17
+      uses: actions/setup-java@main
+      with:
+        java-version: 17
+        distribution: 'adopt'
+
+    - name: buildPlugin
+      run: cd module-assembler-intellij-plugin &&  ./gradlew buildPlugin
