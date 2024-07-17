@@ -9,4 +9,4 @@ def android():
 def cli():
     args = ' '.join(sys.argv[1:])
     print(args)
-    os.system(f'macli {args}')
+    os.system(f'cd cli && poetry install && cd ../android && pwd &&  echo "sourceModules=" > local.properties && macli {args}')

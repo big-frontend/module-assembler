@@ -32,7 +32,7 @@ jobs:
 
     - name: poetry install
       run: poetry install
-    - name: run macli picker
-      run:  cd cli && poetry install && cd ../android && pwd &&  echo "sourceModules=" > local.properties && poetry run cli picker -sbp source -v debug
+    - name: run cli picker
+      run:  poetry run cli picker -sbp source -v debug
     - name: run android
       run:  poetry run android
