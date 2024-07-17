@@ -19,7 +19,6 @@ packages = [{ include = "ma", from = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-macli = { path = "cli" }
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.3.0"

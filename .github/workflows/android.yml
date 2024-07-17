@@ -31,6 +31,6 @@ jobs:
         version: 1.8.3
 
     - name: run macli picker
-      run: poetry run macli picker -sbp source -v debug
+      run:  poetry run macli picker -sbp source -v debug
     - name: run android
       run:  poetry run android
