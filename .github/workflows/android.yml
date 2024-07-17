@@ -30,9 +30,7 @@ jobs:
       with:
         version: 1.8.3
 
-    - name: poetry install
-      run: poetry install
-    - name: run macli
+    - name: run macli picker
       run: poetry run macli picker -sbp source -v debug
     - name: run android
       run:  poetry run android
