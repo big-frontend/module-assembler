@@ -43,4 +43,4 @@ warn_return_any = true
 
 [tool.poetry.scripts]
 android = 'ma:android'
-macli = 'ma:cli'
+cli = 'ma:cli'
