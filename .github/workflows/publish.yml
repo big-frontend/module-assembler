@@ -3,8 +3,8 @@ name: publish CI
 
 on:
   push:
-#    branches:
-#      - 'release/**'
+    #    branches:
+    #      - 'release/**'
     tags:
       - '*'
 
@@ -44,11 +44,10 @@ jobs:
       - name: poetry install
         run: poetry install
       - name: run cli picker
-        run:  poetry run cli picker -sbp source -v debug
+        run: poetry run cli picker -sbp source -v debug
       - name: run android
-        run:  poetry run android
+        run: poetry run android
       - name: Upload Release Android Apk
-        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -65,7 +64,6 @@ jobs:
       - name: Build Intellij Plugin
         run: cd module-assembler-intellij-plugin &&  ./gradlew buildPlugin
       - name: Upload Release Intellij Plugin
-        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -74,7 +72,7 @@ jobs:
           # See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: module-assembler-intellij-plugin/build/distributions/apk/debug/*.zip
-#          asset_name: App.apk
+          #          asset_name: App.apk
           asset_content_type: application/zip
 
   
