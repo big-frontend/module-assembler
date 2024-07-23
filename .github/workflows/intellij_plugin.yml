@@ -3,8 +3,12 @@ name: intellij_plugin CI
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'module-assembler-intellij-plugin/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'module-assembler-intellij-plugin/**'
 
 jobs:
   build:
