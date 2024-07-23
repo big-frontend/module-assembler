@@ -17,74 +17,74 @@ gradlePlugin {
     vcsUrl = 'https://github.com/big-frontend/module-assembler.git'
     website = "https://github.com/big-frontend/module-assembler/tree/main/module-assembler-gradle-plugin"
     plugins {
-        moduleAssemblerPlugin {
+        moduleAssemblerRootProjectPlugin {
             id = "${group}.module-assembler-rootproject-plugin"
             implementationClass = 'ModuleAssemblerRootProjectPlugin'
-            displayName = 'module-assembler-rootproject-plugin'
-            description = "module-assembler-rootproject-plugin"
+            displayName = 'Plugin for assembler source、binary  module in rootproject build.gradle '
+            description = "A plugin that helps you easy to assembler source、binary  module"
             tags = ['module-assembler']
         }
-        moduleRegistryPlugin {
-            id = "${group}.module-assembler-settings"
+        moduleAssemblerSettingsPlugin {
+            id = "${group}.module-assembler-settings-plugin"
             implementationClass = 'ModuleAssemblerSettingsPlugin'
-            displayName = 'module-assembler-settings'
-            description = "module-assembler-settings"
+            displayName = 'Plugin for include or exclude module in settings.gradle'
+            description = "A plugin that helps you easy to indlude/exclude module"
             tags = ['module-assembler']
         }
         sbundlePlugin {
             id = "${group}.static-bundle-plugin"
             implementationClass = 'StaticBundlePlugin'
-            displayName = 'static-bundle-plugin'
-            description = "static-bundle-plugin"
+            displayName = 'Plugin for assembler module to app in compile step'
+            description = "A plugin that helps you assembler module to app in compile step"
             tags = ['module-assembler']
         }
         dbundlePlugin {
             id = "${group}.dynamic-bundle-plugin"
             implementationClass = 'DynamicBundlePlugin'
-            displayName = 'dynamic-bundle-plugin'
-            description = "dynamic-bundle-plugin"
+            displayName = 'Plugin for assembler module to app in runtime step'
+            description = "A plugin that helps you assembler module to app in runtime step"
             tags = ['module-assembler']
         }
         foundationPlugin {
             id = "${group}.foundation-plugin"
             implementationClass = 'FoundationModulePlugin'
-            displayName = 'foundation-plugin'
-            description = "foundation-plugin"
+            displayName = 'Plugin for define foundation module'
+            description = "A plugin that helps you define foundation module"
             tags = ['module-assembler']
         }
         apiPlugin {
             id = "${group}.api-plugin"
             implementationClass = 'ApiModulePlugin'
-            displayName = 'api-plugin'
-            description = "api-plugin"
+            displayName = 'Plugin for route api'
+            description = "A plugin that helps you define route api"
             tags = ['module-assembler']
         }
         appPlugin {
             id = "${group}.app-plugin"
             implementationClass = 'AppModulePlugin'
-            displayName = 'app-plugin'
-            description = "app-plugin"
+            displayName = 'Plugin for define host app module'
+            description = "A plugin that helps you define host app module"
             tags = ['module-assembler']
         }
         aptPlugin {
             id = "${group}.apt-plugin"
             implementationClass = 'AptModulePlugin'
-            displayName = 'apt-plugin'
-            description = "apt-plugin"
+            displayName = 'Plugin for easy to use squareup javapoet'
+            description = "A plugin that helps you easy to use squareup javapoet"
             tags = ['module-assembler']
         }
         lintPlugin {
             id = "${group}.lint-plugin"
             implementationClass = 'LintModulePlugin'
-            displayName = 'lint-plugin'
-            description = "lint-plugin"
+            displayName = 'Plugin for easy to use android lint'
+            description = "A plugin that helps you easy to use android lint"
             tags = ['module-assembler']
         }
         jarPlugin {
             id = "${group}.jar-plugin"
             implementationClass = 'JarModulePlugin'
-            displayName = 'jar-plugin'
-            description = "jar-plugin"
+            displayName = 'Plugin for define jar module'
+            description = "A plugin that helps you define jar module"
             tags = ['module-assembler']
         }
     }

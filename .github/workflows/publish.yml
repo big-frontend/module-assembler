@@ -1,0 +1,81 @@
+name: publish CI
+
+
+on:
+  push:
+#    branches:
+#      - 'release/**'
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup jdk-17
+        uses: actions/setup-java@main
+        with:
+          java-version: 17
+          distribution: 'adopt'
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install Poetry Action
+        uses: snok/install-poetry@v1.3.4
+        with:
+          version: 1.8.3
+
+      # 创建realease
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      # 发布Android Apk
+      - name: poetry install
+        run: poetry install
+      - name: run cli picker
+        run:  poetry run cli picker -sbp source -v debug
+      - name: run android
+        run:  poetry run android
+      - name: Upload Release Android Apk
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`.
+          # See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: android/app/build/outputs/apk/debug/app-debug.apk
+          asset_name: App.apk
+          asset_content_type: application/vnd.android.package-archiv
+
+
+      # 发布Intellij Plugin
+      - name: Build Intellij Plugin
+        run: cd module-assembler-intellij-plugin &&  ./gradlew buildPlugin
+      - name: Upload Release Intellij Plugin
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`.
+          # See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: module-assembler-intellij-plugin/build/distributions/apk/debug/*.zip
+#          asset_name: App.apk
+          asset_content_type: application/zip
+
+  
+  

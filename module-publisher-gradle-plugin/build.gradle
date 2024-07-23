@@ -20,8 +20,8 @@ gradlePlugin {
         modulePublisherPlugin {
             id = "${group}.module-publisher-plugin"
             implementationClass = 'PublisherPlugin'
-            displayName = 'module-publisher-plugin'
-            description = "module-publisher-plugin"
+            displayName = 'Plugin for publish aar or jar'
+            description = "A plugin that helps you easy to publish aar or jar"
             tags = ["module-assembler"]
         }
     }

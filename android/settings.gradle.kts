@@ -34,7 +34,7 @@ dependencyResolutionManagement {
 }
 
 plugins {
-    id("io.github.electrolytej.module-assembler-settings")
+    id("io.github.electrolytej.module-assembler-settings-plugin")
 }
 
 
