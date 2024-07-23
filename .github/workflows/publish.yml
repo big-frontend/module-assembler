@@ -40,6 +40,23 @@ jobs:
           draft: false
           prerelease: false
 
+
+      # 发布Intellij Plugin
+      - name: Build Intellij Plugin
+        run: cd module-assembler-intellij-plugin &&  ./gradlew buildPlugin
+      - name: Upload Release Intellij Plugin
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`.
+          # See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: module-assembler-intellij-plugin/build/distributions/apk/debug/*.zip
+          asset_name: module-assembler-intellij-plugin.zip
+          asset_content_type: application/zip
+                      
+
       # 发布Android Apk
       - name: run android
         run: poetry install && poetry run cli picker -sbp source -v debug && poetry run android
@@ -55,21 +72,6 @@ jobs:
           asset_name: App.apk
           asset_content_type: application/vnd.android.package-archiv
 
-
-      # 发布Intellij Plugin
-      - name: Build Intellij Plugin
-        run: cd module-assembler-intellij-plugin &&  ./gradlew buildPlugin
-      - name: Upload Release Intellij Plugin
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`.
-          # See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: module-assembler-intellij-plugin/build/distributions/apk/debug/*.zip
-          #          asset_name: App.apk
-          asset_content_type: application/zip
 
   
   
