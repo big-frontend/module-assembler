@@ -3,14 +3,20 @@ name: Android CI
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'android/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'android/**'
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: {android}
     steps:
     - uses: actions/checkout@v3
 
