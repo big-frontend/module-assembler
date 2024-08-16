@@ -67,6 +67,7 @@ abstract class AndroidPlugin extends BasePlugin {
         }
 
         VersionCatalog libs = project.extensions.getByType(VersionCatalogsExtension).named("libs")
+        def versionName = libs.findVersion("ibc").get().requiredVersion
         if (project.rootProject.findProperty("AROUTER_VERSION")) return ["ARouter", "com.alibaba.arouter", "com.alibaba:arouter-api:$project.rootProject.AROUTER_VERSION"]
         if (project.rootProject.findProperty("WROUTER_VERSION")) return ["WRouter", "WMRouter", "io.github.meituan-dianping:router:$project.rootProject.WROUTER_VERSION"]
         if (project.rootProject.findProperty("IBC_VERSION")) return ["IBCRouter", "io.github.jamesfchen.ibc-plugin", "io.github.jamesfchen:ibc-api:$project.rootProject.IBC_VERSION"]

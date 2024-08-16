@@ -81,11 +81,13 @@ class ModuleAssemblerRootProjectPlugin implements Plugin<Project>,ProjectEvaluat
     static def child(Object msg) {
         println("👶[ gradle initialzation ] " + msg);
     }
-    static def newVersion(def project, def m) {
+    static def newVersion(Project project, def m) {
         def gradle = project.gradle
-        def versionName = project.extensions.getByType(VersionCatalogsExtension).named("libs").findVersion("versionName").get()
-                .requiredVersion
-        def ver = "$versionName-${gradle.activeBuildVariant}-SNAPSHOT"
+        def versionName = project.extensions.getByType(VersionCatalogsExtension).named("libs").findVersion("versionName").get().requiredVersion
+        def branch = gitBranch()
+//        def ts = System.currentTimeMillis();
+        def buildId = getCommitId()
+        def ver = "${branch}-$versionName-${gradle.activeBuildVariant}-${buildId}-SNAPSHOT"
         if (m.versionName) {
             if (!m.versionCode) throw new IllegalArgumentException("参数错误 versionName:${m.versionName} versionCode:${m.versionCode}")
             def a = m.versionName.split('-')
@@ -98,6 +100,25 @@ class ModuleAssemblerRootProjectPlugin implements Plugin<Project>,ProjectEvaluat
             }
         }
         return ver
+    }
+    static def releaseTime() {
+        return new Date().format("yyMMddHHmm", TimeZone.getTimeZone("GMT+08:00"))
+    }
+
+    static def getUserName(){
+        return 'git config user.name'.execute().text.trim()
+    }
+
+    static def getCommitId() {
+        return 'git rev-parse --short HEAD'.execute().text.trim()
+    }
+    static def gitBranch() {
+        def branch = ""
+        def proc = "git rev-parse --abbrev-ref HEAD".execute()
+        proc.in.eachLine { line -> branch = line }
+        proc.err.eachLine { line -> println line }
+        proc.waitFor()
+        return branch
     }
 
 }
