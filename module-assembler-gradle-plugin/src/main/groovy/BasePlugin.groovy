@@ -37,6 +37,9 @@ abstract class BasePlugin implements Plugin<Project> {
                     if (module.sourcePath.isEmpty()) {
                         throw new IllegalArgumentException("source module 的sourcePath不能为空")
                     }
+                    if (module.format =='ndbundle'){//动态库不能被app 模块引用
+                        return ''
+                    }
                     return module.sourcePath //':framework:common'
                 }
                 //该模块为exclude，不会进行编译不需要依赖

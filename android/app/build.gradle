@@ -126,6 +126,7 @@ dependencies {
     project.depsConfig("implementation", "hotel-bundle1")
     project.depsConfig("implementation", "hotel-bundle2")
     project.depsConfig("implementation", "hotel-bundle3")
+    project.depsConfig("implementation", "hotel-bundle4")
     project.depsConfig("implementation", "hotel-export")
     implementation project.moduleify("fwk-base")
 //    ksp "io.github.jamesfchen:ibc-processor:1.0.0"
