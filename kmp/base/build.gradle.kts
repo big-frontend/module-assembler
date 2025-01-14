@@ -23,7 +23,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "Shared"
+            baseName = "base"
             isStatic = true
         }
     }
@@ -52,7 +52,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.jetbrains.kmpapp.shared"
+    namespace = "com.jetbrains.kmpapp.base"
     compileSdk = 35
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
