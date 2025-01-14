@@ -1,5 +1,4 @@
 {
-  "originHash" : "db79fcc1e89ddda40b63c6b4784113d9a3818a7e51c1cbcb2a074b98d190aa0f",
   "pins" : [
     {
       "identity" : "kmp-nativecoroutines",
@@ -20,5 +19,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }
