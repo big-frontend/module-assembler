@@ -1,6 +1,6 @@
 import Foundation
 import SwiftUI
-import Shared
+import Base
 import KMPNativeCoroutinesAsync
 import KMPObservableViewModelSwiftUI
 

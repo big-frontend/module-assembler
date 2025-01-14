@@ -1,7 +1,7 @@
 import SwiftUI
 import KMPNativeCoroutinesAsync
 import KMPObservableViewModelSwiftUI
-import Shared
+import Base
 
 struct ListView: View {
     @StateViewModel
