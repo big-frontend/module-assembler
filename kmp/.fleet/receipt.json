@@ -10,20 +10,10 @@
             },
             "ios": {
                 "ui": [
-                    "compose"
-                ]
-            },
-            "desktop": {
-                "ui": [
-                    "compose"
-                ]
-            },
-            "web": {
-                "ui": [
-                    "compose"
+                    "swiftui"
                 ]
             }
         }
     },
-    "timestamp": "2025-01-14T02:18:45.550189320Z"
+    "timestamp": "2023-11-03T09:16:53.427835805Z"
 }

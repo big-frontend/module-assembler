@@ -1,21 +1,32 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop.
+# Kotlin Multiplatform app template
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+[![official project](http://jb.gg/badges/official.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-* `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+This is a basic Kotlin Multiplatform app template for Android and iOS. It includes shared business logic and data handling, and native UI implementations using Jetpack Compose and SwiftUI.
 
+> The template is also available [with shared UI written in Compose Multiplatform](https://github.com/kotlin/KMP-App-Template).
+>
+> The [`amper` branch](https://github.com/Kotlin/KMP-App-Template-Native/tree/amper) showcases the same project configured with [Amper](https://github.com/JetBrains/amper).
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+![Screenshots of the app](images/screenshots.png)
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [GitHub](https://github.com/JetBrains/compose-multiplatform/issues).
+### Technologies
 
-You can open the web application by running the `:composeApp:wasmJsBrowserDevelopmentRun` Gradle task.
+The data displayed by the app is from [The Metropolitan Museum of Art Collection API](https://metmuseum.github.io/).
+
+The app uses the following multiplatform dependencies in its implementation:
+
+- [Ktor](https://ktor.io/) for networking
+- [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) for JSON handling
+- [Koin](https://github.com/InsertKoinIO/koin) for dependency injection
+- [KMP-ObservableViewModel](https://github.com/rickclephas/KMP-ObservableViewModel) for shared ViewModel implementations in common code
+- [KMP-NativeCoroutines](https://github.com/rickclephas/KMP-NativeCoroutines)
+
+> These are just some of the possible libraries to use for these tasks with Kotlin Multiplatform, and their usage here isn't a strong recommendation for these specific libraries over the available alternatives. You can find a wide variety of curated multiplatform libraries in the [kmp-awesome](https://github.com/terrakok/kmp-awesome) repository.
+
+And the following Android-specific dependencies:
+
+- [Jetpack Compose](https://developer.android.com/jetpack/compose)
+- [Navigation component](https://developer.android.com/jetpack/compose/navigation)
+- [Coil](https://github.com/coil-kt/coil) for image loading

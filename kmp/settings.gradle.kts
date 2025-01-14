@@ -1,4 +1,4 @@
-rootProject.name = "kmp"
+rootProject.name = "KMP-App-Template-Native"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -12,9 +12,9 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        includeBuild("../module-assembler-gradle-plugin")
+        includeBuild("../module-publisher-gradle-plugin")
     }
-    includeBuild("../module-assembler-gradle-plugin")
-    includeBuild("../module-publisher-gradle-plugin")
 }
 
 dependencyResolutionManagement {
@@ -30,7 +30,5 @@ dependencyResolutionManagement {
     }
 }
 
+include(":shared")
 include(":app")
-//plugins {
-//    id("io.github.electrolytej.module-assembler-settings-plugin") version "1.0.0"
-//}
