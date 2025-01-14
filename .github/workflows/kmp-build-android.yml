@@ -1,4 +1,4 @@
-name: Build Android app
+name: Build Kmp Android app
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     name: Build
     runs-on: macOS-latest
     # Only run build in template repo
-    if: github.event.repository.name == 'KMP-App-Template-Native' && github.repository_owner == 'Kotlin'
+    # if: github.event.repository.name == 'kmp' && github.repository_owner == 'Kotlin'
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -20,5 +20,5 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - name: Android debug build
-        run: ./gradlew assembleDebug --stacktrace
+      - name: Kmp Android debug build
+        run: cd kmp && ./gradlew assembleDebug --stacktrace
