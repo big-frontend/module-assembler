@@ -6,6 +6,7 @@ import com.intellij.ide.starters.local.GeneratorTemplateFile
 import io.github.estivensh4.kotlinmultiplatformwizard.common.generators.*
 import io.github.estivensh4.kotlinmultiplatformwizard.common.models.KmpModuleModel
 import io.github.estivensh4.kotlinmultiplatformwizard.common.utils.TemplateGroup
+import com.android.tools.idea.gradle.dsl.model.BuildModelContext;
 
 class ModuleCommonGenerator(
     private val params: KmpModuleModel,

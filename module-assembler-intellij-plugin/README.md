@@ -31,3 +31,5 @@
 
 - [intellij UI开发](https://jetbrains.design/intellij/controls/combo_box/#when-to-use)
 - [swing](https://docs.oracle.com/javase/tutorial/uiswing/components/button.html)
+- [flutter-intellij](https://github.com/flutter/flutter-intellij/tree/master)
+- [Android Plugin Extension Point and Listener List](https://plugins.jetbrains.com/docs/intellij/android-plugin-extension-point-list.html)

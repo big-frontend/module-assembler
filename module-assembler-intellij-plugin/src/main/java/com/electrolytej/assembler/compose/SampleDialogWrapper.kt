@@ -7,10 +7,7 @@ import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.CollectionComboBoxModel
 import com.intellij.ui.JBColor
-import com.intellij.ui.dsl.builder.RowLayout
-import com.intellij.ui.dsl.builder.bindItem
-import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.dsl.builder.text
+import com.intellij.ui.dsl.builder.*
 import org.jetbrains.annotations.Nullable
 import java.awt.*
 import java.awt.event.ItemEvent
@@ -39,7 +36,7 @@ class SampleDialogWrapper(val viewModel: ViewModel) : DialogWrapper(true) {
             group("modules") {
                 for (entry in viewModel.excludeModuleMap.entries) {
                     row(entry.key) {
-                        comboBox(items(entry)).bindItem(viewModel::defaultGroupName1)
+                        comboBox(items(entry)).bindItem(viewModel::defaultGroupName1.toNullableProperty())
                     }
                 }
                 for (entry in viewModel.sourceModuleMap.entries) {
@@ -57,12 +54,12 @@ class SampleDialogWrapper(val viewModel: ViewModel) : DialogWrapper(true) {
 //                        }
 //                    }
 //                        createFieldText(entry, JBColor.RED, "exclude")
-                        comboBox(items(entry)).bindItem(viewModel::defaultGroupName2)
+                        comboBox(items(entry)).bindItem(viewModel::defaultGroupName2.toNullableProperty())
                     }
                 }
                 for (entry in viewModel.binaryModuleMap.entries) {
                     row(entry.key) {
-                        comboBox(items(entry)).bindItem(viewModel::defaultGroupName3)
+                        comboBox(items(entry)).bindItem(viewModel::defaultGroupName3.toNullableProperty())
                     }
                 }
             }

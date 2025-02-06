@@ -1,21 +1,31 @@
 <idea-plugin>
     <id>com.electrolytej.assembler</id>
     <name>Module Assembler</name>
-    <vendor email="electrolytej@gmail.com" url="https://github.com/big-frontend/module-assembler-intellij-plugin">electrolytej</vendor>
-<!--    <change-notes><![CDATA[-->
-<!--       module assembler 1.0版本发布了耶(*^▽^*).<br>-->
-<!--    ]]>-->
-<!--    </change-notes>-->
+    <vendor email="electrolytej@gmail.com" url="https://github.com/big-frontend/module-assembler-intellij-plugin">
+        electrolytej
+    </vendor>
+    <!--    <change-notes><![CDATA[-->
+    <!--       module assembler 1.0版本发布了耶(*^▽^*).<br>-->
+    <!--    ]]>-->
+    <!--    </change-notes>-->
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <!-- uncomment to enable plugin in all products
     -->
+    <depends>org.jetbrains.kotlin</depends>
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.platform</depends>
-    <depends>org.jetbrains.android</depends>
+    <!--    <depends>com.intellij.modules.xml</depends>-->
+    <!--    <depends>com.intellij.modules.xdebugger</depends>-->
+    <!--    <depends>com.intellij.modules.java-capable</depends>-->
+    <!--    <depends>com.intellij.modules.java</depends>-->
+    <!--    <depends>com.intellij.java</depends>-->
     <depends>com.intellij.modules.androidstudio</depends>
+    <depends>org.jetbrains.android</depends>
     <depends>com.intellij.modules.java</depends>
+    <!--    <depends>com.intellij.modules.idea.community</depends>-->
+    <!--    <depends>com.intellij.modules.idea</depends>-->
 
     <resource-bundle>messages.MyBundle</resource-bundle>
     <actions>
@@ -24,10 +34,11 @@
                 text="module assembler1" description="Haha">
             <add-to-group group-id="MainMenu" anchor="last"/>
             <add-to-group group-id="ToolbarRunGroup" anchor="after" relative-to-action="RunnerActions"/>
-<!--            <add-to-group group-id="ToolsMenu" anchor="last"/>-->
-<!--            <add-to-group group-id="MainToolBar" anchor="last"/>-->
+            <!--            <add-to-group group-id="ToolsMenu" anchor="last"/>-->
+            <!--            <add-to-group group-id="MainToolBar" anchor="last"/>-->
         </action>
-        <action id="com.electrolytej.assembler.compose.ModuleAssemblerAction" class="com.electrolytej.assembler.compose.ModuleAssemblerAction"
+        <action id="com.electrolytej.assembler.compose.ModuleAssemblerAction"
+                class="com.electrolytej.assembler.compose.ModuleAssemblerAction"
                 icon="/META-INF/pluginIcon_16.svg"
                 text="module assembler2" description="assembler">
             <add-to-group group-id="MainMenu" anchor="last"/>
@@ -41,14 +52,21 @@
         <toolWindow factoryClass="org.jetbrains.plugins.template.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
     </extensions>
     <applicationListeners>
-        <listener class="org.jetbrains.plugins.template.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
+        <listener class="org.jetbrains.plugins.template.listeners.MyApplicationActivationListener"
+                  topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
 
     <extensions defaultExtensionNs="com.android">
-        <moduleDescriptionProvider implementation="io.github.estivensh4.kotlinmultiplatformwizard.module.KmpModuleDescriptionProvider"/>
+        <moduleDescriptionProvider
+                implementation="io.github.estivensh4.kotlinmultiplatformwizard.module.KmpModuleDescriptionProvider"/>
+        <moduleDescriptionProvider
+                implementation="com.electrolytej.assembler.module.ModuleAssemblerModuleDescriptionProvider"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.android.tools.idea.wizard.template">
-        <wizardTemplateProvider implementation="io.github.estivensh4.kotlinmultiplatformwizard.project.KmpProjectTemplateProvider"/>
+        <wizardTemplateProvider
+                implementation="io.github.estivensh4.kotlinmultiplatformwizard.project.KmpProjectTemplateProvider"/>
+        <wizardTemplateProvider
+                implementation="com.electrolytej.assembler.project.ModuleAssemblerProjectTemplateProvider"/>
     </extensions>
 </idea-plugin>
