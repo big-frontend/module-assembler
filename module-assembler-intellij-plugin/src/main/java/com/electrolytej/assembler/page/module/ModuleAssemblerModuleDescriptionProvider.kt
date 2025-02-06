@@ -1,4 +1,4 @@
-package com.electrolytej.assembler.module
+package com.electrolytej.assembler.page.module
 
 import com.android.tools.idea.npw.module.ModuleDescriptionProvider
 import com.android.tools.idea.npw.module.ModuleGalleryEntry

@@ -1,4 +1,4 @@
-package com.electrolytej.assembler.project
+package com.electrolytej.assembler.page.project
 
 import com.android.tools.idea.wizard.template.Template
 import com.android.tools.idea.wizard.template.WizardTemplateProvider

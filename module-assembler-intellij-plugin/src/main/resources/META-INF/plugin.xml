@@ -29,7 +29,7 @@
 
     <resource-bundle>messages.MyBundle</resource-bundle>
     <actions>
-        <action id="com.electrolytej.assembler.swingui.MyAction" class="com.electrolytej.assembler.swingui.MyAction"
+        <action id="com.electrolytej.assembler.page.swingui.MyAction" class="com.electrolytej.assembler.page.swingui.MyAction"
                 icon="/META-INF/pluginIcon_16.svg"
                 text="module assembler1" description="Haha">
             <add-to-group group-id="MainMenu" anchor="last"/>
@@ -37,8 +37,8 @@
             <!--            <add-to-group group-id="ToolsMenu" anchor="last"/>-->
             <!--            <add-to-group group-id="MainToolBar" anchor="last"/>-->
         </action>
-        <action id="com.electrolytej.assembler.compose.ModuleAssemblerAction"
-                class="com.electrolytej.assembler.compose.ModuleAssemblerAction"
+        <action id="com.electrolytej.assembler.page.compose.ModuleAssemblerAction"
+                class="com.electrolytej.assembler.page.compose.ModuleAssemblerAction"
                 icon="/META-INF/pluginIcon_16.svg"
                 text="module assembler2" description="assembler">
             <add-to-group group-id="MainMenu" anchor="last"/>
@@ -60,13 +60,13 @@
         <moduleDescriptionProvider
                 implementation="io.github.estivensh4.kotlinmultiplatformwizard.module.KmpModuleDescriptionProvider"/>
         <moduleDescriptionProvider
-                implementation="com.electrolytej.assembler.module.ModuleAssemblerModuleDescriptionProvider"/>
+                implementation="com.electrolytej.assembler.page.module.ModuleAssemblerModuleDescriptionProvider"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.android.tools.idea.wizard.template">
         <wizardTemplateProvider
                 implementation="io.github.estivensh4.kotlinmultiplatformwizard.project.KmpProjectTemplateProvider"/>
         <wizardTemplateProvider
-                implementation="com.electrolytej.assembler.project.ModuleAssemblerProjectTemplateProvider"/>
+                implementation="com.electrolytej.assembler.page.project.ModuleAssemblerProjectTemplateProvider"/>
     </extensions>
 </idea-plugin>

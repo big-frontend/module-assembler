@@ -1,6 +1,5 @@
-package com.electrolytej.assembler.swingui;
+package com.electrolytej.assembler.page.swingui;
 
-import com.electrolytej.assembler.BuildVariant;
 import com.electrolytej.assembler.Result;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.CollectionComboBoxModel;
@@ -13,7 +12,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.TreeMap;
 
-import com.electrolytej.assembler.Module;
+import com.electrolytej.assembler.model.Module;
 import com.intellij.util.ui.JBUI;
 
 import javax.swing.*;

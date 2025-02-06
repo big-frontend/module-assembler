@@ -1,6 +1,6 @@
-package com.electrolytej.assembler.compose
+package com.electrolytej.assembler.page.compose
 
-import com.electrolytej.assembler.Module
+import com.electrolytej.assembler.model.Module
 import org.jetbrains.annotations.ApiStatus
 import java.util.*
 

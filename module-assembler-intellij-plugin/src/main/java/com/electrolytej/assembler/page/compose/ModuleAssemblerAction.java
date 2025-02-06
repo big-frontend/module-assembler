@@ -1,9 +1,9 @@
-package com.electrolytej.assembler.compose;
+package com.electrolytej.assembler.page.compose;
 
 import com.electrolytej.assembler.BuildVariant;
-import com.electrolytej.assembler.FileUtil;
-import com.electrolytej.assembler.Module;
-import com.electrolytej.assembler.NotificationUtil;
+import com.electrolytej.assembler.util.FileUtil;
+import com.electrolytej.assembler.model.Module;
+import com.electrolytej.assembler.util.NotificationUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;

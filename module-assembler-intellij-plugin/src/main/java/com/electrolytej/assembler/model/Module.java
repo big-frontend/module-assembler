@@ -1,4 +1,4 @@
-package com.electrolytej.assembler;
+package com.electrolytej.assembler.model;
 
 
 public class Module {

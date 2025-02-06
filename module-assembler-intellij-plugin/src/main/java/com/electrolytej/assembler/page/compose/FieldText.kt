@@ -1,4 +1,4 @@
-package com.electrolytej.assembler.compose
+package com.electrolytej.assembler.page.compose
 
 import com.intellij.ui.components.JBTextField
 

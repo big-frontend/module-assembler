@@ -1,5 +1,9 @@
-package com.electrolytej.assembler;
+package com.electrolytej.assembler.util;
 
+import com.electrolytej.assembler.BuildVariant;
+import com.electrolytej.assembler.model.Module;
+import com.electrolytej.assembler.model.ModuleConfig;
+import com.electrolytej.assembler.model.Type;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.intellij.openapi.project.Project;
@@ -9,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.*;
 import java.util.*;
 
-import static com.electrolytej.assembler.NotificationUtil.showErrorNotification;
+import static com.electrolytej.assembler.util.NotificationUtil.showErrorNotification;
 
 public class FileUtil {
     static Project project;
