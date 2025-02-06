@@ -1,0 +1,76 @@
+{
+  "author": "electrolytej",
+  "description": "该配置文件给idea plugin插件和gradle plugin读取,idea plugin通过该文件可以实现管理想要编译的模块，gradle plugin则可以根据这些模块信息生成快速模块",
+  "buildVariants": [
+    "debug",
+    "release",
+    "all"
+  ],
+  "groupId": "io.github.electrolytej",
+  "allModules": [
+    {
+      "simpleName": "app",
+      "sourcePath": ":app",
+      "group": "host"
+    },
+    {
+      "simpleName": "main-module",
+      "sourcePath": ":main-module",
+      "format": "nsbundle",
+      "group": "main"
+    },
+    {
+      "simpleName": "fwk-base",
+      "sourcePath": ":base",
+      "group": "fwk"
+    },
+    {
+      "simpleName": "hotel-bundle1",
+      "sourcePath": ":hotel-module:bundle1",
+      "format": "nsbundle",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "hotel-bundle2",
+      "sourcePath": ":hotel-module:bundle2",
+      "format": "nsbundle",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "hotel-bundle3",
+      "sourcePath": ":hotel-module:bundle3",
+      "format": "nsbundle",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "hotel-bundle4",
+      "sourcePath": ":hotel-module:bundle4",
+      "format": "ndbundle",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "hotel-export",
+      "sourcePath": ":hotel-module:export",
+      "format": "api",
+      "group": "hotel"
+    },
+    {
+      "simpleName": "jar-module",
+      "sourcePath": ":jar-module",
+      "format": "fwk",
+      "group": "jar"
+    },
+    {
+      "simpleName": "im-export",
+      "sourcePath": ":im-module:export",
+      "format": "api",
+      "group": "im"
+    },
+    {
+      "simpleName": "im-bundle",
+      "sourcePath": ":im-module:bundle",
+      "format": "ndbundle",
+      "group": "im"
+    }
+  ]
+}

@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kmpNativeCoroutines)
+    id("io.github.electrolytej.foundation-plugin")
 }
 
 kotlin {

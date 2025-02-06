@@ -7,4 +7,5 @@ plugins {
     alias(libs.plugins.kotlinxSerialization) apply false
     alias(libs.plugins.kmpNativeCoroutines) apply false
     alias(libs.plugins.ksp) apply false
+    id("io.github.electrolytej.module-assembler-rootproject-plugin") apply true
 }

@@ -1,6 +1,3 @@
-rootProject.name = "kmp"
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
 pluginManagement {
     repositories {
         google {
@@ -28,11 +25,9 @@ dependencyResolutionManagement {
         }
         mavenCentral()
     }
+    versionCatalogs {
+        create("libs") {
+            from(files("../kmp/gradle/libs.versions.toml"))
+        }
+    }
 }
-
-include(":base")
-include(":app")
-plugins {
-    id("io.github.electrolytej.module-assembler-settings-plugin") version "2.0.0"
-}
-

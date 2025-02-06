@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.kotlinxSerialization)
+    id("io.github.electrolytej.app-plugin")
 }
 
 kotlin {
@@ -69,4 +70,6 @@ android {
 
 dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(project.moduleify("fwk-base"))
+    project.depsConfig("implementation","main-module")
 }
