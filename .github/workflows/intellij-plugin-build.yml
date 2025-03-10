@@ -1,4 +1,4 @@
-name: intellij_plugin CI
+name: Intellij Plugin Build CI
 
 on:
   push:
@@ -26,3 +26,8 @@ jobs:
 
     - name: buildPlugin
       run: cd module-assembler-intellij-plugin &&  ./gradlew buildPlugin
+    - name: Upload Plugin
+      uses: actions/upload-artifact@v4
+      with:
+        # name: kmp-android.apk
+        path: module-assembler-intellij-plugin/build/distributions/**

@@ -1,0 +1,104 @@
+name: Kmp Build CI
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'kmp/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'kmp/**'
+
+
+jobs:
+  kmp-ios:
+    name: kmp-ios
+    runs-on: macOS-latest
+    # Only run build in template repo
+    # if: github.event.repository.name == 'KMP-App-Template-Native' && github.repository_owner == 'Kotlin'
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 21
+      - name: Set Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.3.app/Contents/Developer
+      - name: iOS debug build
+        run: cd kmp/iosApp && xcodebuild -scheme iosApp -configuration Debug -destination 'platform=iOS Simulator,OS=latest,name=iPhone 15' CODE_SIGNING_ALLOWED='NO'
+      - name: Upload App
+        uses: actions/upload-artifact@v4
+        with:
+          name: kmp-ios.app
+          path: /Users/runner/Library/Developer/Xcode/DerivedData/iosApp-guppqqfdhdiftkfglvxojxmqinzi/Build/Products/Debug-iphonesimulator/spacecraft-kmp.app
+
+
+  kmp-android:
+    runs-on: macOS-latest
+    # Only run build in template repo
+    # if: github.event.repository.name == 'kmp' && github.repository_owner == 'Kotlin'
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 21
+      - name: Kmp Android debug build
+        run: cd kmp && ./gradlew assembleDebug --stacktrace
+      - name: Upload App
+        uses: actions/upload-artifact@v4
+        with:
+          name: kmp-android.apk
+          path: kmp/app/build/outputs/apk/debug/app-debug.apk
+
+  kmp-desktop:
+    runs-on: macOS-latest
+    # Only run build in template repo
+    # if: github.event.repository.name == 'kmp' && github.repository_owner == 'Kotlin'
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 21
+      - name: Kmp Desktop debug build
+        run: cd kmp && ./gradlew assembleDebug --stacktrace
+#      - name: Upload App
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: kmp-desktop.apk
+#          path: app/build/outputs/apk/debug/app-debug.apk
+
+  kmp-wasmJs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "✅ Checkout code"
+        uses: actions/checkout@v4
+      - name: "⚙️ Set up JDK 21"
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: "⚙️ Setup Gradle"
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.9
+
+      - name: "🛠️ Build WasmJS App"
+        run: cd kmp && gradle :app:wasmJsBrowserDistribution
+      - name: "📄 Configure GitHub Pages"
+        uses: actions/configure-pages@v5
+      - name: "📤 Upload GitHub Pages artifact"
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./kmp/app/build/dist/wasmJs/productionExecutable
+      - name: "🚀 Deploy to GitHub Pages"
+        id: deployment
+        uses: actions/deploy-pages@v4
