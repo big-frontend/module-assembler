@@ -3,12 +3,12 @@ name: Kmp Build CI
 on:
   push:
     branches: [ "main" ]
-    paths:
-      - 'kmp/**'
+    # paths:
+      # - 'kmp/**'
   pull_request:
     branches: [ "main" ]
-    paths:
-      - 'kmp/**'
+    # paths:
+      # - 'kmp/**'
 
 
 jobs:
