@@ -1,0 +1,697 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>1. 快速入门 - Module Assembler</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Module Assembler" class="md-header__button md-logo" aria-label="Module Assembler" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Module Assembler
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. 快速入门
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href=".." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Module Assembler" class="md-nav__button md-logo" aria-label="Module Assembler" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Module Assembler
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href=".." class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../blog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      项目初始化
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="项目初始化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      命令列表
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="1">1. 快速入门<a class="headerlink" href="#1" title="Permanent link">&para;</a></h1>
+<h2 id="_1">项目初始化<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p><code>pip3 install bundcli</code></p>
+<h3 id="_2">命令列表<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>通过bundcli init初始化项目模板工程
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>%<span class="w"> </span>bundcli<span class="w"> </span>init<span class="w"> </span>--help
+usage:<span class="w"> </span><span class="nb">command</span><span class="w"> </span>line<span class="w"> </span>init<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>-p<span class="w"> </span>PACKAGE<span class="o">]</span><span class="w"> </span><span class="o">[</span>-n<span class="w"> </span>NAME<span class="o">]</span>
+
+optional<span class="w"> </span>arguments:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">            </span>show<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>-p<span class="w"> </span>PACKAGE,<span class="w"> </span>--package<span class="w"> </span>PACKAGE<span class="w"> </span>项目包名
+<span class="w">  </span>-n<span class="w"> </span>NAME,<span class="w"> </span>--name<span class="w"> </span>NAME<span class="w">  </span>项目名字
+</code></pre></div></p>
+<p>bundles-assembler-plugin
+<div class="highlight"><pre><span></span><code>//app 模块
+plugins{
+      id &#39;io.github.jamesfchen.app-plugin&#39;
+}
+//foundation插件用于基础功能模块
+plugins{
+    id &#39;io.github.jamesfchen.foundation-plugin&#39;
+}
+</code></pre></div></p>
+<h1 id="2">2.创建模块<a class="headerlink" href="#2" title="Permanent link">&para;</a></h1>
+<h1 id="bundle">静态bundle<a class="headerlink" href="#bundle" title="Permanent link">&para;</a></h1>
+<h2 id="1_1">1.接入<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h2>
+<p>bundcli可以创建bundle模板(native_static)
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="m">0</span><span class="o">]</span><span class="w"> </span>%<span class="w"> </span>bundcli<span class="w"> </span>create<span class="w"> </span>--help
+usage:<span class="w"> </span><span class="nb">command</span><span class="w"> </span>line<span class="w"> </span>create<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>-p<span class="w"> </span>PACKAGE<span class="o">]</span><span class="w"> </span><span class="o">[</span>-n<span class="w"> </span>PATH<span class="o">]</span><span class="w"> </span><span class="o">[</span>--type<span class="w"> </span><span class="o">{</span>none,flutter,reactnative,html5,native_stactic,native_dynimac<span class="o">}]</span>
+
+optional<span class="w"> </span>arguments:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">            </span>show<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>-p<span class="w"> </span>PACKAGE,<span class="w"> </span>--package<span class="w"> </span>PACKAGE<span class="w"> </span>模块包名
+<span class="w">  </span>-n<span class="w"> </span>PATH,<span class="w"> </span>--name<span class="w"> </span>PATH<span class="w">  </span>模块名字
+<span class="w">  </span>--type<span class="w"> </span><span class="o">{</span>none,flutter,reactnative,html5,native_stactic,native_dynimac<span class="o">}</span><span class="w">  </span>模块类型
+</code></pre></div></p>
+<h3 id="_3">手动接入<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>module_config.json
+<div class="highlight"><pre><span></span><code>    {
+      &quot;simpleName&quot;: &quot;home-myhome&quot;,
+      &quot;sourcePath&quot;: &quot;:home-myhome&quot;,
+      &quot;format&quot;: &quot;nsbundle&quot;,
+      &quot;group&quot;: &quot;home&quot;
+    }
+</code></pre></div>
+bundles-assembler-plugin
+<div class="highlight"><pre><span></span><code>//bundle插件自带路由，该插件主要用于bundle模块
+plugins{
+    id &#39;io.github.jamesfchen.nsbundle-plugin&#39;
+}
+//业务组件ibc中的cpbc 模块
+plugins{
+      id &#39;io.github.jamesfchen.api-plugin&#39;
+}
+</code></pre></div></p>
+<h2 id="2bundle">2.静态bundle选择工具<a class="headerlink" href="#2bundle" title="Permanent link">&para;</a></h2>
+<p>集成app时，组件有三种状态
+- source:源码形式集成
+- binary:aar/jar包集成
+- exclude:不集成
+<img alt="picture" src="https://github.com/JamesfChen/bundles-assembler/blob/main/b/tools/bundles.png" /></p>
+<h2 id="3ibc">3.IBC<a class="headerlink" href="#3ibc" title="Permanent link">&para;</a></h2>
+<p>组件通信(IBC,inter-bundle communication)在解耦的模块中是一把利器，主要分为页面路由(Router)与接口调用(CBPC,cross bundle procedure call)</p>
+<p>首先需要在app项目的build.gradle引入app-plugin插件
+<div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="p">{</span>
+<span class="w">      </span><span class="n">id</span><span class="w"> </span><span class="err">&#39;</span><span class="n">io</span><span class="p">.</span><span class="na">github</span><span class="p">.</span><span class="na">jamesfchen</span><span class="p">.</span><span class="na">app</span><span class="o">-</span><span class="n">plugin</span><span class="err">&#39;</span>
+<span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+然后在bundle项目的build.gradle引入bundle-plugin插件
+<div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="p">{</span>
+<span class="w">      </span><span class="n">id</span><span class="w"> </span><span class="err">&#39;</span><span class="n">io</span><span class="p">.</span><span class="na">github</span><span class="p">.</span><span class="na">jamesfchen</span><span class="p">.</span><span class="na">nsbundle</span><span class="o">-</span><span class="n">plugin</span><span class="err">&#39;</span>
+<span class="w"> </span><span class="p">}</span>
+</code></pre></div></p>
+<h3 id="31router">3.1.Router<a class="headerlink" href="#31router" title="Permanent link">&para;</a></h3>
+<ul>
+<li>利用android framework层的intent uri路由跳转</li>
+<li>在app framework实现路由跳转，需要将app层的路由器发布到app framework的路由器管理中心，当需要跳转时，app framework会到管理中心find获取路由器，然后进行跳转</li>
+</ul>
+<p>页面路由的实现有上面两种，任何一种都可以做到页面的跳转，两种方案各有优缺点。</p>
+<p>首先提供路由页面的路由器，在编译的时候会自动将扫到的所有路由器注册到路由表。
+<div class="highlight"><pre><span></span><code><span class="nd">@Router</span><span class="p">(</span><span class="n">bindingBundle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bundle1&quot;</span><span class="p">)</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">Bundle1Router</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IRouter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onOpen</span><span class="p">(</span><span class="n">cxt</span><span class="p">:</span><span class="w"> </span><span class="n">Context</span><span class="p">,</span><span class="w"> </span><span class="n">page</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;sayme&quot;</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">page</span><span class="p">,</span><span class="w"> </span><span class="n">ignoreCase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">intent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Intent</span><span class="p">(</span><span class="n">cxt</span><span class="p">,</span><span class="w"> </span><span class="n">SayMeActivity</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">)</span>
+<span class="w">            </span><span class="n">cxt</span><span class="p">.</span><span class="na">startActivity</span><span class="p">(</span><span class="n">intent</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+接下来提供java和kotlin的使用</p>
+<p>java
+<div class="highlight"><pre><span></span><code><span class="w">                </span><span class="n">UriBuilder</span><span class="w"> </span><span class="n">uriBuilder</span><span class="w"> </span><span class="o">=</span><span class="k">new</span><span class="w">  </span><span class="n">UriBuilder</span><span class="p">();</span>
+<span class="w">                </span><span class="n">uriBuilder</span><span class="p">.</span><span class="na">setUri</span><span class="p">(</span><span class="s">&quot;b://bundle2/sayhi&quot;</span><span class="p">);</span>
+<span class="w">                </span><span class="n">IBCRouter</span><span class="p">.</span><span class="na">open</span><span class="p">(</span><span class="n">SayMeActivity</span><span class="p">.</span><span class="na">this</span><span class="p">,</span><span class="n">uriBuilder</span><span class="p">);</span>
+</code></pre></div>
+kotlin
+<div class="highlight"><pre><span></span><code><span class="w">          </span><span class="n">binding</span><span class="p">.</span><span class="na">btNative1</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="c1">//            打开当前bundle内部的页面</span>
+<span class="w">            </span><span class="n">IBCRouter</span><span class="p">.</span><span class="na">open</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/ppp&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">btNative2</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">//打开当前bundle内部的页面</span>
+<span class="w">            </span><span class="n">IBCRouter</span><span class="p">.</span><span class="na">open</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;b://bundle1/sayme&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">btReact</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">//必须自定义router且bindingBundle=h5container</span>
+<span class="w">            </span><span class="n">IBCRouter</span><span class="p">.</span><span class="na">open</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://spacecraft-plan.github.io/SpacecraftReact/#/&quot;</span>
+<span class="w">                </span><span class="n">params</span><span class="p">(</span>
+<span class="w">                    </span><span class="s">&quot;key2&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;cjf2&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s">&quot;key3&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="m">1</span><span class="p">,</span>
+<span class="w">                    </span><span class="s">&quot;key4&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">                </span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">btH5</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">IBCRouter</span><span class="p">.</span><span class="na">open</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;b://h5container/page&quot;</span>
+<span class="w">                </span><span class="n">params</span><span class="p">(</span>
+<span class="w">                    </span><span class="s">&quot;url&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;file:///android_asset/AApp.html&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">btRn</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">IBCRouter</span><span class="p">.</span><span class="na">open</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;b://h5container/page&quot;</span>
+<span class="w">                </span><span class="n">params</span><span class="p">(</span>
+<span class="w">                    </span><span class="s">&quot;url&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;file:///android_asset/AApp.html&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+</code></pre></div></p>
+<h3 id="32cbpc">3.2.CBPC<a class="headerlink" href="#32cbpc" title="Permanent link">&para;</a></h3>
+<ul>
+<li>暴露api给外部bundle模块，然后内部实现接口，需要在app framework注册暴露的api，方便search，实现方式与页面路由的第二种方法相似</li>
+</ul>
+<p>在export模块的build.gradle需要引入api-plugin插件
+<div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="o">{</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s2">&quot;io.github.jamesfchen.api-plugin&quot;</span>
+<span class="o">}</span>
+</code></pre></div>
+同时要声明要暴露的接口
+<div class="highlight"><pre><span></span><code><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">ICall</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IExport</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">call</span><span class="p">():</span><span class="kt">Boolean</span>
+<span class="p">}</span>
+</code></pre></div>
+callee模块
+<div class="highlight"><pre><span></span><code><span class="nd">@Api</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CallImp</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">ICall</span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">call</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Log</span><span class="p">.</span><span class="na">d</span><span class="p">(</span><span class="s">&quot;cjf&quot;</span><span class="p">,</span><span class="s">&quot;onCall&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>caller模块
+<div class="highlight"><pre><span></span><code><span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">api</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IBCCbpc</span><span class="p">.</span><span class="na">findApi</span><span class="p">(</span><span class="n">ICall</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">api</span><span class="p">.</span><span class="na">call</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="p">...</span>
+<span class="w">            </span><span class="p">}</span>
+</code></pre></div></p>
+<p>callee模块与caller模块都要依赖export模块，且两者不能相互依赖。</p>
+<h1 id="bundle_1">动态bundle<a class="headerlink" href="#bundle_1" title="Permanent link">&para;</a></h1>
+<p>插件包可以减少包体积也可以按需加载模块，功能多多</p>
+<h2 id="1_2">1.接入<a class="headerlink" href="#1_2" title="Permanent link">&para;</a></h2>
+<h3 id="cli">cli命令行接入<a class="headerlink" href="#cli" title="Permanent link">&para;</a></h3>
+<p>bundcli可以创建动态bundle模板，该模板的初次加载方式有远程服务器加载与内置加载两种方式。
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="m">0</span><span class="o">]</span><span class="w"> </span>%<span class="w"> </span>bundcli<span class="w"> </span>create<span class="w"> </span>--help
+usage:<span class="w"> </span><span class="nb">command</span><span class="w"> </span>line<span class="w"> </span>create<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>-p<span class="w"> </span>PACKAGE<span class="o">]</span><span class="w"> </span><span class="o">[</span>-n<span class="w"> </span>PATH<span class="o">]</span><span class="w"> </span><span class="o">[</span>--type<span class="w"> </span><span class="o">{</span>none,flutter,reactnative,html5,native_stactic,native_dynimac<span class="o">}]</span>
+
+optional<span class="w"> </span>arguments:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">            </span>show<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>-p<span class="w"> </span>PACKAGE,<span class="w"> </span>--package<span class="w"> </span>PACKAGE<span class="w"> </span>模块包名
+<span class="w">  </span>-n<span class="w"> </span>PATH,<span class="w"> </span>--name<span class="w"> </span>PATH<span class="w">  </span>模块名字
+<span class="w">  </span>--type<span class="w"> </span><span class="o">{</span>none,flutter,reactnative,html5,native_stactic,native_dynimac<span class="o">}</span><span class="w">  </span>模块类型
+</code></pre></div></p>
+<h3 id="_4">手动接入<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>module_config.json
+<div class="highlight"><pre><span></span><code>    {
+      &quot;simpleName&quot;: &quot;plugin-im&quot;,
+      &quot;sourcePath&quot;: &quot;:plugin-im&quot;,
+      &quot;versionCode&quot;:&quot;3&quot;,
+      &quot;versionName&quot;:&quot;3.0.0-SNAPSHOT&quot;,
+      &quot;format&quot;: &quot;ndbundle&quot;,
+      &quot;group&quot;: &quot;im&quot;,
+      &quot;dynamic&quot;: &quot;local-plugin&quot;
+    },
+</code></pre></div>
+bundles-assembler-plugin
+<div class="highlight"><pre><span></span><code>plugins{
+    id &#39;io.github.jamesfchen.ndbundle-plugin&#39;
+}
+</code></pre></div></p>
+<h2 id="2bundle_1">2.动态bundle选择工具<a class="headerlink" href="#2bundle_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li>source:源码形式集成到apk</li>
+<li>binary:插件包以apk-zip/jsbundle包放置在assets或者远程服务器</li>
+<li>exclude:不集成
+<img alt="picture" src="https://github.com/JamesfChen/bundles-assembler/blob/main/b/tools/bundles.png" /></li>
+</ul>
+<h2 id="3ibc_1">3.IBC<a class="headerlink" href="#3ibc_1" title="Permanent link">&para;</a></h2>
+<p><div class="highlight"><pre><span></span><code><span class="w">   </span><span class="n">IBCRouter</span><span class="p">.</span><span class="na">open</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">       </span><span class="n">uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;b://im/nav&quot;</span>
+<span class="w">   </span><span class="p">}</span>
+</code></pre></div>
+通过IBC api就能进行通信，同静态bundle IBC使用方式一样</p>
+<h1 id="framework-foundation">framework foundation模块<a class="headerlink" href="#framework-foundation" title="Permanent link">&para;</a></h1>
+<p>framework中的模块是为上层的业务模块提供基础能力，在项目中必须参与编译</p>
+<h2 id="1_3">1.接入<a class="headerlink" href="#1_3" title="Permanent link">&para;</a></h2>
+<h3 id="cli_1">cli命令行接入<a class="headerlink" href="#cli_1" title="Permanent link">&para;</a></h3>
+<p>&hellip;</p>
+<h3 id="_5">手动接入<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p><div class="highlight"><pre><span></span><code><span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;simpleName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;framework-network&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sourcePath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;:framework:network&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;foundation&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;group&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fwk&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+</code></pre></div>
+bundles-assembler-plugin
+<div class="highlight"><pre><span></span><code>plugins{
+    id &#39;io.github.jamesfchen.foundatioin-plugin&#39;
+}
+</code></pre></div></p>
+<h2 id="2-foundation">2. foundation选择工具<a class="headerlink" href="#2-foundation" title="Permanent link">&para;</a></h2>
+<ul>
+<li>source:源码形式集成到apk</li>
+<li>binary:aar形式
+<img alt="picture" src="https://github.com/JamesfChen/bundles-assembler/blob/main/b/tools/bundles.png" /></li>
+</ul>
+<h1 id="3bundle">3.bundle初始化<a class="headerlink" href="#3bundle" title="Permanent link">&para;</a></h1>
+<h2 id="instant-bundle">instant bundle初始化<a class="headerlink" href="#instant-bundle" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>plugins {
+    id &#39;io.github.jamesfchen.lifecycle-plugin&#39; version &#39;1.1.0&#39;
+}
+
+api &#39;io.github.jamesfchen:lifecycle-api:1.1.0&#39;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TApp</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">();</span>
+<span class="w">        </span><span class="n">LifecycleInitializer</span><span class="p">.</span><span class="na">init</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">....</span>
+<span class="p">}</span>
+<span class="nd">@AppLifecycle</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AppLifecycleObserver</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">IAppLifecycleObserverAdapter</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onAppCreate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">onAppCreate</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Log</span><span class="p">.</span><span class="na">d</span><span class="p">(</span><span class="s">&quot;cjf&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;connectListener&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onAppForeground</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">onAppForeground</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Log</span><span class="p">.</span><span class="na">d</span><span class="p">(</span><span class="s">&quot;cjf&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;onAppForeground&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onAppBackground</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">onAppBackground</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Log</span><span class="p">.</span><span class="na">d</span><span class="p">(</span><span class="s">&quot;cjf&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;onAppBackground&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="c1">//        Log.d(&quot;cjf&quot;, &quot;disconnectListener&quot;);</span>
+
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="delaylazy-bundle">delay/lazy bundle初始化<a class="headerlink" href="#delaylazy-bundle" title="Permanent link">&para;</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.path", "navigation.indexes"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>
