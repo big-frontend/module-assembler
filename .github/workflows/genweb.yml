@@ -3,8 +3,12 @@ name: gen-web CI
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'docs/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'docs/**'
 
 jobs:
   deploy_docs:
