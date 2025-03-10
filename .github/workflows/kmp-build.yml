@@ -27,10 +27,8 @@ jobs:
           java-version: 21
       - name: Set Xcode version
         run: sudo xcode-select -s /Applications/Xcode_15.3.app/Contents/Developer
-      - name: cd kmp/iosApp
-        run: cd kmp/iosApp
       - name: iOS debug build
-        run: xcodebuild -scheme iosApp -configuration Debug -destination 'platform=iOS Simulator,OS=latest,name=iPhone 15' CODE_SIGNING_ALLOWED='NO'
+        run: cd kmp/iosApp && xcodebuild -scheme iosApp -configuration Debug -destination 'platform=iOS Simulator,OS=latest,name=iPhone 15' CODE_SIGNING_ALLOWED='NO'
       - name: Upload App
         uses: actions/upload-artifact@v4
         with:
@@ -50,10 +48,8 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - name: cd kmp
-        run: cd kmp
       - name: Kmp Android debug build
-        run: ./gradlew assembleDebug --stacktrace
+        run:  cd kmp && ./gradlew assembleDebug --stacktrace
       - name: Upload App
         uses: actions/upload-artifact@v4
         with:
@@ -72,10 +68,8 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - name: cd kmp
-        run: cd kmp
       - name: Kmp Desktop debug build
-        run: ./gradlew assembleDebug --stacktrace
+        run:  cd kmp && ./gradlew assembleDebug --stacktrace
 #      - name: Upload App
 #        uses: actions/upload-artifact@v4
 #        with:
@@ -96,11 +90,9 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: 8.9
-      - name: cd kmp
-        run: cd kmp
 
       - name: "🛠️ Build WasmJS App"
-        run: gradle :app:wasmJsBrowserDistribution
+        run: cd kmp && gradle :app:wasmJsBrowserDistribution
       - name: "📄 Configure GitHub Pages"
         uses: actions/configure-pages@v5
       - name: "📤 Upload GitHub Pages artifact"
