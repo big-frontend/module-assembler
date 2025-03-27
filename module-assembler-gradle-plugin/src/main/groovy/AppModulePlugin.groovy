@@ -11,10 +11,6 @@ class AppModulePlugin extends AndroidPlugin {
     @Override
     void onApply(Project project) {
         project.android {
-            defaultConfig {
-//        multiDexEnabled = true//support android 20 or lower
-                applicationId project.rootProject.applicationId
-            }
             if (project.gradle.ext.dynamicModules){
                 dynamicFeatures = project.gradle.ext.dynamicModules
             }
