@@ -45,6 +45,7 @@ public class BuildPerf implements ProjectEvaluationListener, BuildListener {
     @Override
     public void beforeEvaluate(Project project) {
 //        if (!project.subprojects.isEmpty()) return
+        
         projStart = System.currentTimeMillis();
     }
 
