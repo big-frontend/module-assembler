@@ -21,6 +21,11 @@ kotlin {
         jvmTarget = JvmTarget.JVM_17
     }
 }
+sourceSets {
+    main {
+        java.srcDirs("../module-assembler-common")
+    }
+}
 
 dependencies {
 //    compileOnly(libs.android.gradlePlugin)
@@ -33,6 +38,8 @@ dependencies {
 //    compileOnly(libs.room.gradlePlugin)
 //    implementation(libs.truth)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+
 }
 
 tasks {
@@ -52,37 +59,25 @@ gradlePlugin {
             id = "${group}.module-assembler-settings-plugin"
             implementationClass = "ModuleAssemblerSettingsPlugin"
         }
-        register("sbundlePlugin") {
-            id = "${group}.static-bundle-plugin"
-            implementationClass = "StaticBundlePlugin"
-        }
-        register("dbundlePlugin") {
-            id = "${group}.dynamic-bundle-plugin"
-            implementationClass = "DynamicBundlePlugin"
-        }
-        register("foundationPlugin") {
-            id = "${group}.foundation-plugin"
-            implementationClass = "FoundationModulePlugin"
-        }
-        register("apiPlugin") {
-            id = "${group}.api-plugin"
-            implementationClass = "ApiModulePlugin"
-        }
+//        register("sbundlePlugin") {
+//            id = "${group}.static-bundle-plugin"
+//            implementationClass = "StaticBundlePlugin"
+//        }
+//        register("dbundlePlugin") {
+//            id = "${group}.dynamic-bundle-plugin"
+//            implementationClass = "DynamicBundlePlugin"
+//        }
+//        register("foundationPlugin") {
+//            id = "${group}.foundation-plugin"
+//            implementationClass = "FoundationModulePlugin"
+//        }
+//        register("apiPlugin") {
+//            id = "${group}.api-plugin"
+//            implementationClass = "ApiModulePlugin"
+//        }
         register("appPlugin") {
             id = "${group}.app-plugin"
             implementationClass = "AppModulePlugin"
-        }
-        register("aptPlugin") {
-            id = "${group}.apt-plugin"
-            implementationClass = "AptModulePlugin"
-        }
-        register("lintPlugin") {
-            id = "${group}.lint-plugin"
-            implementationClass = "LintModulePlugin"
-        }
-        register("jarPlugin") {
-            id = "${group}.jar-plugin"
-            implementationClass = "JarModulePlugin"
         }
     }
 }

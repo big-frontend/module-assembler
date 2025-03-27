@@ -1,7 +1,6 @@
-package com.electrolytej.assembler.model
+package com.electrolytej.assembler.model;
 
-import kotlinx.serialization.Serializable
-
+import java.util.List;
 /**
  * 读取module_config.json信息以此来include具体的模块，对于模块的描述应该有这些信息
  * class Module{
@@ -12,12 +11,12 @@ import kotlinx.serialization.Serializable
  * require def sourcePath :components:hotel-module:foundation
  * require def binaryPath default: {package}:simpleName:1.0.0 ,默认的binary_artifact需要保证simpelName唯一性,先暂时用1.0.0站位，后面应该通过获取远程版本和本地版本进行自动升级
  * option def deps 不应有这个属性，要编译成什么应该通过excludeModule和sourceModule,默认都是aar编译//option def build_source(source or binary),binary(aar jar)编译更快
- * } */
-@Serializable
-data class ModuleConfig(
+ * }
+ */
+public class ModuleConfig {
     //    String author;
     //    String description;
-    var groupId: String,
-    var buildVariants: MutableList<String>,
-    var allModules: MutableList<Module>
-)
+    public String groupId;
+    public List<String> buildVariants;
+    public List<Module> allModules;
+}

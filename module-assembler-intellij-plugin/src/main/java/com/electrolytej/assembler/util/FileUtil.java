@@ -1,9 +1,9 @@
 package com.electrolytej.assembler.util;
 
-import com.electrolytej.assembler.BuildVariant;
+import com.electrolytej.assembler.model.BuildVariant;
+import com.electrolytej.assembler.model.Module.Type;
 import com.electrolytej.assembler.model.Module;
 import com.electrolytej.assembler.model.ModuleConfig;
-import com.electrolytej.assembler.model.Type;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.intellij.openapi.project.Project;

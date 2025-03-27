@@ -1,6 +1,5 @@
 package com.electrolytej.assembler.page.compose
 
-import com.electrolytej.assembler.model.Module
 import com.electrolytej.assembler.Result
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel

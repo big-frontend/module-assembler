@@ -12,12 +12,11 @@ import java.util.Map;
 import java.util.List;
 import java.util.TreeMap;
 
-import com.electrolytej.assembler.model.Module;
 import com.intellij.util.ui.JBUI;
 
 import javax.swing.*;
 import java.lang.String;
-
+import com.electrolytej.assembler.model.Module;
 public class Dashboard extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;

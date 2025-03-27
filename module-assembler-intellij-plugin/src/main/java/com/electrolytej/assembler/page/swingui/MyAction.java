@@ -1,13 +1,14 @@
 package com.electrolytej.assembler.page.swingui;
 
 import com.electrolytej.assembler.*;
-import com.electrolytej.assembler.model.Module;
+import com.electrolytej.assembler.model.BuildVariant;
 import com.electrolytej.assembler.util.FileUtil;
 import com.electrolytej.assembler.util.NotificationUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import java.util.*;
+import com.electrolytej.assembler.model.Module;
 
 public class MyAction extends AnAction {
     @Override

@@ -1,13 +1,12 @@
 package com.electrolytej.assembler.page.compose;
 
-import com.electrolytej.assembler.BuildVariant;
+import com.electrolytej.assembler.model.BuildVariant;
 import com.electrolytej.assembler.util.FileUtil;
-import com.electrolytej.assembler.model.Module;
 import com.electrolytej.assembler.util.NotificationUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
-
+import com.electrolytej.assembler.model.Module;
 import java.util.List;
 import java.util.Map;
 
