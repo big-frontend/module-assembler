@@ -38,8 +38,7 @@ jobs:
         # name: kmp-android.apk
         path: module-assembler-intellij-plugin/build/distributions/**
 
-    gradle-plugin-build:
-
+  gradle-plugin-build:
       runs-on: ubuntu-latest
 
       steps:
@@ -59,7 +58,7 @@ jobs:
           # name: kmp-android.apk
           path: module-assembler-gradle-plugin/build/libs/**
 
-    gradle-plugin-kt-build:
+  gradle-plugin-kt-build:
 
       runs-on: ubuntu-latest
 
