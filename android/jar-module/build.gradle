@@ -1,5 +1,6 @@
 plugins {
-    id "io.github.electrolytej.jar-plugin"
+    id 'java-library'
+    id 'kotlin'
     id "io.github.electrolytej.module-publisher-plugin"
 }
 

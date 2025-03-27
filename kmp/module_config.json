@@ -17,6 +17,16 @@
       "simpleName": "fwk-base",
       "sourcePath": ":base",
       "group": "fwk"
+    },
+    {
+      "simpleName": "main-module",
+      "sourcePath": ":modules:main-module",
+      "group": "main"
+    },
+    {
+      "simpleName": "ad-module",
+      "sourcePath": ":modules:ad-module",
+      "group": "ad"
     }
   ]
 }

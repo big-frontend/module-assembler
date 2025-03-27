@@ -30,8 +30,6 @@ dependencyResolutionManagement {
     }
 }
 
-include(":base")
-include(":app")
 plugins {
     id("io.github.electrolytej.module-assembler-settings-plugin") version "2.0.0"
 }

@@ -4,6 +4,7 @@ import org.gradle.api.ProjectEvaluationListener
 import org.gradle.api.ProjectState
 import com.electrolytej.assembler.model.Module
 import com.electrolytej.assembler.util.P
+import com.electrolytej.assembler.util.ProjectUtil
 import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.provideDelegate
 
@@ -13,16 +14,20 @@ class ModuleAssemblerRootProjectPlugin : Plugin<Project>, ProjectEvaluationListe
         val binaryModuleMap = LinkedHashMap<String, Module>()
         gradle.extra["binaryModuleMap"] = binaryModuleMap
 
-        val allModules: List<Module> by gradle.extra
+        val allModules: List<Module>? by gradle.extra
+        if (allModules.isNullOrEmpty()) {
+            P.child("allModules empty")
+            return
+        }
         val activeBuildVariant: String by gradle.extra
         val groupId: String by gradle.extra
         val appModule: Module by gradle.extra
         val sourceModuleMap: LinkedHashMap<String, Module> by gradle.extra
         val excludeModuleMap: LinkedHashMap<String, Module> by gradle.extra
 
-        allModules.forEach { m ->
+        allModules?.forEach { m ->
 //            val versionName = p.extensions.getByType(VersionCatalogsExtension::class.java).named("libs").findVersion("versionName").get().requiredVersion
-            m.binaryPath = "${groupId}:${m.simpleName}:${newVersion(p, m)}"
+            m.binaryPath = "${groupId}:${m.simpleName}:${ProjectUtil.newVersion(p, m)}"
             if (!sourceModuleMap.containsKey(m.simpleName) && !excludeModuleMap.containsKey(m.simpleName)) {
                 binaryModuleMap[m.simpleName] = m
             }
@@ -78,7 +83,7 @@ class ModuleAssemblerRootProjectPlugin : Plugin<Project>, ProjectEvaluationListe
         if (simpleName?.isNotEmpty() == true) {
             val m = sourceModuleMap[simpleName]
             if (m?.group == "fwk" || m?.format == "nsbundle" || m?.format == "ndbundle") {
-                project.plugins.apply("io.github.electrolytej.module-publisher-plugin")
+//                project.plugins.apply("io.github.electrolytej.module-publisher-plugin")
 //                project["publish"].with {
 //                    name = simpleName
 //                    groupId = project.gradle.groupId

@@ -3,8 +3,9 @@ import org.gradle.api.Project
 class AppModulePlugin : AndroidPlugin() {
 
     override fun addPlugins(project: Project) {
-        super.addPlugins(project)
-        if (routerPlugin.isNotEmpty()) project.plugins.apply(routerPlugin)
+        routerPlugin?.let {
+            project.plugins.apply(it)
+        }
     }
 
     override fun onApply(project: Project) {

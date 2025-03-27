@@ -1,6 +1,5 @@
 package com.electrolytej.assembler.page.swingui;
 
-import com.electrolytej.assembler.*;
 import com.electrolytej.assembler.model.BuildVariant;
 import com.electrolytej.assembler.util.FileUtil;
 import com.electrolytej.assembler.util.NotificationUtil;

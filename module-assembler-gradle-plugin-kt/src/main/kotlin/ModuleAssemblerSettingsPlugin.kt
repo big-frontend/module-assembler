@@ -1,8 +1,6 @@
 import com.electrolytej.assembler.model.Module
 import com.electrolytej.assembler.model.ModuleConfig
 import com.electrolytej.assembler.util.P
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromStream
 import java.io.File
 import java.util.Properties
 import org.gradle.BuildListener
@@ -27,11 +25,8 @@ class ModuleAssemblerSettingsPlugin : Plugin<Settings>, ProjectEvaluationListene
     override fun apply(settings: Settings) {
         val gradle = settings.gradle
         val rootDir = settings.rootDir
-        val defaultJson = Json {
-            ignoreUnknownKeys = true
-        }
-        val config: ModuleConfig =
-            defaultJson.decodeFromStream<ModuleConfig>(File("${rootDir}/module_config.json").inputStream())
+        val config: ModuleConfig? = File("${rootDir}/module_config.json").fromJson()
+        if (config == null) return
         gradle.extra["allModules"] = config.allModules
         gradle.extra["groupId"] = config.groupId
         gradle.extra["buildVariants"] = config.buildVariants
@@ -81,7 +76,6 @@ class ModuleAssemblerSettingsPlugin : Plugin<Settings>, ProjectEvaluationListene
         sourceModulesStr.eachAfterSplit(",") { name ->
             val m = config.findModule(name)
             if (m != null) {
-                excludeModuleMap[m.simpleName] = m
                 sourceModuleMap[m.simpleName] = m
                 sourcePath2SimpleNameMap[m.sourcePath] = m.simpleName
 //            if (it.dynamic) {
@@ -91,7 +85,7 @@ class ModuleAssemblerSettingsPlugin : Plugin<Settings>, ProjectEvaluationListene
         }
         appModule?.let {
             settings.include(it.sourcePath)
-            if (it.projectDir.isNotEmpty()) {
+            if (it.projectDir?.isNotEmpty() == true) {
                 settings.project(appModule.sourcePath).projectDir =
                     File(settings.rootProject.projectDir, it.projectDir)
             }
@@ -99,7 +93,7 @@ class ModuleAssemblerSettingsPlugin : Plugin<Settings>, ProjectEvaluationListene
 
         sourceModuleMap.forEach { (name, module) ->
             settings.include(module.sourcePath)
-            if (module.projectDir.isNotEmpty()) {
+            if (module.projectDir?.isNotEmpty() == true) {
                 settings.project(module.sourcePath).projectDir =
                     File(settings.rootProject.projectDir, module.projectDir)
             }

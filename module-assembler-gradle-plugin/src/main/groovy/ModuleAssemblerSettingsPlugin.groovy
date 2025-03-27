@@ -1,15 +1,9 @@
+import com.electrolytej.assembler.model.Module
 import groovy.json.JsonSlurper
-import org.gradle.BuildListener
-import org.gradle.BuildResult
 import org.gradle.api.Plugin
-import org.gradle.api.Project
-import org.gradle.api.ProjectEvaluationListener
-import org.gradle.api.ProjectState
 import org.gradle.api.initialization.Settings
-import org.gradle.api.invocation.Gradle
-import com.electrolytej.b.P
 
-class ModuleAssemblerSettingsPlugin implements Plugin<Settings>, ProjectEvaluationListener, BuildListener {
+class ModuleAssemblerSettingsPlugin implements Plugin<Settings>{
 
     @Override
     void apply(Settings settings) {
@@ -27,7 +21,7 @@ class ModuleAssemblerSettingsPlugin implements Plugin<Settings>, ProjectEvaluati
          *    option def deps 不应有这个属性，要编译成什么应该通过excludeModule和sourceModule,默认都是aar编译//option def build_source(source or binary),binary(aar jar)编译更快
          *}*/
         def config = new JsonSlurper().parse(new File("$rootDir/module_config.json"))
-        Iterator<Object> iterator = config.allModules.iterator()
+        Iterator<Module> iterator = config.allModules.iterator()
         def dynamicModules = []
         def appModule = null
         while (iterator.hasNext()) {
@@ -56,14 +50,14 @@ class ModuleAssemblerSettingsPlugin implements Plugin<Settings>, ProjectEvaluati
             localProperties.setProperty("activeBuildVariant", activeBuildVariant)
             localProperties.store(new FileOutputStream(localPropertiesFile), "update modules")
         }
-        def excludeModuleMap = new LinkedHashMap<String, Object>()
-        def sourceModuleMap = new LinkedHashMap<String, Object>()
+        def excludeModuleMap = new LinkedHashMap<String, Module>()
+        def sourceModuleMap = new LinkedHashMap<String, Module>()
 
         def sourcePath2SimpleNameMap = [:]
 //        pluginSrcModuleMap = [:]
 //        pluginBinaryModuleMap = [:]
         def findModule = { name ->
-            for (def m : config.allModules) {
+            for (Module m : config.allModules) {
                 if (m.simpleName == name) {
                     return m
                 }
@@ -79,10 +73,10 @@ class ModuleAssemblerSettingsPlugin implements Plugin<Settings>, ProjectEvaluati
             }
         }
         excludeModulesStr.eachAfterSplit(',') {
-            excludeModuleMap[it.simpleName] = it
+            excludeModuleMap[it.simpleName] = (Module)it
         }
         sourceModulesStr.eachAfterSplit(',') {
-            sourceModuleMap[it.simpleName] = it
+            sourceModuleMap[it.simpleName] = (Module)it
             sourcePath2SimpleNameMap[it.sourcePath] = it.simpleName
 //            if (it.dynamic) {
 //                pluginSrcModuleMap[it.simpleName] = it
@@ -110,10 +104,9 @@ class ModuleAssemblerSettingsPlugin implements Plugin<Settings>, ProjectEvaluati
             }
             if (!hasExit) dynamicModuleIterator.remove()
         }
-
-        gradle.addBuildListener(this)
-        gradle.addProjectEvaluationListener(this)
-
+//        def p =  new BuildPerf()
+//        gradle.addBuildListener(p)
+//        gradle.addProjectEvaluationListener(p)
 
         gradle.ext.appModule = appModule
         gradle.ext.allModules = config.allModules
@@ -126,103 +119,5 @@ class ModuleAssemblerSettingsPlugin implements Plugin<Settings>, ProjectEvaluati
         gradle.ext.sourcePath2SimpleNameMap = sourcePath2SimpleNameMap
     }
 
-//这些只能在settings.gradle使用,是属于初始化阶段的钩子
-//gradle.settingsEvaluated {
-//    println("settingsEvaluated")
-//
-//}
-//gradle.projectsLoaded { g ->
-//    println("projectsLoaded")
-//}
-//        gradle.ext.modules = gradle.ext.sourceModuleMap.values() + gradle.ext.binaryModuleMap.values()
-//gradle.beforeSettings {
-//    println("👶[ gradle 开始 ] buildStarted 开始之前 start")
-//    println("👶[ gradle 开始 ] buildStarted 开始之前 end")
-//}
-//gradle.settingsEvaluated { g ->
-//    println("👩‍🎓👨‍🎓[ initialzation ] settingsEvaluated setting.gradle脚本初始化完成 start")
-//    println("👩‍🎓👨‍🎓[ initialzation ] settingsEvaluated setting.gradle脚本初始化完成 end")
-//}
-////project初始化完成的回调
-//gradle.projectsLoaded {
-//    println("👩‍🎓👨‍🎓[ initialzation ] projectsLoaded project初始化完成 start")
-//    println("👩‍🎓👨‍🎓[ initialzation ] projectsLoaded project初始化完成 end")
-//}
-//
-//project.afterEvaluate {}
-//gradle.beforeProject {
-//    println("👰🤵[ configuration ] beforeProject 某个build.gradle执行之前 start")
-//    println("👰🤵[ configuration ] beforeProject 某个build.gradle执行之前 end")
-//}
-//project.afterEvaluate {}
-//gradle.afterProject {
-//    println("👰🤵[ configuration ] afterProject 某个build.gradle执行之后 start")
-//    println("👰🤵[ configuration ] afterProject 某个build.gradle执行之后 end")
-//}
-//gradle.projectsEvaluated {
-//    println("👰🤵[ configuration ] projectsEvaluated 所有build.gradle执行完毕 start")
-//    println("👰🤵[ configuration ] projectsEvaluated 所有build.gradle执行完毕 end")
-//}
-//gradle.taskGraph.whenReady { taskGraph ->
-//    println("👰🤵[ configuration ] whenReady task关系图建立完毕 start")
-//    println("👰🤵[ configuration ] whenReady task关系图建立完毕 end")
-//}
-//
-//gradle.taskGraph.beforeTask {theTask->
-//    println("🏃👩‍💼👨‍💻[ run ${theTask.name}] beforeTask task关系图执行之前 start")
-//    println("🏃👩‍💼👨‍💻[ run ${theTask.name}] beforeTask task关系图执行之前 end")
-//}
-//gradle.taskGraph.afterTask { theTask->
-//    println("🏃👩‍💼👨‍💻[ run ${theTask.name}] afterTask task关系图执行之后 start")
-//    println("🏃👩‍💼👨‍💻[ run ${theTask.name}] afterTask task关系图执行之后 end")
-//}
-//gradle.buildFinished {
-//    println("👵👴[ gradle 结束 ] buildFinished  start")
-//    println("👵👴[ gradle 结束 ] buildFinished  end")
-//}
-    def start = System.currentTimeMillis()
-
-    @Override
-    void beforeSettings(Settings settings) {
-
-    }
-
-    @Override
-    void settingsEvaluated(Settings settings) {
-        P.error(">>>> evaluate setting脚本耗时:" + (System.currentTimeMillis() - start) + "ms")
-        start = System.currentTimeMillis()
-    }
-
-    @Override
-    void projectsLoaded(Gradle gradle) {
-        P.error(">>>> include完所有project 耗时:" + (System.currentTimeMillis() - start) + "ms")
-        start = System.currentTimeMillis()
-    }
-
-    @Override
-    void projectsEvaluated(Gradle gradle) {
-        P.error(">>>> evaluate完所有project脚本 耗时:" + (System.currentTimeMillis() - start) + "ms")
-        start = System.currentTimeMillis()
-    }
-
-    @Override
-    void buildFinished(BuildResult buildResult) {
-        P.error(">>>> gradle 结束 buildFinished")
-    }
-
-
-    def projStart = 0
-
-    @Override
-    void beforeEvaluate(Project project) {
-//        if (!project.subprojects.isEmpty()) return
-        projStart = System.currentTimeMillis()
-    }
-
-    @Override
-    void afterEvaluate(Project project, ProjectState state) {
-//        if (!project.subprojects.isEmpty()) return
-        P.error(">>>>evaluate ${project.getDisplayName()}项目 耗时:" + (System.currentTimeMillis() - projStart) + "ms")
-    }
 }
 

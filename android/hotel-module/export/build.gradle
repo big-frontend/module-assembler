@@ -1,8 +1,16 @@
 plugins{
     id "io.github.electrolytej.api-plugin"
+    id("kotlin-android")
+    id("kotlin-kapt")
 }
 
 android{
+    compileSdkVersion Integer.parseInt(project.rootProject.compileSdkVersion)
+    buildToolsVersion project.rootProject.buildToolsVersion
+    defaultConfig {
+        minSdkVersion Integer.parseInt(project.rootProject.minSdkVersion)
+        targetSdkVersion Integer.parseInt(project.rootProject.targetSdkVersion)
+    }
     namespace "com.jamesfchen.export"
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17

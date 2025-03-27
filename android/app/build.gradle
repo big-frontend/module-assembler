@@ -1,6 +1,8 @@
 plugins {
     id "io.github.electrolytej.app-plugin"
     id("com.google.devtools.ksp")
+    id("kotlin-android")
+    id("kotlin-kapt")
 }
 ksp {
     arg("option1", "value1")
@@ -8,8 +10,12 @@ ksp {
 }
 apply from: "$rootDir/scripts/tinker_config.gradle"
 android {
+    compileSdkVersion Integer.parseInt(project.rootProject.compileSdkVersion)
+    buildToolsVersion project.rootProject.buildToolsVersion
     namespace "com.jamesfchen.b"
     defaultConfig {
+        minSdkVersion Integer.parseInt(project.rootProject.minSdkVersion)
+        targetSdkVersion Integer.parseInt(project.rootProject.targetSdkVersion)
         resValue "string", "app_name", "b.app"
         buildConfigField('String', 'BUGLY_APP_ID', '"3d62251014"')
         buildConfigField('String', 'BUGLY_APP_KEY', '"a15ecf84-1786-40c6-abf5-fe975fce22e6"')
@@ -23,9 +29,21 @@ android {
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         }
+        versionCode Integer.parseInt(project.rootProject.versionCode)
+        versionName project.rootProject.versionName
+    }
+    signingConfigs {
+        releaseSigningConfig {
+            (keyAlias, keyPassword, storePassword) = [project.rootProject.keyAlias, project.rootProject.keyPassword, project.rootProject.storePassword]
+            storeFile project.file("$project.rootDir/$project.rootProject.storeFilePath")
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.releaseSigningConfig
             manifestPlaceholders = ['QQ_KEY': 'adf', 'WEXIN_KEY': 'adfaf', 'BUGLY_ENABLE_DEBUG': 'false']
             multiDexEnabled = true//support android 20 or lower
             minifyEnabled true
@@ -36,6 +54,7 @@ android {
             )
         }
         debug{
+            signingConfig signingConfigs.releaseSigningConfig
             manifestPlaceholders = [
                     'QQ_KEY'            : 'adf', 'WEXIN_KEY': 'adfaf',
                     'BUGLY_ENABLE_DEBUG': 'true'
@@ -119,6 +138,11 @@ android {
 
     kotlinOptions {
         jvmTarget = '17'
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${variant.name}-${variant.versionName}.apk"
+        }
     }
 }
 dependencies {
