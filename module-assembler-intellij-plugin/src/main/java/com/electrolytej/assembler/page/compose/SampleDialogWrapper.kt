@@ -14,6 +14,7 @@ import javax.swing.ComboBoxModel
 import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.SwingConstants
+import com.electrolytej.assembler.model.Module
 
 
 class SampleDialogWrapper(val viewModel: ViewModel) : DialogWrapper(true) {

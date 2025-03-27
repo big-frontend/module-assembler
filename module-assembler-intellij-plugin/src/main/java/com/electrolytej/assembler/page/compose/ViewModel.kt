@@ -2,7 +2,7 @@ package com.electrolytej.assembler.page.compose
 
 import org.jetbrains.annotations.ApiStatus
 import java.util.*
-
+import com.electrolytej.assembler.model.Module
 @ApiStatus.Internal
 data class ViewModel(
     @JvmField
