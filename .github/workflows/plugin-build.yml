@@ -51,7 +51,7 @@ jobs:
           distribution: 'adopt'
 
       - name: buildPlugin
-        run: cd module-assembler-gradle-plugin &&  ./gradlew assemble
+        run: cd module-assembler-gradle-plugin &&  ./gradlew :module-assembler-gradle-plugin:assemble
       - name: Upload Plugin
         uses: actions/upload-artifact@v4
         with:
@@ -72,7 +72,7 @@ jobs:
           distribution: 'adopt'
 
       - name: buildPlugin
-        run: cd module-assembler-gradle-plugin-kt &&  ./gradlew assemble
+        run: cd module-assembler-gradle-plugin-kt &&  ./gradlew :module-assembler-gradle-plugin-kt:assemble
       - name: Upload Plugin
         uses: actions/upload-artifact@v4
         with:
