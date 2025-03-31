@@ -1,6 +1,6 @@
 import org.gradle.api.Project
 
-class AppModulePlugin : AndroidPlugin() {
+class AppModulePlugin : BasePlugin() {
 
     override fun addPlugins(project: Project) {
         routerPlugin?.let {
@@ -9,7 +9,6 @@ class AppModulePlugin : AndroidPlugin() {
     }
 
     override fun onApply(project: Project) {
-        super.onApply(project)
 //        project.android {
 //            defaultConfig {
 ////        multiDexEnabled = true//support android 20 or lower

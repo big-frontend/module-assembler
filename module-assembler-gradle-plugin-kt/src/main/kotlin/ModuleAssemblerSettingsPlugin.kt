@@ -1,7 +1,8 @@
 import com.electrolytej.assembler.ModuleParser
-import com.electrolytej.assembler.model.Module
 import com.electrolytej.assembler.model.ModuleConfig
 import com.electrolytej.assembler.util.P
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import java.io.File
 import java.util.Properties
 import org.gradle.BuildListener
@@ -26,7 +27,19 @@ class ModuleAssemblerSettingsPlugin : Plugin<Settings>, ProjectEvaluationListene
     override fun apply(settings: Settings) {
         val gradle = settings.gradle
         val rootDir = settings.rootDir
-        val config: ModuleConfig? = File("${rootDir}/module_config.json").fromJson()
+        val config: ModuleConfig? = try {
+            val moshi: Moshi = Moshi.Builder().build()
+            val jsonAdapter: JsonAdapter<ModuleConfig> = moshi.adapter(ModuleConfig::class.java)
+            jsonAdapter.fromJson(File("${rootDir}/module_config.json").readText())
+//        JsonReader(FileReader(this)).use { reader ->
+//            return Gson().fromJson<ModuleConfig>(
+//                reader,
+//                ModuleConfig::class.java
+//            )
+//        }
+        } catch (e: Exception) {
+            null
+        }
         if (config == null) return
 
         val localProperties = Properties()
@@ -42,7 +55,6 @@ class ModuleAssemblerSettingsPlugin : Plugin<Settings>, ProjectEvaluationListene
         } catch (e: IOException) {
             return;
         }
-
 
         parser.appModule?.let {
             settings.include(it.sourcePath)
