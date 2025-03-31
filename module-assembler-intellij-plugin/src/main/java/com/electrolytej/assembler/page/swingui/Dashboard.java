@@ -16,7 +16,9 @@ import com.intellij.util.ui.JBUI;
 
 import javax.swing.*;
 import java.lang.String;
+
 import com.electrolytej.assembler.model.Module;
+
 public class Dashboard extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -262,24 +264,24 @@ public class Dashboard extends JDialog {
     int i = 0;
     int j = 0;
 
-    public void bindPanel(Map<String, Module> moduleMap) {
+    public void bindPanel(List<Module> modules) {
         GridBagConstraints bagConstraints = new GridBagConstraints();
         bagConstraints.fill = GridBagConstraints.BOTH;
         bagConstraints.insets = JBUI.insets(10);
-        for (Map.Entry<String, Module> entry : moduleMap.entrySet()) {
+        for (Module module : modules) {
             JComponent fieldText;
-            switch (entry.getValue().type) {
+            switch (module.type) {
                 case EXCLUDE -> {
-                    fieldText = createFieldText(entry, JBColor.RED, "exclude");
-                    excludeModuleMap.put(entry.getKey(), entry.getValue());
+                    fieldText = createFieldText(module, JBColor.RED, "exclude");
+                    excludeModuleMap.put(module.simpleName, module);
                 }
                 case BINARY -> {
-                    fieldText = createFieldText(entry, JBColor.YELLOW, "binary");
-                    binaryModuleMap.put(entry.getKey(), entry.getValue());
+                    fieldText = createFieldText(module, JBColor.YELLOW, "binary");
+                    binaryModuleMap.put(module.simpleName, module);
                 }
                 case SOURCE -> {
-                    fieldText = createFieldText(entry, JBColor.GREEN, "source");
-                    sourceModuleMap.put(entry.getKey(), entry.getValue());
+                    fieldText = createFieldText(module, JBColor.GREEN, "source");
+                    sourceModuleMap.put(module.simpleName, module);
                 }
                 default -> {
                     continue;
@@ -318,7 +320,7 @@ public class Dashboard extends JDialog {
         buildVariantsPanel.add(comboBox, bagConstraints);
     }
 
-    private JPanel createFieldText(Map.Entry<String, Module> entry, Color color, String defaultGroupName) {
+    private JPanel createFieldText(Module module, Color color, String defaultGroupName) {
 
         JPanel jPanel = new JPanel(new GridBagLayout());
         GridBagConstraints bagConstraints = new GridBagConstraints();
@@ -326,15 +328,15 @@ public class Dashboard extends JDialog {
         //add jlabel
         bagConstraints.weightx = 1;
         JLabel jLabel = new JLabel();
-        jLabel.setText(entry.getKey());
+        jLabel.setText(module.simpleName);
         jLabel.setHorizontalAlignment(SwingConstants.CENTER);
         jLabel.setFont(new Font("黑体", Font.BOLD, 12));
         jLabel.setForeground(color);
         jPanel.add(jLabel, bagConstraints);
         ComboBoxModel<String> comboBoxModel;
-        if ("fwk".equalsIgnoreCase(entry.getValue().group) || "main".equalsIgnoreCase(entry.getValue().group)) {
+        if ("fwk".equalsIgnoreCase(module.group) || "main".equalsIgnoreCase(module.group)) {
             comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "binary"));
-        } else if ("plugin".equalsIgnoreCase(entry.getValue().format)) {
+        } else if ("plugin".equalsIgnoreCase(module.format)) {
             comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "exclude"));
         } else {
             comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "binary", "exclude"));

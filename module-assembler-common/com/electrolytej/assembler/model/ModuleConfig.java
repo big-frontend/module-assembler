@@ -1,6 +1,7 @@
 package com.electrolytej.assembler.model;
 
 import java.util.List;
+
 /**
  * 读取module_config.json信息以此来include具体的模块，对于模块的描述应该有这些信息
  * class Module{
@@ -14,8 +15,8 @@ import java.util.List;
  * }
  */
 public class ModuleConfig {
-    //    String author;
-    //    String description;
+    public String author;
+    public String description;
     public String groupId;
     public List<String> buildVariants;
     public List<Module> allModules;

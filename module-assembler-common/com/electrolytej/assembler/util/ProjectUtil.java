@@ -104,8 +104,8 @@ public class ProjectUtil {
     }
 
     public static String findModulePath(Project project, String simpleName) {
-        Map<String, Module> binaryModuleMap = (LinkedHashMap<String, Module>) project.getGradle().getExtensions().getExtraProperties().get("binaryModuleMap");
-        Map<String, Module> sourceModuleMap = (LinkedHashMap<String, Module>) project.getGradle().getExtensions().getExtraProperties().get("sourceModuleMap");
+        Map<String, Module> binaryModuleMap = (Map<String, Module>) project.getGradle().getExtensions().getExtraProperties().get("binaryModuleMap");
+        Map<String, Module> sourceModuleMap = (Map<String, Module>) project.getGradle().getExtensions().getExtraProperties().get("sourceModuleMap");
         if (binaryModuleMap.containsKey(simpleName)) {
             System.out.println("binaryModuleMap:" + binaryModuleMap.get(simpleName));
             Module module = binaryModuleMap.get(simpleName);

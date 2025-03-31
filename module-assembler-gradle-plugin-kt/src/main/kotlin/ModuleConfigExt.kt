@@ -5,17 +5,6 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import java.io.File
 
-fun ModuleConfig.findModule(name: String?): Module? {
-    return ProjectUtil.findModule(this, name)
-}
-
-fun String?.eachAfterSplit(reg: String, cb: (String) -> Unit) {
-    if (this.isNullOrEmpty()) return
-    split(reg).forEach { name ->
-        cb.invoke(name)
-    }
-}
-
 fun File.fromJson(): ModuleConfig? {
     try {
         val moshi: Moshi = Moshi.Builder().build()
