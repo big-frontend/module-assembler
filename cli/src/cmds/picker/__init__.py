@@ -50,7 +50,8 @@ class Picker(BaseCommand):
         self.__args = args
         self.__local_properties_path = util.get_local_properties_path()
         self.__p = Properties()
-        self.__p.load(open(self.__local_properties_path, encoding='utf-8'))
+        if self.__local_properties_path:
+            self.__p.load(open(self.__local_properties_path, encoding='utf-8'))
         self.__fwk_modules = dict()
         self.__nsbundle_modules = dict()
         self.__ndbundle_modules = dict()
@@ -116,7 +117,8 @@ class Picker(BaseCommand):
             self.sourceify(self.__ndbundle_modules.keys())
         elif args.dynamic_bundle_policy == Policy.EXCLUDE.name.lower():
             self.execludeify(self.__ndbundle_modules.keys())
-        self.__p.store(open(self.__local_properties_path, 'w', encoding='utf-8'))
+        if self.__local_properties_path:
+            self.__p.store(open(self.__local_properties_path, 'w', encoding='utf-8'))
 
     def duplicate(self, sources, excludes, binaries):
         # 重复就抛出异常

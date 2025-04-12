@@ -29,7 +29,8 @@ def get_local_properties_path():
     p = opath.join(root_path, 'local.properties')
     if opath.exists(p):
         return p
-    raise RuntimeError("当前目录下没有local.properties文件")
+    # raise RuntimeError("当前目录下没有local.properties文件")
+    return ''
 
 
 def get_module_config_path():

@@ -2,6 +2,7 @@ import re
 import sys
 import time
 from io import TextIOWrapper
+from typing import overload
 
 
 # class IllegalArgumentException(Exception):
@@ -211,9 +212,11 @@ class Properties(object):
 
         return newvalue
 
-    def load(self, stream):
-        """ Load properties from an open file stream """
 
+    def load(self, stream:TextIOWrapper=None,path:str=None):
+        """ Load properties from an open file stream """
+        if path:
+            stream = open(path, encoding='utf-8')
         # For the time being only accept file input streams
         if type(stream) is not TextIOWrapper:
             raise TypeError('Argument should be a file object!')

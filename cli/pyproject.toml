@@ -27,20 +27,14 @@ classifiers = [
     'Programming Language :: Python :: 3.7',
     'Programming Language :: Python :: 3.9',
 ]
-packages = [{include = "cmds", from = "src"}]
+packages = [{ include = "cmds", from = "src" }]
 #keywords = ["sample", "setuptools", "development"]  # Optional
 #license = {file = "LICENSE.txt"}
-
-
-[project.urls]  # Optional
-"Homepage" = "https://github.com/electrolyteJ/bundles-assembler/wiki"
+[tool.poetry.urls]
+"Homepage" = "https://big-frontend.github.io/module-assembler/"
 "Bug Reports" = "https://github.com/pypa/sampleproject/issues"
 "Funding" = "https://donate.pypi.org"
-"Source" = "https://github.com/electrolyteJ/bundles-assembler"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+"Source" = "https://github.com/electrolyteJ/module-assembler"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -48,11 +42,12 @@ requests = "2.27.1"
 tqdm = "^4.65.0"
 flashcli = "^1.3.0"
 
-
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.2"
 [tool.poetry.dev-dependencies]
 #pylint = "*"
 #isort = "*"
-#pytest = "*"
+pytest ="^7.2.2"
 
 
 [tool.poetry.scripts]
