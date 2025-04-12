@@ -35,9 +35,6 @@ public class ModuleParser {
         Iterator<Module> iterator = mModuleConfig.allModules.iterator();
         while (iterator.hasNext()) {
             Module module = iterator.next();
-            if ("ndbundle".equals(module.format)) {
-                mDynamicModules.add(module.sourcePath);
-            }
             if ("app".equals(module.simpleName) || "host".equals(module.group)) {
                 mAppModule = module;
                 iterator.remove();
@@ -85,6 +82,9 @@ public class ModuleParser {
                         entry.getValue().type = Module.Type.SOURCE;
                         Module module = entry.getValue();
                         sourcePath2SimpleNameMap.put(module.sourcePath, module.simpleName);
+                        if ("ndbundle".equals(module.format)) {
+                            mDynamicModules.add(module.sourcePath);
+                        }
                     }
                 }
 

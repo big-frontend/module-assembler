@@ -53,9 +53,6 @@ class MainActivity : Activity() {
 //                )
 //            }
 //        }
-
-        binding.btAndroidNavigator.setOnClickListener {
-        }
     }
 
 }

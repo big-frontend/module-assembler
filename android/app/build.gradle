@@ -18,7 +18,7 @@ android {
         applicationId project.rootProject.applicationId
         minSdkVersion Integer.parseInt(project.rootProject.minSdkVersion)
         targetSdkVersion Integer.parseInt(project.rootProject.targetSdkVersion)
-        resValue "string", "app_name", "b.app"
+//        resValue "string", "app_name", "b.app"
         buildConfigField('String', 'BUGLY_APP_ID', '"3d62251014"')
         buildConfigField('String', 'BUGLY_APP_KEY', '"a15ecf84-1786-40c6-abf5-fe975fce22e6"')
         buildConfigField('String', 'XIAOMI_APP_ID', '"2882303761517994447"')
@@ -126,13 +126,7 @@ android {
 //        maxProcessCount 8
 //        dexInProcess = true
 //    }
-//    flavorDimensions "default"
-//    productFlavors{
-//        dev{
-//            resConfigs ("en", "xxhdpi"/*1080p*/)//优化编译速度：只编译指定资源
-//        }
-//
-//    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17

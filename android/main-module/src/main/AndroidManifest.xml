@@ -5,6 +5,7 @@
         <activity android:name="com.jamesfchen.main.MainActivity" android:exported="true"/>
         <activity
                 android:name="com.jamesfchen.main.SplashActivity"
+            android:label="phone"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

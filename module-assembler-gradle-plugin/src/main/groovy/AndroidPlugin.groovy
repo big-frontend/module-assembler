@@ -30,6 +30,17 @@ abstract class AndroidPlugin implements Plugin<Project> {
         }
         addPlugins(project)
         project.android {
+
+            flavorDimensions "device"
+            productFlavors{
+                tv{
+                    dimension 'device'
+                }
+                watch{
+                    dimension 'device'
+                }
+
+            }
             def a = project.gradle.activeBuildVariant
             if (a != 'all' && a in project.gradle.ext.buildVariants) {
                 variantFilter { variant ->

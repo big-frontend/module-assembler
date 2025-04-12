@@ -1,7 +1,7 @@
 plugins{
     id "io.github.electrolytej.static-bundle-plugin"
-    id("kotlin-android")
-    id("kotlin-kapt")
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose)
 }
 android {
     compileSdkVersion Integer.parseInt(project.rootProject.compileSdkVersion)
@@ -13,6 +13,7 @@ android {
     namespace "com.jamesfchen.main"
     buildFeatures {
         viewBinding true
+        compose = true
     }
     //    defaultConfig {
 //        javaCompileOptions {
@@ -32,5 +33,30 @@ android {
 }
 dependencies {
     compileOnly project.moduleify('fwk-base')
+    tvImplementation(libs.androidx.leanback)
+    //watch
+    implementation(libs.play.services.wearable)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.compose.foundation)
+    implementation(libs.androidx.wear.tooling.preview)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.tiles)
+    implementation(libs.androidx.tiles.material)
+    implementation(libs.androidx.tiles.tooling.preview)
+    implementation(libs.horologist.compose.tools)
+    implementation(libs.horologist.tiles)
+    implementation(libs.androidx.watchface.complications.data.source.ktx)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    debugImplementation(libs.androidx.tiles.tooling)
+
+
 
 }
