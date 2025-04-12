@@ -11,5 +11,3 @@ https://pyloong.github.io/pythonic-project-guidelines/guidelines/tutorial/publis
 
 poetry build | poetry publish
 
-# test 
-- poetry install | poetry run pytest
