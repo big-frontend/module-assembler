@@ -10,29 +10,24 @@ ksp {
 }
 apply from: "$rootDir/scripts/tinker_config.gradle"
 android {
-    compileSdkVersion Integer.parseInt(project.rootProject.compileSdkVersion)
-    buildToolsVersion project.rootProject.buildToolsVersion
     namespace "com.jamesfchen.b"
     defaultConfig {
         //        multiDexEnabled = true//support android 20 or lower
         applicationId project.rootProject.applicationId
-        minSdkVersion Integer.parseInt(project.rootProject.minSdkVersion)
-        targetSdkVersion Integer.parseInt(project.rootProject.targetSdkVersion)
 //        resValue "string", "app_name", "b.app"
         buildConfigField('String', 'BUGLY_APP_ID', '"3d62251014"')
         buildConfigField('String', 'BUGLY_APP_KEY', '"a15ecf84-1786-40c6-abf5-fe975fce22e6"')
         buildConfigField('String', 'XIAOMI_APP_ID', '"2882303761517994447"')
         buildConfigField('String', 'XIAOMI_APP_KEY', '"5921799441447"')
         buildConfigField('String', 'AMAP_KEY', '"84198333a8ab4404cd35829dbb4ec435"')
-        manifestPlaceholders = [
-                'BUGLY_APP_ID': '3d62251014', 'BUGLY_APP_KEY': 'a15ecf84-1786-40c6-abf5-fe975fce22e6', "BUGLY_APP_VERSION": "${rootProject.ext.versionName}",
-                'AMAP_KEY'    : '84198333a8ab4404cd35829dbb4ec435',
-        ]
+        manifestPlaceholders = ['BUGLY_APP_ID'     : '3d62251014',
+                                'BUGLY_APP_KEY'    : 'a15ecf84-1786-40c6-abf5-fe975fce22e6',
+                                "BUGLY_APP_VERSION": "${libs.versions.versionName}",
+                                'AMAP_KEY'         : '84198333a8ab4404cd35829dbb4ec435',]
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         }
-        versionCode Integer.parseInt(project.rootProject.versionCode)
-        versionName project.rootProject.versionName
+
     }
     signingConfigs {
         releaseSigningConfig {
@@ -50,26 +45,20 @@ android {
             multiDexEnabled = true//support android 20 or lower
             minifyEnabled true
             shrinkResources true
-            proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro")
         }
-        debug{
+        debug {
             signingConfig signingConfigs.releaseSigningConfig
-            manifestPlaceholders = [
-                    'QQ_KEY'            : 'adf', 'WEXIN_KEY': 'adfaf',
-                    'BUGLY_ENABLE_DEBUG': 'true'
-            ]
+            manifestPlaceholders = ['QQ_KEY'            : 'adf', 'WEXIN_KEY': 'adfaf',
+                                    'BUGLY_ENABLE_DEBUG': 'true']
             crunchPngs = false//优化编译速度：关闭png
             multiDexEnabled = false//优化编译速度：关闭multidex
             minifyEnabled false
             shrinkResources false
 //            applicationIdSuffix = '.debug'
-            proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro")
         }
 
     }

@@ -5,41 +5,55 @@ import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
 
 abstract class AndroidPlugin implements Plugin<Project> {
-    static String routerName
     static String routerPlugin
     static String routerLibrary
     static boolean isFirst = true
+    protected VersionCatalog libs
 
     abstract void addPlugins(Project project)
 
     abstract void onApply(Project project)
 
-    static def pickupRouter(Project project) {
-        VersionCatalog libs = project.extensions.getByType(VersionCatalogsExtension).named("libs")
-        def versionName = libs.findVersion("ibc").get().requiredVersion
-        if (project.rootProject.findProperty("IBC_VERSION")) return ["IBCRouter", "io.github.jamesfchen.ibc-plugin", "io.github.jamesfchen:ibc-api:$project.rootProject.IBC_VERSION"]
-        return ["", "", ""]
-    }
-
     @Override
     void apply(Project project) {
-        if (isFirst) {
-            (routerName, routerPlugin, routerLibrary) = pickupRouter(project)
-            if (routerLibrary) P.info("pick up router, $routerLibrary")
+        libs = project.extensions.getByType(VersionCatalogsExtension).named("libs")
+        addPlugins(project)
+        def useIbc = project.findProperty("useIbc")
+        if (isFirst && useIbc) {
+//        project.pluginManager.apply("io.github.jamesfchen.ibc-plugin:${ibc}")
+            def ibc = "1.6.1"
+//                routerPlugin = "io.github.jamesfchen.ibc-plugin"
+//                routerLibrary = "io.github.jamesfchen:ibc-api:${ibc}"
+            P.info("pick up router, $routerLibrary")
             isFirst = false
         }
-        addPlugins(project)
         project.android {
-
+            def compile = libs.findVersion("compileSdkVersion").get().requiredVersion
+            def build = libs.findVersion("buildToolsVersion").get().requiredVersion
+            if (compile) {
+                compileSdkVersion Integer.parseInt(compile)
+            }
+            if (build) {
+                buildToolsVersion build
+            }
+            defaultConfig {
+                def min = libs.findVersion("minSdkVersion").get().requiredVersion
+                def target = libs.findVersion("targetSdkVersion").get().requiredVersion
+                if (min) {
+                    minSdkVersion = min
+                }
+                if (target) {
+                    targetSdkVersion = target
+                }
+            }
             flavorDimensions "device"
-            productFlavors{
-                tv{
+            productFlavors {
+                tv {
                     dimension 'device'
                 }
-                watch{
+                watch {
                     dimension 'device'
                 }
-
             }
             def a = project.gradle.activeBuildVariant
             if (a != 'all' && a in project.gradle.ext.buildVariants) {

@@ -6,12 +6,6 @@ plugins {
 }
 
 android {
-    compileSdkVersion Integer.parseInt(project.rootProject.compileSdkVersion)
-    buildToolsVersion project.rootProject.buildToolsVersion
-    defaultConfig {
-        minSdkVersion Integer.parseInt(project.rootProject.minSdkVersion)
-        targetSdkVersion Integer.parseInt(project.rootProject.targetSdkVersion)
-    }
     namespace = "com.jamesfchen.chatroom"
     defaultConfig {
         vectorDrawables.useSupportLibrary = true

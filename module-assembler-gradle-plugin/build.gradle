@@ -11,7 +11,7 @@ tasks.withType(GroovyCompile) {
     sourceCompatibility = '17'
     targetCompatibility = '17'
 }
-version = "1.0.0"
+version = "1.1.0"
 group ="io.github.electrolytej"
 gradlePlugin {
     vcsUrl = 'https://github.com/big-frontend/module-assembler.git'
@@ -55,6 +55,20 @@ gradlePlugin {
         appPlugin {
             id = "${group}.app-plugin"
             implementationClass = 'AppModulePlugin'
+            displayName = 'Plugin for define host app module'
+            description = "A plugin that helps you define host app module"
+            tags = ['module-assembler']
+        }
+        foundationPlugin {
+            id = "${group}.foundation-plugin"
+            implementationClass = 'FoundationModulePlugin'
+            displayName = 'Plugin for define host app module'
+            description = "A plugin that helps you define host app module"
+            tags = ['module-assembler']
+        }
+        toolPlugin {
+            id = "${group}.tool-plugin"
+            implementationClass = 'ToolModulePlugin'
             displayName = 'Plugin for define host app module'
             description = "A plugin that helps you define host app module"
             tags = ['module-assembler']

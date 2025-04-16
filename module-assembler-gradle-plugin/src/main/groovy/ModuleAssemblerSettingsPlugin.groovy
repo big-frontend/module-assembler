@@ -2,7 +2,6 @@ import com.electrolytej.assembler.ModuleParser
 import com.electrolytej.assembler.model.ModuleConfig
 import com.google.gson.Gson
 import com.google.gson.stream.JsonReader
-import groovy.json.JsonSlurper
 import org.gradle.api.Plugin
 import org.gradle.api.initialization.Settings
 
