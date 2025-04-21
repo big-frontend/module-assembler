@@ -10,7 +10,6 @@ class ToolModulePlugin extends AndroidPlugin {
     @Override
     void onApply(Project project) {
         project.dependencies {
-            implementation project.project(project.gradle.ext.appModule.sourcePath)
             if (routerLibrary) {
                 api routerLibrary
             }

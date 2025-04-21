@@ -138,7 +138,7 @@ public class Dashboard extends JDialog {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = binaryModuleMap.get(moduleNameJLabel.getText());
                 if (module == null) module = excludeModuleMap.get(moduleNameJLabel.getText());
-                if (module != null && !"fwk".equals(module.group) && module.dynamic == null) {
+                if (module != null && !"fwk".equals(module.group) && !"ndbundle".equals(module.format)) {
                     binaryModuleMap.remove(module.simpleName);
                     excludeModuleMap.remove(module.simpleName);
                     sourceModuleMap.put(module.simpleName, module);
@@ -151,7 +151,7 @@ public class Dashboard extends JDialog {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = sourceModuleMap.get(moduleNameJLabel.getText());
                 if (module == null) module = excludeModuleMap.get(moduleNameJLabel.getText());
-                if (module != null && !"fwk".equals(module.group) && module.dynamic == null) {
+                if (module != null && !"fwk".equals(module.group) && !"ndbundle".equals(module.format)) {
                     sourceModuleMap.remove(module.simpleName);
                     excludeModuleMap.remove(module.simpleName);
                     binaryModuleMap.put(module.simpleName, module);
@@ -164,10 +164,10 @@ public class Dashboard extends JDialog {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = sourceModuleMap.get(moduleNameJLabel.getText());
                 if (module == null) module = binaryModuleMap.get(moduleNameJLabel.getText());
-                if (module != null && !"fwk".equals(module.group) && module.dynamic == null) {
+                if (module != null && !"fwk".equals(module.group)) {
                     sourceModuleMap.remove(module.simpleName);
                     binaryModuleMap.remove(module.simpleName);
-                    if ("main".equals(module.group)) {
+                    if ("main".equals(module.group) || "api".equals(module.format)) {
                         moduleNameJLabel.setForeground(JBColor.ORANGE);
                         moduleStateComboBox.setSelectedIndex(1);
                         binaryModuleMap.put(module.simpleName, module);
@@ -187,7 +187,7 @@ public class Dashboard extends JDialog {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = binaryModuleMap.get(moduleNameJLabel.getText());
                 if (module == null) module = excludeModuleMap.get(moduleNameJLabel.getText());
-                if (module != null && module.dynamic != null) {
+                if (module != null && "ndbundle".equals(module.format)) {
                     binaryModuleMap.remove(module.simpleName);
                     excludeModuleMap.remove(module.simpleName);
                     sourceModuleMap.put(module.simpleName, module);
@@ -200,7 +200,7 @@ public class Dashboard extends JDialog {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = sourceModuleMap.get(moduleNameJLabel.getText());
                 if (module == null) module = excludeModuleMap.get(moduleNameJLabel.getText());
-                if (module != null && module.dynamic != null) {
+                if (module != null && "ndbundle".equals(module.format)) {
                     sourceModuleMap.remove(module.simpleName);
                     excludeModuleMap.remove(module.simpleName);
                     binaryModuleMap.put(module.simpleName, module);
@@ -214,7 +214,7 @@ public class Dashboard extends JDialog {
             foreachModules((moduleNameJLabel, moduleStateComboBox) -> {
                 Module module = sourceModuleMap.get(moduleNameJLabel.getText());
                 if (module == null) module = binaryModuleMap.get(moduleNameJLabel.getText());
-                if (module != null && module.dynamic != null) {
+                if (module != null && "ndbundle".equals(module.format)) {
                     sourceModuleMap.remove(module.simpleName);
                     binaryModuleMap.remove(module.simpleName);
                     excludeModuleMap.put(module.simpleName, module);
@@ -334,9 +334,9 @@ public class Dashboard extends JDialog {
         jLabel.setForeground(color);
         jPanel.add(jLabel, bagConstraints);
         ComboBoxModel<String> comboBoxModel;
-        if ("fwk".equalsIgnoreCase(module.group) || "main".equalsIgnoreCase(module.group)) {
+        if ("fwk".equalsIgnoreCase(module.group) || "main".equalsIgnoreCase(module.group) || "api".equalsIgnoreCase(module.format)) {
             comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "binary"));
-        } else if ("plugin".equalsIgnoreCase(module.format)) {
+        } else if ("ndbundle".equalsIgnoreCase(module.format)) {
             comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "exclude"));
         } else {
             comboBoxModel = new CollectionComboBoxModel<>(Arrays.asList("source", "binary", "exclude"));

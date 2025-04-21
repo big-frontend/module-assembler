@@ -48,6 +48,9 @@ abstract class AndroidPlugin implements Plugin<Project> {
             }
             flavorDimensions "device"
             productFlavors {
+                phone {
+                    dimension 'device'
+                }
                 tv {
                     dimension 'device'
                 }

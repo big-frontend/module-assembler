@@ -18,7 +18,7 @@ public class Module {
     public String format;
     public String versionName;
     public String versionCode;
-    public String dynamic;
+//    public String dynamic;
     public Type type = Type.NONE;
 
     //    public String binary_artifact;
