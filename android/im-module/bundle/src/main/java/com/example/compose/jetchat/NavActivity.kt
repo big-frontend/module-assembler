@@ -38,6 +38,7 @@ import com.example.compose.jetchat.conversation.LocalBackPressedDispatcher
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.jamesfchen.chatroom.R
 import com.jamesfchen.chatroom.databinding.ContentMainBinding
+import com.jamesfchen.moduleruntime.SplitActivityRuntime
 import kotlinx.coroutines.launch
 
 /**
@@ -48,6 +49,7 @@ class NavActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SplitActivityRuntime.install(this)
 //        val api = findApi(ICall::class.java)
 //        if (api?.call() == true) {
 //            //打开当前bundle内部的页面

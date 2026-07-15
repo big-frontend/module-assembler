@@ -3,7 +3,10 @@ package com.jamesfchen.b;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.Configuration;
+
+import com.jamesfchen.moduleruntime.qigsaw.DistributionRuntimeBootstrap;
 
 /**
  * Copyright ® $ 2017
@@ -25,6 +28,7 @@ public class BApp extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        DistributionRuntimeBootstrap.attachBaseContext(this);
 //        rePluginProxy = new RePluginProxy();
 //        rePluginProxy.attachBaseContext(this);
     }
@@ -32,6 +36,8 @@ public class BApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        DistributionRuntimeBootstrap.onCreate(this);
+        AppModuleRuntime.initialize(this);
 //        Fresco.initialize(this);
 //        if (BuildConfig.DEBUG) {           // These two lines must be written before init, otherwise these configurations will be invalid in the init process
 //            ARouter.openLog();     // Print log
@@ -61,6 +67,11 @@ public class BApp extends Application {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 //        rePluginProxy.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public Resources getResources() {
+        return DistributionRuntimeBootstrap.getResources(super.getResources());
     }
 
     @Override

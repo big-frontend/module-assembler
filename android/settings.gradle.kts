@@ -37,4 +37,6 @@ plugins {
     id("io.github.electrolytej.module-assembler-settings-plugin") version "1.0.0"
 }
 
-
+include(":module-runtime")
+include(":module-runtime-play")
+include(":module-runtime-qigsaw")

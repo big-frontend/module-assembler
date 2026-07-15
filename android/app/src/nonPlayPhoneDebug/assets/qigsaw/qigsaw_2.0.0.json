@@ -1,0 +1,61 @@
+{
+    "qigsawId": "com.jamesfchen.b_2.0.0",
+    "appVersionName": "2.0.0",
+    "updateSplits": [
+        "bundle",
+        "bundle4"
+    ],
+    "splitEntryFragments": [
+        
+    ],
+    "splits": [
+        {
+            "builtIn": false,
+            "splitName": "bundle",
+            "version": "2.0.0",
+            "minSdkVersion": 26,
+            "dexNumber": 7,
+            "workProcesses": [
+                
+            ],
+            "dependencies": [
+                
+            ],
+            "apkData": [
+                {
+                    "abi": "master",
+                    "url": "https://cdn.example.com/android/nonPlayPhoneDebug/bundle-master.apk",
+                    "md5": "98b8742445b1563669e87161cf573784",
+                    "size": 8351247
+                }
+            ],
+            "libData": [
+                
+            ]
+        },
+        {
+            "builtIn": false,
+            "splitName": "bundle4",
+            "version": "2.0.0",
+            "minSdkVersion": 26,
+            "dexNumber": 2,
+            "workProcesses": [
+                
+            ],
+            "dependencies": [
+                
+            ],
+            "apkData": [
+                {
+                    "abi": "master",
+                    "url": "https://cdn.example.com/android/nonPlayPhoneDebug/bundle4-master.apk",
+                    "md5": "d77ed496eb6e8dda9380372d0882b496",
+                    "size": 8516
+                }
+            ],
+            "libData": [
+                
+            ]
+        }
+    ]
+}

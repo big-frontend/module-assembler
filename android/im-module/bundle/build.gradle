@@ -7,6 +7,15 @@ plugins {
 
 android {
     namespace = "com.jamesfchen.chatroom"
+    flavorDimensions "distribution", "device"
+    productFlavors {
+        play {
+            dimension "distribution"
+        }
+        nonPlay {
+            dimension "distribution"
+        }
+    }
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
     }
@@ -34,6 +43,7 @@ composeCompiler {
     enableStrongSkippingMode = true
 }
 dependencies {
+    implementation project(":module-runtime")
     api 'com.google.accompanist:accompanist-insets:0.19.0'
     api "com.google.accompanist:accompanist-insets-ui:0.19.0"
     def composeBom = platform(libs.androidx.compose.bom)

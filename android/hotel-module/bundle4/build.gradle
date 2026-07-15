@@ -5,6 +5,15 @@ plugins{
 }
 android{
     namespace "com.jamesfchen.bundle4"
+    flavorDimensions "distribution", "device"
+    productFlavors {
+        play {
+            dimension "distribution"
+        }
+        nonPlay {
+            dimension "distribution"
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -15,4 +24,7 @@ android{
     }
 }
 dependencies {
+    implementation project(":module-runtime")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
 }

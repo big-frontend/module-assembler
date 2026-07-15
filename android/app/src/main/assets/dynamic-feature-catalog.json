@@ -1,0 +1,36 @@
+{
+  "modules": [
+    {
+      "moduleName": "im",
+      "splitName": "bundle",
+      "packageName": "com.jamesfchen.chatroom",
+      "versionName": "1.0.0",
+      "versionCode": 1,
+      "minHostVersionCode": 2,
+      "artifacts": [
+        {
+          "splitName": "bundle",
+          "url": "https://cdn.example.com/android/features/im/bundle-master.apk",
+          "sha256": "",
+          "sizeBytes": 0
+        }
+      ]
+    },
+    {
+      "moduleName": "hotel-h5",
+      "splitName": "bundle4",
+      "packageName": "com.jamesfchen.bundle4",
+      "versionName": "1.0.0",
+      "versionCode": 1,
+      "minHostVersionCode": 2,
+      "artifacts": [
+        {
+          "splitName": "bundle4",
+          "url": "https://cdn.example.com/android/features/hotel/bundle4-master.apk",
+          "sha256": "",
+          "sizeBytes": 0
+        }
+      ]
+    }
+  ]
+}

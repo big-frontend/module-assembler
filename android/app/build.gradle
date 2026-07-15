@@ -1,3 +1,379 @@
+import com.android.build.api.artifact.SingleArtifact
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
+import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Classpath
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.TaskAction
+
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.security.MessageDigest
+import java.util.zip.ZipFile
+
+abstract class GenerateNonPlaySplitArtifactsTask extends DefaultTask {
+    private static final Set<String> SUPPORTED_QIGSAW_CONFIG_QUALIFIERS = [
+            "armeabi",
+            "armeabi-v7a",
+            "arm64-v8a",
+            "x86",
+            "x86_64",
+    ] as Set
+
+    @InputFile
+    abstract RegularFileProperty getBundleFile()
+
+    @Classpath
+    abstract ConfigurableFileCollection getBundletoolClasspath()
+
+    @Input
+    abstract Property<String> getModulesJson()
+
+    @Input
+    abstract Property<String> getApplicationIdValue()
+
+    @Input
+    abstract Property<String> getVersionNameValue()
+
+    @Input
+    abstract Property<Long> getVersionCodeValue()
+
+    @Input
+    abstract Property<Integer> getMinSdkValue()
+
+    @Input
+    abstract Property<String> getSplitBaseUrl()
+
+    @Input
+    abstract Property<String> getKeystorePath()
+
+    @Input
+    abstract Property<String> getKeystorePassword()
+
+    @Input
+    abstract Property<String> getKeyAliasValue()
+
+    @Input
+    abstract Property<String> getKeyPasswordValue()
+
+    @Input
+    abstract Property<String> getAapt2Path()
+
+    @OutputDirectory
+    abstract DirectoryProperty getAssetsOutputDir()
+
+    @OutputDirectory
+    abstract DirectoryProperty getExportOutputDir()
+
+    @TaskAction
+    void generate() {
+        File bundle = bundleFile.get().asFile
+        if (!bundle.exists()) {
+            throw new GradleException("Bundle file does not exist: ${bundle.absolutePath}")
+        }
+
+        File assetsDir = assetsOutputDir.get().asFile
+        File exportDir = exportOutputDir.get().asFile
+        project.delete(assetsDir, exportDir, temporaryDir)
+        assetsDir.mkdirs()
+        exportDir.mkdirs()
+        temporaryDir.mkdirs()
+
+        File apksArchive = new File(temporaryDir, "${name}.apks")
+        File explodedApksDir = new File(temporaryDir, "exploded-apks")
+
+        project.javaexec { spec ->
+            spec.classpath = bundletoolClasspath
+            spec.mainClass.set("com.android.tools.build.bundletool.BundleToolMain")
+            spec.args(
+                    "build-apks",
+                    "--bundle=${bundle.absolutePath}",
+                    "--output=${apksArchive.absolutePath}",
+                    "--mode=default",
+                    "--optimize-for=ABI",
+                    "--overwrite",
+                    "--ks=${keystorePath.get()}",
+                    "--ks-pass=pass:${keystorePassword.get()}",
+                    "--ks-key-alias=${keyAliasValue.get()}",
+                    "--key-pass=pass:${keyPasswordValue.get()}",
+                    "--aapt2=${aapt2Path.get()}",
+            )
+        }
+
+        project.copy {
+            from project.zipTree(apksArchive)
+            into explodedApksDir
+        }
+        Files.copy(
+                apksArchive.toPath(),
+                new File(exportDir, apksArchive.name).toPath(),
+                StandardCopyOption.REPLACE_EXISTING,
+        )
+
+        List<Map<String, Object>> modules = (List<Map<String, Object>>) new JsonSlurper().parseText(modulesJson.get())
+        Set<File> preferredApks = project.fileTree(explodedApksDir).matching { include("**/splits/*.apk") }.files
+        Set<File> allApks = preferredApks.isEmpty()
+                ? project.fileTree(explodedApksDir).matching { include("**/*.apk") }.files
+                : preferredApks
+
+        if (allApks.isEmpty()) {
+            throw new GradleException("No split APKs found in ${explodedApksDir.absolutePath}")
+        }
+
+        String baseUrl = normalizeBaseUrl(splitBaseUrl.get())
+        String versionName = versionNameValue.get()
+        long versionCode = versionCodeValue.get()
+        int minSdk = minSdkValue.get()
+        String applicationId = applicationIdValue.get()
+        String qigsawId = "${applicationId}_${versionName}"
+
+        List<Map<String, Object>> qigsawSplits = []
+        List<Map<String, Object>> catalogModules = []
+
+        modules.each { Map<String, Object> module ->
+            String moduleName = module.moduleName as String
+            String splitName = module.splitName as String
+            String packageName = module.packageName as String
+            Map<String, List<File>> moduleApksByQualifier = [:].withDefault { [] }
+            allApks.each { File file ->
+                String qualifier = GenerateNonPlaySplitArtifactsTask.parseBundletoolQualifier(splitName, file.name)
+                if (qualifier == null || !GenerateNonPlaySplitArtifactsTask.isSupportedQigsawQualifier(qualifier)) {
+                    return
+                }
+                moduleApksByQualifier[qualifier].add(file)
+            }
+            List<File> moduleApks = moduleApksByQualifier.collect { String qualifier, List<File> files ->
+                GenerateNonPlaySplitArtifactsTask.selectPreferredApk(splitName, qualifier, files)
+            }.sort { it.name }
+
+            if (moduleApks.isEmpty()) {
+                throw new GradleException("No APKs found for split `${splitName}` in ${explodedApksDir.absolutePath}")
+            }
+
+            List<Map<String, Object>> qigsawApkData = []
+            List<Map<String, Object>> catalogArtifacts = []
+            Map<String, List<Map<String, Object>>> libsByAbi = [:].withDefault { [] }
+            int dexNumber = 0
+
+            moduleApks.each { File sourceApk ->
+                String qualifier = GenerateNonPlaySplitArtifactsTask.parseBundletoolQualifier(splitName, sourceApk.name)
+                if (qualifier == null) {
+                    return
+                }
+
+                String exportedFileName = "${splitName}-${qualifier}.apk"
+                File targetApk = new File(exportDir, exportedFileName)
+                Files.copy(sourceApk.toPath(), targetApk.toPath(), StandardCopyOption.REPLACE_EXISTING)
+
+                String md5 = GenerateNonPlaySplitArtifactsTask.digest(targetApk, "MD5")
+                String sha256 = GenerateNonPlaySplitArtifactsTask.digest(targetApk, "SHA-256")
+                long size = targetApk.length()
+                String url = "${baseUrl}/${exportedFileName}"
+
+                qigsawApkData.add([
+                        abi : qualifier,
+                        url : url,
+                        md5 : md5,
+                        size: size,
+                ])
+                catalogArtifacts.add([
+                        splitName: exportedFileName.replace(".apk", ""),
+                        url      : url,
+                        sha256   : sha256,
+                        sizeBytes: size,
+                ])
+
+                if (qualifier == "master") {
+                    dexNumber = GenerateNonPlaySplitArtifactsTask.countDexFiles(targetApk)
+                } else {
+                    libsByAbi[qualifier].addAll(GenerateNonPlaySplitArtifactsTask.readNativeLibMetadata(targetApk))
+                }
+            }
+
+            if (!qigsawApkData.any { it.abi == "master" }) {
+                throw new GradleException("Missing master split APK for `${splitName}`")
+            }
+
+            List<Map<String, Object>> libData = libsByAbi
+                    .findAll { abi, libs -> !libs.isEmpty() }
+                    .collect { abi, libs ->
+                        [
+                                abi    : abi,
+                                jniLibs: libs.sort { it.name },
+                        ]
+                    }
+                    .sort { it.abi }
+
+            qigsawSplits.add([
+                    builtIn         : false,
+                    splitName       : splitName,
+                    version         : versionName,
+                    minSdkVersion   : minSdk,
+                    dexNumber       : dexNumber,
+                    workProcesses   : [],
+                    dependencies    : [],
+                    apkData         : qigsawApkData.sort { it.abi },
+                    libData         : libData,
+            ])
+
+            catalogModules.add([
+                    moduleName         : moduleName,
+                    splitName          : splitName,
+                    packageName        : packageName,
+                    versionName        : versionName,
+                    versionCode        : versionCode,
+                    minHostVersionCode : versionCode,
+                    artifacts          : catalogArtifacts.sort { it.splitName },
+            ])
+        }
+
+        Map<String, Object> qigsawJson = [
+                qigsawId           : qigsawId,
+                appVersionName     : versionName,
+                updateSplits       : qigsawSplits.collect { it.splitName },
+                splitEntryFragments: [],
+                splits             : qigsawSplits.sort { it.splitName },
+        ]
+        Map<String, Object> catalogJson = [
+                modules: catalogModules.sort { it.moduleName },
+        ]
+
+        writeJson(new File(assetsDir, "dynamic-feature-catalog.json"), catalogJson)
+        writeJson(new File(assetsDir, "qigsaw/qigsaw_${versionName}.json"), qigsawJson)
+        writeJson(new File(exportDir, "dynamic-feature-catalog.json"), catalogJson)
+        writeJson(new File(exportDir, "qigsaw_${versionName}.json"), qigsawJson)
+    }
+
+    private static String normalizeBaseUrl(String raw) {
+        return raw.endsWith("/") ? raw.substring(0, raw.length() - 1) : raw
+    }
+
+    private static void writeJson(File file, Map<String, Object> content) {
+        file.parentFile?.mkdirs()
+        file.text = JsonOutput.prettyPrint(JsonOutput.toJson(content)) + System.lineSeparator()
+    }
+
+    private static String parseBundletoolQualifier(String splitName, String fileName) {
+        if (!fileName.endsWith(".apk")) {
+            return null
+        }
+        String stem = fileName.substring(0, fileName.length() - 4)
+        if (stem == splitName || stem ==~ /^${java.util.regex.Pattern.quote(splitName)}-master(?:_\d+)?$/) {
+            return "master"
+        }
+        if (stem.startsWith("${splitName}-")) {
+            return normalizeQualifier(stem.substring(splitName.length() + 1))
+        }
+        if (stem.startsWith("${splitName}.config.")) {
+            return normalizeQualifier(stem.substring("${splitName}.config.".length()))
+        }
+        if (stem.startsWith("${splitName}-config.")) {
+            return normalizeQualifier(stem.substring("${splitName}-config.".length()))
+        }
+        return null
+    }
+
+    private static String normalizeQualifier(String rawQualifier) {
+        String qualifier = rawQualifier
+                .replaceFirst(/^config[._-]/, "")
+        if (qualifier ==~ /^master_\d+$/) {
+            return "master"
+        }
+        String normalizedQualifier = qualifier.replace('_', '-')
+        String duplicateAbi = SUPPORTED_QIGSAW_CONFIG_QUALIFIERS.find { supported ->
+            normalizedQualifier ==~ /^${java.util.regex.Pattern.quote(supported)}-\d+$/
+        }
+        if (duplicateAbi != null) {
+            return duplicateAbi
+        }
+        return normalizedQualifier == "" ? "master" : normalizedQualifier
+    }
+
+    private static boolean isSupportedQigsawQualifier(String qualifier) {
+        return qualifier == "master" || SUPPORTED_QIGSAW_CONFIG_QUALIFIERS.contains(qualifier)
+    }
+
+    private static File selectPreferredApk(
+            String splitName,
+            String qualifier,
+            List<File> candidates
+    ) {
+        if (candidates.size() == 1) {
+            return candidates.first()
+        }
+        String canonicalFileName = qualifier == "master"
+                ? "${splitName}-master.apk"
+                : "${splitName}-${qualifier}.apk"
+        return candidates.sort { File file ->
+            file.name == canonicalFileName ? 0 : 1
+        }.first()
+    }
+
+    private static int countDexFiles(File apkFile) {
+        ZipFile zipFile = new ZipFile(apkFile)
+        try {
+            return zipFile.entries().findAll { entry ->
+                !entry.directory && entry.name ==~ /classes(\d+)?\.dex/
+            }.size()
+        } finally {
+            zipFile.close()
+        }
+    }
+
+    private static List<Map<String, Object>> readNativeLibMetadata(File apkFile) {
+        ZipFile zipFile = new ZipFile(apkFile)
+        try {
+            List<Map<String, Object>> libs = []
+            zipFile.entries().each { entry ->
+                if (!entry.directory && entry.name.startsWith("lib/") && entry.name.endsWith(".so")) {
+                    String libName = entry.name.tokenize("/").last()
+                    MessageDigest md5 = MessageDigest.getInstance("MD5")
+                    zipFile.getInputStream(entry).withCloseable { input ->
+                        byte[] buffer = new byte[8192]
+                        int read
+                        while ((read = input.read(buffer)) >= 0) {
+                            if (read == 0) {
+                                continue
+                            }
+                            md5.update(buffer, 0, read)
+                        }
+                    }
+                    libs.add([
+                            name: libName,
+                            md5 : md5.digest().encodeHex().toString(),
+                            size: entry.size,
+                    ])
+                }
+            }
+            return libs
+        } finally {
+            zipFile.close()
+        }
+    }
+
+    private static String digest(File file, String algorithm) {
+        MessageDigest messageDigest = MessageDigest.getInstance(algorithm)
+        file.withInputStream { input ->
+            byte[] buffer = new byte[8192]
+            int read
+            while ((read = input.read(buffer)) >= 0) {
+                if (read == 0) {
+                    continue
+                }
+                messageDigest.update(buffer, 0, read)
+            }
+        }
+        return messageDigest.digest().encodeHex().toString()
+    }
+}
+
 plugins {
     id "io.github.electrolytej.app-plugin"
     id("com.google.devtools.ksp")
@@ -9,8 +385,35 @@ ksp {
     arg("option2", "value2")
 }
 apply from: "$rootDir/scripts/tinker_config.gradle"
+
+def nonPlayDynamicModules = [
+        [
+                moduleName : "im",
+                splitName  : "bundle",
+                packageName: "com.jamesfchen.chatroom",
+        ],
+        [
+                moduleName : "hotel-h5",
+                splitName  : "bundle4",
+                packageName: "com.jamesfchen.bundle4",
+        ],
+]
+
+configurations {
+    bundletoolCli
+}
+
 android {
     namespace "com.jamesfchen.b"
+    flavorDimensions "distribution", "device"
+    productFlavors {
+        play {
+            dimension "distribution"
+        }
+        nonPlay {
+            dimension "distribution"
+        }
+    }
     defaultConfig {
         //        multiDexEnabled = true//support android 20 or lower
         applicationId project.rootProject.applicationId
@@ -138,7 +541,64 @@ dependencies {
     project.depsConfig("implementation", "hotel-bundle4")
     project.depsConfig("implementation", "hotel-export")
     implementation project.moduleify("fwk-base")
+    implementation project(":module-runtime")
+    playImplementation project(":module-runtime-play")
+    nonPlayImplementation project(":module-runtime-qigsaw")
+    bundletoolCli("com.android.tools.build:bundletool:1.15.6")
 //    ksp "io.github.jamesfchen:ibc-processor:1.0.0"
 //    implementation "io.github.jamesfchen:ibc-processor:1.0.0"
     implementation 'com.iqiyi.xcrash:xcrash-android-lib:3.0.0'
+}
+
+androidComponents {
+    onVariants(selector().withFlavor("distribution", "nonPlay")) { variant ->
+        def capitalizedVariantName = variant.name.substring(0, 1).toUpperCase() + variant.name.substring(1)
+        def versionNameProvider = variant.outputs[0].versionName.map { it ?: "0" }
+        def versionCodeProvider = variant.outputs[0].versionCode.map { Integer value -> (value ?: 0) as Long }
+        def splitBaseUrlProvider = providers.gradleProperty("nonPlaySplitBaseUrl")
+                .orElse(providers.environmentVariable("NON_PLAY_SPLIT_BASE_URL"))
+                .orElse("https://cdn.example.com/android/${variant.name}")
+        def sdkDir = providers.gradleProperty("android.injected.sdk.dir")
+                .orElse(providers.environmentVariable("ANDROID_SDK_ROOT"))
+                .orElse(providers.environmentVariable("ANDROID_HOME"))
+                .orElse("${System.properties['user.home']}/Library/Android/sdk")
+                .get()
+        def buildToolsDir = new File(sdkDir, "build-tools")
+        def aapt2Binary = buildToolsDir.exists()
+                ? project.fileTree(buildToolsDir).matching { include("**/aapt2") }.files.sort { it.absolutePath }.last()
+                : null
+
+        if (aapt2Binary == null || !aapt2Binary.exists()) {
+            throw new GradleException("Unable to locate aapt2 under Android SDK: ${buildToolsDir.absolutePath}")
+        }
+
+        def generateTask = tasks.register(
+                "generate${capitalizedVariantName}NonPlaySplitArtifacts",
+                GenerateNonPlaySplitArtifactsTask,
+        ) { task ->
+            task.group = "distribution"
+            task.description = "Exports split APKs and generated Qigsaw metadata for ${variant.name}."
+            task.bundleFile.set(variant.artifacts.get(SingleArtifact.BUNDLE.INSTANCE))
+            task.bundletoolClasspath.from(configurations.bundletoolCli)
+            task.modulesJson.set(JsonOutput.toJson(nonPlayDynamicModules))
+            task.applicationIdValue.set(variant.applicationId)
+            task.versionNameValue.set(versionNameProvider)
+            task.versionCodeValue.set(versionCodeProvider)
+            task.minSdkValue.set(variant.minSdk.apiLevel)
+            task.splitBaseUrl.set(splitBaseUrlProvider)
+            task.keystorePath.set(rootProject.file(rootProject.storeFilePath).absolutePath)
+            task.keystorePassword.set(rootProject.storePassword)
+            task.keyAliasValue.set(rootProject.keyAlias)
+            task.keyPasswordValue.set(rootProject.keyPassword)
+            task.aapt2Path.set(aapt2Binary.absolutePath)
+            task.assetsOutputDir.set(layout.projectDirectory.dir("src/${variant.name}/assets"))
+            task.exportOutputDir.set(layout.buildDirectory.dir("outputs/nonplay-export/${variant.name}"))
+        }
+
+        tasks.register("export${capitalizedVariantName}NonPlaySplits") {
+            group = "distribution"
+            description = "Builds split APKs, refreshes ${variant.name} runtime assets, and exports CDN-ready artifacts."
+            dependsOn(generateTask)
+        }
+    }
 }
